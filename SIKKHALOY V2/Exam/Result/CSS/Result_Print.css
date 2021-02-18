@@ -1,0 +1,5 @@
+﻿
+@page{margin:0.5cm}
+@media print{
+ #Print,#PDeposit,#PExpense,h3,#ctl00_body_ResultReportViewer_ctl05{ display:none}
+}

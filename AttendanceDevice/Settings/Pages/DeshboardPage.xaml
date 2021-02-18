@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="AttendanceDevice.Settings.Pages.Deshboard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:AttendanceDevice.Settings.Pages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Deshboard"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="0,0,0,10"
+            Style="{StaticResource MaterialDesignTitleTextBlock}"
+            Text="DASHBOARD" />
+
+        <materialDesign:Card
+            x:Name="ErrorPanel"
+            Grid.Row="1"
+            Padding="15"
+            materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <StackPanel>
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="Bold"
+                    Foreground="#FFF70000"
+                    Text="Server User Data Changed. Please Update" />
+                <ListView x:Name="ActivityListView" Grid.Row="1">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,15">
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Foreground="#FFC33F18"
+                                        Text="{Binding ErrorType}" />
+                                    <TextBlock
+                                        Margin="6,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        FontStyle="Italic"
+                                        Foreground="#FFB93300"
+                                        Text="{Binding ErrorDate}" />
+                                </StackPanel>
+                                <TextBlock FontSize="14" Text="{Binding ErrorDescription}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button
+                    Margin="0,15,0,0"
+                    HorizontalAlignment="Left"
+                    Click="ErrorDelete_Button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Margin="0,0,4,0"
+                            VerticalAlignment="Center"
+                            Kind="Trash" />
+                        <TextBlock VerticalAlignment="Center" Text="Clear" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <StackPanel x:Name="DeshboardData" Grid.Row="2">
+            <TextBlock Text="{Binding Total_users, StringFormat=Total_users: {0}}" />
+            <TextBlock Text="{Binding Total_Stuent, StringFormat=Total_Stuent: {0}}" />
+            <TextBlock Text="{Binding Total_Employee, StringFormat=Total_Employee: {0}}" />
+            <TextBlock Text="{Binding Total_Device, StringFormat=Total_Device: {0}}" />
+            <TextBlock Text="{Binding Backup_Datas, StringFormat=Backup_Datas: {0}}" />
+            <TextBlock Text="{Binding Pending_Attn_Records, StringFormat=Pending_Attn_Records: {0}}" />
+            <TextBlock Text="{Binding No_of_Schedules, StringFormat=No_of_Schedules: {0}}" />
+            <TextBlock Text="{Binding Total_Leave_Users, StringFormat=Leave User: {0}}" />
+
+            <TextBlock Text="{Binding Ins.Is_Device_Attendance_Enable, StringFormat=Device_Attendance_Enable: {0}}" />
+            <TextBlock Text="{Binding Ins.Is_Student_Attendance_Enable, StringFormat=Student_Attendance_Enable: {0}}" />
+            <TextBlock Text="{Binding Ins.Is_Employee_Attendance_Enable, StringFormat=Employee_Attendance_Enable: {0}}" />
+            <TextBlock Text="{Binding Ins.Is_Today_Holiday, StringFormat=Today_Holiday: {0}}" />
+            <TextBlock Text="{Binding Ins.Holiday_NotActive, StringFormat=Holiday_NotActive: {0}}" />
+            <TextBlock Text="{Binding Ins.PingTimeOut, StringFormat=PingTimeOut: {0}}" />
+        </StackPanel>
+    </Grid>
+</Page>

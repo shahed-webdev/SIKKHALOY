@@ -1,0 +1,79 @@
+﻿<%@ Page Title="Character Certificate" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Character_Certificate.aspx.cs" Inherits="EDUCATION.COM.Administration_Basic_Settings.Character_Certificate" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .C-title { font-size: 1.5rem; font-weight: 700; width: 290px; margin: auto; margin-top: 3rem; border-bottom: 2px solid #000; color: #333; }
+        .C-title2 { font-size: 1.1rem; color: #000; text-align: center; margin-bottom: 2rem; margin-top: 0.5rem; }
+
+        .c-body { padding: 4rem; color: #000; font-size: 1.05rem; line-height: 32px; text-align: justify; }
+        .c-footer { padding: 0 4rem; font-size: 1.05rem; color: #000; }
+        .c-sign { position: absolute; padding: 0 4rem; bottom: 4rem; font-size: 1.05rem; color: #000; }
+        .c-sign2 { position: absolute; padding: 0 4rem; right: 0; bottom: 4rem; font-size: 1.05rem; color: #000; }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
+    <div class="form-inline NoPrint">
+        <div class="form-group">
+            <asp:TextBox ID="IDTextBox" autocomplete="off" placeholder="Enter Student ID" runat="server" CssClass="form-control"></asp:TextBox>
+        </div>
+
+        <div class="form-group">
+            <asp:Button ID="FindButton" runat="server" CssClass="btn btn-primary" Text="Find" ValidationGroup="1" />
+        </div>
+    </div>
+
+    <asp:FormView ID="StudentInfoFormView" runat="server" DataSourceID="Reject_StudentInfoSQL" Width="100%">
+        <ItemTemplate>
+            <a class="btn btn-dark-green d-print-none" href="/Admission/Edit_Student_Info/Edit_Student_information.aspx?Student=<%#Eval("StudentID") %>&Student_Class=<%#Eval("StudentClassID") %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Information</a>
+                <button type="button" onclick="window.print();" class="d-print-none btn btn-amber pull-right">Print</button>
+
+                <div class="C-title">CHARACTER CERTIFICATE</div>
+                <div class="C-title2">TO WHOM IT MAY CONCERN</div>
+
+                <div class="c-body">
+                    This is to certify that, <strong><%# Eval("StudentsName") %></strong> <%#(string)Eval("Gender") == "Male" ? "son of" : "daughter of" %> <strong><%# Eval("FathersName") %></strong> & <strong><%# Eval("MothersName") %></strong>, residence of 
+            <strong><%# Eval("StudentPermanentAddress")%></strong>, is known to me. He is a citizen of Bangladesh by birth. To the best of my knowledge,
+             he bears a good moral character and is not involved in such activities which are against the state freedom and peace.
+                </div>
+
+                <div class="c-footer">
+                    I wish all success and prosperity in <%#(string)Eval("Gender") == "Male" ? "his" : "her" %> life.
+                </div>
+
+                <div class="c-sign">
+                    Date: ......../........../.........
+                </div>
+                <div class="c-sign2 text-right">
+                    Signature: ............................
+                </div>
+        </ItemTemplate>
+    </asp:FormView>
+    <asp:SqlDataSource ID="Reject_StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Student.StudentsName, Student.Gender, Student.FathersName, Student.MothersName, Student.StudentPermanentAddress, StudentsClass.StudentClassID, Student.StudentID FROM Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID WHERE (Student.ID = @ID) AND (Student.SchoolID = @SchoolID)">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="IDTextBox" Name="ID" PropertyName="Text" />
+            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+    <script>
+        $(function () {
+            $('[id*=IDTextBox]').typeahead({
+                minLength: 1,
+                source: function (request, result) {
+                    $.ajax({
+                        url: "Character_Certificate.aspx/GetAllID",
+                        data: JSON.stringify({ 'ids': request }),
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            result($.map(JSON.parse(response.d), function (item) {
+                                return item;
+                            }));
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</asp:Content>
