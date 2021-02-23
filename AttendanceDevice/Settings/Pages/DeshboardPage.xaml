@@ -6,93 +6,542 @@
     xmlns:local="clr-namespace:AttendanceDevice.Settings.Pages"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Deshboard"
-    d:DesignHeight="450"
+    Title="Dashboard"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
 
-    <Grid Margin="20">
+    <Grid Margin="20" x:Name="DashboardData">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock
+
+        <StackPanel>
+            <TextBlock
             Margin="0,0,0,10"
-            Style="{StaticResource MaterialDesignTitleTextBlock}"
+            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
             Text="DASHBOARD" />
 
-        <materialDesign:Card
+            <materialDesign:Card
             x:Name="ErrorPanel"
-            Grid.Row="1"
+            
             Padding="15"
             materialDesign:ShadowAssist.ShadowDepth="Depth1">
-            <StackPanel>
-                <TextBlock
+                <StackPanel>
+                    <TextBlock
                     FontSize="22"
                     FontWeight="Bold"
                     Foreground="#FFF70000"
                     Text="Server User Data Changed. Please Update" />
-                <ListView x:Name="ActivityListView" Grid.Row="1">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Setter Property="BorderBrush" Value="LightGray" />
-                            <Setter Property="BorderThickness" Value="0,0,0,1" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,15">
-                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                    <TextBlock
+                    <ListView x:Name="ActivityListView" Grid.Row="1">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="BorderBrush" Value="LightGray" />
+                                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,15">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
                                         FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="#FFC33F18"
                                         Text="{Binding ErrorType}" />
-                                    <TextBlock
+                                        <TextBlock
                                         Margin="6,0,0,0"
                                         VerticalAlignment="Bottom"
                                         FontStyle="Italic"
                                         Foreground="#FFB93300"
                                         Text="{Binding ErrorDate}" />
+                                    </StackPanel>
+                                    <TextBlock FontSize="14" Text="{Binding ErrorDescription}" />
                                 </StackPanel>
-                                <TextBlock FontSize="14" Text="{Binding ErrorDescription}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button
                     Margin="0,15,0,0"
                     HorizontalAlignment="Left"
                     Click="ErrorDelete_Button_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
                             Margin="0,0,4,0"
                             VerticalAlignment="Center"
                             Kind="Trash" />
-                        <TextBlock VerticalAlignment="Center" Text="Clear" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-        </materialDesign:Card>
-
-        <StackPanel x:Name="DeshboardData" Grid.Row="2">
-            <TextBlock Text="{Binding Total_users, StringFormat=Total_users: {0}}" />
-            <TextBlock Text="{Binding Total_Stuent, StringFormat=Total_Stuent: {0}}" />
-            <TextBlock Text="{Binding Total_Employee, StringFormat=Total_Employee: {0}}" />
-            <TextBlock Text="{Binding Total_Device, StringFormat=Total_Device: {0}}" />
-            <TextBlock Text="{Binding Backup_Datas, StringFormat=Backup_Datas: {0}}" />
-            <TextBlock Text="{Binding Pending_Attn_Records, StringFormat=Pending_Attn_Records: {0}}" />
-            <TextBlock Text="{Binding No_of_Schedules, StringFormat=No_of_Schedules: {0}}" />
-            <TextBlock Text="{Binding Total_Leave_Users, StringFormat=Leave User: {0}}" />
-
-            <TextBlock Text="{Binding Ins.Is_Device_Attendance_Enable, StringFormat=Device_Attendance_Enable: {0}}" />
-            <TextBlock Text="{Binding Ins.Is_Student_Attendance_Enable, StringFormat=Student_Attendance_Enable: {0}}" />
-            <TextBlock Text="{Binding Ins.Is_Employee_Attendance_Enable, StringFormat=Employee_Attendance_Enable: {0}}" />
-            <TextBlock Text="{Binding Ins.Is_Today_Holiday, StringFormat=Today_Holiday: {0}}" />
-            <TextBlock Text="{Binding Ins.Holiday_NotActive, StringFormat=Holiday_NotActive: {0}}" />
-            <TextBlock Text="{Binding Ins.PingTimeOut, StringFormat=PingTimeOut: {0}}" />
+                            <TextBlock VerticalAlignment="Center" Text="Clear" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </materialDesign:Card>
         </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:Card
+                    Margin="0,15,15, 15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF6100C2"
+                            Kind="Users" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding Total_users}"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="#333"/>
+                        <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="TOTAL USER" />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="1"
+                    Margin="15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFFD0000"
+                            Kind="AccountBoxOutline" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Total_Stuent}"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       Foreground="#333"/>
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="TOTAL STUDENT" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="2"
+                    Margin="15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF4BA3FC"
+                            Kind="AccountTie" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                    Text="{Binding Total_Employee}"
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="#333" />
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="TOTAL EMPLOYEE" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                Grid.Column="3"
+                Margin="15,15,0, 15"
+                Padding="10,20"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="35"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Foreground="#FF00BD3C"
+                        Kind="MonitorCellphoneStar" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                Text="{Binding Total_Device}"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="#333" />
+                            <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="TOTAL DEVICE" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
+
+        <Grid  Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:Card
+                    Margin="0,15,15, 15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF60BEFF"
+                            Kind="CloudUploadOutline" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding Backup_Datas}"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="#333"/>
+                        <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="BACKUP DATA" />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="1"
+                    Margin="15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFFBC023"
+                            Kind="LanPending" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Pending_Attn_Records}"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       Foreground="#333"/>
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="PENDING RECORDS" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="2"
+                    Margin="15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF686868"
+                            Kind="CalendarClock" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                    Text="{Binding No_of_Schedules}"
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="#333" />
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="TOTAL SCHEDULE" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                Grid.Column="3"
+                Margin="15,15,0, 15"
+                Padding="10,20"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="35"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Foreground="#FF05209B"
+                        Kind="AccountMultipleMinusOutline" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                Text="{Binding Total_Leave_Users}"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="#333" />
+                            <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="TOTAL LEAVE USERS" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
+
+        <Grid  Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:Card
+                    Margin="0,15,15, 15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF00C2B0"
+                            Kind="TelevisionGuide" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding Ins.Is_Device_Attendance_Enable}"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="#333"/>
+                        <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="DEVICE ENABLE" />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="1"
+                    Margin="15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF6FB817"
+                            Kind="BadgeAccount" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Ins.Is_Student_Attendance_Enable}"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       Foreground="#333"/>
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="STUDENT ATTENDANCE" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="2"
+                    Margin="15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF0056EC"
+                            Kind="ClipboardAccount" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                    Text="{Binding Ins.Is_Employee_Attendance_Enable}"
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="#333" />
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="EMPLOYEE ATTENDANCE" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                Grid.Column="3"
+                Margin="15,15,0, 15"
+                Padding="10,20"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="35"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Foreground="#FFBD0900"
+                        Kind="CalendarToday" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                Text="{Binding Ins.Is_Today_Holiday}"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="#333" />
+                            <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="TODAY HOLIDAY" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
+
+        <Grid  Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:Card
+                    Margin="0,15,15, 15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFC29F00"
+                            Kind="CalendarCursor" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding Ins.Holiday_NotActive}"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="#333"/>
+                        <TextBlock
+                                FontSize="13"
+                                Foreground="#777"
+                                Text="HOLIDAY ACTIVE" />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                    Grid.Column="1"
+                    Margin="15,15,0, 15"
+                    Padding="10,20"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFFD9090"
+                            Kind="ArchiveClockOutline" />
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Ins.PingTimeOut}"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       Foreground="#333"/>
+                            <TextBlock
+                                    FontSize="13"
+                                    Foreground="#777"
+                                    Text="PING TIME OUT" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
     </Grid>
 </Page>

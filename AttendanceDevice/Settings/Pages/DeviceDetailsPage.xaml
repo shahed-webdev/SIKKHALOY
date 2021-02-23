@@ -598,5 +598,24 @@
                 </dragablz:TabablzControl>
             </materialDesign:Card>
         </Grid>
+        <materialDesign:DialogHost x:Name="LoadingDH_Copy" Panel.ZIndex="2">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <ProgressBar
+                        Margin="30,0"
+                        HorizontalAlignment="Center"
+                        IsIndeterminate="True"
+                        Style="{DynamicResource MaterialDesignCircularProgressBar}"
+                        Value="0" />
+                    <TextBlock
+                        Margin="30,5"
+                        FontWeight="Bold"
+                        Text="Loading" />
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </Page>

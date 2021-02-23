@@ -23,7 +23,7 @@
             materialDesign:ShadowAssist.ShadowDepth="Depth1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="20">
-                    <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}">
+                    <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">
                         INSTITUTION INFO
                     </TextBlock>
 

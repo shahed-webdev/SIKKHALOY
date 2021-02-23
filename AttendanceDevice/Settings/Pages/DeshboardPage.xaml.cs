@@ -28,15 +28,15 @@ namespace AttendanceDevice.Settings.Pages
                 ErrorPanel.Visibility = Visibility.Collapsed;
             }
 
-            var Setting_Dashboard = new Setting_Dashboard_View();
-            DeshboardData.DataContext = Setting_Dashboard;
+            var settingDashboard = new Setting_Dashboard_View();
+            DashboardData.DataContext = settingDashboard;
 
         }
 
         private void ErrorDelete_Button_Click(object sender, RoutedEventArgs e)
         {
             LocalData.Instance.DeleteErrors();
-            this.NavigationService.Refresh();
+            this.NavigationService?.Refresh();
         }
     }
 }

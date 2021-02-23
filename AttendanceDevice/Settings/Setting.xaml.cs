@@ -69,10 +69,10 @@ namespace AttendanceDevice.Settings
         //menu link
         private void FrameSetting_Navigating(object sender, NavigatingCancelEventArgs e)
         {
-            DoubleAnimation da = new DoubleAnimation();
-            da.From = 0;
-            da.To = 1;
-            da.Duration = new Duration(TimeSpan.FromMilliseconds(900));
+            var da = new DoubleAnimation
+            {
+                From = 0, To = 1, Duration = new Duration(TimeSpan.FromMilliseconds(900))
+            };
             FrameSetting.BeginAnimation(OpacityProperty, da);
         }
         private async void DisplayButton_Click(object sender, RoutedEventArgs e)

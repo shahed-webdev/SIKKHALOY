@@ -20,7 +20,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}">
+        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">
             BACKUP LOGS
         </TextBlock>
 

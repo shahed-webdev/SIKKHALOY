@@ -16,7 +16,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}">
+        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">
             TODAY ATTENDANCE SCHEDULE
         </TextBlock>
 
