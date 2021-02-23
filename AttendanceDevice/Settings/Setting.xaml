@@ -21,7 +21,6 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
-
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GridManu" Storyboard.TargetProperty="(FrameworkElement.Width)">
@@ -63,7 +62,7 @@
             <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
         </EventTrigger>
     </Window.Triggers>
-
+ 
     <DockPanel>
         <Grid
             x:Name="GridManu"
