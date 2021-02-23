@@ -7,7 +7,7 @@ namespace AttendanceDevice.Config_Class
     public static class ApiUrl
     {
         public static readonly string EndPoint = "http://localhost:19362/";
-        public async static Task<bool> CheckInterNet()
+        public static async Task<bool> CheckInterNet()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
             {

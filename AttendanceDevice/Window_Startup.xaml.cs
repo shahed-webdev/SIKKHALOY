@@ -27,7 +27,7 @@ namespace AttendanceDevice
                 LocalData.Current_Error = new Setting_Error();
 
                 //Device List
-                List<DeviceConnection> DeviceList = new List<DeviceConnection>();
+                var deviceList = new List<DeviceConnection>();
 
                 //Check Internet connection
                 #region Check Internet
@@ -39,36 +39,36 @@ namespace AttendanceDevice
 
                         if (user != null)
                         {
-                            var Devices = await db.Devices.ToListAsync();
+                            var devices = await db.Devices.ToListAsync();
 
-                            if (Devices.Count() > 0)
+                            if (devices.Any())
                             {
-                                foreach (var device in Devices)
+                                foreach (var device in devices)
                                 {
-                                    var checkIP = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                                    if (checkIP)
+                                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                                    if (checkIp)
                                     {
-                                        DeviceList.Add(new DeviceConnection(device));
+                                        deviceList.Add(new DeviceConnection(device));
                                     }
                                 }
 
-                                if (DeviceList.Count > 0)
+                                if (deviceList.Count > 0)
                                 {
-                                    bool D_Check = false;
-                                    foreach (var item in DeviceList)
+                                    var dCheck = false;
+                                    foreach (var item in deviceList)
                                     {
                                         var status = await Task.Run(() => item.ConnectDevice());
                                         if (status.IsSuccess)
                                         {
-                                            D_Check = true;
+                                            dCheck = true;
                                         }
                                     }
 
-                                    if (D_Check)
+                                    if (dCheck)
                                     {
-                                        var D_Display = new DeviceDisplay(DeviceList);
-                                        var Display = new Offline_DisplayWindow(D_Display);
-                                        Display.Show();
+                                        var dDisplay = new DeviceDisplay(deviceList);
+                                        var display = new Offline_DisplayWindow(dDisplay);
+                                        display.Show();
                                         this.Close();
                                     }
                                     else
@@ -109,77 +109,79 @@ namespace AttendanceDevice
 
                 using (var db = new ModelContext())
                 {
-                    var Ins = LocalData.Instance.institution;
+                    var ins = LocalData.Instance.institution;
 
-                    if (Ins != null)
+                    if (ins != null)
                     {
                         var client = new RestClient(ApiUrl.EndPoint);
                         var request = new RestRequest("token", Method.POST);
 
-                        var LoginUsers = new LoginUser(Ins.UserName, Ins.Password);
-                        request.AddObject(LoginUsers);
+                        var loginUsers = new LoginUser(ins.UserName, ins.Password);
+                        request.AddObject(loginUsers);
 
                         // Execute the request
-                        IRestResponse<Token> LoginResponse = await client.ExecuteTaskAsync<Token>(request);
+                        var loginResponse = await client.ExecuteTaskAsync<Token>(request);
 
-                        if (LoginResponse.StatusCode == HttpStatusCode.OK && LoginResponse.Data != null)
+                        if (loginResponse.StatusCode == HttpStatusCode.OK && loginResponse.Data != null)
                         {
-                            var token = LoginResponse.Data.access_token;
+                            var token = loginResponse.Data.access_token;
 
-                            var SchoolRequest = new RestRequest("api/school/{id}/short", Method.GET);
-                            SchoolRequest.AddUrlSegment("id", Ins.UserName);
-                            SchoolRequest.AddHeader("Authorization", "Bearer " + token);
+                            var schoolRequest = new RestRequest("api/school/{id}/short", Method.GET);
+                            schoolRequest.AddUrlSegment("id", ins.UserName);
+                            schoolRequest.AddHeader("Authorization", "Bearer " + token);
 
                             //School info execute the request
-                            IRestResponse<Institution> SchoolResponse = await client.ExecuteTaskAsync<Institution>(SchoolRequest);
+                            var schoolResponse = await client.ExecuteTaskAsync<Institution>(schoolRequest);
 
-                            var Server_datetime = new DateTime();
-                            if (SchoolResponse.StatusCode == HttpStatusCode.OK && SchoolResponse.Data != null)
+                            if (schoolResponse.StatusCode == HttpStatusCode.OK && schoolResponse.Data != null)
                             {
-                                var schoolInfo = SchoolResponse.Data;
+                                var schoolInfo = schoolResponse.Data;
 
                                 if (schoolInfo.IsValid)
                                 {
-                                    Ins.Token = token;
-                                    Ins.IsValid = schoolInfo.IsValid;
-                                    Ins.SettingKey = schoolInfo.SettingKey;
-                                    Ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
-                                    Ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
-                                    Ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
-                                    Ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
-                                    Ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
-                                    Ins.LastUpdateDate = schoolInfo.LastUpdateDate;
-                                    Server_datetime = schoolInfo.Current_Datetime;
-                                    db.Entry(Ins).State = EntityState.Modified;
+                                    ins.Token = token;
+                                    ins.IsValid = schoolInfo.IsValid;
+                                    ins.SettingKey = schoolInfo.SettingKey;
+                                    ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
+                                    ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
+                                    ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
+                                    ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
+                                    ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
+                                    ins.LastUpdateDate = schoolInfo.LastUpdateDate;
+                                   
+                                    var serverDatetime = schoolInfo.Current_Datetime;
+                                    db.Entry(ins).State = EntityState.Modified;
 
                                     //Leave request and Insert into attendance records
                                     #region Leave request
-                                    var LeaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
-                                    LeaveRequest.AddUrlSegment("id", Ins.SchoolID);
-                                    LeaveRequest.AddHeader("Authorization", "Bearer " + token);
+                                    var leaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
+                                    leaveRequest.AddUrlSegment("id", ins.SchoolID);
+                                    leaveRequest.AddHeader("Authorization", "Bearer " + token);
 
                                     //Leave execute the request
-                                    IRestResponse<List<User_Leave_Record>> LeaveResponse = await client.ExecuteTaskAsync<List<User_Leave_Record>>(LeaveRequest);
+                                    var leaveResponse = await client.ExecuteTaskAsync<List<User_Leave_Record>>(leaveRequest);
 
-                                    if (LeaveResponse.StatusCode == HttpStatusCode.OK && LeaveResponse.Data != null)
+                                    if (leaveResponse.StatusCode == HttpStatusCode.OK && leaveResponse.Data != null)
                                     {
                                         //For deleting all previous data
                                         db.user_Leave_Records.Clear();
 
                                         //Check data is exist
-                                        if (LeaveResponse.Data.Count > 0)
+                                        if (leaveResponse.Data.Count > 0)
                                         {
-                                            foreach (var item in LeaveResponse.Data)
+                                            foreach (var item in leaveResponse.Data)
                                             {
                                                 // Insert attendance records if new record
                                                 if (!db.attendance_Records.Any(a => a.AttendanceDate == item.LeaveDate && a.DeviceID == item.DeviceID))
                                                 {
-                                                    var Att_record = new Attendance_Record();
+                                                    var attRecord = new Attendance_Record
+                                                    {
+                                                        AttendanceDate = item.LeaveDate,
+                                                        DeviceID = item.DeviceID,
+                                                        AttendanceStatus = "Leave"
+                                                    };
 
-                                                    Att_record.AttendanceDate = item.LeaveDate;
-                                                    Att_record.DeviceID = item.DeviceID;
-                                                    Att_record.AttendanceStatus = "Leave";
-                                                    db.attendance_Records.Add(Att_record);
+                                                    db.attendance_Records.Add(attRecord);
                                                 }
 
                                                 db.user_Leave_Records.Add(item);
@@ -189,7 +191,7 @@ namespace AttendanceDevice
                                     }
                                     else
                                     {
-                                        var errorObj = new Error("Api Leave Error", LeaveResponse.ErrorMessage);
+                                        var errorObj = new Error("Api Leave Error", leaveResponse.ErrorMessage);
                                         var errorWindow = new Error_Window(errorObj);
                                         errorWindow.Show();
                                         this.Close();
@@ -199,25 +201,25 @@ namespace AttendanceDevice
 
                                     //Schedule Day Request
                                     #region Schedule Day Request
-                                    var ScheduleDay_Request = new RestRequest("api/Users/{id}/schedule", Method.GET);
-                                    ScheduleDay_Request.AddUrlSegment("id", Ins.SchoolID);
-                                    ScheduleDay_Request.AddHeader("Authorization", "Bearer " + token);
+                                    var scheduleDayRequest = new RestRequest("api/Users/{id}/schedule", Method.GET);
+                                    scheduleDayRequest.AddUrlSegment("id", ins.SchoolID);
+                                    scheduleDayRequest.AddHeader("Authorization", "Bearer " + token);
 
-                                    IRestResponse<List<Attendance_Schedule_Day>> ScheduleDay_Response = await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(ScheduleDay_Request);
+                                    var scheduleDayResponse = await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
 
-                                    if (ScheduleDay_Response.StatusCode == HttpStatusCode.OK && ScheduleDay_Response.Data.Count > 0)
+                                    if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data.Count > 0)
                                     {
                                         //if same date Absent count remain same 
-                                        if (Ins.LastUpdateDate == DateTime.Today.ToShortDateString())
+                                        if (ins.LastUpdateDate == DateTime.Today.ToShortDateString())
                                         {
-                                            var Schedules_Update = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count).Select(s => s.ScheduleID).ToList();
+                                            var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count).Select(s => s.ScheduleID).ToList();
 
-                                            ScheduleDay_Response.Data.Where(s => Schedules_Update.Contains(s.ScheduleID)).ToList().ForEach(s => s.Is_Abs_Count = true);
+                                            scheduleDayResponse.Data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList().ForEach(s => s.Is_Abs_Count = true);
                                         }
 
                                         db.attendance_Schedule_Days.Clear();
 
-                                        LocalData.Instance.Schedules = ScheduleDay_Response.Data;
+                                        LocalData.Instance.Schedules = scheduleDayResponse.Data;
 
                                         foreach (var item in LocalData.Instance.Schedules)
                                         {
@@ -226,7 +228,7 @@ namespace AttendanceDevice
                                     }
                                     else
                                     {
-                                        var errorObj = new Error("Api Schedule Error", ScheduleDay_Response.ErrorMessage);
+                                        var errorObj = new Error("Api Schedule Error", scheduleDayResponse.ErrorMessage);
                                         var errorWindow = new Error_Window(errorObj);
                                         errorWindow.Show();
                                         this.Close();
@@ -236,20 +238,20 @@ namespace AttendanceDevice
 
                                     await db.SaveChangesAsync();
 
-                                    if (Server_datetime.AddMinutes(1) > DateTime.Now && Server_datetime.AddMinutes(-1) < DateTime.Now)
+                                    if (serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now)
                                     {
                                         //DataUpdates request and Insert into DateUpdateList
                                         #region Data update list
-                                        var DataUpdateRequest = new RestRequest("api/Users/{id}/updateInfo", Method.GET);
-                                        DataUpdateRequest.AddUrlSegment("id", Ins.SchoolID);
-                                        DataUpdateRequest.AddHeader("Authorization", "Bearer " + token);
+                                        var dataUpdateRequest = new RestRequest("api/Users/{id}/updateInfo", Method.GET);
+                                        dataUpdateRequest.AddUrlSegment("id", ins.SchoolID);
+                                        dataUpdateRequest.AddHeader("Authorization", "Bearer " + token);
 
                                         //execute the request
-                                        IRestResponse<List<DataUpdateList>> DataUpdateResponse = await client.ExecuteTaskAsync<List<DataUpdateList>>(DataUpdateRequest);
+                                        var dataUpdateResponse = await client.ExecuteTaskAsync<List<DataUpdateList>>(dataUpdateRequest);
 
-                                        if (DataUpdateResponse.StatusCode == HttpStatusCode.OK && DataUpdateResponse.Data.Count > 0)
+                                        if (dataUpdateResponse.StatusCode == HttpStatusCode.OK && dataUpdateResponse.Data.Count > 0)
                                         {
-                                            db.dataUpdateLists.AddRange(DataUpdateResponse.Data);
+                                            db.dataUpdateLists.AddRange(dataUpdateResponse.Data);
                                             await db.SaveChangesAsync();
 
                                             var setting = new Setting();
@@ -266,46 +268,44 @@ namespace AttendanceDevice
                                         {
                                             //Device List
                                             #region Device List
-                                            var Devices = await db.Devices.ToListAsync();
+                                            var devices = await db.Devices.ToListAsync();
 
-                                            if (Devices.Count() > 0)
+                                            if (devices.Any())
                                             {
-                                                foreach (var device in Devices)
+                                                foreach (var device in devices)
                                                 {
-                                                    var checkIP = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                                                    if (checkIP)
+                                                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                                                    if (checkIp)
                                                     {
-                                                        DeviceList.Add(new DeviceConnection(device));
+                                                        deviceList.Add(new DeviceConnection(device));
                                                     }
                                                 }
 
-                                                if (DeviceList.Count > 0)
+                                                if (deviceList.Count > 0)
                                                 {
-                                                    bool D_Check = false;
-                                                    foreach (var device in DeviceList)
+                                                    var dCheck = false;
+                                                    foreach (var device in deviceList)
                                                     {
                                                         var status = await Task.Run(() => device.ConnectDevice());
-                                                        if (status.IsSuccess)
-                                                        {
-                                                            D_Check = true;
+                                                        if (!status.IsSuccess) continue;
 
-                                                            //Set server time to device
-                                                            await Task.Run(() => device.SetDateTime());
+                                                        dCheck = true;
 
-                                                            var prev_log = device.Download_Prev_Logs();
-                                                            var today_log = device.Download_Today_Logs();
+                                                        //Set server time to device
+                                                        await Task.Run(() => device.SetDateTime());
 
-                                                            await Machine.Save_logData(prev_log, today_log, Ins, device.Device);
-                                                        }
+                                                        var prevLog = device.Download_Prev_Logs();
+                                                        var todayLog = device.Download_Today_Logs();
+
+                                                        await Machine.Save_logData(prevLog, todayLog, ins, device.Device);
                                                     }
 
-                                                    if (D_Check)
+                                                    if (dCheck)
                                                     {
-                                                        var D_Display = new DeviceDisplay(DeviceList);
-                                                        var Display = new DisplayWindow(D_Display);
-                                                        Display.Show();
+                                                        var dDisplay = new DeviceDisplay(deviceList);
+                                                        var display = new DisplayWindow(dDisplay);
+                                                        display.Show();
                                                         this.Close();
-                                                        return;
                                                     }
                                                     else
                                                     {
@@ -315,7 +315,6 @@ namespace AttendanceDevice
                                                         var setting = new Setting();
                                                         setting.Show();
                                                         this.Close();
-                                                        return;
                                                     }
                                                 }
                                                 else
@@ -326,7 +325,6 @@ namespace AttendanceDevice
                                                     var setting = new Setting();
                                                     setting.Show();
                                                     this.Close();
-                                                    return;
                                                 }
                                             }
                                             else
@@ -337,7 +335,6 @@ namespace AttendanceDevice
                                                 var setting = new Setting();
                                                 setting.Show();
                                                 this.Close();
-                                                return;
                                             }
                                             #endregion Device List
                                         }
@@ -349,16 +346,14 @@ namespace AttendanceDevice
                                             var setting = new Setting();
                                             setting.Show();
                                             this.Close();
-                                            return;
                                         }
                                     }
                                     else
                                     {
-                                        var errorObj = new Error("Invalid", "Invalid PC Date Time. \n Server Time: " + Server_datetime.ToString("d MMM yy (hh:mm tt)"));
+                                        var errorObj = new Error("Invalid", "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
                                         var errorWindow = new Error_Window(errorObj);
                                         errorWindow.Show();
                                         this.Close();
-                                        return;
                                     }
                                 }
                                 else
@@ -367,7 +362,6 @@ namespace AttendanceDevice
                                     var errorWindow = new Error_Window(errorObj);
                                     errorWindow.Show();
                                     this.Close();
-                                    return;
                                 }
                             }
                             else
@@ -376,7 +370,6 @@ namespace AttendanceDevice
                                 var errorWindow = new Error_Window(errorObj);
                                 errorWindow.Show();
                                 this.Close();
-                                return;
                             }
                         }
                         else
@@ -384,15 +377,13 @@ namespace AttendanceDevice
                             var login = new Login_Window();
                             login.Show();
                             this.Close();
-                            return;
                         }
                     }
                     else
                     {
-                        var Login = new Login_Window();
-                        Login.Show();
+                        var login = new Login_Window();
+                        login.Show();
                         this.Close();
-                        return;
                     }
                 }
             }

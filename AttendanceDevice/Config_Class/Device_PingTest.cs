@@ -5,16 +5,16 @@ namespace AttendanceDevice.Config_Class
 {
     public static class Device_PingTest
     {
-        public async static Task<bool> PingHostAsync(string nameOrAddress)
+        public static async Task<bool> PingHostAsync(string nameOrAddress)
         {
-            bool pingable = false;
+            var pingAble = false;
 
             try
             {
-                using (Ping pinger = new Ping())
+                using (var ping = new Ping())
                 {
-                    PingReply reply = await pinger.SendPingAsync(nameOrAddress, LocalData.Instance.institution.PingTimeOut);
-                    pingable = reply.Status == IPStatus.Success;
+                    var reply = await ping.SendPingAsync(nameOrAddress, LocalData.Instance.institution.PingTimeOut);
+                    pingAble = reply.Status == IPStatus.Success;
                 }
             }
             catch (PingException)
@@ -22,19 +22,19 @@ namespace AttendanceDevice.Config_Class
                 // Discard PingExceptions and return false;
             }
 
-            return pingable;
+            return pingAble;
         }
 
         public static bool PingHost(string nameOrAddress)
         {
-            bool pingable = false;
+            var pingAble = false;
 
             try
             {
-                using (Ping pinger = new Ping())
+                using (var ping = new Ping())
                 {
-                    PingReply reply = pinger.Send(nameOrAddress, LocalData.Instance.institution.PingTimeOut);
-                    pingable = reply.Status == IPStatus.Success;
+                    var reply = ping.Send(nameOrAddress, LocalData.Instance.institution.PingTimeOut);
+                    pingAble = reply.Status == IPStatus.Success;
                 }
             }
             catch (PingException)
@@ -42,7 +42,7 @@ namespace AttendanceDevice.Config_Class
                 // Discard PingExceptions and return false;
             }
 
-            return pingable;
+            return pingAble;
         }
     }
 }

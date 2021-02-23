@@ -23,7 +23,7 @@ namespace AttendanceDevice
     public partial class DisplayWindow : Window
     {
         private DispatcherTimer _tmr = new DispatcherTimer();
-        private DeviceDisplay _deviceDisplay;
+        private readonly DeviceDisplay _deviceDisplay;
 
         public DisplayWindow(DeviceDisplay deviceDisplay)
         {
@@ -67,17 +67,19 @@ namespace AttendanceDevice
             _tmr.Start();
             this.Closing += new CancelEventHandler(Window_Closing);
         }
-        void Window_Closing(object sender, CancelEventArgs e)
+
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             //Clean up.
             _tmr.Stop();
             _tmr = null;
         }
-        async void Timer_Tick(object sender, EventArgs e)
-        {
-            var Total_Device_Connected = _deviceDisplay.Total_Devices();
 
-            if (Total_Device_Connected == 0)
+        private async void Timer_Tick(object sender, EventArgs e)
+        {
+            var totalDeviceConnected = _deviceDisplay.Total_Devices();
+
+            if (totalDeviceConnected == 0)
             {
                 LocalData.Current_Error.Message = "No Device Connected!";
                 LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
@@ -90,70 +92,72 @@ namespace AttendanceDevice
 
             using (var db = new ModelContext())
             {
-                var Ins = await db.Institutions.FirstOrDefaultAsync();
+                var ins = await db.Institutions.FirstOrDefaultAsync();
                 var client = new RestClient(ApiUrl.EndPoint);
-                var All_devices = db.Devices.Count();
+                var allDevices = db.Devices.Count();
 
                 var currentDateTime = DateTime.Now;
                 var currentDate = currentDateTime.ToShortDateString();
                 DeviceError.Text = "";
 
                 //Device Attendance Disabled
-                if (!Ins.Is_Device_Attendance_Enable)
+                if (ins != null && !ins.Is_Device_Attendance_Enable)
                 {
                     DeviceError.Text = "Device Attendance Disabled";
                 }
-                //Hodiday attendance disable
-                else if (Ins.Is_Today_Holiday && !Ins.Holiday_NotActive)
+
+                //Holiday attendance disable
+                else if (ins != null && ins.Is_Today_Holiday && !ins.Holiday_NotActive)
                 {
                     DeviceError.Text = "Today is Holiday And attendance disable";
                 }
+
                 //All Device not Connected 
-                else if (All_devices != Total_Device_Connected)
+                else if (allDevices != totalDeviceConnected)
                 {
                     DeviceError.Text = "All device are not connected";
-                    countDevice.Badge = Total_Device_Connected;
+                    countDevice.Badge = totalDeviceConnected;
                 }
                 else
                 {
-                    var SchScheduleIDs = LocalData.Instance.GetCurrent_Onday_SchduleIDs();
-                    if (SchScheduleIDs.Count() > 0)
+                    var schScheduleIDs = LocalData.Instance.GetCurrent_Onday_SchduleIDs();
+                    if (schScheduleIDs.Any())
                     {
-                        LocalData.Instance.Abs_Insert(SchScheduleIDs, currentDate, Ins);
+                        LocalData.Instance.Abs_Insert(schScheduleIDs, currentDate, ins);
                     }
                 }
 
-                if (!Ins.Is_Employee_Attendance_Enable)
+                if (ins != null && !ins.Is_Employee_Attendance_Enable)
                 {
                     DeviceError.Text = "Employee Attendance Disabled";
                 }
 
-                if (!Ins.Is_Student_Attendance_Enable)
+                if (ins != null && !ins.Is_Student_Attendance_Enable)
                 {
                     DeviceError.Text = "Student Attendance Disabled";
                 }
 
 
                 //check internet
-                var Internet = await ApiUrl.CheckInterNet();
-                if (Internet) return;
+                var internet = await ApiUrl.CheckInterNet();
+                if (internet) return;
 
                 #region Student Post
-                var StudentLog = await LocalData.Instance.StudentLog_Post();
+                var studentLog = await LocalData.Instance.StudentLog_Post();
 
-                if (StudentLog.Count > 0)
+                if (studentLog.Count > 0)
                 {
-                    var Request = new RestRequest("api/Attendance/{id}/Students", Method.POST);
+                    var request = new RestRequest("api/Attendance/{id}/Students", Method.POST);
 
-                    Request.AddUrlSegment("id", Ins.SchoolID);
-                    Request.AddHeader("Authorization", "Bearer " + Ins.Token);
-                    Request.AddJsonBody(StudentLog);
+                    request.AddUrlSegment("id", ins.SchoolID);
+                    request.AddHeader("Authorization", "Bearer " + ins.Token);
+                    request.AddJsonBody(studentLog);
 
-                    var response = await client.ExecutePostTaskAsync(Request);
+                    var response = await client.ExecutePostTaskAsync(request);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        foreach (var log in StudentLog)
+                        foreach (var log in studentLog)
                         {
                             log.Is_Sent = true;
                             log.Is_Updated = true;
@@ -166,21 +170,21 @@ namespace AttendanceDevice
                 #endregion Student Post
 
                 #region Student Update
-                var StudentLogUpdate = await LocalData.Instance.StudentLog_Put();
+                var studentLogUpdate = await LocalData.Instance.StudentLog_Put();
 
-                if (StudentLogUpdate.Count > 0)
+                if (studentLogUpdate.Count > 0)
                 {
-                    var Request = new RestRequest("api/Attendance/{id}/StudentsUpdate", Method.POST);
+                    var request = new RestRequest("api/Attendance/{id}/StudentsUpdate", Method.POST);
 
-                    Request.AddUrlSegment("id", Ins.SchoolID);
-                    Request.AddHeader("Authorization", "Bearer " + Ins.Token);
-                    Request.AddJsonBody(StudentLogUpdate);
+                    request.AddUrlSegment("id", ins.SchoolID);
+                    request.AddHeader("Authorization", "Bearer " + ins.Token);
+                    request.AddJsonBody(studentLogUpdate);
 
-                    var response = await client.ExecutePostTaskAsync(Request);
+                    var response = await client.ExecutePostTaskAsync(request);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        foreach (var log in StudentLogUpdate)
+                        foreach (var log in studentLogUpdate)
                         {
                             log.Is_Updated = true;
                             db.Entry(log).State = EntityState.Modified;
@@ -190,24 +194,28 @@ namespace AttendanceDevice
 
                     MessageBox.Show("Student put " + response.StatusCode.ToString());
                 }
-                #endregion Student Put
+                #endregion Student Update
 
                 #region Employee Post
-                var EmpLog = await LocalData.Instance.EmpLog_Post();
+                var empLog = await LocalData.Instance.EmpLog_Post();
 
-                if (EmpLog.Count > 0)
+                if (empLog.Count > 0)
                 {
-                    var Request = new RestRequest("api/Attendance/{id}/Employees", Method.POST);
+                    var request = new RestRequest("api/Attendance/{id}/Employees", Method.POST);
 
-                    Request.AddUrlSegment("id", Ins.SchoolID);
-                    Request.AddHeader("Authorization", "Bearer " + Ins.Token);
-                    Request.AddJsonBody(EmpLog);
+                    if (ins != null)
+                    {
+                        request.AddUrlSegment("id", ins.SchoolID);
+                        request.AddHeader("Authorization", "Bearer " + ins.Token);
+                    }
 
-                    var response = await client.ExecutePostTaskAsync(Request);
+                    request.AddJsonBody(empLog);
+
+                    var response = await client.ExecutePostTaskAsync(request);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        foreach (var log in EmpLog)
+                        foreach (var log in empLog)
                         {
                             log.Is_Sent = true;
                             log.Is_Updated = true;
@@ -219,26 +227,25 @@ namespace AttendanceDevice
                 #endregion Employee Post
 
                 #region Employees Update
-                var EmpLogUpdate = await LocalData.Instance.EmpLog_Put();
+                var empLogUpdate = await LocalData.Instance.EmpLog_Put();
 
-                if (EmpLogUpdate.Count > 0)
+                if (empLogUpdate.Count > 0)
                 {
-                    var Request = new RestRequest("api/Attendance/{id}/EmployeesUpdate", Method.POST);
+                    var request = new RestRequest("api/Attendance/{id}/EmployeesUpdate", Method.POST);
 
-                    Request.AddUrlSegment("id", Ins.SchoolID);
-                    Request.AddHeader("Authorization", "Bearer " + Ins.Token);
-                    Request.AddJsonBody(EmpLogUpdate);
+                    request.AddUrlSegment("id", ins.SchoolID);
+                    request.AddHeader("Authorization", "Bearer " + ins.Token);
+                    request.AddJsonBody(empLogUpdate);
 
-                    var response = await client.ExecutePostTaskAsync(Request);
+                    var response = await client.ExecutePostTaskAsync(request);
 
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    if (response.StatusCode != HttpStatusCode.OK) return;
+
+                    foreach (var log in empLogUpdate)
                     {
-                        foreach (var log in EmpLogUpdate)
-                        {
-                            log.Is_Updated = true;
-                            db.Entry(log).State = EntityState.Modified;
-                            await db.SaveChangesAsync();
-                        }
+                        log.Is_Updated = true;
+                        db.Entry(log).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
                     }
                 }
                 #endregion Employee Put
