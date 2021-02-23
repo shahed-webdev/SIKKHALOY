@@ -346,6 +346,32 @@
     <Resource Include="Resources\Default.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Sikk_Loading.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\0068.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libs\Zktec 32bit\commpro.dll" />
+    <None Include="libs\Zktec 32bit\comms.dll" />
+    <None Include="libs\Zktec 32bit\plcommpro.dll" />
+    <None Include="libs\Zktec 32bit\plcomms.dll" />
+    <None Include="libs\Zktec 32bit\plrscagent.dll" />
+    <None Include="libs\Zktec 32bit\plrscomm.dll" />
+    <None Include="libs\Zktec 32bit\pltcpcomm.dll" />
+    <None Include="libs\Zktec 32bit\plusbcomm.dll" />
+    <None Include="libs\Zktec 32bit\rscagent.dll" />
+    <None Include="libs\Zktec 32bit\rscomm.dll" />
+    <None Include="libs\Zktec 32bit\tcpcomm.dll" />
+    <None Include="libs\Zktec 32bit\usbcomm.dll" />
+    <None Include="libs\Zktec 32bit\usbstd.dll" />
+    <None Include="libs\Zktec 32bit\zkemkeeper.dll" />
+    <None Include="libs\Zktec 32bit\zkemsdk.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <COMReference Include="zkemkeeper">
       <Guid>{FE9DED34-E159-408E-8490-B720A5E632C7}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -355,12 +381,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Sikk_Loading.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\0068.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
