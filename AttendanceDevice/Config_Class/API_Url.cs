@@ -6,7 +6,7 @@ namespace AttendanceDevice.Config_Class
 {
     public static class ApiUrl
     {
-        public static readonly string EndPoint = "http://localhost:19362/";
+        public static readonly string EndPoint = "http://192.168.0.101:45457/";//"http://localhost:19362/";
         public static async Task<bool> CheckInterNet()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
@@ -17,7 +17,7 @@ namespace AttendanceDevice.Config_Class
             try
             {
                 using (var client = new WebClient())
-                   
+
                 using (await client.OpenReadTaskAsync("https://google.com"))
                 {
                     return false;
