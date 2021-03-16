@@ -421,7 +421,9 @@ namespace AttendanceDevice
             }
             catch (Exception ex)
             {
-                queue.Enqueue(ex.Message);
+                queue.Enqueue(ex.Message+" Inner ex: "+ex.InnerException.Message);
+                LoadingPB.IsIndeterminate = false;
+                LoginButton.IsEnabled = true;
             }
         }
     }

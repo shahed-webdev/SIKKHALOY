@@ -42,15 +42,14 @@ namespace AttendanceDevice.Config_Class
 
         public async void axCZKEM1_OnAttTransactionEx(string EnrollNumber, int IsInValid, int AttState, int VerifyMethod, int Year, int Month, int Day, int Hour, int Minute, int Second, int WorkCode)
         {
-            var DeviceID = Convert.ToInt32(EnrollNumber);
+            var deviceId = Convert.ToInt32(EnrollNumber);
             var dt = new DateTime(Year, Month, Day, Hour, Minute, Second);
             var time = new TimeSpan(Hour, Minute, Second);
-            var userView = LocalData.Instance.GetUserView(DeviceID);
+            var userView = LocalData.Instance.GetUserView(deviceId);
 
             if (userView == null)
             {
-                userView = new UserView();
-                userView.Name = "User Not found on PC";
+                userView = new UserView {Name = "User Not found on PC"};
                 EnrollUser_Card.DataContext = userView;
                 return;
             }
@@ -69,44 +68,44 @@ namespace AttendanceDevice.Config_Class
             if (!LocalData.Instance.institution.Is_Device_Attendance_Enable)
             {
                 Reason = "Device Attendance Disable";
-                await log_Backup_Insert(DeviceID, dt, Reason);
+                await log_Backup_Insert(deviceId, dt, Reason);
             }
             // Student Attendance Disable
             else if (Is_stu_Disable)
             {
                 Reason = "Student Attendance Disable";
-                await log_Backup_Insert(DeviceID, dt, Reason);
+                await log_Backup_Insert(deviceId, dt, Reason);
             }
             // Employee Attendance Disable
             else if (Is_Emp_Disable)
             {
                 Reason = "Employee Attendance Disable";
-                await log_Backup_Insert(DeviceID, dt, Reason);
+                await log_Backup_Insert(deviceId, dt, Reason);
             }
             // Today Check
             else if (s_Date != DateTime.Today.ToShortDateString())
             {
                 Reason = "Not Current Data";
-                await log_Backup_Insert(DeviceID, dt, Reason);
+                await log_Backup_Insert(deviceId, dt, Reason);
             }
-            //Hodiday attendance disable
+            //Holiday attendance disable
             else if (LocalData.Instance.institution.Is_Today_Holiday && !LocalData.Instance.institution.Holiday_NotActive)
             {
-                Reason = "Hodiday attendance disable";
-                await log_Backup_Insert(DeviceID, dt, Reason);
+                Reason = "Holiday attendance disable";
+                await log_Backup_Insert(deviceId, dt, Reason);
             }
             //Schedule Off day
             else if (!Schedule.Is_OnDay)
             {
                 Reason = "Schedule Off Day";
-                await log_Backup_Insert(DeviceID, dt, Reason);
+                await log_Backup_Insert(deviceId, dt, Reason);
             }
             // Insert or Update Attendance Records
             else
             {
                 using (var db = new ModelContext())
                 {
-                    var Att_record = await db.attendance_Records.Where(a => a.DeviceID == DeviceID && a.AttendanceDate == s_Date).FirstOrDefaultAsync();
+                    var Att_record = await db.attendance_Records.Where(a => a.DeviceID == deviceId && a.AttendanceDate == s_Date).FirstOrDefaultAsync();
                     var S_startTime = TimeSpan.Parse(Schedule.StartTime);
                     var S_LateTime = TimeSpan.Parse(Schedule.LateEntryTime);
                     var S_EndTime = TimeSpan.Parse(Schedule.EndTime);
@@ -122,7 +121,7 @@ namespace AttendanceDevice.Config_Class
                         else
                         {
                             Att_record.AttendanceDate = s_Date;
-                            Att_record.DeviceID = DeviceID;
+                            Att_record.DeviceID = deviceId;
                             Att_record.EntryTime = time.ToString();
 
                             if (time <= S_startTime)
@@ -196,9 +195,9 @@ namespace AttendanceDevice.Config_Class
             }
         }
 
-        public void axCZKEM1_OnFingerFeature(int Score)
+        public void axCZKEM1_OnFingerFeature(int score)
         {
-            FP_Msg.Text = "Press finger score=" + Score.ToString();
+            FP_Msg.Text = "Press finger score=" + score;
         }
 
 
@@ -275,7 +274,7 @@ namespace AttendanceDevice.Config_Class
 
             if (IsConnected())
             {
-                Returns.Message = "Device is already Connected !";
+                Returns.Message = "Device is already Connected!";
                 Returns.Code = 0;
                 Returns.IsSuccess = true;
             }
@@ -286,7 +285,7 @@ namespace AttendanceDevice.Config_Class
                 int idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
 
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode.ToString();
+                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -303,7 +302,7 @@ namespace AttendanceDevice.Config_Class
 
                 if (axCZKEM1.RegEvent(Machine.Number, 1))
                 {
-                    axCZKEM1.OnAttTransactionEx += new zkemkeeper._IZKEMEvents_OnAttTransactionExEventHandler(axCZKEM1_OnAttTransactionEx);
+                    axCZKEM1.OnAttTransactionEx += axCZKEM1_OnAttTransactionEx;
                 }
 
                 return Returns;
@@ -312,7 +311,7 @@ namespace AttendanceDevice.Config_Class
             {
                 int idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode.ToString();
+                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -361,7 +360,7 @@ namespace AttendanceDevice.Config_Class
                 int idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
 
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode.ToString();
+                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -380,7 +379,7 @@ namespace AttendanceDevice.Config_Class
             {
                 int idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode.ToString();
+                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -410,9 +409,9 @@ namespace AttendanceDevice.Config_Class
 
         public bool IsConnected()
         {
-            var PingCheck = Device_PingTest.PingHost(this.Device.DeviceIP);
+            var pingCheck = Device_PingTest.PingHost(this.Device.DeviceIP);
 
-            if (!PingCheck) return false;
+            if (!pingCheck) return false;
 
             int A = -1;
             axCZKEM1.GetConnectStatus(ref A);
@@ -543,17 +542,14 @@ namespace AttendanceDevice.Config_Class
                     //    }
                     //}
 
-                    User user = new User();
-                    user.DeviceID = Convert.ToInt32(DeviceID);
-                    user.Name = name;
-                    user.RFID = RFID;
+                    var user = new User {DeviceID = Convert.ToInt32(DeviceID), Name = name, RFID = RFID};
 
                     Users.Add(user);
                 }
             }
             catch
             {
-
+                // ignored
             }
             finally
             {
@@ -582,7 +578,7 @@ namespace AttendanceDevice.Config_Class
 
                 string fromTime = DateTime.Today.AddDays(-Prev_Log_CountDay).ToString("yyyy-MM-dd 00:00:00");
 
-                DateTime Device_last_update = new DateTime();
+                var Device_last_update = new DateTime();
 
                 if (DateTime.TryParse(Device.Last_Down_Log_Time, out Device_last_update))
                 {
@@ -646,7 +642,9 @@ namespace AttendanceDevice.Config_Class
 
             }
             catch
-            { }
+            {
+                // ignored
+            }
             finally
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
@@ -853,7 +851,9 @@ namespace AttendanceDevice.Config_Class
                 }
             }
             catch
-            { }
+            {
+                // ignored
+            }
             finally
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);

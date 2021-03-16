@@ -15,9 +15,11 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\Moni\g\Device App\</PublishUrl>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>C:\Users\Muhebollah\Desktop\WebSite\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -25,15 +27,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -55,10 +54,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>00E1C77A4DCBE7F5DF8FBDC82FF77B0FFF0D1A4C</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>BC303AEA2D0748BF92C2D4A633954E8AEEF841D2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AttendanceDevice_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -71,6 +71,16 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL">
@@ -355,23 +365,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="libs\Zktec 32bit\commpro.dll" />
-    <None Include="libs\Zktec 32bit\comms.dll" />
-    <None Include="libs\Zktec 32bit\plcommpro.dll" />
-    <None Include="libs\Zktec 32bit\plcomms.dll" />
-    <None Include="libs\Zktec 32bit\plrscagent.dll" />
-    <None Include="libs\Zktec 32bit\plrscomm.dll" />
-    <None Include="libs\Zktec 32bit\pltcpcomm.dll" />
-    <None Include="libs\Zktec 32bit\plusbcomm.dll" />
-    <None Include="libs\Zktec 32bit\rscagent.dll" />
-    <None Include="libs\Zktec 32bit\rscomm.dll" />
-    <None Include="libs\Zktec 32bit\tcpcomm.dll" />
-    <None Include="libs\Zktec 32bit\usbcomm.dll" />
-    <None Include="libs\Zktec 32bit\usbstd.dll" />
-    <None Include="libs\Zktec 32bit\zkemkeeper.dll" />
-    <None Include="libs\Zktec 32bit\zkemsdk.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="zkemkeeper">
       <Guid>{FE9DED34-E159-408E-8490-B720A5E632C7}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -381,6 +374,23 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="libs\Zktec 32bit\commpro.dll" />
+    <Content Include="libs\Zktec 32bit\comms.dll" />
+    <Content Include="libs\Zktec 32bit\plcommpro.dll" />
+    <Content Include="libs\Zktec 32bit\plcomms.dll" />
+    <Content Include="libs\Zktec 32bit\plrscagent.dll" />
+    <Content Include="libs\Zktec 32bit\plrscomm.dll" />
+    <Content Include="libs\Zktec 32bit\pltcpcomm.dll" />
+    <Content Include="libs\Zktec 32bit\plusbcomm.dll" />
+    <Content Include="libs\Zktec 32bit\rscagent.dll" />
+    <Content Include="libs\Zktec 32bit\rscomm.dll" />
+    <Content Include="libs\Zktec 32bit\tcpcomm.dll" />
+    <Content Include="libs\Zktec 32bit\usbcomm.dll" />
+    <Content Include="libs\Zktec 32bit\usbstd.dll" />
+    <Content Include="libs\Zktec 32bit\zkemkeeper.dll" />
+    <Content Include="libs\Zktec 32bit\zkemsdk.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

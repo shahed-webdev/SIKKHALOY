@@ -22,12 +22,12 @@
     mc:Ignorable="d">
 
     <Window.Resources>
-        <!--<local:DimentionConverter x:Key="Converter" />-->
+        <!--<local:DimensionConverter x:Key="Converter" />-->
 
         <BitmapImage x:Key="DefaultLogo" UriSource="/AttendanceDevice;component/Resources/Sikkhaloy.ico" />
         <BitmapImage x:Key="DefaultImage" UriSource="Resources/Default.png" />
 
-        <Style x:Key="countDataStyle" TargetType="materialDesign:Badged">
+        <Style x:Key="CountDataStyle" TargetType="materialDesign:Badged">
             <Setter Property="BadgeBackground" Value="#f44336" />
             <Style.Triggers>
                 <Trigger Property="Badge" Value="0">
@@ -173,7 +173,7 @@
                                 Badge="0"
                                 BadgeColorZoneMode="Standard"
                                 BadgeForeground="#fff"
-                                Style="{StaticResource countDataStyle}">
+                                Style="{StaticResource CountDataStyle}">
                                 <materialDesign:PackIcon
                                     Width="27"
                                     Height="27"
@@ -336,7 +336,7 @@
                         </ListBox.RenderTransform>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                <WrapPanel/>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
