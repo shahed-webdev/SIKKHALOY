@@ -67,11 +67,11 @@
 
         function CrateUser() {
             var isSend = false;
-            var index = $("[id*=School_DropDownList]").get(0).selectedIndex;
-            var password = $('[id*=Password_TextBox]').val();
+            const index = $("[id*=School_DropDownList]").get(0).selectedIndex;
+            const password = $('[id*=Password_TextBox]').val();
 
             if (index > 0 && password !== '') {
-                var users = {
+                const users = {
                     username: $('[id*=School_DropDownList]').val(),
                     email: $('[id*=School_DropDownList]').val() + "@gmail.com",
                     password: password,
@@ -79,7 +79,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://localhost:19362/api/account/register',
+                    url: `${location.origin}/api/account/register`,
                     method: 'POST',
                     async: false,
                     contentType: 'application/json',
@@ -89,25 +89,26 @@
                     },
                     error: function (err) {
                         var response = null;
-                        var errors = [];
+                        const errors = [];
                         var errorsString = "";
 
-                        if (err.status == 400) {
+                        if (err.status === 400) {
                             try {
                                 response = JSON.parse(err.responseText);
                             }
                             catch (e) {}
                         }
                         if (response != null) {
-                            var modelState = response.ModelState;
+                            const modelState = response.ModelState;
 
-                            for (var key in modelState) {
+                            for (let key in modelState) {
                                 if (modelState.hasOwnProperty(key)) {
-                                    errorsString = (errorsString == "" ? "" : errorsString + "<br/>") + modelState[key];
+                                    errorsString = (errorsString === "" ? "" : errorsString + "<br/>") + modelState[key];
                                     errors.push(modelState[key]);//list of error messages in an array
                                 }
                             }
-                        } 
+                        }
+
                         //DISPLAY THE LIST OF ERROR MESSAGES 
                         if (errorsString != "") { 
                             $("#divErrorText").html(errorsString);
