@@ -154,6 +154,7 @@
     <Compile Include="Config_Class\DeviceDisplay.cs" />
     <Compile Include="Config_Class\DeviceReturn.cs" />
     <Compile Include="Config_Class\Device_PingTest.cs" />
+    <Compile Include="Config_Class\ExtensionMethods.cs" />
     <Compile Include="Config_Class\LocalData.cs" />
     <Compile Include="Config_Class\zkSDK_LIT.cs" />
     <Compile Include="DisplayWindow.xaml.cs">

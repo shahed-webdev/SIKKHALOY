@@ -17,67 +17,65 @@ namespace AttendanceDevice.Settings.Pages
     /// </summary>
     public partial class DeviceDetailsPage : Page
     {
-        private DeviceConnection DeviceCon;
-        private string DeviceID = "";
-        public DeviceDetailsPage(DeviceConnection D1)
+        private readonly DeviceConnection _deviceCon;
+        private string _deviceId = "";
+        public DeviceDetailsPage(DeviceConnection d1)
         {
-            DeviceCon = D1;
+            _deviceCon = d1;
             InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!DeviceCon.IsConnected()) return;
+            if (!_deviceCon.IsConnected()) return;
 
-            DeviceName.Text = DeviceCon.Device.DeviceName;
-            DeviceIP.Text = DeviceCon.Device.DeviceIP;
-            DeviceTime.Text = DeviceCon.GetDateTime().ToString("d MMM yy (hh:mm.tt)");
+            DeviceName.Text = _deviceCon.Device.DeviceName;
+            DeviceIP.Text = _deviceCon.Device.DeviceIP;
+            DeviceTime.Text = _deviceCon.GetDateTime().ToString("d MMM yy (hh:mm.tt)");
 
-            var De_Details = DeviceCon.GetDeviceDetails();
+            var deDetails = _deviceCon.GetDeviceDetails();
 
-            CapacityTB.Text = De_Details.User_capacity.ToString() + "/" + De_Details.Number_of_users.ToString();
-            LogCapacity.Text = De_Details.Attendance_Record_Capacity.ToString() + "/" + De_Details.Attendance_Records.ToString();
-            FP_Capacity.Text = De_Details.FP_Capacity.ToString() + "/" + De_Details.Number_of_FP.ToString();
+            CapacityTB.Text = deDetails.User_capacity + "/" + deDetails.Number_of_users;
+            LogCapacity.Text = deDetails.Attendance_Record_Capacity + "/" + deDetails.Attendance_Records;
+            FP_Capacity.Text = deDetails.FP_Capacity + "/" + deDetails.Number_of_FP;
 
             //duplicate time
-            btnDuplicateTime.Content = "Set Duplicate Punch Time (" + De_Details.Duplicate_Punch_Time.ToString() + " min)";
+            btnDuplicateTime.Content = "Set Duplicate Punch Time (" + deDetails.Duplicate_Punch_Time + " min)";
 
             //PC new user
-            PCNewUser();
+            PcNewUser();
         }
 
         private async void BtnSyncPcTimetoDevice_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (!DeviceCon.IsConnected()) return;
+            if (!await _deviceCon.IsConnectedAsync()) return;
 
-            await Task.Run(() => DeviceCon.SetDateTime());
-            DeviceTime.Text = DeviceCon.GetDateTime().ToString("d MMM yyyy (hh:mm tt)");
+            await Task.Run(() => _deviceCon.SetDateTime());
+            DeviceTime.Text = _deviceCon.GetDateTime().ToString("d MMM yyyy (hh:mm tt)");
         }
 
         private void BtnRestartDevice_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (!DeviceCon.IsConnected()) return;
+            if (!_deviceCon.IsConnected()) return;
 
-            if (DeviceCon.Restart())
-            {
-                var DeviceInfo = new DeviceInfoPage();
-                NavigationService.Navigate(DeviceInfo);
-            }
+            if (!_deviceCon.Restart()) return;
+
+            var deviceInfo = new DeviceInfoPage();
+            NavigationService?.Navigate(deviceInfo);
         }
         private void BtnPowerOffDevice_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (!DeviceCon.IsConnected()) return;
+            if (!_deviceCon.IsConnected()) return;
 
-            if (DeviceCon.PowerOff())
-            {
-                var DeviceInfo = new DeviceInfoPage();
-                NavigationService.Navigate(DeviceInfo);
-            }
+            if (!_deviceCon.PowerOff()) return;
+
+            var deviceInfo = new DeviceInfoPage();
+            NavigationService?.Navigate(deviceInfo);
         }
 
         private async void BtnUploadUserDevice_Click(object sender, RoutedEventArgs e)
         {
-            if (!DeviceCon.IsConnected()) return;
+            if (!await _deviceCon.IsConnectedAsync()) return;
 
             LoadingDH.IsOpen = true;
             btnUploadUsers.IsEnabled = false;
@@ -87,20 +85,20 @@ namespace AttendanceDevice.Settings.Pages
                 var user = db.Users.ToList();
                 if (user.Count > 0)
                 {
-                    await Task.Run(() => DeviceCon.Upload_User(user));
+                    await Task.Run(() => _deviceCon.Upload_User(user));
                 }
             }
 
             LoadingDH.IsOpen = false;
             btnUploadUsers.IsEnabled = true;
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
         private async void BtnDownloadUsersDevice_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
             btnDownloadUsers.IsEnabled = false;
 
-            var result = await Task.Run(() => DeviceCon.Download_User().OrderBy(x => x.RFID));
+            var result = await Task.Run(() => _deviceCon.Download_User().OrderBy(x => x.RFID));
 
             if (result != null)
             {
@@ -110,25 +108,25 @@ namespace AttendanceDevice.Settings.Pages
             btnDownloadUsers.IsEnabled = true;
             LoadingDH.IsOpen = false;
 
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
-        private async void PCNewUser()
+        private async void PcNewUser()
         {
             LoadingDH.IsOpen = true;
-            var DeviceUsers = await Task.Run(() => DeviceCon.Download_User().OrderBy(x => x.RFID));
-            var D_Users = DeviceUsers.Select(x => new { x.DeviceID, x.RFID }).ToList();
+            var deviceUsers = await Task.Run(() => _deviceCon.Download_User().OrderBy(x => x.RFID));
+            var dUsers = deviceUsers.Select(x => new { x.DeviceID, x.RFID }).ToList();
 
-            List<User> PcUsers = new List<User>();
+            List<User> pcUsers;
             using (var db = new ModelContext())
             {
-                PcUsers = db.Users.OrderBy(x => x.RFID).ToList();
+                pcUsers = db.Users.OrderBy(x => x.RFID).ToList();
             }
 
-            var NewUser = PcUsers.Where(Pu => !D_Users.Any(du => Convert.ToInt32(du.RFID) == Convert.ToInt32(Pu.RFID) && du.DeviceID == Pu.DeviceID)).ToList();
+            var newUser = pcUsers.Where(pu => !dUsers.Any(du =>  du.RFID.ToInt(0) == pu.RFID.ToInt(0) && du.DeviceID == pu.DeviceID)).ToList();
 
-            if (NewUser.Count > 0)
+            if (newUser.Count > 0)
             {
-                PCNewUserDG.ItemsSource = NewUser;
+                PCNewUserDG.ItemsSource = newUser;
             }
             else
             {
@@ -144,7 +142,7 @@ namespace AttendanceDevice.Settings.Pages
         private async void BtnClearAllUsera_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
-            var deleted = await Task.Run(() => DeviceCon.ClearAllUsers());
+            var deleted = await Task.Run(() => _deviceCon.ClearAllUsers());
 
             if (deleted)
             {
@@ -161,7 +159,7 @@ namespace AttendanceDevice.Settings.Pages
         {
             LoadingDH.IsOpen = true;
 
-            var DeviceUsers = await Task.Run(() => DeviceCon.Download_User().OrderBy(x => x.DeviceID));
+            var DeviceUsers = await Task.Run(() => _deviceCon.Download_User().OrderBy(x => x.DeviceID));
 
             List<User> PcUsers = new List<User>();
             using (var db = new ModelContext())
@@ -178,7 +176,7 @@ namespace AttendanceDevice.Settings.Pages
         private async void BtnClearAllfingerprint_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
-            var deleted = await Task.Run(() => DeviceCon.ClearAll_FPs());
+            var deleted = await Task.Run(() => _deviceCon.ClearAll_FPs());
 
             if (deleted)
             {
@@ -194,7 +192,7 @@ namespace AttendanceDevice.Settings.Pages
         private async void BtnClearAllLogs_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
-            var deleted = await Task.Run(() => DeviceCon.ClearAll_Logs());
+            var deleted = await Task.Run(() => _deviceCon.ClearAll_Logs());
 
             if (deleted)
             {
@@ -212,7 +210,7 @@ namespace AttendanceDevice.Settings.Pages
         private async void BtnDownloadLogs_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
-            var logs = await Task.Run(() => DeviceCon.DownloadLogs());
+            var logs = await Task.Run(() => _deviceCon.DownloadLogs());
 
             if (logs.Count > 0)
             {
@@ -240,7 +238,7 @@ namespace AttendanceDevice.Settings.Pages
         private async void BtnDuplicateTime_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
-            var d_Reset = await Task.Run(() => DeviceCon.Duplicate_Punch_Time_Reset());
+            var d_Reset = await Task.Run(() => _deviceCon.Duplicate_Punch_Time_Reset());
 
             if (d_Reset)
             {
@@ -263,7 +261,7 @@ namespace AttendanceDevice.Settings.Pages
             if (Info != null)
             {
                 UserInfoGrid.DataContext = Info;
-                DeviceID = Info.DeviceID.ToString();
+                _deviceId = Info.DeviceID.ToString();
                 Userpanel.Visibility = Visibility.Visible;
                 UserInfoError.Text = "";
 
@@ -276,7 +274,7 @@ namespace AttendanceDevice.Settings.Pages
             }
             else
             {
-                DeviceID = "";
+                _deviceId = "";
                 Userpanel.Visibility = Visibility.Collapsed;
                 UserInfoError.Text = "User Not Found!";
             }
@@ -284,25 +282,25 @@ namespace AttendanceDevice.Settings.Pages
 
         private void FingerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(DeviceID))
+            if (!string.IsNullOrWhiteSpace(_deviceId))
             {
                 Button button = sender as Button;
-                DeviceCon.FP_Msg = MessageTB;
+                _deviceCon.FP_Msg = MessageTB;
                 var index = Convert.ToInt32(button.CommandParameter);
 
                 if (button.Background != Brushes.GreenYellow)
                 {
-                    DeviceCon.FP_Add(DeviceID, index);
+                    _deviceCon.FP_Add(_deviceId, index);
                 }
                 else
                 {
                     MessageBoxResult messageBoxResult = MessageBox.Show("Delete Fingerprint?", "Finger Delete", MessageBoxButton.YesNo);
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        var ErrorCode = DeviceCon.FP_Delete(DeviceID, index);
+                        var ErrorCode = _deviceCon.FP_Delete(_deviceId, index);
                         if (ErrorCode == 0)
                         {
-                            LocalData.Instance.Delete_UserFP(Convert.ToInt32(DeviceID), index);
+                            LocalData.Instance.Delete_UserFP(Convert.ToInt32(_deviceId), index);
                             button.Background = Brushes.White;
                         }
                         else

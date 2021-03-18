@@ -56,12 +56,15 @@ namespace AttendanceDevice.Settings.Pages
             LoadingDH.IsOpen = true;
             ErrorSnackbar.IsActive = false;
 
-            var CheckIP = await Device_PingTest.PingHostAsync(DeviceIPTextbox.Text.Trim());
+            var checkIp = await Device_PingTest.PingHostAsync(DeviceIPTextbox.Text.Trim());
 
-            if (!CheckIP)
+            if (!checkIp)
             {
                 LoadingDH.IsOpen = false;
-                ErrorSnackbar.Message.Content = $"Device is not connected to this {DeviceIPTextbox.Text} IP!";
+                
+                if (ErrorSnackbar.Message != null)
+                    ErrorSnackbar.Message.Content = $"Device is not connected to this {DeviceIPTextbox.Text} IP!";
+                
                 ErrorSnackbar.IsActive = true;
                 return;
             }
@@ -74,57 +77,57 @@ namespace AttendanceDevice.Settings.Pages
                 Port = 4370
             };
 
-            var D1 = new DeviceConnection(device);
+            var d1 = new DeviceConnection(device);
 
-            var status = D1.ConnectDeviceWithoutEvent();
+            var status = d1.ConnectDeviceWithoutEvent();
 
             LoadingDH.IsOpen = false;
 
-            if (status.IsSuccess)
+            if (!status.IsSuccess) return;
+
+            device.DeviceSN = d1.SN();
+            device.IsConnected = 1;
+
+            using (var db = new ModelContext())
             {
-                device.DeviceSN = D1.SN();
-                device.IsConnected = Convert.ToInt32(CheckIP);
+                db.Devices.Add(device);
+                await db.SaveChangesAsync();
 
-                using (var db = new ModelContext())
-                {
-                    db.Devices.Add(device);
-                    db.SaveChanges();
-
-                    DeviceDtagrid.ItemsSource = db.Devices.ToList();
-                }
-
-                DeviceNameTextbox.Text = "";
-                DeviceIPTextbox.Text = "";
+                DeviceDtagrid.ItemsSource = db.Devices.ToList();
             }
+
+            DeviceNameTextbox.Text = "";
+            DeviceIPTextbox.Text = "";
         }
         private async void Connect_Button_Click(object sender, RoutedEventArgs e)
         {
-            var btnConnect = (sender as Button) as Button;
+            if (!((sender as Button) is Button btnConnect)) return;
+
             btnConnect.IsEnabled = false;
             ErrorSnackbar.IsActive = false;
             btnConnect.Content = "Connecting...";
 
-            Device device = (sender as Button).DataContext as Device;
+            var device = ((Button) sender).DataContext as Device;
 
-            var checkIP = await Device_PingTest.PingHostAsync(device.DeviceIP);
-            if (!checkIP)
+            var checkIp = device != null && await Device_PingTest.PingHostAsync(device.DeviceIP);
+            if (!checkIp)
             {
                 btnConnect.IsEnabled = true;
                 btnConnect.Content = "Connect";
                 DeviceDtagrid.UpdateLayout();
 
-                ErrorSnackbar.Message.Content = "Unable to connect device";
+                if (ErrorSnackbar.Message != null) ErrorSnackbar.Message.Content = "Unable to connect device";
                 ErrorSnackbar.IsActive = true;
                 return;
             }
 
-            var D1 = new DeviceConnection(device);
-            var status = await Task.Run(() => D1.ConnectDeviceWithoutEvent());
+            var d1 = new DeviceConnection(device);
+            var status = await Task.Run(() => d1.ConnectDeviceWithoutEvent());
 
             if (status.IsSuccess)
             {
-                var details = new DeviceDetailsPage(D1);
-                NavigationService.Navigate(details);
+                var details = new DeviceDetailsPage(d1);
+                NavigationService?.Navigate(details);
             }
             else
             {
@@ -133,35 +136,38 @@ namespace AttendanceDevice.Settings.Pages
         }
         private async void DeviceDtagrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit)
+            if (e.EditAction != DataGridEditAction.Commit) return;
+
+            LoadingDH.IsOpen = true;
+
+            var deviceContx = e.Row.DataContext as Device;
+
+            using (var db = new ModelContext())
             {
-                LoadingDH.IsOpen = true;
-
-                Device deviceContx = e.Row.DataContext as Device;
-
-                using (var db = new ModelContext())
+                if (db.Devices.Any(o => o.DeviceIP == deviceContx.DeviceIP))
                 {
-                    if (db.Devices.Any(o => o.DeviceIP == deviceContx.DeviceIP))
-                    {
-                        DeviceDtagrid.ItemsSource = db.Devices.ToList();
-                        LoadingDH.IsOpen = false;
-                        return;
-                    }
-
-                    var checkIP = await Device_PingTest.PingHostAsync(deviceContx.DeviceIP);
-
-                    deviceContx.IsConnected = Convert.ToInt32(checkIP);
-                    db.Entry(deviceContx).State = EntityState.Modified;
-                    db.SaveChanges();
-
                     DeviceDtagrid.ItemsSource = db.Devices.ToList();
                     LoadingDH.IsOpen = false;
+                    return;
                 }
+
+                var checkIp = deviceContx != null && await Device_PingTest.PingHostAsync(deviceContx.DeviceIP);
+
+                if (deviceContx != null)
+                {
+                    deviceContx.IsConnected = Convert.ToInt32(checkIp);
+                    db.Entry(deviceContx).State = EntityState.Modified;
+                }
+
+                await db.SaveChangesAsync();
+
+                DeviceDtagrid.ItemsSource = db.Devices.ToList();
+                LoadingDH.IsOpen = false;
             }
         }
         private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
             ErrorSnackbar.IsActive = false;
         }
     }
