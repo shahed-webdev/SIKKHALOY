@@ -59,7 +59,7 @@ namespace AttendanceDevice
                 device.LogViewLB = StudentImageListview;
             }
 
-            StudentImageListview.ItemsSource = Machine.GetAttendance(Att_Type.All);
+            StudentImageListview.ItemsSource = Machine.GetAttendance(AttType.All);
 
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 2, 0);

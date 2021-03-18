@@ -149,6 +149,7 @@
     <Compile Include="APIClass\LoginUser.cs" />
     <Compile Include="APIClass\Token.cs" />
     <Compile Include="Config_Class\API_Url.cs" />
+    <Compile Include="Config_Class\Att_Type.cs" />
     <Compile Include="Config_Class\DeviceConnection.cs" />
     <Compile Include="Config_Class\DeviceDisplay.cs" />
     <Compile Include="Config_Class\DeviceReturn.cs" />

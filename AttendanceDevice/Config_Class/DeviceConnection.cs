@@ -187,7 +187,7 @@ namespace AttendanceDevice.Config_Class
             //string fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
             //string toTime = DateTime.Today.ToString("yyyy-MM-dd 23:00:00");
 
-            LogViewLB.ItemsSource = Machine.GetAttendance(Att_Type.All);
+            LogViewLB.ItemsSource = Machine.GetAttendance(AttType.All);
 
             if (!this.Is_SDK_Full_Supported)
             {

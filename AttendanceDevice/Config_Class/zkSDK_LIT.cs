@@ -8,17 +8,6 @@ using System.Threading.Tasks;
 
 namespace AttendanceDevice.Config_Class
 {
-    public enum Att_Type
-    {
-        All,
-        All_Sutdent,
-        All_Employee,
-        Studnet_IN,
-        Studnet_OUT,
-        Employee_IN,
-        Employee_OUT
-    }
-
     public static class Machine
     {
         public static readonly int Number = 1;
@@ -27,7 +16,7 @@ namespace AttendanceDevice.Config_Class
         {
             using (var db = new ModelContext())
             {
-                var P_log = prev_log.Select(a => new AttendanceLog_Backup
+                var pLog = prev_log.Select(a => new AttendanceLog_Backup
                 {
                     DeviceID = a.DeviceID,
                     Entry_Date = a.Entry_Date,
@@ -36,11 +25,11 @@ namespace AttendanceDevice.Config_Class
                     Backup_Reason = "Not Current Data"
                 });
 
-                db.attendanceLog_Backups.AddRange(P_log);
+                db.attendanceLog_Backups.AddRange(pLog);
 
                 if (!institution.Is_Device_Attendance_Enable)
                 {
-                    var T_log = today_log.Select(a => new AttendanceLog_Backup
+                    var log = today_log.Select(a => new AttendanceLog_Backup
                     {
                         DeviceID = a.DeviceID,
                         Entry_Date = a.Entry_Date,
@@ -49,7 +38,7 @@ namespace AttendanceDevice.Config_Class
                         Backup_Reason = "Device Attendance Disable"
                     });
 
-                    db.attendanceLog_Backups.AddRange(T_log);
+                    db.attendanceLog_Backups.AddRange(log);
                 }
                 else
                 {
@@ -58,166 +47,166 @@ namespace AttendanceDevice.Config_Class
                         var dt = log.Entry_DateTime;
                         var time = log.Entry_Time;
 
-                        if (log.Entry_Date == DateTime.Today.ToShortDateString())
+                        if (log.Entry_Date != DateTime.Today.ToShortDateString()) continue;
+
+                        var user = await db.Users.FirstOrDefaultAsync(u => u.DeviceID == log.DeviceID);
+                        var schedule = await db.attendance_Schedule_Days.FirstOrDefaultAsync(u => u.ScheduleID == user.ScheduleID);
+
+                        var isStuDisable = user != null && user.Is_Student && !institution.Is_Student_Attendance_Enable;
+                        var isEmpDisable = user != null && !user.Is_Student && !institution.Is_Employee_Attendance_Enable;
+
+                        // Student Attendance Disable
+                        if (isStuDisable)
                         {
-                            var user = await db.Users.FirstOrDefaultAsync(u => u.DeviceID == log.DeviceID);
-                            var Schedule = await db.attendance_Schedule_Days.FirstOrDefaultAsync(u => u.ScheduleID == user.ScheduleID);
-
-                            var Is_stu_Disable = user.Is_Student && !institution.Is_Student_Attendance_Enable;
-                            var Is_Emp_Disable = !user.Is_Student && !institution.Is_Employee_Attendance_Enable;
-
-                            // Student Attendance Disable
-                            if (Is_stu_Disable)
+                            var logBackup = new AttendanceLog_Backup()
                             {
-                                var log_backup = new AttendanceLog_Backup()
-                                {
-                                    DeviceID = log.DeviceID,
-                                    Entry_Date = log.Entry_Date,
-                                    Entry_Time = dt.ToShortTimeString(),
-                                    Entry_Day = dt.ToString("dddd"),
-                                    Backup_Reason = "Student Attendance Disable"
-                                };
+                                DeviceID = log.DeviceID,
+                                Entry_Date = log.Entry_Date,
+                                Entry_Time = dt.ToShortTimeString(),
+                                Entry_Day = dt.ToString("dddd"),
+                                Backup_Reason = "Student Attendance Disable"
+                            };
 
-                                db.attendanceLog_Backups.Add(log_backup);
-                            }
-                            // Employee Attendance Disable
-                            else if (Is_Emp_Disable)
+                            db.attendanceLog_Backups.Add(logBackup);
+                        }
+                        // Employee Attendance Disable
+                        else if (isEmpDisable)
+                        {
+                            var logBackup = new AttendanceLog_Backup()
                             {
-                                var log_backup = new AttendanceLog_Backup()
-                                {
-                                    DeviceID = log.DeviceID,
-                                    Entry_Date = log.Entry_Date,
-                                    Entry_Time = dt.ToShortTimeString(),
-                                    Entry_Day = dt.ToString("dddd"),
-                                    Backup_Reason = "Employee Attendance Disable"
-                                };
+                                DeviceID = log.DeviceID,
+                                Entry_Date = log.Entry_Date,
+                                Entry_Time = dt.ToShortTimeString(),
+                                Entry_Day = dt.ToString("dddd"),
+                                Backup_Reason = "Employee Attendance Disable"
+                            };
 
-                                db.attendanceLog_Backups.Add(log_backup);
-                            }
-                            //Hodiday attendance disable
-                            else if (institution.Is_Today_Holiday && !institution.Holiday_NotActive)
+                            db.attendanceLog_Backups.Add(logBackup);
+                        }
+
+                        //Holiday attendance disable
+                        else if (institution.Is_Today_Holiday && !institution.Holiday_NotActive)
+                        {
+                            var logBackup = new AttendanceLog_Backup()
                             {
-                                var log_backup = new AttendanceLog_Backup()
-                                {
-                                    DeviceID = log.DeviceID,
-                                    Entry_Date = log.Entry_Date,
-                                    Entry_Time = dt.ToShortTimeString(),
-                                    Entry_Day = dt.ToString("dddd"),
-                                    Backup_Reason = "Hodiday attendance disable"
-                                };
+                                DeviceID = log.DeviceID,
+                                Entry_Date = log.Entry_Date,
+                                Entry_Time = dt.ToShortTimeString(),
+                                Entry_Day = dt.ToString("dddd"),
+                                Backup_Reason = "Holiday attendance disable"
+                            };
 
-                                db.attendanceLog_Backups.Add(log_backup);
+                            db.attendanceLog_Backups.Add(logBackup);
 
-                            }
-                            //Schedule Off day
-                            else if (!Schedule.Is_OnDay)
+                        }
+                        //Schedule Off day
+                        else if (schedule != null && !schedule.Is_OnDay)
+                        {
+                            var logBackup = new AttendanceLog_Backup()
                             {
-                                var log_backup = new AttendanceLog_Backup()
-                                {
-                                    DeviceID = log.DeviceID,
-                                    Entry_Date = log.Entry_Date,
-                                    Entry_Time = dt.ToShortTimeString(),
-                                    Entry_Day = dt.ToString("dddd"),
-                                    Backup_Reason = "Schedule Off Day"
-                                };
+                                DeviceID = log.DeviceID,
+                                Entry_Date = log.Entry_Date,
+                                Entry_Time = dt.ToShortTimeString(),
+                                Entry_Day = dt.ToString("dddd"),
+                                Backup_Reason = "Schedule Off Day"
+                            };
 
-                                db.attendanceLog_Backups.Add(log_backup);
-                            }
-                            // Insert or Update Attendance Records
-                            else
+                            db.attendanceLog_Backups.Add(logBackup);
+                        }
+                        // Insert or Update Attendance Records
+                        else
+                        {
+                            var attRecord = await db.attendance_Records.Where(a => a.DeviceID == log.DeviceID && a.AttendanceDate == log.Entry_Date).FirstOrDefaultAsync();
+                            var S_startTime = TimeSpan.Parse(schedule.StartTime);
+                            var S_LateTime = TimeSpan.Parse(schedule.LateEntryTime);
+                            var S_EndTime = TimeSpan.Parse(schedule.EndTime);
+
+                            if (attRecord == null)
                             {
-                                var Att_record = await db.attendance_Records.Where(a => a.DeviceID == log.DeviceID && a.AttendanceDate == log.Entry_Date).FirstOrDefaultAsync();
-                                var S_startTime = TimeSpan.Parse(Schedule.StartTime);
-                                var S_LateTime = TimeSpan.Parse(Schedule.LateEntryTime);
-                                var S_EndTime = TimeSpan.Parse(Schedule.EndTime);
+                                attRecord = new Attendance_Record();
 
-                                if (Att_record == null)
+                                if (time > S_EndTime)
                                 {
-                                    Att_record = new Attendance_Record();
-
-                                    if (time > S_EndTime)
-                                    {
-                                        //Enroll after end time (as frist enroll)
-                                    }
-                                    else
-                                    {
-                                        Att_record.AttendanceDate = log.Entry_Date;
-                                        Att_record.DeviceID = log.DeviceID;
-                                        Att_record.EntryTime = time.ToString();
-
-                                        if (time <= S_startTime)
-                                        {
-                                            Att_record.AttendanceStatus = "Pre";
-                                        }
-                                        else if (time <= S_LateTime)
-                                        {
-                                            Att_record.AttendanceStatus = "Late";
-                                        }
-                                        else if (time <= S_EndTime)
-                                        {
-                                            Att_record.AttendanceStatus = "Late Abs";
-                                        }
-
-                                        db.attendance_Records.Add(Att_record);
-                                        db.Entry(Att_record).State = EntityState.Added;
-                                    }
+                                    //Enroll after end time (as first enroll)
                                 }
                                 else
                                 {
-                                    if (Att_record.AttendanceStatus == "Abs")
+                                    attRecord.AttendanceDate = log.Entry_Date;
+                                    attRecord.DeviceID = log.DeviceID;
+                                    attRecord.EntryTime = time.ToString();
+
+                                    if (time <= S_startTime)
                                     {
-                                        Att_record.AttendanceStatus = "Late Abs";
-                                        Att_record.EntryTime = time.ToString();
-                                        Att_record.Is_Sent = false;
+                                        attRecord.AttendanceStatus = "Pre";
                                     }
-                                    else if (Att_record.AttendanceStatus == "Leave")
+                                    else if (time <= S_LateTime)
                                     {
-                                        // no insert
+                                        attRecord.AttendanceStatus = "Late";
                                     }
-                                    else
+                                    else if (time <= S_EndTime)
                                     {
-                                        if (time > S_LateTime && time < S_EndTime && !Att_record.Is_OUT && TimeSpan.Parse(Att_record.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
-                                        {
-                                            Att_record.ExitStatus = "Early Leave";
-                                            Att_record.Is_OUT = true;
-                                            Att_record.ExitTime = time.ToString();
-                                        }
-                                        else if (time > S_LateTime && time < S_EndTime && Att_record.Is_OUT && TimeSpan.Parse(Att_record.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
-                                        {
-                                            Att_record.ExitStatus = "Early Leave";
-                                            Att_record.Is_OUT = true;
-                                            Att_record.ExitTime = time.ToString();
-                                            Att_record.Is_Updated = false;
-                                        }
-                                        else if (time > S_EndTime)
-                                        {
-                                            Att_record.ExitStatus = "Out";
-                                            Att_record.Is_OUT = true;
-                                            Att_record.ExitTime = time.ToString();
-                                            Att_record.Is_Updated = false;
-                                        }
+                                        attRecord.AttendanceStatus = "Late Abs";
                                     }
 
-                                    db.Entry(Att_record).State = EntityState.Modified;
+                                    db.attendance_Records.Add(attRecord);
+                                    db.Entry(attRecord).State = EntityState.Added;
+                                }
+                            }
+                            else
+                            {
+                                if (attRecord.AttendanceStatus == "Abs")
+                                {
+                                    attRecord.AttendanceStatus = "Late Abs";
+                                    attRecord.EntryTime = time.ToString();
+                                    attRecord.Is_Sent = false;
+                                }
+                                else if (attRecord.AttendanceStatus == "Leave")
+                                {
+                                    // no insert
+                                }
+                                else
+                                {
+                                    if (time > S_LateTime && time < S_EndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
+                                    {
+                                        attRecord.ExitStatus = "Early Leave";
+                                        attRecord.Is_OUT = true;
+                                        attRecord.ExitTime = time.ToString();
+                                    }
+                                    else if (time > S_LateTime && time < S_EndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
+                                    {
+                                        attRecord.ExitStatus = "Early Leave";
+                                        attRecord.Is_OUT = true;
+                                        attRecord.ExitTime = time.ToString();
+                                        attRecord.Is_Updated = false;
+                                    }
+                                    else if (time > S_EndTime)
+                                    {
+                                        attRecord.ExitStatus = "Out";
+                                        attRecord.Is_OUT = true;
+                                        attRecord.ExitTime = time.ToString();
+                                        attRecord.Is_Updated = false;
+                                    }
                                 }
 
+                                db.Entry(attRecord).State = EntityState.Modified;
                             }
 
-                            await db.SaveChangesAsync();
                         }
+
+                        await db.SaveChangesAsync();
                     }
                 }
 
                 //Device last update time record
                 prev_log.AddRange(today_log);
-                var MaxDateTime = DateTime.Now;
+                var maxDateTime = DateTime.Now;
 
                 if (prev_log.Count > 0)
                 {
-                    MaxDateTime = prev_log.Max(l => l.Entry_DateTime);
+                    maxDateTime = prev_log.Max(l => l.Entry_DateTime);
                 }
 
-                device.Last_Down_Log_Time = MaxDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                device.Last_Down_Log_Time = maxDateTime.ToString("yyyy-MM-dd HH:mm:ss");
 
                 db.Devices.Add(device);
                 db.Entry(device).State = EntityState.Modified;
@@ -226,9 +215,9 @@ namespace AttendanceDevice.Config_Class
             }
         }
 
-        public static List<Attendance_view> GetAttendance(Att_Type att_type)
+        public static List<Attendance_view> GetAttendance(AttType att_type)
         {
-            List<Attendance_view> AV = new List<Attendance_view>();
+            var av = new List<Attendance_view>();
             using (var db = new ModelContext())
             {
                 var q = from a in db.attendance_Records
@@ -249,24 +238,24 @@ namespace AttendanceDevice.Config_Class
                             ExitTime = a.ExitTime
                         };
 
-                var current_Date = DateTime.Today.ToShortDateString();
+                var currentDate = DateTime.Today.ToShortDateString();
 
-                if (att_type == Att_Type.All)
-                    AV = q.Where(a => a.AttendanceDate == current_Date).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == Att_Type.All_Sutdent)
-                    AV = q.Where(a => a.AttendanceDate == current_Date && a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == Att_Type.Studnet_IN)
-                    AV = q.Where(a => a.AttendanceDate == current_Date && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == Att_Type.Studnet_OUT)
-                    AV = q.Where(a => a.AttendanceDate == current_Date && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == Att_Type.All_Employee)
-                    AV = q.Where(a => a.AttendanceDate == current_Date && !a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == Att_Type.Employee_IN)
-                    AV = q.Where(a => a.AttendanceDate == current_Date && !a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == Att_Type.Employee_OUT)
-                    AV = q.Where(a => a.AttendanceDate == current_Date && !a.Is_Student && a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                if (att_type == AttType.All)
+                    av = q.Where(a => a.AttendanceDate == currentDate).OrderByDescending(a => a.EntryTime).ToList();
+                else if (att_type == AttType.AllStudent)
+                    av = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
+                else if (att_type == AttType.StudentIn)
+                    av = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (att_type == AttType.StudentOut)
+                    av = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (att_type == AttType.AllEmployee)
+                    av = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
+                else if (att_type == AttType.EmployeeIn)
+                    av = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (att_type == AttType.EmployeeOut)
+                    av = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
             }
-            return AV;
+            return av;
         }
     }
 }
