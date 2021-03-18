@@ -5,7 +5,7 @@ namespace AttendanceDevice.Config_Class
 {
     public class DeviceDisplay
     {
-        public List<DeviceConnection> Devices { get; private set; } = new List<DeviceConnection>();
+        public List<DeviceConnection> Devices { get; }
         public DeviceDisplay(List<DeviceConnection> devices)
         {
             this.Devices = devices;
@@ -14,11 +14,10 @@ namespace AttendanceDevice.Config_Class
         {
             foreach (var device in Devices.ToList())
             {
-                var check = device.IsConnected();
-                if (!check)
-                {
+                var connected = device.IsConnected();
+
+                if (!connected)
                     Devices.Remove(device);
-                }
             }
             return Devices.Count();
         }

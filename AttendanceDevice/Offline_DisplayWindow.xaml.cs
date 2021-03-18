@@ -18,7 +18,7 @@ namespace AttendanceDevice
     /// <summary>
     /// Interaction logic for Offline_DisplayWindow.xaml
     /// </summary>
-    public partial class Offline_DisplayWindow : Window
+    public partial class Offline_DisplayWindow
     {
         private DispatcherTimer _tmr = new DispatcherTimer();
         private readonly DeviceDisplay _deviceDisplay;
@@ -54,15 +54,18 @@ namespace AttendanceDevice
 
             foreach (var device in _deviceDisplay.Devices.Where(device => device.axCZKEM1.RegEvent(Machine.Number, 1)))
             {
-                device.axCZKEM1.OnAttTransactionEx += new zkemkeeper._IZKEMEvents_OnAttTransactionExEventHandler(axCZKEM1_OnAttTransactionEx);
+                device.axCZKEM1.OnAttTransactionEx += axCZKEM1_OnAttTransactionEx;
+                device.EnrollUser_Card = UserDataGrid;
+                device.LogViewLB = StudentImageListview;
             }
 
+            StudentImageListview.ItemsSource = Machine.GetAttendance(Att_Type.All);
 
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 2, 0);
-            _tmr.Tick += new EventHandler(Timer_Tick);
+            _tmr.Tick += Timer_Tick;
             _tmr.Start();
-            this.Closing += new CancelEventHandler(Window_Closing);
+            this.Closing += Window_Closing;
         }
 
         public void Window_Closing(object sender, CancelEventArgs e)

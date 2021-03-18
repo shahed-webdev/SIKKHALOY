@@ -11,23 +11,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUCATION.COM", "SIKKHALOY 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Any CPU = All|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		DefaultBuild|Any CPU = DefaultBuild|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CA387A7-50BB-4094-A1AA-4F686B991402}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA387A7-50BB-4094-A1AA-4F686B991402}.All|Any CPU.Build.0 = Release|Any CPU
 		{0CA387A7-50BB-4094-A1AA-4F686B991402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CA387A7-50BB-4094-A1AA-4F686B991402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA387A7-50BB-4094-A1AA-4F686B991402}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CA387A7-50BB-4094-A1AA-4F686B991402}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{0CA387A7-50BB-4094-A1AA-4F686B991402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CA387A7-50BB-4094-A1AA-4F686B991402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.All|Any CPU.Build.0 = Release|Any CPU
 		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B8DAD62-0C6F-4BFA-97BC-53E57A6A8CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F49BD885-4D99-4838-9547-91584D56DC1C}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{F49BD885-4D99-4838-9547-91584D56DC1C}.All|Any CPU.Build.0 = Release|Any CPU
 		{F49BD885-4D99-4838-9547-91584D56DC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F49BD885-4D99-4838-9547-91584D56DC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F49BD885-4D99-4838-9547-91584D56DC1C}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU

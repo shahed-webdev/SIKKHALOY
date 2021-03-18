@@ -63,9 +63,9 @@ namespace AttendanceDevice
 
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 0, 10);
-            _tmr.Tick += new EventHandler(Timer_Tick);
+            _tmr.Tick += Timer_Tick;
             _tmr.Start();
-            this.Closing += new CancelEventHandler(Window_Closing);
+            this.Closing += Window_Closing;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -258,68 +258,68 @@ namespace AttendanceDevice
             btnReconnect.IsEnabled = false;
             btnSetting.IsEnabled = false;
 
-            var DeviceList = _deviceDisplay.Devices;
-            DeviceList.Clear();
+            var deviceList = _deviceDisplay.Devices;
+            deviceList.Clear();
 
-            var Devices = LocalData.Instance.Devices;
-            var Ins = LocalData.Instance.institution;
+            var devices = LocalData.Instance.Devices;
+            var ins = LocalData.Instance.institution;
 
             //Device Check
-            if (Devices.Count() > 0)
+            if (devices.Any())
             {
-                foreach (var device in Devices)
+                foreach (var device in devices)
                 {
-                    var checkIP = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                    if (checkIP)
+                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                    if (checkIp)
                     {
-                        DeviceList.Add(new DeviceConnection(device));
+                        deviceList.Add(new DeviceConnection(device));
                     }
                 }
 
-                if (DeviceList.Count > 0)
+                if (deviceList.Count > 0)
                 {
-                    bool D_Check = false;
-                    foreach (var item in DeviceList)
+                    var dCheck = false;
+                    foreach (var item in deviceList)
                     {
                         var status = await Task.Run(() => item.ConnectDevice());
                         if (status.IsSuccess)
                         {
-                            D_Check = true;
-                            var prev_log = item.Download_Prev_Logs();
-                            var today_log = item.Download_Today_Logs();
+                            dCheck = true;
+                            var prevLog = item.Download_Prev_Logs();
+                            var todayLog = item.Download_Today_Logs();
 
-                            await Machine.Save_logData(prev_log, today_log, Ins, item.Device);
+                            await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
                         }
                     }
 
 
-                    if (D_Check)
+                    if (dCheck)
                     {
-                        var D_Display = new DeviceDisplay(DeviceList);
+                        var dDisplay = new DeviceDisplay(deviceList);
 
-                        var DisplayWindow = new DisplayWindow(D_Display);
-                        DisplayWindow.Show();
+                        var displayWindow = new DisplayWindow(dDisplay);
+                        displayWindow.Show();
                         this.Close();
                     }
                     else
                     {
                         var errorObj = new Error("Connect Device", "Device Not connected");
-                        var ErrorWindow = new Error_Window(errorObj);
-                        ErrorWindow.Show();
+                        var errorWindow = new Error_Window(errorObj);
+                        errorWindow.Show();
                     }
                 }
                 else
                 {
                     var errorObj = new Error("Connect Device", "Device Not connected");
-                    var ErrorWindow = new Error_Window(errorObj);
-                    ErrorWindow.Show();
+                    var errorWindow = new Error_Window(errorObj);
+                    errorWindow.Show();
                 }
             }
             else
             {
                 var errorObj = new Error("Add Device", "Add Device Info");
-                var ErrorWindow = new Error_Window(errorObj);
-                ErrorWindow.Show();
+                var errorWindow = new Error_Window(errorObj);
+                errorWindow.Show();
             }
 
             btnReconnect.IsEnabled = true;
@@ -332,8 +332,8 @@ namespace AttendanceDevice
             //DH.IsOpen = true;
 
             LocalData.Current_Error = new Setting_Error();
-            var Settings = new Setting();
-            Settings.Show();
+            var settings = new Setting();
+            settings.Show();
             Close();
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -347,16 +347,16 @@ namespace AttendanceDevice
 
             using (var db = new ModelContext())
             {
-                var Institution = db.Institutions.FirstOrDefault();
+                var institution = db.Institutions.FirstOrDefault();
 
-                if (Institution != null)
+                if (institution != null)
                 {
-                    if (Institution.SettingKey == SettingPasswordBox.Password)
+                    if (institution.SettingKey == SettingPasswordBox.Password)
                     {
-                        var Settings = new Setting();
+                        var settings = new Setting();
 
                         DH.IsOpen = false;
-                        Settings.Show();
+                        settings.Show();
                         Close();
                     }
                     else
