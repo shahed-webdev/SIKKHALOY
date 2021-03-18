@@ -44,7 +44,7 @@ namespace AttendanceDevice
                 device.LogViewLB = StudentImageListview;
             }
 
-            StudentImageListview.ItemsSource = Machine.GetAttendance(Att_Type.All);
+            StudentImageListview.ItemsSource = Machine.GetAttendance(AttType.All);
 
 
             //DoubleAnimation doubleAnimation = new DoubleAnimation();
