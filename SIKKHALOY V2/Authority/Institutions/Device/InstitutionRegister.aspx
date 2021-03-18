@@ -14,7 +14,7 @@
             <asp:DropDownList ID="School_DropDownList" CssClass="form-control SearchDDL" runat="server" AppendDataBoundItems="True" DataSourceID="InstitutionSQL" DataTextField="SchoolName" DataValueField="UserName">
                 <asp:ListItem Value="0">[ INSTITUTION ]</asp:ListItem>
             </asp:DropDownList>
-            <asp:SqlDataSource ID="InstitutionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT DISTINCT SchoolInfo.SchoolName, CAST(SchoolInfo.SchoolID AS varchar(10)) + ' - ' + SchoolInfo.SchoolName AS SchoolName_ID, SchoolInfo.UserName FROM SchoolInfo INNER JOIN Attendance_Device_Setting ON SchoolInfo.SchoolID &lt;&gt; Attendance_Device_Setting.SchoolID WHERE (SchoolInfo.Validation = N'Valid') ORDER BY SchoolInfo.SchoolName"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="InstitutionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT SchoolName, CAST(SchoolID AS varchar(10)) + ' - ' + SchoolName AS SchoolName_ID, UserName FROM SchoolInfo WHERE (Validation = N'Valid') AND (SchoolID NOT IN (SELECT SchoolID FROM Attendance_Device_Setting)) ORDER BY SchoolName"></asp:SqlDataSource>
             <asp:RequiredFieldValidator ControlToValidate="School_DropDownList" InitialValue="0" ValidationGroup="C" ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" CssClass="EroorStar"></asp:RequiredFieldValidator>
         </div>
         <div class="form-group">
