@@ -121,7 +121,7 @@ namespace AttendanceDevice
                 }
                 #endregion Check Internet
 
-                if (UserNameTextBox.Text !="" && PasswordPasswordBox.Password != "")
+                if (UserNameTextBox.Text != "" && PasswordPasswordBox.Password != "")
                 {
                     var client = new RestClient(ApiUrl.EndPoint);
                     var loginRequest = new RestRequest("token", Method.POST);
@@ -168,7 +168,7 @@ namespace AttendanceDevice
                                     {
                                         var dDisplay = new DeviceDisplay(deviceList);
                                         var display = new Offline_DisplayWindow(dDisplay);
-                                        
+
                                         display.Show();
                                         this.Close();
 
@@ -228,6 +228,7 @@ namespace AttendanceDevice
                                     ins.Token = token;
                                     ins.Password = PasswordPasswordBox.Password;
 
+                                    ins.PingTimeOut = 100; // default Value for device ping 
                                     db.Institutions.Add(ins);
                                     db.Entry(ins).State = EntityState.Added;
                                 }
@@ -243,10 +244,10 @@ namespace AttendanceDevice
                                     ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
                                     ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
                                     ins.LastUpdateDate = schoolInfo.LastUpdateDate;
-                                    
+
                                     db.Entry(ins).State = EntityState.Modified;
                                 }
-                                
+
 
                                 //Leave request
                                 #region Leave data
@@ -355,7 +356,7 @@ namespace AttendanceDevice
                                             {
                                                 var dDisplay = new DeviceDisplay(deviceList);
                                                 var display = new DisplayWindow(dDisplay);
-                                              
+
                                                 display.Show();
                                                 this.Close();
                                             }
@@ -422,7 +423,7 @@ namespace AttendanceDevice
             }
             catch (Exception ex)
             {
-                queue.Enqueue(ex.Message+" Inner ex: "+ex.InnerException.Message);
+                queue.Enqueue(ex.Message + " Inner ex: " + ex.InnerException.Message);
                 LoadingPB.IsIndeterminate = false;
                 LoginButton.IsEnabled = true;
             }
