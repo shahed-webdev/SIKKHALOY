@@ -317,27 +317,27 @@ END"
 
             $.map($("[id*=ScheduleGridView] tr"), function (item, index) {
                 if ($(item).find("input[type=text]").length > 0) {
-                    var s = $(item).find("input[type=text][id*=EStartTimeTextBox]");
-                    var l = $(item).find("input[type=text][id*=ELateEntryTimeTextBox]");
-                    var e = $(item).find("input[type=text][id*=EEndTimeTextBox]");
+                    const s = $(item).find("input[type=text][id*=EStartTimeTextBox]");
+                    const l = $(item).find("input[type=text][id*=ELateEntryTimeTextBox]");
+                    const e = $(item).find("input[type=text][id*=EEndTimeTextBox]");
 
-                    var start = s.closest('.form-group').find(".StartTime").val(s.data('time'));
-                    var late = l.closest('.form-group').find(".LateTime").val(l.data('time'));
-                    var end = e.closest('.form-group').find(".EndTime").val(e.data('time'));
+                    const start = s.closest('.form-group').find(".StartTime").val(s.data('time'));
+                    const late = l.closest('.form-group').find(".LateTime").val(l.data('time'));
+                    const end = e.closest('.form-group').find(".EndTime").val(e.data('time'));
                 }
             });
         });
 
         function timeCheck() {
             var isValid = false;
-            var start = $(".StartTime").val().substr(0, 5);
-            var late = $(".LateTime").val().substr(0, 5);
-            var end = $(".EndTime").val().substr(0, 5);
+            const start = $(".StartTime").val().substr(0, 5);
+            const late = $(".LateTime").val().substr(0, 5);
+            const end = $(".EndTime").val().substr(0, 5);
 
-            if (start != '' && late != '' && end != '') {
-                var s = new Date('11/14/2000 ' + start);
-                var l = new Date('11/14/2000 ' + late);
-                var e = new Date('11/14/2000 ' + end);
+            if (start !== '' && late !== '' && end !== '') {
+                const s = new Date(`11/14/2000 ${start}`);
+                const l = new Date(`11/14/2000 ${late}`);
+                const e = new Date(`11/14/2000 ${end}`);
 
                 if ((s < l) && (s < e) && (l < e)) {
                     $("#ErrorLabel").text('');
@@ -356,18 +356,18 @@ END"
             var isValid = true;
             $.map($("[id*=ScheduleGridView] tr"), function (item, index) {
                 if ($(item).find("input[type=text]").length > 0) {
-                    var s = $(item).find("[id*=EStartTimeTextBox]");
-                    var l = $(item).find("[id*=ELateEntryTimeTextBox]");
-                    var e = $(item).find("[id*=EEndTimeTextBox]");
+                    let s = $(item).find("[id*=EStartTimeTextBox]");
+                    let l = $(item).find("[id*=ELateEntryTimeTextBox]");
+                    let e = $(item).find("[id*=EEndTimeTextBox]");
 
-                    var start = s.closest('.form-group').find(".StartTime").val().substr(0, 5);
-                    var late = l.closest('.form-group').find(".LateTime").val().substr(0, 5);
-                    var end = e.closest('.form-group').find(".EndTime").val().substr(0, 5);
+                    const start = s.closest('.form-group').find(".StartTime").val().substr(0, 5);
+                    const late = l.closest('.form-group').find(".LateTime").val().substr(0, 5);
+                    const end = e.closest('.form-group').find(".EndTime").val().substr(0, 5);
 
-                    if (start != '' && late != '' && end != '') {
-                        var s = new Date('11/14/2000 ' + start);
-                        var l = new Date('11/14/2000 ' + late);
-                        var e = new Date('11/14/2000 ' + end);
+                    if (start !== '' && late !== '' && end != '') {
+                        s = new Date(`11/14/2000 ${start}`);
+                        l = new Date(`11/14/2000 ${late}`);
+                        e = new Date(`11/14/2000 ${end}`);
 
                         if ((s < l) && (s < e) && (l < e)) {
                             console.log("condition true");

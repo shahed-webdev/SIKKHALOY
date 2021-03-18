@@ -13,6 +13,7 @@
     Background="Transparent"
     Icon="Resources/Sikkhaloy.ico"
     Loaded="Window_Loaded"
+    MouseDown="Window_MouseDown"
     ResizeMode="NoResize"
     Topmost="True"
     WindowStartupLocation="CenterScreen"

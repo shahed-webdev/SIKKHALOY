@@ -17,7 +17,7 @@ namespace AttendanceDevice.Settings.Pages
     /// <summary>
     /// Interaction logic for UserInfoPage.xaml
     /// </summary>
-    public partial class UserInfoPage : Page
+    public partial class UserInfoPage
     {
         public UserInfoPage()
         {
@@ -27,81 +27,83 @@ namespace AttendanceDevice.Settings.Pages
         {
             if (LocalData.Current_Error.Type == Error_Type.UserInfoPage)
             {
-                ErrorSnackbar.Message.Content = LocalData.Current_Error.Message;
+                if (ErrorSnackbar.Message != null) ErrorSnackbar.Message.Content = LocalData.Current_Error.Message;
                 ErrorSnackbar.IsActive = true;
             }
 
-            var U = LocalData.Instance.UserViews;
-            if (U.Count > 0)
-            {
-                UserList.ItemsSource = U;
-                TotalRecord.Text = "Total Users: " + U.Count.ToString();
-            }
+            var users = LocalData.Instance.UserViews;
+            
+            if (users.Count <= 0) return;
+
+            UserList.ItemsSource = users;
+            TotalRecord.Text = "Total Users: " + users.Count;
 
         }
         private void Upload_CSV_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Select a .csv file";
-            op.Filter = "Supported|*.csv;";
+            var op = new OpenFileDialog {Title = "Select a .csv file", Filter = "Supported|*.csv;"};
 
-            if (op.ShowDialog() == true)
+            if (op.ShowDialog() != true) return;
+
+            FileNameTB.Text = op.FileName;
+            if (!Directory.Exists(FileNameTB.Text)) return;
+
+            using (var db = new ModelContext())
             {
-                FileNameTB.Text = op.FileName;
-                if (!Directory.Exists(FileNameTB.Text)) return;
+                //For deleting all previous data
+                db.Users.Clear();
 
-
-                using (var db = new ModelContext())
+                using (var sr = new StreamReader(op.FileName))
                 {
-                    //For deleting all previous data
-                    db.Users.Clear();
-
-                    using (StreamReader sr = new StreamReader(op.FileName))
+                    while (!sr.EndOfStream)
                     {
-                        while (!sr.EndOfStream)
+                        var line = sr.ReadLine();
+                        if (line == null) continue;
+
+                        var value = line.Split(',');
+
+                        db.Users.Add(new User
                         {
-                            var Line = sr.ReadLine();
-                            var valus = Line.Split(',');
-
-                            db.Users.Add(new User
-                            {
-                                DeviceID = Convert.ToInt32(valus[0]),
-                                ScheduleID = Convert.ToInt32(valus[1]),
-                                ID = valus[2],
-                                RFID = valus[3],
-                                Name = valus[4],
-                                Designation = valus[5],
-                                Is_Student = Convert.ToBoolean(valus[6])
-                            });
-                        }
+                            DeviceID = Convert.ToInt32(value[0]),
+                            ScheduleID = Convert.ToInt32(value[1]),
+                            ID = value[2],
+                            RFID = value[3],
+                            Name = value[4],
+                            Designation = value[5],
+                            Is_Student = Convert.ToBoolean(value[6])
+                        });
                     }
-
-                    db.SaveChanges();
-                    LocalData.Instance.Users = db.Users.ToList();
                 }
 
-
-                UserList.ItemsSource = LocalData.Instance.UserViews;
-                TotalRecord.Text = "Total Users: " + LocalData.Instance.Users.Count.ToString();
+                db.SaveChanges();
+                LocalData.Instance.Users = db.Users.ToList();
             }
+
+
+            UserList.ItemsSource = LocalData.Instance.UserViews;
+            TotalRecord.Text = "Total Users: " + LocalData.Instance.Users.Count;
         }
 
         private void UserList_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit)
+            if (e.EditAction != DataGridEditAction.Commit) return;
+
+            var upUser = e.Row.DataContext as UserView;
+
+            var localUser = LocalData.Instance.Users.FirstOrDefault(u => upUser != null && u.DeviceID == upUser.DeviceID);
+            if (localUser == null) return;
+
+            if (upUser != null)
             {
-                UserView Up_user = e.Row.DataContext as UserView;
+                localUser.Name = upUser.Name;
+                localUser.RFID = upUser.RFID;
+                localUser.Designation = upUser.Designation;
+            }
 
-                var localUser = LocalData.Instance.Users.FirstOrDefault(u => u.DeviceID == Up_user.DeviceID);
-                localUser.Name = Up_user.Name;
-                localUser.RFID = Up_user.RFID;
-                localUser.Designation = Up_user.Designation;
-
-                using (var db = new ModelContext())
-                {
-                    db.Entry(localUser).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
+            using (var db = new ModelContext())
+            {
+                db.Entry(localUser).State = EntityState.Modified;
+                db.SaveChanges();
             }
         }
 
@@ -124,9 +126,11 @@ namespace AttendanceDevice.Settings.Pages
 
         private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Select a logo";
-            op.Filter = "Supported|*.jpg;*.jpeg;*.png| JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg| Portable Network Graphic (*.png)|*.png";
+            var op = new OpenFileDialog
+            {
+                Title = "Select a logo",
+                Filter = "Supported|*.jpg;*.jpeg;*.png| JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg| Portable Network Graphic (*.png)|*.png"
+            };
 
             if (op.ShowDialog() == true)
             {
@@ -140,8 +144,8 @@ namespace AttendanceDevice.Settings.Pages
             LoadingPB.IsIndeterminate = true;
             DownloadButton.IsEnabled = false;
 
-            var NetCheck = await ApiUrl.CheckInterNet();
-            if (NetCheck)
+            var netCheck = await ApiUrl.CheckInterNet();
+            if (netCheck)
             {
                 MessageBox.Show("No Internet", "No Internet connection!");
 
@@ -157,18 +161,25 @@ namespace AttendanceDevice.Settings.Pages
 
                 using (var db = new ModelContext())
                 {
-                    var Ins = LocalData.Instance.institution;
+                    var ins = LocalData.Instance.institution;
 
-                    request.AddHeader("Authorization", "Bearer " + Ins.Token);
-                    request.AddUrlSegment("id", Ins.SchoolID);
+                    request.AddHeader("Authorization", "Bearer " + ins.Token);
+                    request.AddUrlSegment("id", ins.SchoolID);
 
                     // Execute the request
-                    IRestResponse<List<User>> response = await client.ExecuteTaskAsync<List<User>>(request);
+                    var response = await client.ExecuteTaskAsync<List<User>>(request);
 
                     if (response.StatusCode == HttpStatusCode.OK && response.Data != null)
                     {
                         //For deleting all previous data
                         db.Users.Clear();
+
+                        if (!response.Data.Any())
+                        {
+                            MessageBox.Show("No User Found or User not Assign In Schedule");
+                            return;
+                        }
+
 
                         foreach (var item in response.Data)
                         {
@@ -182,7 +193,7 @@ namespace AttendanceDevice.Settings.Pages
 
 
                 UserList.ItemsSource = LocalData.Instance.UserViews;
-                TotalRecord.Text = "Total Users: " + LocalData.Instance.Users.Count.ToString();
+                TotalRecord.Text = "Total Users: " + LocalData.Instance.Users.Count;
 
 
                 LoadingPB.IsIndeterminate = false;
@@ -205,9 +216,9 @@ namespace AttendanceDevice.Settings.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            using (ModelContext db = new ModelContext())
+            using (var db = new ModelContext())
             {
-                if (db.Users.Count() == 0) return;
+                if (!db.Users.Any()) return;
 
                 db.Users.Clear();
                 db.SaveChanges();

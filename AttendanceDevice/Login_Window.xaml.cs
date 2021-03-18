@@ -212,10 +212,12 @@ namespace AttendanceDevice
                         //School info execute the request
                         var schoolResponse = await client.ExecuteTaskAsync(schoolRequest);
                         var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
-                        var serverDatetime = new DateTime();
 
                         if (schoolResponse.StatusCode == HttpStatusCode.OK && schoolInfo != null)
                         {
+                            //set api date in local pc
+                            var serverDatetime = schoolInfo.Current_Datetime;
+
                             using (var db = new ModelContext())
                             {
                                 var ins = LocalData.Instance.institution;
@@ -241,11 +243,10 @@ namespace AttendanceDevice
                                     ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
                                     ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
                                     ins.LastUpdateDate = schoolInfo.LastUpdateDate;
-                                    serverDatetime = schoolInfo.Current_Datetime;
-
+                                    
                                     db.Entry(ins).State = EntityState.Modified;
                                 }
-
+                                
 
                                 //Leave request
                                 #region Leave data

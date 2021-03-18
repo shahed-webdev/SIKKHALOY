@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace AttendanceDevice
 {
@@ -228,11 +229,11 @@ namespace AttendanceDevice
                                     }
                                     else
                                     {
-                                        var errorObj = new Error("Api Schedule Error", scheduleDayResponse.ErrorMessage);
+                                        var errorObj = new Error("Api Schedule Error", "No Schedule Added In Sikkhaloy");
                                         var errorWindow = new Error_Window(errorObj);
                                         errorWindow.Show();
-                                        this.Close();
-                                        return;
+                                        //this.Close();
+                                        //return;
                                     }
                                     #endregion Schedule Day Request
 
@@ -394,6 +395,12 @@ namespace AttendanceDevice
                 errorWindow.Show();
                 this.Close();
             }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
 }

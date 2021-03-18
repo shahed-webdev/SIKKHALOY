@@ -79,15 +79,15 @@
                 };
 
                 $.ajax({
-                    url: `${location.origin}/api/account/register`,
+                    url: `http://localhost:19362/api/account/register`,
                     method: 'POST',
                     async: false,
                     contentType: 'application/json',
                     data: JSON.stringify(users),
-                    success: function () {
+                    success: function() {
                         isSend = true;
                     },
-                    error: function (err) {
+                    error: function(err) {
                         var response = null;
                         const errors = [];
                         var errorsString = "";
@@ -95,8 +95,7 @@
                         if (err.status === 400) {
                             try {
                                 response = JSON.parse(err.responseText);
-                            }
-                            catch (e) {}
+                            } catch (e) {}
                         }
                         if (response != null) {
                             const modelState = response.ModelState;
@@ -104,16 +103,16 @@
                             for (let key in modelState) {
                                 if (modelState.hasOwnProperty(key)) {
                                     errorsString = (errorsString === "" ? "" : errorsString + "<br/>") + modelState[key];
-                                    errors.push(modelState[key]);//list of error messages in an array
+                                    errors.push(modelState[key]); //list of error messages in an array
                                 }
                             }
                         }
 
                         //DISPLAY THE LIST OF ERROR MESSAGES 
-                        if (errorsString != "") { 
+                        if (errorsString !== "") {
                             $("#divErrorText").html(errorsString);
                             $('#divError').show('fade');
-                        }              
+                        }
                     }
                 });
             }

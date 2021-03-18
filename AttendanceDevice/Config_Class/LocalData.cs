@@ -218,7 +218,7 @@ namespace AttendanceDevice.Config_Class
         {
             using (var db = new ModelContext())
             {
-                var UserFP = from f in db.user_FingerPrints
+                var userFp = from f in db.user_FingerPrints
                              join u in db.Users
                              on f.DeviceID equals u.DeviceID
                              group u by u into g
@@ -232,7 +232,8 @@ namespace AttendanceDevice.Config_Class
                                  Is_Student = g.Key.Is_Student,
                                  FingerCount = g.Count()
                              };
-                return UserFP.ToList();
+
+                return userFp.ToList();
             }
         }
 
