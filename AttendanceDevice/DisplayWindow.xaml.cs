@@ -41,10 +41,11 @@ namespace AttendanceDevice
             {
                 //Data Show context pass to the device class
                 device.EnrollUser_Card = UserDataGrid;
-                device.LogViewLB = StudentImageListview;
+                device.EnrollUserDialogHost = EnrollUserDialog;
+                device.LogViewLB = StudentImageListBox;
             }
 
-            StudentImageListview.ItemsSource = Machine.GetAttendance(AttType.All);
+            StudentImageListBox.ItemsSource = Machine.GetAttendance(AttType.All);
 
 
             //DoubleAnimation doubleAnimation = new DoubleAnimation();
@@ -338,7 +339,7 @@ namespace AttendanceDevice
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            DH.IsOpen = false;
+            SettingLoginDialog.IsOpen = false;
             Error.Text = "";
         }
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -349,22 +350,19 @@ namespace AttendanceDevice
             {
                 var institution = db.Institutions.FirstOrDefault();
 
-                if (institution != null)
-                {
-                    if (institution.SettingKey == SettingPasswordBox.Password)
-                    {
-                        var settings = new Setting();
+                if (institution == null) return;
 
-                        DH.IsOpen = false;
-                        settings.Show();
-                        Close();
-                    }
-                    else
-                    {
-                        Error.Text = "Password is incorrect!";
-                        SettingPasswordBox.Password = "";
-                    }
+                if (institution.SettingKey == SettingPasswordBox.Password)
+                {
+                    Error.Text = "Password is incorrect!";
+                    SettingPasswordBox.Password = "";
+                    return;
                 }
+
+                var settings = new Setting();
+                SettingLoginDialog.IsOpen = false;
+                settings.Show();
+                Close();
             }
         }
 

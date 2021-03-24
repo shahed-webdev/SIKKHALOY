@@ -87,6 +87,15 @@ namespace EDUCATION.COM.Authority.Institutions.Device
         protected global::System.Web.UI.WebControls.SqlDataSource UserSQL;
 
         /// <summary>
+        /// DeviceActiveInactiveSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource DeviceActiveInactiveSQL;
+
+        /// <summary>
         /// UsersGridView control.
         /// </summary>
         /// <remarks>

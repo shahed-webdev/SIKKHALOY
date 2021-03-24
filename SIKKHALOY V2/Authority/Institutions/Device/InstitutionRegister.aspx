@@ -25,7 +25,7 @@
             <asp:Button ID="Register_Button" OnClientClick="return CrateUser();" ValidationGroup="C" runat="server" Text="Register" CssClass="btn btn-primary" OnClick="Register_Button_Click" />
             <asp:Label ID="ErrorLabel" runat="server"></asp:Label>
         </div>
-        <asp:SqlDataSource ID="UserSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" DeleteCommand="DELETE FROM [Attendance_Device_Setting] WHERE [AttendanceUserID] = @AttendanceUserID" InsertCommand="INSERT INTO Attendance_Device_Setting(SchoolID, UserName, Password,SettingKey) SELECT SchoolID, UserName, @Password,@SettingKey FROM SchoolInfo WHERE (UserName = @UserName)" SelectCommand="SELECT SchoolInfo.SchoolName, Attendance_Device_Setting.UserName, Attendance_Device_Setting.Password, Attendance_Device_Setting.IsActive FROM Attendance_Device_Setting INNER JOIN SchoolInfo ON Attendance_Device_Setting.SchoolID = SchoolInfo.SchoolID" UpdateCommand="UPDATE [Attendance_Device_Setting] SET [SchoolID] = @SchoolID, [UserName] = @UserName, [Password] = @Password, [IsActive] = @IsActive, [InsertDate] = @InsertDate WHERE [AttendanceUserID] = @AttendanceUserID">
+        <asp:SqlDataSource ID="UserSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" DeleteCommand="DELETE FROM [Attendance_Device_Setting] WHERE [AttendanceUserID] = @AttendanceUserID" InsertCommand="INSERT INTO Attendance_Device_Setting(SchoolID, UserName, Password,SettingKey) SELECT SchoolID, UserName, @Password,@SettingKey FROM SchoolInfo WHERE (UserName = @UserName)" SelectCommand="SELECT SchoolInfo.SchoolID,SchoolInfo.SchoolName, Attendance_Device_Setting.UserName, Attendance_Device_Setting.Password, Attendance_Device_Setting.IsActive FROM Attendance_Device_Setting INNER JOIN SchoolInfo ON Attendance_Device_Setting.SchoolID = SchoolInfo.SchoolID" UpdateCommand="UPDATE [Attendance_Device_Setting] SET [SchoolID] = @SchoolID, [UserName] = @UserName, [Password] = @Password, [IsActive] = @IsActive, [InsertDate] = @InsertDate WHERE [AttendanceUserID] = @AttendanceUserID">
             <DeleteParameters>
                 <asp:Parameter Name="AttendanceUserID" Type="Int32" />
             </DeleteParameters>
@@ -43,6 +43,12 @@
                 <asp:Parameter Name="AttendanceUserID" Type="Int32" />
             </UpdateParameters>
         </asp:SqlDataSource>
+        <asp:SqlDataSource ID="DeviceActiveInactiveSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT AttendanceSettingID FROM Attendance_Device_Setting " UpdateCommand="UPDATE  Attendance_Device_Setting SET  IsActive = @IsActive WHERE (SchoolID = @SchoolID)">
+            <UpdateParameters>
+                <asp:Parameter Name="IsActive" />
+                <asp:Parameter Name="SchoolID" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
     </div>
 
     <asp:GridView ID="UsersGridView" DataKeyNames="IsActive,SchoolID" CssClass="mGrid" runat="server" AutoGenerateColumns="False" DataSourceID="UserSQL">
@@ -52,7 +58,7 @@
             <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
             <asp:TemplateField HeaderText="Active" SortExpression="IsActive">
                 <ItemTemplate>
-                    <asp:CheckBox ID="ActiveCheckBox" OnCheckedChanged="ActiveCheckBox_OnCheckedChanged" Text=" " runat="server" Checked='<%# Bind("IsActive") %>'/>
+                    <asp:CheckBox ID="ActiveCheckBox" AutoPostBack="True" OnCheckedChanged="ActiveCheckBox_OnCheckedChanged" Text=" " runat="server" Checked='<%# Bind("IsActive") %>'/>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>

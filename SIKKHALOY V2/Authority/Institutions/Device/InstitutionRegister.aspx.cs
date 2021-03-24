@@ -32,10 +32,10 @@ namespace EDUCATION.COM.Authority.Institutions.Device
             var activeCheckBox = (CheckBox)sender;
             var row = (GridViewRow)activeCheckBox.Parent.Parent;
 
-            if (activeCheckBox.Checked)
-            {
-              var schoolId = UsersGridView.DataKeys[row.DataItemIndex]?["SchoolID"].ToString();
-            }
+            var schoolId = UsersGridView.DataKeys[row.DataItemIndex]?["SchoolID"].ToString();
+            DeviceActiveInactiveSQL.UpdateParameters["SchoolID"].DefaultValue = schoolId;
+            DeviceActiveInactiveSQL.UpdateParameters["IsActive"].DefaultValue = activeCheckBox.Checked.ToString();
+            DeviceActiveInactiveSQL.Update();
         }
     }
 }

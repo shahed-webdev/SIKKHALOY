@@ -359,7 +359,7 @@ namespace AttendanceDevice
                                 }
                                 else
                                 {
-                                    var errorObj = new Error("Invalid", "Invalid Institution!");
+                                    var errorObj = new Error("Deactivate", "Institution Deactivate From Authority!");
                                     var errorWindow = new Error_Window(errorObj);
                                     errorWindow.Show();
                                     this.Close();

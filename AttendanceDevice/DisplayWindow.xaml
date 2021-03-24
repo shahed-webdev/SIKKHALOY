@@ -22,8 +22,6 @@
     mc:Ignorable="d">
 
     <Window.Resources>
-        <!--<local:DimensionConverter x:Key="Converter" />-->
-
         <BitmapImage x:Key="DefaultLogo" UriSource="/AttendanceDevice;component/Resources/Sikkhaloy.ico" />
         <BitmapImage x:Key="DefaultImage" UriSource="Resources/Default.png" />
 
@@ -35,43 +33,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-        <!--<DataTemplate x:Key="myFirstItemTemplate">
-            <Viewbox>
-                <materialDesign:Card
-                    Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth, Converter={StaticResource ResourceKey=Converter}, ConverterParameter=5}"
-                    Height="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth, Converter={StaticResource ResourceKey=Converter}, ConverterParameter=5}"
-                    Margin="5"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <Image
-                            SnapsToDevicePixels="True"
-                            Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"
-                            Stretch="Fill"
-                            UseLayoutRounding="True" />
-                        <StackPanel Grid.Row="1">
-                            <Viewbox>
-                                <TextBlock
-                                    Margin="10"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Text="{Binding Name}"
-                                    TextAlignment="Center" />
-                            </Viewbox>
-                            <Border
-                                Margin="5,0"
-                                BorderBrush="#ddd"
-                                BorderThickness="0,0,0,1" />
-                            <TextBlock Text="{Binding EntryTime}" />
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
-            </Viewbox>
-        </DataTemplate>-->
     </Window.Resources>
 
     <Grid>
@@ -80,6 +41,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <!--  Header  -->
             <materialDesign:ColorZone
                 Padding="0,8"
@@ -223,169 +185,107 @@
             </materialDesign:ColorZone>
 
             <!--  Main  -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="350" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Margin="0 20">
+                <ListBox x:Name="StudentImageListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        SnapsToDevicePixels="True"
+                                        MaxWidth="300"
+                                        MaxHeight="320"
+                                        Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"
+                                        Stretch="UniformToFill" />
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock
+                                            Margin="10"
+                                            FontSize="20"
+                                            FontWeight="Bold"
+                                            Text="{Binding ID}"
+                                            TextAlignment="Center" />
 
-                <!--  Left  -->
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                                        <Border
+                                            Margin="5,0"
+                                            BorderBrush="#ddd"
+                                            BorderThickness="0,0,0,1" />
+                                        <StackPanel Margin="0 0 0 10">
+                                            <TextBlock Text="{Binding EntryTime}" TextAlignment="Center" FontSize="17"/>
+                                            <TextBlock Text="{Binding AttendanceStatus}" TextAlignment="Center" FontSize="17">
+                                                <TextBlock.Style>
+                                                    <Style>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Abs">
+                                                                <Setter Property="TextBlock.Foreground" Value="Red"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Late Abs">
+                                                                <Setter Property="TextBlock.Foreground" Value="DarkOrange"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
 
-                    <materialDesign:Card
+
+        <!--enroll user info-->
+        <materialDesign:DialogHost Name="EnrollUserDialog" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+            <materialDesign:DialogHost.DialogContent>
+                <materialDesign:Card
                         Name="UserDataGrid"
                         Margin="20"
                         materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
-                            <Image
-                                x:Name="myImage"
-                                Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"
-                                Stretch="UniformToFill">
-                                <Image.Triggers>
-                                    <EventTrigger RoutedEvent="Image.Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation
-                                                    Storyboard.TargetName="myImage"
-                                                    Storyboard.TargetProperty="Opacity"
-                                                    From="0"
-                                                    To="1"
-                                                    Duration="00:00:5" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Image.Triggers>
-                            </Image>
+                        <Image
+                            Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}">
+                        </Image>
 
-                            <StackPanel Grid.Row="1">
-                                <TextBlock
+                        <StackPanel Grid.Row="1">
+                            <TextBlock
                                     Margin="0,10"
                                     Background="#FF398B00"
                                     FontSize="20"
                                     Foreground="#fff"
                                     Text="{Binding Name}"
                                     TextAlignment="Center" />
-                                <TextBlock
+                            <TextBlock
                                     FontSize="15"
                                     Text="{Binding ID}"
                                     TextAlignment="Center" />
-                                <TextBlock
+                            <TextBlock
                                     FontSize="15"
                                     Text="{Binding Enroll_Time, StringFormat=dd MMM yyyy (hh:mm tt)}"
                                     TextAlignment="Center" />
-                            </StackPanel>
-                        </Grid>
-                    </materialDesign:Card>
-                </Grid>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
 
-                <!--  Right  -->
-                <Grid
-                    x:Name="Gd"
-                    Grid.Column="1"
-                    Margin="20"
-                    ClipToBounds="True">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <!--<Canvas x:Name="imgcanvas" ClipToBounds="True">-->
-                    <!--  ItemTemplate="{StaticResource myFirstItemTemplate}"  -->
-                    <ListBox x:Name="StudentImageListview">
-                        <ListBox.Resources>
-                            <local:DimentionConverter x:Key="Converter" />
-                            <local:DurationConverter x:Key="DurationConverter" />
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <TranslateTransform />
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <EventTrigger.Actions>
-                                            <!--<BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation
-                                                        AutoReverse="True"
-                                                        RepeatBehavior="Forever"
-                                                        Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)"
-                                                        From="-100"
-                                                        To="1000"
-                                                        Duration="0:0:5" />
-                                            -->
-                                            <!--  Duration="{Binding Converter={StaticResource ResourceKey=DurationConverter}}" />  -->
-                                            <!--
-                                                </Storyboard>
-                                            </BeginStoryboard>-->
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.Resources>
-                        <ListBox.RenderTransform>
-                            <TranslateTransform />
-                        </ListBox.RenderTransform>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Viewbox>
-                                    <materialDesign:Card
-                                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth, Converter={StaticResource ResourceKey=Converter}, ConverterParameter=5}"
-                                        Height="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth, Converter={StaticResource ResourceKey=Converter}, ConverterParameter=5}"
-                                        Margin="5"
-                                        materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="auto" />
-                                            </Grid.RowDefinitions>
-                                            <Image
-                                                SnapsToDevicePixels="True"
-                                                Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"
-                                                Stretch="Fill"
-                                                UseLayoutRounding="True" />
-                                            <StackPanel Grid.Row="1">
-                                                <Viewbox>
-                                                    <TextBlock
-                                                        Margin="10"
-                                                        FontSize="20"
-                                                        FontWeight="Bold"
-                                                        Text="{Binding Name}"
-                                                        TextAlignment="Center" />
-                                                </Viewbox>
-                                                <Border
-                                                    Margin="5,0"
-                                                    BorderBrush="#ddd"
-                                                    BorderThickness="0,0,0,1" />
-                                                <TextBlock Text="{Binding EntryTime}" />
-                                                <TextBlock Text="{Binding AttendanceStatus}" />
-                                                <TextBlock Text="{Binding Designation}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </materialDesign:Card>
-                                </Viewbox>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <!--</Canvas>-->
-                </Grid>
-            </Grid>
-        </Grid>
-
-        <materialDesign:DialogHost Name="DH" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+        <!--selling login-->
+        <materialDesign:DialogHost Name="SettingLoginDialog" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Width="320">
                     <Grid.RowDefinitions>

@@ -29,6 +29,7 @@ namespace AttendanceDevice.Config_Class
     public class DeviceConnection
     {
         public Card EnrollUser_Card { get; set; }
+        public DialogHost EnrollUserDialogHost { get; set; }
         public bool Is_SDK_Full_Supported { get; set; }
 
         public TextBlock FP_Msg { get; set; }
@@ -54,10 +55,13 @@ namespace AttendanceDevice.Config_Class
                 return;
             }
 
+            EnrollUserDialogHost.IsOpen = true;
+
             userView.Enroll_Time = dt;
             var s_Date = dt.ToShortDateString();
 
             EnrollUser_Card.DataContext = userView;
+            
 
             var Is_stu_Disable = userView.Is_Student && !LocalData.Instance.institution.Is_Student_Attendance_Enable;
             var Is_Emp_Disable = !userView.Is_Student && !LocalData.Instance.institution.Is_Employee_Attendance_Enable;
