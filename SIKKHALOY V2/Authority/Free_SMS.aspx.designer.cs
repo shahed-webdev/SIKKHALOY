@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Authority {
-    
-    
-    public partial class Free_SMS {
-        
+namespace EDUCATION.COM.Authority
+{
+
+
+    public partial class Free_SMS
+    {
+
         /// <summary>
         /// SearchTextBox control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SearchTextBox;
-        
+
         /// <summary>
         /// FIndButton control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button FIndButton;
-        
+
         /// <summary>
         /// SchoolGridView control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView SchoolGridView;
-        
+
         /// <summary>
         /// InstitutionSQL control.
         /// </summary>
@@ -47,7 +49,16 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource InstitutionSQL;
-        
+
+        /// <summary>
+        /// DeviceActiveInactiveSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource DeviceActiveInactiveSQL;
+
         /// <summary>
         /// UpdateButton control.
         /// </summary>

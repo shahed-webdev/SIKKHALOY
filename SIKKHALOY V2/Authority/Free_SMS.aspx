@@ -73,6 +73,12 @@
                 <asp:Parameter Name="Per_Student_Rate" />
             </UpdateParameters>
         </asp:SqlDataSource>
+        <asp:SqlDataSource ID="DeviceActiveInactiveSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT AttendanceSettingID FROM Attendance_Device_Setting " UpdateCommand="UPDATE  Attendance_Device_Setting SET  IsActive = @IsActive WHERE (SchoolID = @SchoolID)">
+            <UpdateParameters>
+                <asp:Parameter Name="IsActive" />
+                <asp:Parameter Name="SchoolID" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
     </div>
     <div class="form-group">
         <br />
