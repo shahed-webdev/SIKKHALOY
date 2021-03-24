@@ -30,6 +30,10 @@ namespace EDUCATION.COM.Authority
                 InstitutionSQL.UpdateParameters["IS_ServiceChargeActive"].DefaultValue = Payment_Active_CheckBox.Checked.ToString();
                 InstitutionSQL.UpdateParameters["Validation"].DefaultValue = Validation_CheckBox.Checked ? "Valid" : "Invalid";
                 InstitutionSQL.Update();
+
+                DeviceActiveInactiveSQL.UpdateParameters["SchoolID"].DefaultValue = SchoolGridView.DataKeys[row.RowIndex]["SchoolID"].ToString();
+                DeviceActiveInactiveSQL.UpdateParameters["IsActive"].DefaultValue = Validation_CheckBox.Checked.ToString();
+                DeviceActiveInactiveSQL.Update();
             }
         }
     }
