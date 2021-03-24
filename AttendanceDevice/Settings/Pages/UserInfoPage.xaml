@@ -40,6 +40,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBox
+                        Height="30px"
                         Name="FileNameTB"
                         Padding="5,0"
                         materialDesign:HintAssist.Hint="Upload .csv File" />
@@ -62,14 +63,22 @@
                         Name="DownloadButton"
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
-                        Click="DownloadButton_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon
+                        Click="DownloadButton_Click" Height="45">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
                                 VerticalAlignment="Bottom"
                                 Foreground="#FF0007A4"
                                 Kind="Download" />
-                            <TextBlock Foreground="#FF0007A4" Text="Download from sikkhaloy" />
-                        </StackPanel>
+                                <TextBlock Foreground="#FF0007A4" Text="Download from sikkhaloy" />
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="1" Foreground="#333" Text="download Only schedule assigned student" />
+                        </Grid>
                     </Button>
                 </StackPanel>
             </Grid>
@@ -105,7 +114,6 @@
                     <materialDesign:SnackbarMessage />
                 </materialDesign:Snackbar>
             </StackPanel>
-
 
             <DataGrid
                 x:Name="UserList"

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Authority.Institutions.Device {
-    
-    
-    public partial class InstitutionRegister {
-        
+namespace EDUCATION.COM.Authority.Institutions.Device
+{
+
+
+    public partial class InstitutionRegister
+    {
+
         /// <summary>
         /// School_DropDownList control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList School_DropDownList;
-        
+
         /// <summary>
         /// InstitutionSQL control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource InstitutionSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// Password_TextBox control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Password_TextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// Register_Button control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Register_Button;
-        
+
         /// <summary>
         /// ErrorLabel control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ErrorLabel;
-        
+
         /// <summary>
         /// UserSQL control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Authority.Institutions.Device {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource UserSQL;
-        
+
         /// <summary>
         /// UsersGridView control.
         /// </summary>

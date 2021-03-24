@@ -165,7 +165,7 @@ namespace AttendanceDevice
                             await db.SaveChangesAsync();
                         }
                     }
-                    MessageBox.Show("Student post: " + response.StatusCode.ToString());
+                    MessageBox.Show("Student post: " + response.StatusCode);
                 }
                 #endregion Student Post
 

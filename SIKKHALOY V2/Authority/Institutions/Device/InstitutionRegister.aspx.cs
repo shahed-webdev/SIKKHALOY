@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Authority.Institutions.Device
 {
@@ -23,6 +24,17 @@ namespace EDUCATION.COM.Authority.Institutions.Device
             {
                 ErrorLabel.Text = "server error";
                 ErrorLabel.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+
+        protected void ActiveCheckBox_OnCheckedChanged(object sender, EventArgs e)
+        {
+            var activeCheckBox = (CheckBox)sender;
+            var row = (GridViewRow)activeCheckBox.Parent.Parent;
+
+            if (activeCheckBox.Checked)
+            {
+              var schoolId = UsersGridView.DataKeys[row.DataItemIndex]?["SchoolID"].ToString();
             }
         }
     }

@@ -45,19 +45,20 @@
         </asp:SqlDataSource>
     </div>
 
-    <asp:GridView ID="UsersGridView" CssClass="mGrid" runat="server" AutoGenerateColumns="False" DataSourceID="UserSQL">
+    <asp:GridView ID="UsersGridView" DataKeyNames="IsActive,SchoolID" CssClass="mGrid" runat="server" AutoGenerateColumns="False" DataSourceID="UserSQL">
         <Columns>
             <asp:BoundField DataField="SchoolName" HeaderText="Institution" SortExpression="SchoolName" />
             <asp:BoundField DataField="UserName" HeaderText="Username" SortExpression="UserName" />
             <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
             <asp:TemplateField HeaderText="Active" SortExpression="IsActive">
                 <ItemTemplate>
-                    <asp:CheckBox ID="ActiveCheckBox" Text=" " runat="server" Checked='<%# Bind("IsActive") %>' Enabled="false" />
+                    <asp:CheckBox ID="ActiveCheckBox" OnCheckedChanged="ActiveCheckBox_OnCheckedChanged" Text=" " runat="server" Checked='<%# Bind("IsActive") %>'/>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
 
+    
     <script>
         $(function () {
             $('#linkClose').click(function () {

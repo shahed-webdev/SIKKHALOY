@@ -140,23 +140,23 @@ namespace AttendanceDevice.Settings.Pages
 
             LoadingDH.IsOpen = true;
 
-            var deviceContx = e.Row.DataContext as Device;
+            var deviceContext = e.Row.DataContext as Device;
 
             using (var db = new ModelContext())
             {
-                if (db.Devices.Any(o => o.DeviceIP == deviceContx.DeviceIP))
+                if (db.Devices.Any(o => o.DeviceIP == deviceContext.DeviceIP))
                 {
                     DeviceDtagrid.ItemsSource = db.Devices.ToList();
                     LoadingDH.IsOpen = false;
                     return;
                 }
 
-                var checkIp = deviceContx != null && await Device_PingTest.PingHostAsync(deviceContx.DeviceIP);
+                var checkIp = deviceContext != null && await Device_PingTest.PingHostAsync(deviceContext.DeviceIP);
 
-                if (deviceContx != null)
+                if (deviceContext != null)
                 {
-                    deviceContx.IsConnected = Convert.ToInt32(checkIp);
-                    db.Entry(deviceContx).State = EntityState.Modified;
+                    deviceContext.IsConnected = Convert.ToInt32(checkIp);
+                    db.Entry(deviceContext).State = EntityState.Modified;
                 }
 
                 await db.SaveChangesAsync();

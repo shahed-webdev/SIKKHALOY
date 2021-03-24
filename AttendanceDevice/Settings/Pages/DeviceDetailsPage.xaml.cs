@@ -153,23 +153,23 @@ namespace AttendanceDevice.Settings.Pages
                 LoadingDH.IsOpen = false;
                 MessageBox.Show("System error", "Error!");
             }
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
         private async void BtnAdditionalUserDevice_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
 
-            var DeviceUsers = await Task.Run(() => _deviceCon.Download_User().OrderBy(x => x.DeviceID));
+            var deviceUsers = await Task.Run(() => _deviceCon.Download_User().OrderBy(x => x.DeviceID));
 
-            List<User> PcUsers = new List<User>();
+            List<User> pcUsers;
             using (var db = new ModelContext())
             {
-                PcUsers = db.Users.OrderBy(x => x.RFID).ToList();
+                pcUsers = db.Users.OrderBy(x => x.RFID).ToList();
             }
 
-            var NewUser = DeviceUsers.Where(Pu => !PcUsers.Any(du => du.DeviceID == Pu.DeviceID)).ToList();
+            var newUser = deviceUsers.Where(pu => pcUsers.All(du => du.DeviceID != pu.DeviceID)).ToList();
 
-            DeviceAddiUserDG.ItemsSource = NewUser;
+            DeviceAddiUserDG.ItemsSource = newUser;
 
             LoadingDH.IsOpen = false;
         }
@@ -187,7 +187,7 @@ namespace AttendanceDevice.Settings.Pages
                 LoadingDH.IsOpen = false;
                 MessageBox.Show("Fingerprint not deleted", "Error!");
             }
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
         private async void BtnClearAllLogs_Click(object sender, RoutedEventArgs e)
         {
@@ -205,7 +205,7 @@ namespace AttendanceDevice.Settings.Pages
                 MessageBox.Show("log not deleted", "Error!");
             }
 
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
         private async void BtnDownloadLogs_Click(object sender, RoutedEventArgs e)
         {
@@ -218,19 +218,19 @@ namespace AttendanceDevice.Settings.Pages
             }
 
             LoadingDH.IsOpen = false;
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
         private void BtnFindUser_Click(object sender, RoutedEventArgs e)
         {
-            string filterText = findDeviceidTextBox.Text;
-            ICollectionView cv = CollectionViewSource.GetDefaultView(DeviceUserDG.ItemsSource);
+            var filterText = findDeviceidTextBox.Text;
+            var cv = CollectionViewSource.GetDefaultView(DeviceUserDG.ItemsSource);
 
             if (!string.IsNullOrEmpty(filterText))
             {
                 cv.Filter = o =>
                 {
-                    User User = o as User;
-                    return (User.DeviceID.ToString() == filterText || User.Name.ToUpper().StartsWith(filterText.ToUpper()));
+                    var user = o as User;
+                    return (user.DeviceID.ToString() == filterText || user.Name.ToUpper().StartsWith(filterText.ToUpper()));
                 };
             }
         }
@@ -238,9 +238,9 @@ namespace AttendanceDevice.Settings.Pages
         private async void BtnDuplicateTime_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
-            var d_Reset = await Task.Run(() => _deviceCon.Duplicate_Punch_Time_Reset());
+            var dReset = await Task.Run(() => _deviceCon.Duplicate_Punch_Time_Reset());
 
-            if (d_Reset)
+            if (dReset)
             {
                 LoadingDH.IsOpen = false;
             }
@@ -249,28 +249,28 @@ namespace AttendanceDevice.Settings.Pages
                 LoadingDH.IsOpen = false;
                 MessageBox.Show("Duplicate time not set", "Error!");
             }
-            NavigationService.Refresh();
+            NavigationService?.Refresh();
         }
 
         private void FindUserButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(UserIDTextbox.Text)) return;
 
-            var Info = LocalData.Instance.UserViews.Where(u => u.ID == UserIDTextbox.Text.Trim()).FirstOrDefault();
+            var info = LocalData.Instance.UserViews.FirstOrDefault(u => u.ID == UserIDTextbox.Text.Trim());
 
-            if (Info != null)
+            if (info != null)
             {
-                UserInfoGrid.DataContext = Info;
-                _deviceId = Info.DeviceID.ToString();
+                UserInfoGrid.DataContext = info;
+                _deviceId = info.DeviceID.ToString();
                 Userpanel.Visibility = Visibility.Visible;
                 UserInfoError.Text = "";
 
-                var FP = LocalData.Instance.Get_UserFP(Info.DeviceID);
+                var fp = LocalData.Instance.Get_UserFP(info.DeviceID);
 
-                LI.Background = FP.LeftIndex;
-                LT.Background = FP.LeftThamb;
-                RI.Background = FP.RightIndex;
-                RT.Background = FP.RightThamb;
+                LI.Background = fp.LeftIndex;
+                LT.Background = fp.LeftThamb;
+                RI.Background = fp.RightIndex;
+                RT.Background = fp.RightThamb;
             }
             else
             {
@@ -282,32 +282,30 @@ namespace AttendanceDevice.Settings.Pages
 
         private void FingerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(_deviceId))
-            {
-                Button button = sender as Button;
-                _deviceCon.FP_Msg = MessageTB;
-                var index = Convert.ToInt32(button.CommandParameter);
+            if (string.IsNullOrWhiteSpace(_deviceId)) return;
 
-                if (button.Background != Brushes.GreenYellow)
+            var button = sender as Button;
+            _deviceCon.FP_Msg = MessageTB;
+            var index = Convert.ToInt32(button?.CommandParameter);
+
+            if (button?.Background != Brushes.GreenYellow)
+            {
+                _deviceCon.FP_Add(_deviceId, index);
+            }
+            else
+            {
+                var messageBoxResult = MessageBox.Show("Delete Fingerprint?", "Finger Delete", MessageBoxButton.YesNo);
+                if (messageBoxResult != MessageBoxResult.Yes) return;
+
+                var errorCode = _deviceCon.FP_Delete(_deviceId, index);
+                if (errorCode == 0)
                 {
-                    _deviceCon.FP_Add(_deviceId, index);
+                    LocalData.Instance.Delete_UserFP(Convert.ToInt32(_deviceId), index);
+                    button.Background = Brushes.White;
                 }
                 else
                 {
-                    MessageBoxResult messageBoxResult = MessageBox.Show("Delete Fingerprint?", "Finger Delete", MessageBoxButton.YesNo);
-                    if (messageBoxResult == MessageBoxResult.Yes)
-                    {
-                        var ErrorCode = _deviceCon.FP_Delete(_deviceId, index);
-                        if (ErrorCode == 0)
-                        {
-                            LocalData.Instance.Delete_UserFP(Convert.ToInt32(_deviceId), index);
-                            button.Background = Brushes.White;
-                        }
-                        else
-                        {
-                            //"Operation failed,ErrorCode=" + ErrorCode.ToString();
-                        }
-                    }
+                    //"Operation failed,ErrorCode=" + ErrorCode.ToString();
                 }
             }
         }

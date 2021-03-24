@@ -36,7 +36,7 @@
                     <TextBlock Margin="0,15,0,0" Text="Institution Name" />
                     <TextBox Name="InstitutionName" Text="{Binding InstitutionName}" />
 
-                    <TextBlock Margin="0,20,0,0" Text="Image foldre link" />
+                    <TextBlock Margin="0,20,0,0" Text="Image folder link" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

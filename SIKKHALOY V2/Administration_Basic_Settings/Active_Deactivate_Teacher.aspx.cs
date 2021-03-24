@@ -20,11 +20,11 @@ namespace EDUCATION.COM.ADMINISTRATION_BASIC_SETTING
 
         protected void ApprovedCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox ApprovedCheckBox = (CheckBox)sender;
-            GridViewRow Row = (GridViewRow)ApprovedCheckBox.Parent.Parent;
+            var approvedCheckBox = (CheckBox)sender;
+            var row = (GridViewRow)approvedCheckBox.Parent.Parent;
 
-            MembershipUser usr = Membership.GetUser(TeacherGV.DataKeys[Row.DataItemIndex]["UserName"].ToString());
-            usr.IsApproved = ApprovedCheckBox.Checked;
+            var usr = Membership.GetUser(TeacherGV.DataKeys[row.DataItemIndex]["UserName"].ToString());
+            usr.IsApproved = approvedCheckBox.Checked;
             Membership.UpdateUser(usr);
         }
 

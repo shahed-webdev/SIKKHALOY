@@ -23,6 +23,7 @@ namespace AttendanceDevice.Settings.Pages
         {
             InitializeComponent();
         }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             if (LocalData.Current_Error.Type == Error_Type.UserInfoPage)
@@ -39,6 +40,7 @@ namespace AttendanceDevice.Settings.Pages
             TotalRecord.Text = "Total Users: " + users.Count;
 
         }
+       
         private void Upload_CSV_Click(object sender, RoutedEventArgs e)
         {
             var op = new OpenFileDialog {Title = "Select a .csv file", Filter = "Supported|*.csv;"};
