@@ -106,8 +106,7 @@
                     </Grid>
                 </materialDesign:Card>
                 <materialDesign:Snackbar
-                    x:Name="ErrorSnackbar"
-                    Grid.Row="1"
+                    x:Name="ErrorSnackBar"
                     HorizontalAlignment="Stretch"
                     Background="#FFD30000"
                     IsActive="False">

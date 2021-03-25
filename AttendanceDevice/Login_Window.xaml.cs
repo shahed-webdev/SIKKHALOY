@@ -24,16 +24,17 @@ namespace AttendanceDevice
         {
             InitializeComponent();
         }
+
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             var queue = new SnackbarMessageQueue(TimeSpan.FromSeconds(5));
-            UpdateSnackbar.MessageQueue = queue;
+            MessageSnackBar.MessageQueue = queue;
 
             try
             {   //Empty Error
                 LocalData.Current_Error = new Setting_Error();
 
-                LoadingPB.IsIndeterminate = true;
+                LoadingPb.IsIndeterminate = true;
                 LoginButton.IsEnabled = false;
 
                 //Device List
@@ -83,28 +84,28 @@ namespace AttendanceDevice
                                         display.Show();
                                         this.Close();
 
-                                        LoadingPB.IsIndeterminate = false;
+                                        LoadingPb.IsIndeterminate = false;
                                         LoginButton.IsEnabled = true;
                                         return;
                                     }
                                     else
                                     {
                                         queue.Enqueue("No internet connection & No Device Connected.");
-                                        LoadingPB.IsIndeterminate = false;
+                                        LoadingPb.IsIndeterminate = false;
                                         LoginButton.IsEnabled = true;
                                     }
                                 }
                                 else
                                 {
                                     queue.Enqueue("No internet connection & Device IP not found.");
-                                    LoadingPB.IsIndeterminate = false;
+                                    LoadingPb.IsIndeterminate = false;
                                     LoginButton.IsEnabled = true;
                                 }
                             }
                             else
                             {
                                 queue.Enqueue("No internet connection & No device info.");
-                                LoadingPB.IsIndeterminate = false;
+                                LoadingPb.IsIndeterminate = false;
                                 LoginButton.IsEnabled = true;
                             }
                         }
@@ -172,27 +173,27 @@ namespace AttendanceDevice
                                         display.Show();
                                         this.Close();
 
-                                        LoadingPB.IsIndeterminate = false;
+                                        LoadingPb.IsIndeterminate = false;
                                         LoginButton.IsEnabled = true;
                                     }
                                     else
                                     {
                                         queue.Enqueue(loginResponse.ErrorMessage + ". No Device Connected.");
-                                        LoadingPB.IsIndeterminate = false;
+                                        LoadingPb.IsIndeterminate = false;
                                         LoginButton.IsEnabled = true;
                                     }
                                 }
                                 else
                                 {
                                     queue.Enqueue(loginResponse.ErrorMessage + ". Device IP not found.");
-                                    LoadingPB.IsIndeterminate = false;
+                                    LoadingPb.IsIndeterminate = false;
                                     LoginButton.IsEnabled = true;
                                 }
                             }
                             else
                             {
                                 queue.Enqueue(loginResponse.ErrorMessage + ". No device info.");
-                                LoadingPB.IsIndeterminate = false;
+                                LoadingPb.IsIndeterminate = false;
                                 LoginButton.IsEnabled = true;
                             }
                         }
@@ -312,7 +313,7 @@ namespace AttendanceDevice
                                 else
                                 {
                                     queue.Enqueue(loginResponse.Data.error_description);
-                                    LoadingPB.IsIndeterminate = false;
+                                    LoadingPb.IsIndeterminate = false;
                                     LoginButton.IsEnabled = true;
                                 }
                                 #endregion Schedule data
@@ -403,29 +404,38 @@ namespace AttendanceDevice
                         else
                         {
                             queue.Enqueue(schoolResponse.StatusDescription);
-                            LoadingPB.IsIndeterminate = false;
+                            LoadingPb.IsIndeterminate = false;
                             LoginButton.IsEnabled = true;
                         }
                     }
                     else
                     {
                         queue.Enqueue(loginResponse.Data.error_description);
-                        LoadingPB.IsIndeterminate = false;
+                        LoadingPb.IsIndeterminate = false;
                         LoginButton.IsEnabled = true;
                     }
                 }
                 else
                 {
                     queue.Enqueue("Username and password is required");
-                    LoadingPB.IsIndeterminate = false;
+                    LoadingPb.IsIndeterminate = false;
                     LoginButton.IsEnabled = true;
                 }
             }
             catch (Exception ex)
             {
                 queue.Enqueue(ex.Message + " Inner ex: " + ex.InnerException.Message);
-                LoadingPB.IsIndeterminate = false;
+                LoadingPb.IsIndeterminate = false;
                 LoginButton.IsEnabled = true;
+            }
+        }
+
+        private void Login_Window_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (MessageSnackBar.Message != null)
+            {
+                MessageSnackBar.Message.Content = "error"; //LocalData.Current_Error.Message;
+                MessageSnackBar.IsActive = true;
             }
         }
     }

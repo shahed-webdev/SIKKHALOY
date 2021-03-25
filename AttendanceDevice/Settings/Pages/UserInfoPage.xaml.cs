@@ -28,8 +28,8 @@ namespace AttendanceDevice.Settings.Pages
         {
             if (LocalData.Current_Error.Type == Error_Type.UserInfoPage)
             {
-                if (ErrorSnackbar.Message != null) ErrorSnackbar.Message.Content = LocalData.Current_Error.Message;
-                ErrorSnackbar.IsActive = true;
+                if (ErrorSnackBar.Message != null) ErrorSnackBar.Message.Content = LocalData.Current_Error.Message;
+                ErrorSnackBar.IsActive = true;
             }
 
             var users = LocalData.Instance.UserViews;
@@ -203,7 +203,7 @@ namespace AttendanceDevice.Settings.Pages
 
                 //Empty Error
                 LocalData.Current_Error = new Setting_Error();
-                ErrorSnackbar.IsActive = false;
+                ErrorSnackBar.IsActive = false;
             }
             catch (Exception ex)
             {

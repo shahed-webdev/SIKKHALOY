@@ -50,18 +50,20 @@ namespace AttendanceDevice.Config_Class
 
             if (userView == null)
             {
-                userView = new UserView {Name = "User Not found on PC"};
+                userView = new UserView { Name = "User Not found on PC" };
                 EnrollUserCard.DataContext = userView;
                 return;
             }
 
-            EnrollUserDialogHost.IsOpen = true;
+            if (EnrollUserDialogHost.CurrentSession == null)
+                EnrollUserDialogHost.IsOpen = true;
+            
 
             userView.Enroll_Time = dt;
             var sDate = dt.ToShortDateString();
 
             EnrollUserCard.DataContext = userView;
-            
+
 
             var isStuDisable = userView.Is_Student && !LocalData.Instance.institution.Is_Student_Attendance_Enable;
             var isEmpDisable = !userView.Is_Student && !LocalData.Instance.institution.Is_Employee_Attendance_Enable;
@@ -546,7 +548,7 @@ namespace AttendanceDevice.Config_Class
                     //    }
                     //}
 
-                    var user = new User {DeviceID = Convert.ToInt32(DeviceID), Name = name, RFID = RFID};
+                    var user = new User { DeviceID = Convert.ToInt32(DeviceID), Name = name, RFID = RFID };
 
                     Users.Add(user);
                 }

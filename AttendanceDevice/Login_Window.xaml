@@ -19,8 +19,8 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     WindowStartupLocation="CenterScreen"
+    Loaded="Login_Window_OnLoaded"
     mc:Ignorable="d">
-
 
     <Grid>
         <Grid.RowDefinitions>
@@ -148,12 +148,12 @@
                             IsDefault="True"
                             TabIndex="2" />
                         <ProgressBar
-                            Name="LoadingPB"
+                            Name="LoadingPb"
                             Style="{StaticResource MaterialDesignCircularProgressBar}"
                             Value="0" />
 
                         <materialDesign:Snackbar
-                            x:Name="UpdateSnackbar"
+                            x:Name="MessageSnackBar"
                             Margin="0,20,0,0"
                             HorizontalAlignment="Stretch">
                             <materialDesign:Snackbar.Background>
