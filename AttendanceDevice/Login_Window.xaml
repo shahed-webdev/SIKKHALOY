@@ -156,6 +156,7 @@
                             x:Name="MessageSnackBar"
                             Margin="0,20,0,0"
                             HorizontalAlignment="Stretch">
+                            <materialDesign:SnackbarMessage />
                             <materialDesign:Snackbar.Background>
                                 <SolidColorBrush Opacity="0.80" Color="#FFFF3547" />
                             </materialDesign:Snackbar.Background>
