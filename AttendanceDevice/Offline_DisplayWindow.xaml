@@ -276,37 +276,6 @@
                     <!--<Canvas x:Name="imgcanvas" ClipToBounds="True">-->
                     <!--  ItemTemplate="{StaticResource myFirstItemTemplate}"  -->
                     <ListBox x:Name="StudentImageListview">
-                        <ListBox.Resources>
-                            <local:DimentionConverter x:Key="Converter" />
-                            <local:DurationConverter x:Key="DurationConverter" />
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <TranslateTransform />
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <EventTrigger.Actions>
-                                            <!--<BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation
-                                                        AutoReverse="True"
-                                                        RepeatBehavior="Forever"
-                                                        Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)"
-                                                        From="-100"
-                                                        To="1000"
-                                                        Duration="0:0:5" />
-                                            -->
-                                            <!--  Duration="{Binding Converter={StaticResource ResourceKey=DurationConverter}}" />  -->
-                                            <!--
-                                                </Storyboard>
-                                            </BeginStoryboard>-->
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.Resources>
                         <ListBox.RenderTransform>
                             <TranslateTransform />
                         </ListBox.RenderTransform>

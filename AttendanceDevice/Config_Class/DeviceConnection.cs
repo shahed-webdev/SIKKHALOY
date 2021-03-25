@@ -28,14 +28,14 @@ namespace AttendanceDevice.Config_Class
     }
     public class DeviceConnection
     {
-        public Card EnrollUser_Card { get; set; }
+        public Card EnrollUserCard { get; set; }
         public DialogHost EnrollUserDialogHost { get; set; }
-        public bool Is_SDK_Full_Supported { get; set; }
+        public bool IsSdkFullSupported { get; set; }
 
-        public TextBlock FP_Msg { get; set; }
+        public TextBlock FpMsg { get; set; }
 
-        public ListBox LogViewLB { get; set; }
-        private int Prev_Log_CountDay = 7;
+        public ListBox LogViewLb { get; set; }
+        private const int PrevLogCountDay = 7;
         public Device Device { get; private set; }
         public CZKEM axCZKEM1 { get; private set; }
         private DeviceReturn Returns { get; set; }
@@ -51,137 +51,137 @@ namespace AttendanceDevice.Config_Class
             if (userView == null)
             {
                 userView = new UserView {Name = "User Not found on PC"};
-                EnrollUser_Card.DataContext = userView;
+                EnrollUserCard.DataContext = userView;
                 return;
             }
 
             EnrollUserDialogHost.IsOpen = true;
 
             userView.Enroll_Time = dt;
-            var s_Date = dt.ToShortDateString();
+            var sDate = dt.ToShortDateString();
 
-            EnrollUser_Card.DataContext = userView;
+            EnrollUserCard.DataContext = userView;
             
 
-            var Is_stu_Disable = userView.Is_Student && !LocalData.Instance.institution.Is_Student_Attendance_Enable;
-            var Is_Emp_Disable = !userView.Is_Student && !LocalData.Instance.institution.Is_Employee_Attendance_Enable;
-            var Schedule = LocalData.Instance.GetUserSchedule(userView.ScheduleID);
+            var isStuDisable = userView.Is_Student && !LocalData.Instance.institution.Is_Student_Attendance_Enable;
+            var isEmpDisable = !userView.Is_Student && !LocalData.Instance.institution.Is_Employee_Attendance_Enable;
+            var schedule = LocalData.Instance.GetUserSchedule(userView.ScheduleID);
 
-            var Reason = "";
+            string reason;
             // Device Attendance Disable
             if (!LocalData.Instance.institution.Is_Device_Attendance_Enable)
             {
-                Reason = "Device Attendance Disable";
-                await log_Backup_Insert(deviceId, dt, Reason);
+                reason = "Device Attendance Disable";
+                await log_Backup_Insert(deviceId, dt, reason);
             }
             // Student Attendance Disable
-            else if (Is_stu_Disable)
+            else if (isStuDisable)
             {
-                Reason = "Student Attendance Disable";
-                await log_Backup_Insert(deviceId, dt, Reason);
+                reason = "Student Attendance Disable";
+                await log_Backup_Insert(deviceId, dt, reason);
             }
             // Employee Attendance Disable
-            else if (Is_Emp_Disable)
+            else if (isEmpDisable)
             {
-                Reason = "Employee Attendance Disable";
-                await log_Backup_Insert(deviceId, dt, Reason);
+                reason = "Employee Attendance Disable";
+                await log_Backup_Insert(deviceId, dt, reason);
             }
             // Today Check
-            else if (s_Date != DateTime.Today.ToShortDateString())
+            else if (sDate != DateTime.Today.ToShortDateString())
             {
-                Reason = "Not Current Data";
-                await log_Backup_Insert(deviceId, dt, Reason);
+                reason = "Not Current Data";
+                await log_Backup_Insert(deviceId, dt, reason);
             }
             //Holiday attendance disable
             else if (LocalData.Instance.institution.Is_Today_Holiday && !LocalData.Instance.institution.Holiday_NotActive)
             {
-                Reason = "Holiday attendance disable";
-                await log_Backup_Insert(deviceId, dt, Reason);
+                reason = "Holiday attendance disable";
+                await log_Backup_Insert(deviceId, dt, reason);
             }
             //Schedule Off day
-            else if (!Schedule.Is_OnDay)
+            else if (!schedule.Is_OnDay)
             {
-                Reason = "Schedule Off Day";
-                await log_Backup_Insert(deviceId, dt, Reason);
+                reason = "Schedule Off Day";
+                await log_Backup_Insert(deviceId, dt, reason);
             }
             // Insert or Update Attendance Records
             else
             {
                 using (var db = new ModelContext())
                 {
-                    var Att_record = await db.attendance_Records.Where(a => a.DeviceID == deviceId && a.AttendanceDate == s_Date).FirstOrDefaultAsync();
-                    var S_startTime = TimeSpan.Parse(Schedule.StartTime);
-                    var S_LateTime = TimeSpan.Parse(Schedule.LateEntryTime);
-                    var S_EndTime = TimeSpan.Parse(Schedule.EndTime);
+                    var attRecord = await db.attendance_Records.Where(a => a.DeviceID == deviceId && a.AttendanceDate == sDate).FirstOrDefaultAsync();
+                    var sStartTime = TimeSpan.Parse(schedule.StartTime);
+                    var sLateTime = TimeSpan.Parse(schedule.LateEntryTime);
+                    var sEndTime = TimeSpan.Parse(schedule.EndTime);
 
-                    if (Att_record == null)
+                    if (attRecord == null)
                     {
-                        Att_record = new Attendance_Record();
+                        attRecord = new Attendance_Record();
 
-                        if (time > S_EndTime)
+                        if (time > sEndTime)
                         {
-                            //Enroll after end time (as frist enroll)
+                            //Enroll after end time (as first enroll)
                         }
                         else
                         {
-                            Att_record.AttendanceDate = s_Date;
-                            Att_record.DeviceID = deviceId;
-                            Att_record.EntryTime = time.ToString();
+                            attRecord.AttendanceDate = sDate;
+                            attRecord.DeviceID = deviceId;
+                            attRecord.EntryTime = time.ToString();
 
-                            if (time <= S_startTime)
+                            if (time <= sStartTime)
                             {
-                                Att_record.AttendanceStatus = "Pre";
+                                attRecord.AttendanceStatus = "Pre";
                             }
-                            else if (time <= S_LateTime)
+                            else if (time <= sLateTime)
                             {
-                                Att_record.AttendanceStatus = "Late";
+                                attRecord.AttendanceStatus = "Late";
                             }
-                            else if (time <= S_EndTime)
+                            else if (time <= sEndTime)
                             {
-                                Att_record.AttendanceStatus = "Late Abs";
+                                attRecord.AttendanceStatus = "Late Abs";
                             }
 
-                            db.attendance_Records.Add(Att_record);
-                            db.Entry(Att_record).State = EntityState.Added;
+                            db.attendance_Records.Add(attRecord);
+                            db.Entry(attRecord).State = EntityState.Added;
                         }
                     }
                     else
                     {
-                        if (Att_record.AttendanceStatus == "Abs")
+                        if (attRecord.AttendanceStatus == "Abs")
                         {
-                            if (time < S_EndTime)
+                            if (time < sEndTime)
                             {
-                                Att_record.AttendanceStatus = "Late Abs";
+                                attRecord.AttendanceStatus = "Late Abs";
                             }
 
-                            Att_record.EntryTime = time.ToString();
-                            Att_record.Is_Sent = false;
+                            attRecord.EntryTime = time.ToString();
+                            attRecord.Is_Sent = false;
                         }
                         else
                         {
-                            if (time > S_LateTime && time < S_EndTime && !Att_record.Is_OUT && TimeSpan.Parse(Att_record.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
+                            if (time > sLateTime && time < sEndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
                             {
-                                Att_record.ExitStatus = "Early Leave";
-                                Att_record.Is_OUT = true;
-                                Att_record.ExitTime = time.ToString();
+                                attRecord.ExitStatus = "Early Leave";
+                                attRecord.Is_OUT = true;
+                                attRecord.ExitTime = time.ToString();
                             }
-                            else if (time > S_LateTime && time < S_EndTime && Att_record.Is_OUT && TimeSpan.Parse(Att_record.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
+                            else if (time > sLateTime && time < sEndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
                             {
-                                Att_record.ExitStatus = "Early Leave";
-                                Att_record.Is_OUT = true;
-                                Att_record.ExitTime = time.ToString();
-                                Att_record.Is_Updated = false;
+                                attRecord.ExitStatus = "Early Leave";
+                                attRecord.Is_OUT = true;
+                                attRecord.ExitTime = time.ToString();
+                                attRecord.Is_Updated = false;
                             }
-                            else if (time > S_EndTime)
+                            else if (time > sEndTime)
                             {
-                                Att_record.ExitStatus = "Out";
-                                Att_record.Is_OUT = true;
-                                Att_record.ExitTime = time.ToString();
-                                Att_record.Is_Updated = false;
+                                attRecord.ExitStatus = "Out";
+                                attRecord.Is_OUT = true;
+                                attRecord.ExitTime = time.ToString();
+                                attRecord.Is_Updated = false;
                             }
                         }
 
-                        db.Entry(Att_record).State = EntityState.Modified;
+                        db.Entry(attRecord).State = EntityState.Modified;
                     }
 
                     await db.SaveChangesAsync();
@@ -191,9 +191,9 @@ namespace AttendanceDevice.Config_Class
             //string fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
             //string toTime = DateTime.Today.ToString("yyyy-MM-dd 23:00:00");
 
-            LogViewLB.ItemsSource = Machine.GetAttendance(AttType.All);
+            LogViewLb.ItemsSource = Machine.GetAttendance(AttType.All);
 
-            if (!this.Is_SDK_Full_Supported)
+            if (!this.IsSdkFullSupported)
             {
                 this.ClearAll_Logs();
             }
@@ -201,7 +201,7 @@ namespace AttendanceDevice.Config_Class
 
         public void axCZKEM1_OnFingerFeature(int score)
         {
-            FP_Msg.Text = "Press finger score=" + score;
+            FpMsg.Text = "Press finger score=" + score;
         }
 
 
@@ -209,18 +209,18 @@ namespace AttendanceDevice.Config_Class
         {
             if (ActionResult == 0)
             {
-                FP_Msg.Text = "Enroll finger succeed. UserID=" + EnrollNumber.ToString() + "...FingerIndex=" + FingerIndex.ToString();
+                FpMsg.Text = "Enroll finger succeed. UserID=" + EnrollNumber.ToString() + "...FingerIndex=" + FingerIndex.ToString();
             }
             else
             {
-                FP_Msg.Text = "Enroll finger failed. Result=" + ActionResult.ToString();
+                FpMsg.Text = "Enroll finger failed. Result=" + ActionResult.ToString();
             }
         }
         private async Task log_Backup_Insert(int DeviceID, DateTime dt, string Reason)
         {
             using (var db = new ModelContext())
             {
-                var log_backup = new AttendanceLog_Backup()
+                var logBackup = new AttendanceLog_Backup()
                 {
                     DeviceID = DeviceID,
                     Entry_Date = dt.ToShortDateString(),
@@ -234,7 +234,7 @@ namespace AttendanceDevice.Config_Class
                 db.Devices.Add(Device);
                 db.Entry(Device).State = EntityState.Modified;
 
-                db.attendanceLog_Backups.Add(log_backup);
+                db.attendanceLog_Backups.Add(logBackup);
                 await db.SaveChangesAsync();
             }
         }
@@ -286,7 +286,7 @@ namespace AttendanceDevice.Config_Class
 
             if (!axCZKEM1.SetCommPassword(this.Device.CommKey))
             {
-                int idwErrorCode = 0;
+                var idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
 
                 Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
@@ -302,7 +302,7 @@ namespace AttendanceDevice.Config_Class
                 Returns.Code = 1;
                 Returns.IsSuccess = true;
 
-                this.Is_SDK_Full_Supported = Clear_PrevLog();
+                this.IsSdkFullSupported = Clear_PrevLog();
 
                 if (axCZKEM1.RegEvent(Machine.Number, 1))
                 {
@@ -313,7 +313,7 @@ namespace AttendanceDevice.Config_Class
             }
             else
             {
-                int idwErrorCode = 0;
+                var idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
                 Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
                 Returns.Code = -1;
@@ -417,16 +417,16 @@ namespace AttendanceDevice.Config_Class
 
             if (!pingCheck) return false;
 
-            int A = -1;
-            axCZKEM1.GetConnectStatus(ref A);
-            return A == 0;
+            int a = -1;
+            axCZKEM1.GetConnectStatus(ref a);
+            return a == 0;
         }
 
 
         public async Task<bool> IsConnectedAsync()
         {
-            var checkIP = await Device_PingTest.PingHostAsync(this.Device.DeviceIP);
-            if (checkIP)
+            var checkIp = await Device_PingTest.PingHostAsync(this.Device.DeviceIP);
+            if (checkIp)
             {
                 int A = -1;
 
@@ -436,7 +436,7 @@ namespace AttendanceDevice.Config_Class
             }
             else
             {
-                return checkIP;
+                return checkIp;
             }
         }
         public string SN()
@@ -462,13 +462,13 @@ namespace AttendanceDevice.Config_Class
 
         public bool SetDateTime()
         {
-            bool Status = false;
+            bool status = false;
             if (axCZKEM1.SetDeviceTime(Machine.Number))
             {
                 axCZKEM1.RefreshData(Machine.Number);
-                Status = true;
+                status = true;
             }
-            return Status;
+            return status;
         }
         public bool Restart()
         {
@@ -580,7 +580,7 @@ namespace AttendanceDevice.Config_Class
                 int idwSecond = 0;
                 int idwWorkcode = 0;
 
-                string fromTime = DateTime.Today.AddDays(-Prev_Log_CountDay).ToString("yyyy-MM-dd 00:00:00");
+                string fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
 
                 var Device_last_update = new DateTime();
 
@@ -798,7 +798,7 @@ namespace AttendanceDevice.Config_Class
             bool IsClear = false;
             axCZKEM1.EnableDevice(Machine.Number, false);
 
-            string fromTime = DateTime.Today.AddDays(-Prev_Log_CountDay).ToString("yyyy-MM-dd 00:00:00");
+            string fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
 
             if (axCZKEM1.DeleteAttlogByTime(Machine.Number, fromTime))
             {
@@ -907,18 +907,18 @@ namespace AttendanceDevice.Config_Class
 
             if (axCZKEM1.StartEnrollEx(DeviceID, FingerIndex, iFlag))
             {
-                FP_Msg.Text = "Start to Enroll a new User,UserID=" + DeviceID + " FingerID=" + FingerIndex.ToString();
+                FpMsg.Text = "Start to Enroll a new User,UserID=" + DeviceID + " FingerID=" + FingerIndex.ToString();
 
                 if (axCZKEM1.StartIdentify())
                 {
-                    FP_Msg.Text = "Enroll a new User,UserID" + DeviceID;
+                    FpMsg.Text = "Enroll a new User,UserID" + DeviceID;
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
             }
             else
             {
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                FP_Msg.Text = "*Operation failed,ErrorCode=" + idwErrorCode.ToString();
+                FpMsg.Text = "*Operation failed,ErrorCode=" + idwErrorCode.ToString();
             }
             //axCZKEM1.OnFingerFeature -= new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(axCZKEM1_OnFingerFeature);
             // axCZKEM1.OnEnrollFingerEx -= new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);

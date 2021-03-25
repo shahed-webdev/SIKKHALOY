@@ -146,7 +146,7 @@ namespace AttendanceDevice.Settings.Pages
             LoadingPB.IsIndeterminate = true;
             DownloadButton.IsEnabled = false;
 
-            var netCheck = await ApiUrl.CheckInterNet();
+            var netCheck = await ApiUrl.IsNoNetConnection();
             if (netCheck)
             {
                 MessageBox.Show("No Internet", "No Internet connection!");

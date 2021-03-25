@@ -40,9 +40,9 @@ namespace AttendanceDevice
             foreach (var device in _deviceDisplay.Devices)
             {
                 //Data Show context pass to the device class
-                device.EnrollUser_Card = UserDataGrid;
+                device.EnrollUserCard = UserDataGrid;
                 device.EnrollUserDialogHost = EnrollUserDialog;
-                device.LogViewLB = StudentImageListBox;
+                device.LogViewLb = StudentImageListBox;
             }
 
             StudentImageListBox.ItemsSource = Machine.GetAttendance(AttType.All);
@@ -140,7 +140,7 @@ namespace AttendanceDevice
 
 
                 //check internet
-                var internet = await ApiUrl.CheckInterNet();
+                var internet = await ApiUrl.IsNoNetConnection();
                 if (internet) return;
 
                 #region Student Post
@@ -166,8 +166,10 @@ namespace AttendanceDevice
                             await db.SaveChangesAsync();
                         }
                     }
-                    MessageBox.Show("Student post: " + response.StatusCode);
+
+                    // MessageBox.Show("Student post: " + response.StatusCode);
                 }
+
                 #endregion Student Post
 
                 #region Student Update
@@ -193,7 +195,7 @@ namespace AttendanceDevice
                         }
                     }
 
-                    MessageBox.Show("Student put " + response.StatusCode.ToString());
+                    //MessageBox.Show("Student put " + response.StatusCode.ToString());
                 }
                 #endregion Student Update
 
@@ -330,12 +332,12 @@ namespace AttendanceDevice
         //Setting Dialog
         private void Setting_Button_Click(object sender, RoutedEventArgs e)
         {
-            //DH.IsOpen = true;
+            SettingLoginDialog.IsOpen = true;
 
-            LocalData.Current_Error = new Setting_Error();
-            var settings = new Setting();
-            settings.Show();
-            Close();
+            //LocalData.Current_Error = new Setting_Error();
+            //var settings = new Setting();
+            //settings.Show();
+            //Close();
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -366,7 +368,7 @@ namespace AttendanceDevice
             }
         }
 
-        //page link
+        //external page link
         private void Sikkhaloy_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("http://sikkhaloy.com/");
@@ -374,32 +376,6 @@ namespace AttendanceDevice
         private void LoopsIT_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("http://loopsit.com/");
-        }
-    }
-
-    //Using In xaml page
-    public class DimentionConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (double)value / double.Parse(parameter as string);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-    public class DurationConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return new Duration(TimeSpan.FromMilliseconds(1000));
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

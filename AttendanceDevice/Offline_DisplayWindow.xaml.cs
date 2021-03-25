@@ -55,8 +55,8 @@ namespace AttendanceDevice
             foreach (var device in _deviceDisplay.Devices.Where(device => device.axCZKEM1.RegEvent(Machine.Number, 1)))
             {
                 device.axCZKEM1.OnAttTransactionEx += axCZKEM1_OnAttTransactionEx;
-                device.EnrollUser_Card = UserDataGrid;
-                device.LogViewLB = StudentImageListview;
+                device.EnrollUserCard = UserDataGrid;
+                device.LogViewLb = StudentImageListview;
             }
 
             StudentImageListview.ItemsSource = Machine.GetAttendance(AttType.All);
@@ -78,8 +78,7 @@ namespace AttendanceDevice
         private async void Timer_Tick(object sender, EventArgs e)
         {
             #region Check Internet
-
-            if (await ApiUrl.CheckInterNet()) return;
+            if (await ApiUrl.IsNoNetConnection()) return;
 
             using (var db = new ModelContext())
             {

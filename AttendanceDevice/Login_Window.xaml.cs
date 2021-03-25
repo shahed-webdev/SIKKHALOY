@@ -41,7 +41,7 @@ namespace AttendanceDevice
 
                 //Check Internet connection
                 #region Check Internet
-                if (await ApiUrl.CheckInterNet())
+                if (await ApiUrl.IsNoNetConnection())
                 {
                     using (var db = new ModelContext())
                     {
