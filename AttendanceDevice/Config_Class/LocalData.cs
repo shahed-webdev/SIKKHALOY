@@ -358,6 +358,22 @@ namespace AttendanceDevice.Config_Class
                 this.Schedules = db.attendance_Schedule_Days.ToList();
             }
         }
+
+        public bool IsUserExist()
+        {
+            using (var db = new ModelContext())
+            {
+                return db.Users.Any();
+            }
+        }
+
+        public bool IsDeviceExist()
+        {
+            using (var db = new ModelContext())
+            {
+                return db.Devices.Any();
+            }
+        }
     }
 
     public enum Error_Type

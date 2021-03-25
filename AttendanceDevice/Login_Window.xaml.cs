@@ -432,11 +432,10 @@ namespace AttendanceDevice
 
         private void Login_Window_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (MessageSnackBar.Message != null)
-            {
-                MessageSnackBar.Message.Content = "error"; //LocalData.Current_Error.Message;
-                MessageSnackBar.IsActive = true;
-            }
+            if (string.IsNullOrEmpty(LocalData.Current_Error.Message)) return;
+
+            MessageSnackBar.Message.Content = LocalData.Current_Error.Message;
+            MessageSnackBar.IsActive = true;
         }
     }
 }

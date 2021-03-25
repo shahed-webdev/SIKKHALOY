@@ -30,6 +30,48 @@ namespace AttendanceDevice
                 //Device List
                 var deviceList = new List<DeviceConnection>();
 
+                // Institution not Register in local database
+                var ins = LocalData.Instance.institution;
+
+                if (ins == null)
+                {
+                    LocalData.Current_Error.Message = "No institutional information found in your local Machine";
+                    var login = new Login_Window();
+                    login.Show();
+                    this.Close();
+                    return;
+                }
+
+                if (!ins.IsValid)
+                {
+                    LocalData.Current_Error.Message = $"{ins.InstitutionName} has currently deactivated by the Software Authority";
+                    var login = new Login_Window();
+                    login.Show();
+                    this.Close();
+                }
+
+                //No user in local database
+                if (!LocalData.Instance.IsUserExist())
+                {
+                    LocalData.Current_Error.Message = "No User Found on PC!";
+                    LocalData.Current_Error.Type = Error_Type.UserInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                }
+
+                if (!LocalData.Instance.IsDeviceExist())
+                {
+                    LocalData.Current_Error.Message = "No Device Added In PC!";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                }
+
+
                 //Check Internet connection
                 #region Check Internet
                 if (await ApiUrl.IsNoNetConnection())
@@ -110,15 +152,7 @@ namespace AttendanceDevice
 
                 using (var db = new ModelContext())
                 {
-                    var ins = LocalData.Instance.institution;
 
-                    if (ins == null)
-                    {
-                        var login = new Login_Window();
-                        login.Show();
-                        this.Close();
-                        return;
-                    }
 
                     //check server is available
                     if (await ApiUrl.IsServerUnavailable())
