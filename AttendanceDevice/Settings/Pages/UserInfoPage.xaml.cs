@@ -28,22 +28,27 @@ namespace AttendanceDevice.Settings.Pages
         {
             if (LocalData.Current_Error.Type == Error_Type.UserInfoPage)
             {
-                if (ErrorSnackBar.Message != null) ErrorSnackBar.Message.Content = LocalData.Current_Error.Message;
+                var message = LocalData.Current_Error.Message;
+                if (string.IsNullOrEmpty(message)) return;
+
+                ErrorSnackBar.Message.Content = message;
                 ErrorSnackBar.IsActive = true;
+
+                LocalData.Current_Error.Message = string.Empty;
             }
 
             var users = LocalData.Instance.UserViews;
-            
+
             if (users.Count <= 0) return;
 
             UserList.ItemsSource = users;
             TotalRecord.Text = "Total Users: " + users.Count;
 
         }
-       
+
         private void Upload_CSV_Click(object sender, RoutedEventArgs e)
         {
-            var op = new OpenFileDialog {Title = "Select a .csv file", Filter = "Supported|*.csv;"};
+            var op = new OpenFileDialog { Title = "Select a .csv file", Filter = "Supported|*.csv;" };
 
             if (op.ShowDialog() != true) return;
 

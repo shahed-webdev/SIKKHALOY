@@ -152,12 +152,9 @@ namespace AttendanceDevice
 
                 using (var db = new ModelContext())
                 {
-
-
                     //check server is available
                     if (await ApiUrl.IsServerUnavailable())
                     {
-
                         return;
                     }
 

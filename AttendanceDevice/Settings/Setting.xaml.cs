@@ -84,28 +84,28 @@ namespace AttendanceDevice.Settings
             {
                 //User is Null
                 var user = await db.Users.FirstOrDefaultAsync();
+                var deviceList = new List<DeviceConnection>();
                 if (user != null)
                 {
-                    List<DeviceConnection> DeviceList = new List<DeviceConnection>();
-                    var Devices = await db.Devices.ToListAsync();
-                    var Ins = await db.Institutions.FirstOrDefaultAsync();
+                    var devices = await db.Devices.ToListAsync();
+                    var ins = await db.Institutions.FirstOrDefaultAsync();
 
                     //Device Check
-                    if (Devices.Count() > 0)
+                    if (devices.Any())
                     {
-                        foreach (var device in Devices)
+                        foreach (var device in devices)
                         {
-                            var checkIP = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                            if (checkIP)
+                            var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                            if (checkIp)
                             {
-                                DeviceList.Add(new DeviceConnection(device));
+                                deviceList.Add(new DeviceConnection(device));
                             }
                         }
 
-                        if (DeviceList.Count > 0)
+                        if (deviceList.Count > 0)
                         {
                             bool D_Check = false;
-                            foreach (var device in DeviceList)
+                            foreach (var device in deviceList)
                             {
                                 var status = await Task.Run(() => device.ConnectDevice());
                                 if (status.IsSuccess)
@@ -121,7 +121,7 @@ namespace AttendanceDevice.Settings
                                     var prev_log = device.Download_Prev_Logs();
                                     var today_log = device.Download_Today_Logs();
 
-                                    await Machine.Save_logData(prev_log, today_log, Ins, device.Device);
+                                    await Machine.Save_logData(prev_log, today_log, ins, device.Device);
                                 }
                             }
 
@@ -131,7 +131,7 @@ namespace AttendanceDevice.Settings
                                 PB.IsIndeterminate = false;
                                 btnDisplay.IsEnabled = true;
 
-                                var D_Display = new DeviceDisplay(DeviceList);
+                                var D_Display = new DeviceDisplay(deviceList);
 
                                 var DisplayWindow = new DisplayWindow(D_Display);
                                 DisplayWindow.Show();

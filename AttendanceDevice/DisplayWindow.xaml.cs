@@ -339,6 +339,7 @@ namespace AttendanceDevice
             //settings.Show();
             //Close();
         }
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             SettingLoginDialog.IsOpen = false;
@@ -364,7 +365,7 @@ namespace AttendanceDevice
                 var settings = new Setting();
                 SettingLoginDialog.IsOpen = false;
                 settings.Show();
-                Close();
+                this.Close();
             }
         }
 
