@@ -159,7 +159,7 @@ WHERE        (StudentsClass.ClassID = @ClassID) AND (StudentsClass.SectionID LIK
                          (Student.Status = @Status) AND (StudentsClass.EducationYearID = @EducationYearID) AND (StudentsClass.SchoolID = @SchoolID) AND (Exam_Result_of_Student.ExamID = @ExamID) AND 
                          (Exam_Result_of_Student.StudentPublishStatus = N'Pub') AND 
                          (Exam_Result_of_Student.PassStatus_InSubject LIKE @PassStatus)
-ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLACE(StudentsClass.RollNo , '$' , '') , ',' , '') AS INT) ELSE 0 END">
+ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLACE(StudentsClass.RollNo , '$' , '') , ',' , '') AS FLOAT) ELSE 0 END">
             <SelectParameters>
                 <asp:ControlParameter ControlID="ClassDropDownList" Name="ClassID" PropertyName="SelectedValue" />
                 <asp:ControlParameter ControlID="SectionDropDownList" Name="SectionID" PropertyName="SelectedValue" />
