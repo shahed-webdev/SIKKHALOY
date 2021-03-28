@@ -186,26 +186,28 @@
 
             <!--  Main  -->
             <Grid Grid.Row="1" Margin="0 20">
-                <ListBox x:Name="StudentImageListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox x:Name="StudentImageListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate> 
                             <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
+                                   
                                     <Image
                                         SnapsToDevicePixels="True"
                                         MaxWidth="300"
                                         MaxHeight="320"
                                         Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"
                                         Stretch="UniformToFill" />
+
                                     <StackPanel Grid.Row="1">
                                         <TextBlock
                                             Margin="10"

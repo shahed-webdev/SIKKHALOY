@@ -31,7 +31,8 @@ namespace AttendanceDevice
             MessageSnackBar.MessageQueue = queue;
 
             try
-            {   //Empty Error
+            {
+                //Empty Error
                 LocalData.Current_Error = new Setting_Error();
 
                 LoadingPb.IsIndeterminate = true;
@@ -39,21 +40,6 @@ namespace AttendanceDevice
 
                 //Device List
                 var deviceList = new List<DeviceConnection>();
-
-                //Check Internet connection
-                if (!await ApiUrl.IsNoNetConnection())
-                {
-                    queue.Enqueue("No internet connection");
-                    LoadingPb.IsIndeterminate = false;
-                    LoginButton.IsEnabled = true;
-                }
-                //Check Server connection
-                if (!await ApiUrl.IsServerUnavailable())
-                {
-                    queue.Enqueue("The server is not available right now");
-                    LoadingPb.IsIndeterminate = false;
-                    LoginButton.IsEnabled = true;
-                }
 
                 if (string.IsNullOrEmpty(UserNameTextBox.Text) && string.IsNullOrEmpty(PasswordPasswordBox.Password))
                 {
@@ -63,6 +49,23 @@ namespace AttendanceDevice
                     return;
                 }
 
+                //Check Internet connection
+                if (await ApiUrl.IsNoNetConnection())
+                {
+                    queue.Enqueue("No internet connection");
+                    LoadingPb.IsIndeterminate = false;
+                    LoginButton.IsEnabled = true;
+                    return;
+                }
+
+                //Check Server connection
+                if (await ApiUrl.IsServerUnavailable())
+                {
+                    queue.Enqueue("The server is not available right now");
+                    LoadingPb.IsIndeterminate = false;
+                    LoginButton.IsEnabled = true;
+                    return;
+                }
 
                 #region Check Internet
 
@@ -144,13 +147,12 @@ namespace AttendanceDevice
                 //    }
 
                 //}
-                #endregion Check Internet
 
+                #endregion Check Internet
 
 
                 var client = new RestClient(ApiUrl.EndPoint);
                 var loginRequest = new RestRequest("token", Method.POST);
-
                 var loginUsers = new LoginUser(UserNameTextBox.Text.Trim(), PasswordPasswordBox.Password);
 
                 loginRequest.AddObject(loginUsers);
@@ -159,7 +161,6 @@ namespace AttendanceDevice
                 var loginResponse = await client.ExecuteTaskAsync<Token>(loginRequest);
 
                 //API call for token
-
                 if (loginResponse.StatusCode != HttpStatusCode.OK)
                 {
                     queue.Enqueue(loginResponse.Data.error_description);
@@ -169,6 +170,7 @@ namespace AttendanceDevice
                 }
 
                 #region server Check
+
                 //using (var db = new ModelContext())
                 //{
                 //    var devices = await db.Devices.ToListAsync();
@@ -284,9 +286,10 @@ namespace AttendanceDevice
                         db.Entry(ins).State = EntityState.Modified;
                     }
 
-
                     //Leave request
+
                     #region Leave data
+
                     var leaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
                     leaveRequest.AddUrlSegment("id", ins.SchoolID);
                     leaveRequest.AddHeader("Authorization", "Bearer " + token);
@@ -302,7 +305,8 @@ namespace AttendanceDevice
                         foreach (var item in leaveResponse.Data)
                         {
                             // Insert attendance records if new record
-                            if (!db.attendance_Records.Any(a => a.AttendanceDate == item.LeaveDate && a.DeviceID == item.DeviceID))
+                            if (!db.attendance_Records.Any(a =>
+                                a.AttendanceDate == item.LeaveDate && a.DeviceID == item.DeviceID))
                             {
                                 var attRecord = new Attendance_Record
                                 {
@@ -313,27 +317,34 @@ namespace AttendanceDevice
 
                                 db.attendance_Records.Add(attRecord);
                             }
+
                             db.user_Leave_Records.Add(item);
                         }
                     }
+
                     #endregion Leave data
 
                     //Schedule Day Request
+
                     #region Schedule data
+
                     var scheduleDayRequest = new RestRequest("api/Users/{id}/schedule", Method.GET);
                     scheduleDayRequest.AddUrlSegment("id", ins.SchoolID);
                     scheduleDayRequest.AddHeader("Authorization", "Bearer " + token);
 
-                    var scheduleDayResponse = await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
+                    var scheduleDayResponse =
+                        await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
 
                     if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null)
                     {
                         //if same date Absent count remain same 
                         if (ins.LastUpdateDate == DateTime.Today.ToShortDateString())
                         {
-                            var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count).Select(s => s.ScheduleID).ToList();
+                            var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
+                                .Select(s => s.ScheduleID).ToList();
 
-                            scheduleDayResponse.Data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList().ForEach(s => s.Is_Abs_Count = true);
+                            scheduleDayResponse.Data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList()
+                                .ForEach(s => s.Is_Abs_Count = true);
                         }
 
                         LocalData.Instance.Schedules = scheduleDayResponse.Data;
@@ -351,6 +362,7 @@ namespace AttendanceDevice
                         LoadingPb.IsIndeterminate = false;
                         LoginButton.IsEnabled = true;
                     }
+
                     #endregion Schedule data
 
                     await db.SaveChangesAsync();
@@ -358,7 +370,9 @@ namespace AttendanceDevice
                     if (serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now)
                     {
                         //Device Check
+
                         #region Device Check
+
                         var devices = db.Devices.ToList();
 
                         if (devices.Any())
@@ -425,20 +439,18 @@ namespace AttendanceDevice
                             setting.Show();
                             this.Close();
                         }
+
                         #endregion Device Check
                     }
                     else
                     {
-                        var errorObj = new Error("Invalid", "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
+                        var errorObj = new Error("Invalid",
+                            "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
                         var errorWindow = new Error_Window(errorObj);
                         errorWindow.Show();
                         this.Close();
                     }
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
