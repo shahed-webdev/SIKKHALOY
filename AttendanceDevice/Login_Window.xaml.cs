@@ -38,9 +38,6 @@ namespace AttendanceDevice
                 LoadingPb.IsIndeterminate = true;
                 LoginButton.IsEnabled = false;
 
-                //Device List
-                var deviceList = new List<DeviceConnection>();
-
                 if (string.IsNullOrEmpty(UserNameTextBox.Text) && string.IsNullOrEmpty(PasswordPasswordBox.Password))
                 {
                     queue.Enqueue("Username and password is required");
@@ -67,90 +64,7 @@ namespace AttendanceDevice
                     return;
                 }
 
-                #region Check Internet
-
-
-                //{
-                //    using (var db = new ModelContext())
-                //    {
-                //        var user = db.Users.FirstOrDefault();
-
-                //        if (user != null)
-                //        {
-                //            var devices = await db.Devices.ToListAsync();
-
-                //            if (devices.Any())
-                //            {
-                //                foreach (var device in devices)
-                //                {
-                //                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                //                    if (checkIp)
-                //                    {
-                //                        deviceList.Add(new DeviceConnection(device));
-                //                    }
-                //                }
-
-                //                if (deviceList.Count > 0)
-                //                {
-                //                    var dCheck = false;
-                //                    foreach (var device in deviceList)
-                //                    {
-                //                        var status = await Task.Run(() => device.ConnectDevice());
-                //                        if (status.IsSuccess)
-                //                        {
-                //                            dCheck = true;
-                //                            //Set server time to device
-                //                            await Task.Run(() => device.SetDateTime());
-                //                        }
-                //                    }
-
-                //                    if (dCheck)
-                //                    {
-                //                        var dDisplay = new DeviceDisplay(deviceList);
-                //                        var display = new Offline_DisplayWindow(dDisplay);
-                //                        display.Show();
-                //                        this.Close();
-
-                //                        LoadingPb.IsIndeterminate = false;
-                //                        LoginButton.IsEnabled = true;
-                //                        return;
-                //                    }
-                //                    else
-                //                    {
-                //                        queue.Enqueue("No internet connection & No Device Connected.");
-                //                        LoadingPb.IsIndeterminate = false;
-                //                        LoginButton.IsEnabled = true;
-                //                    }
-                //                }
-                //                else
-                //                {
-                //                    queue.Enqueue("No internet connection & Device IP not found.");
-                //                    LoadingPb.IsIndeterminate = false;
-                //                    LoginButton.IsEnabled = true;
-                //                }
-                //            }
-                //            else
-                //            {
-                //                queue.Enqueue("No internet connection & No device info.");
-                //                LoadingPb.IsIndeterminate = false;
-                //                LoginButton.IsEnabled = true;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            var errorObj = new Error("No Internet", "No Internet connection!");
-                //            var errorWindow = new Error_Window(errorObj);
-                //            errorWindow.Show();
-                //            this.Close();
-                //            return;
-                //        }
-                //    }
-
-                //}
-
-                #endregion Check Internet
-
-
+                //get user token
                 var client = new RestClient(ApiUrl.EndPoint);
                 var loginRequest = new RestRequest("token", Method.POST);
                 var loginUsers = new LoginUser(UserNameTextBox.Text.Trim(), PasswordPasswordBox.Password);
@@ -169,71 +83,7 @@ namespace AttendanceDevice
                     return;
                 }
 
-                #region server Check
-
-                //using (var db = new ModelContext())
-                //{
-                //    var devices = await db.Devices.ToListAsync();
-
-                //    if (devices.Any())
-                //    {
-                //        foreach (var device in devices)
-                //        {
-                //            var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                //            if (checkIp)
-                //            {
-                //                deviceList.Add(new DeviceConnection(device));
-                //            }
-                //        }
-
-                //        if (deviceList.Count > 0)
-                //        {
-                //            var dCheck = false;
-                //            foreach (var item in deviceList)
-                //            {
-                //                var status = await Task.Run(() => item.ConnectDevice());
-                //                if (status.IsSuccess)
-                //                {
-                //                    dCheck = true;
-                //                }
-                //            }
-
-                //            if (dCheck)
-                //            {
-                //                var dDisplay = new DeviceDisplay(deviceList);
-                //                var display = new Offline_DisplayWindow(dDisplay);
-
-                //                display.Show();
-                //                this.Close();
-
-                //                LoadingPb.IsIndeterminate = false;
-                //                LoginButton.IsEnabled = true;
-                //            }
-                //            else
-                //            {
-                //                queue.Enqueue(loginResponse.ErrorMessage + ". No Device Connected.");
-                //                LoadingPb.IsIndeterminate = false;
-                //                LoginButton.IsEnabled = true;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            queue.Enqueue(loginResponse.ErrorMessage + ". Device IP not found.");
-                //            LoadingPb.IsIndeterminate = false;
-                //            LoginButton.IsEnabled = true;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        queue.Enqueue(loginResponse.ErrorMessage + ". No device info.");
-                //        LoadingPb.IsIndeterminate = false;
-                //        LoginButton.IsEnabled = true;
-                //    }
-                //}
-
-
-                #endregion server Check
-
+                //get institution info
                 var token = loginResponse.Data.access_token;
                 var schoolRequest = new RestRequest("api/school/{id}", Method.GET);
 
@@ -243,7 +93,6 @@ namespace AttendanceDevice
                 //School info execute the request
                 var schoolResponse = await client.ExecuteTaskAsync(schoolRequest);
                 var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
-
 
                 if (schoolResponse.StatusCode != HttpStatusCode.OK && schoolInfo == null)
                 {
@@ -255,10 +104,10 @@ namespace AttendanceDevice
 
                 //set api date in local pc
                 var serverDatetime = schoolInfo.Current_Datetime;
-
+                var ins = LocalData.Instance.institution;
                 using (var db = new ModelContext())
                 {
-                    var ins = LocalData.Instance.institution;
+                   
 
                     if (ins == null)
                     {
@@ -366,91 +215,88 @@ namespace AttendanceDevice
                     #endregion Schedule data
 
                     await db.SaveChangesAsync();
-
-                    if (serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now)
-                    {
-                        //Device Check
-
-                        #region Device Check
-
-                        var devices = db.Devices.ToList();
-
-                        if (devices.Any())
-                        {
-                            foreach (var device in devices)
-                            {
-                                var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                                if (checkIp)
-                                {
-                                    deviceList.Add(new DeviceConnection(device));
-                                }
-                            }
-
-                            if (deviceList.Count > 0)
-                            {
-                                var dCheck = false;
-                                foreach (var item in deviceList)
-                                {
-                                    var status = await Task.Run(() => item.ConnectDevice());
-                                    if (!status.IsSuccess) continue;
-                                    dCheck = true;
-
-                                    var prevLog = item.Download_Prev_Logs();
-                                    var todayLog = item.Download_Today_Logs();
-
-                                    await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
-                                }
-
-
-                                if (dCheck)
-                                {
-                                    var dDisplay = new DeviceDisplay(deviceList);
-                                    var display = new DisplayWindow(dDisplay);
-
-                                    display.Show();
-                                    this.Close();
-                                }
-                                else
-                                {
-                                    LocalData.Current_Error.Message = "No device Connected!";
-                                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                                    var setting = new Setting();
-                                    setting.Show();
-                                    this.Close();
-                                }
-                            }
-                            else
-                            {
-                                LocalData.Current_Error.Message = "Device IP Not Found or Device Switch Off!";
-                                LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                                var setting = new Setting();
-                                setting.Show();
-                                this.Close();
-                            }
-                        }
-                        else
-                        {
-                            LocalData.Current_Error.Message = "No Device Added In PC!";
-                            LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                            var setting = new Setting();
-                            setting.Show();
-                            this.Close();
-                        }
-
-                        #endregion Device Check
-                    }
-                    else
-                    {
-                        var errorObj = new Error("Invalid",
-                            "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
-                        var errorWindow = new Error_Window(errorObj);
-                        errorWindow.Show();
-                        this.Close();
-                    }
                 }
+
+                //check pc date time
+                if (!(serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now))
+                {
+                    var errorObj = new Error("Invalid","Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
+                    var errorWindow = new Error_Window(errorObj);
+                    errorWindow.Show();
+                    this.Close();
+                    return;
+                }
+
+                //Device Check
+                #region Device Check
+
+                //Device List
+                var deviceConnections = new List<DeviceConnection>();
+                var deviceList = db.Devices.ToList();
+
+                if (!deviceList.Any())
+                {
+                    LocalData.Current_Error.Message = "No Device Added In PC!";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+                foreach (var device in deviceList)
+                {
+                    var isDeviceIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+
+                    if (isDeviceIp)
+                        deviceConnections.Add(new DeviceConnection(device));
+                }
+
+
+                if (!deviceConnections.Any())
+                {
+                    LocalData.Current_Error.Message = "Device IP Not Found or Device Switch Off!";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+                var isDeviceConnected = false;
+                foreach (var item in deviceConnections)
+                {
+                    var status = await Task.Run(() => item.ConnectDevice());
+                    if (!status.IsSuccess) continue;
+
+                    isDeviceConnected = true;
+
+                    var prevLog = item.Download_Prev_Logs();
+                    var todayLog = item.Download_Today_Logs();
+
+                    await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
+                }
+
+                if (!isDeviceConnected)
+                {
+                    LocalData.Current_Error.Message = "No device Connected!";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+                //show display
+                var initDevice = new DeviceDisplay(deviceConnections);
+                var display = new DisplayWindow(initDevice);
+
+                display.Show();
+                this.Close();
+                #endregion Device Check
             }
             catch (Exception ex)
             {
@@ -460,13 +306,13 @@ namespace AttendanceDevice
             }
         }
 
-        private void Login_Window_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(LocalData.Current_Error.Message)) return;
+private void Login_Window_OnLoaded(object sender, RoutedEventArgs e)
+{
+    if (string.IsNullOrEmpty(LocalData.Current_Error.Message)) return;
 
-            MessageSnackBar.Message.Content = LocalData.Current_Error.Message;
-            MessageSnackBar.IsActive = true;
-        }
+    MessageSnackBar.Message.Content = LocalData.Current_Error.Message;
+    MessageSnackBar.IsActive = true;
+}
     }
 }
 

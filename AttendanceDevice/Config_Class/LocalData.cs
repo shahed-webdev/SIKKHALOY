@@ -96,6 +96,13 @@ namespace AttendanceDevice.Config_Class
             return this.Schedules.Where(s => Convert.ToDateTime(s.LateEntryTime) < DateTime.Now && s.Is_OnDay && !s.Is_Abs_Count).Select(s => s.ScheduleID).ToList();
         }
 
+        public async Task<List<Device>> DeviceListAsync()
+        {
+            using (var db = new ModelContext())
+            {
+                return await db.Devices.ToListAsync();
+            }
+        }
 
         public async Task<List<Attendance_Record>> StudentLog_Post()
         {
