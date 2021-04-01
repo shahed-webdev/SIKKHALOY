@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -102,139 +101,70 @@ namespace AttendanceDevice
                     return;
                 }
 
-                //set api date in local pc
-                var serverDatetime = schoolInfo.Current_Datetime;
-                var ins = LocalData.Instance.institution;
-                using (var db = new ModelContext())
+                //Institution Deactivate By Authority
+                if (!schoolInfo.IsValid)
                 {
-                   
-
-                    if (ins == null)
-                    {
-                        ins = schoolInfo;
-                        ins.Token = token;
-                        ins.Password = PasswordPasswordBox.Password;
-
-                        ins.PingTimeOut = 100; // default Value for device ping 
-                        db.Institutions.Add(ins);
-                        db.Entry(ins).State = EntityState.Added;
-                    }
-                    else
-                    {
-                        ins.Token = token;
-                        ins.Password = PasswordPasswordBox.Password;
-                        ins.IsValid = schoolInfo.IsValid;
-                        ins.SettingKey = schoolInfo.SettingKey;
-                        ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
-                        ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
-                        ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
-                        ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
-                        ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
-                        ins.LastUpdateDate = schoolInfo.LastUpdateDate;
-
-                        db.Entry(ins).State = EntityState.Modified;
-                    }
-
-                    //Leave request
-
-                    #region Leave data
-
-                    var leaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
-                    leaveRequest.AddUrlSegment("id", ins.SchoolID);
-                    leaveRequest.AddHeader("Authorization", "Bearer " + token);
-
-                    //Leave execute the request
-                    var leaveResponse = await client.ExecuteTaskAsync<List<User_Leave_Record>>(leaveRequest);
-
-                    if (leaveResponse.StatusCode == HttpStatusCode.OK && leaveResponse.Data != null)
-                    {
-                        //For deleting all previous data
-                        db.user_Leave_Records.Clear();
-
-                        foreach (var item in leaveResponse.Data)
-                        {
-                            // Insert attendance records if new record
-                            if (!db.attendance_Records.Any(a =>
-                                a.AttendanceDate == item.LeaveDate && a.DeviceID == item.DeviceID))
-                            {
-                                var attRecord = new Attendance_Record
-                                {
-                                    AttendanceDate = item.LeaveDate,
-                                    DeviceID = item.DeviceID,
-                                    AttendanceStatus = "Leave"
-                                };
-
-                                db.attendance_Records.Add(attRecord);
-                            }
-
-                            db.user_Leave_Records.Add(item);
-                        }
-                    }
-
-                    #endregion Leave data
-
-                    //Schedule Day Request
-
-                    #region Schedule data
-
-                    var scheduleDayRequest = new RestRequest("api/Users/{id}/schedule", Method.GET);
-                    scheduleDayRequest.AddUrlSegment("id", ins.SchoolID);
-                    scheduleDayRequest.AddHeader("Authorization", "Bearer " + token);
-
-                    var scheduleDayResponse =
-                        await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
-
-                    if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null)
-                    {
-                        //if same date Absent count remain same 
-                        if (ins.LastUpdateDate == DateTime.Today.ToShortDateString())
-                        {
-                            var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
-                                .Select(s => s.ScheduleID).ToList();
-
-                            scheduleDayResponse.Data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList()
-                                .ForEach(s => s.Is_Abs_Count = true);
-                        }
-
-                        LocalData.Instance.Schedules = scheduleDayResponse.Data;
-
-                        db.attendance_Schedule_Days.Clear();
-
-                        foreach (var item in scheduleDayResponse.Data)
-                        {
-                            db.attendance_Schedule_Days.Add(item);
-                        }
-                    }
-                    else
-                    {
-                        queue.Enqueue(loginResponse.Data.error_description);
-                        LoadingPb.IsIndeterminate = false;
-                        LoginButton.IsEnabled = true;
-                    }
-
-                    #endregion Schedule data
-
-                    await db.SaveChangesAsync();
+                    LocalData.Current_Error.Message = "Institution Deactivate By Authority!";
+                    return;
                 }
 
+                //set api date in local pc
+                var serverDatetime = schoolInfo.Current_Datetime;
                 //check pc date time
                 if (!(serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now))
                 {
-                    var errorObj = new Error("Invalid","Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
+                    var errorObj = new Error("Invalid", "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
                     var errorWindow = new Error_Window(errorObj);
                     errorWindow.Show();
                     this.Close();
                     return;
                 }
 
-                //Device Check
-                #region Device Check
 
-                //Device List
-                var deviceConnections = new List<DeviceConnection>();
-                var deviceList = db.Devices.ToList();
 
-                if (!deviceList.Any())
+                var ins = LocalData.Instance.institution;
+
+
+
+                if (ins == null)
+                {
+                    ins = schoolInfo;
+                    ins.Token = token;
+                    ins.Password = PasswordPasswordBox.Password;
+
+                    ins.PingTimeOut = 100; // default Value for device ping 
+                }
+                else
+                {
+                    ins.Token = token;
+                    ins.Password = PasswordPasswordBox.Password;
+                    ins.IsValid = schoolInfo.IsValid;
+                    ins.SettingKey = schoolInfo.SettingKey;
+                    ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
+                    ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
+                    ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
+                    ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
+                    ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
+                    ins.LastUpdateDate = schoolInfo.LastUpdateDate;
+
+                }
+                await LocalData.Instance.InstitutionUpdate(ins);
+
+
+                //No user in local database
+                if (!LocalData.Instance.IsUserExist())
+                {
+                    LocalData.Current_Error.Message = "No User Found on PC!";
+                    LocalData.Current_Error.Type = Error_Type.UserInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+                //check device added or not
+                if (!LocalData.Instance.IsDeviceExist())
                 {
                     LocalData.Current_Error.Message = "No Device Added In PC!";
                     LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
@@ -245,18 +175,23 @@ namespace AttendanceDevice
                     return;
                 }
 
+                //create all device list
+                var deviceList = await LocalData.Instance.DeviceListAsync();
+                var deviceConnections = new List<DeviceConnection>();
+
                 foreach (var device in deviceList)
                 {
-                    var isDeviceIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
-
-                    if (isDeviceIp)
+                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                    if (checkIp)
+                    {
                         deviceConnections.Add(new DeviceConnection(device));
+                    }
                 }
 
-
+                //check device ip
                 if (!deviceConnections.Any())
                 {
-                    LocalData.Current_Error.Message = "Device IP Not Found or Device Switch Off!";
+                    LocalData.Current_Error.Message = "Device IP Not Found";
                     LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
 
                     var setting = new Setting();
@@ -265,13 +200,76 @@ namespace AttendanceDevice
                     return;
                 }
 
+
+                //try connection to device successfully
                 var isDeviceConnected = false;
                 foreach (var item in deviceConnections)
                 {
                     var status = await Task.Run(() => item.ConnectDevice());
-                    if (!status.IsSuccess) continue;
+                    if (status.IsSuccess)
+                    {
+                        isDeviceConnected = true;
+                    }
+                }
 
-                    isDeviceConnected = true;
+                if (!isDeviceConnected)
+                {
+                    LocalData.Current_Error.Message = "Device Unable to Connect";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+                //Leave request
+                #region Leave data
+
+                var leaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
+                leaveRequest.AddUrlSegment("id", ins.SchoolID);
+                leaveRequest.AddHeader("Authorization", "Bearer " + token);
+
+                //Leave execute the request
+                var leaveResponse = await client.ExecuteTaskAsync<List<User_Leave_Record>>(leaveRequest);
+
+                if (leaveResponse.StatusCode == HttpStatusCode.OK && leaveResponse.Data != null)
+                {
+                    await LocalData.Instance.LeaveDataHandling(leaveResponse.Data);
+                }
+
+                #endregion Leave data
+
+                //Schedule Day Request
+                #region Schedule data
+
+                var scheduleDayRequest = new RestRequest("api/Users/{id}/schedule", Method.GET);
+                scheduleDayRequest.AddUrlSegment("id", ins.SchoolID);
+                scheduleDayRequest.AddHeader("Authorization", "Bearer " + token);
+
+                var scheduleDayResponse =
+                    await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
+
+                if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null)
+                {
+                    await LocalData.Instance.ScheduleDataHandling(scheduleDayResponse.Data);
+                }
+                //else
+                //{
+                //    queue.Enqueue(loginResponse.Data.error_description);
+                //    LoadingPb.IsIndeterminate = false;
+                //    LoginButton.IsEnabled = true;
+                //}
+
+                #endregion Schedule data
+
+                //Device data send to server
+                #region Device data send to server
+
+                foreach (var item in deviceConnections)
+                {
+                    var status = await Task.Run(() => item.ConnectDevice());
+                    if (!status.IsSuccess) continue;
 
                     var prevLog = item.Download_Prev_Logs();
                     var todayLog = item.Download_Today_Logs();
@@ -279,24 +277,12 @@ namespace AttendanceDevice
                     await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
                 }
 
-                if (!isDeviceConnected)
-                {
-                    LocalData.Current_Error.Message = "No device Connected!";
-                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                    var setting = new Setting();
-                    setting.Show();
-                    this.Close();
-                    return;
-                }
-
+                #endregion Device data send to server
                 //show display
                 var initDevice = new DeviceDisplay(deviceConnections);
                 var display = new DisplayWindow(initDevice);
-
                 display.Show();
                 this.Close();
-                #endregion Device Check
             }
             catch (Exception ex)
             {
@@ -306,13 +292,13 @@ namespace AttendanceDevice
             }
         }
 
-private void Login_Window_OnLoaded(object sender, RoutedEventArgs e)
-{
-    if (string.IsNullOrEmpty(LocalData.Current_Error.Message)) return;
+        private void Login_Window_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(LocalData.Current_Error.Message)) return;
 
-    MessageSnackBar.Message.Content = LocalData.Current_Error.Message;
-    MessageSnackBar.IsActive = true;
-}
+            MessageSnackBar.Message.Content = LocalData.Current_Error.Message;
+            MessageSnackBar.IsActive = true;
+        }
     }
 }
 

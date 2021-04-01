@@ -381,6 +381,85 @@ namespace AttendanceDevice.Config_Class
                 return db.Devices.Any();
             }
         }
+
+        public async Task InstitutionUpdate(Institution data)
+        {
+            using (var db = new ModelContext())
+            {
+                institution = await db.Institutions.FirstOrDefaultAsync();
+                if (institution == null)
+                {
+                    db.Institutions.Add(data);
+                    db.Entry(data).State = EntityState.Added;
+                }
+                else
+                {
+                    db.Entry(data).State = EntityState.Modified;
+                }
+                await db.SaveChangesAsync();
+            }
+
+            institution = data;
+        }
+
+        public async Task LeaveDataHandling(List<User_Leave_Record> data)
+        {
+            using (var db = new ModelContext())
+            {
+
+                //For deleting all previous data
+                db.user_Leave_Records.Clear();
+
+                foreach (var item in data)
+                {
+                    // Insert attendance records if new record
+                    if (!db.attendance_Records.Any(a =>
+                        a.AttendanceDate == item.LeaveDate && a.DeviceID == item.DeviceID))
+                    {
+                        var attRecord = new Attendance_Record
+                        {
+                            AttendanceDate = item.LeaveDate,
+                            DeviceID = item.DeviceID,
+                            AttendanceStatus = "Leave"
+                        };
+
+                        db.attendance_Records.Add(attRecord);
+                    }
+
+                    db.user_Leave_Records.Add(item);
+                }
+
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task ScheduleDataHandling(List<Attendance_Schedule_Day> data)
+        {
+            using (var db = new ModelContext())
+            {
+
+                //if same date Absent count remain same 
+                if (institution.LastUpdateDate == DateTime.Today.ToShortDateString())
+                {
+                    var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
+                        .Select(s => s.ScheduleID).ToList();
+
+                    data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList()
+                        .ForEach(s => s.Is_Abs_Count = true);
+                }
+
+                this.Schedules = data;
+
+                db.attendance_Schedule_Days.Clear();
+
+                foreach (var item in data)
+                {
+                    db.attendance_Schedule_Days.Add(item);
+                }
+
+                await db.SaveChangesAsync();
+            }
+        }
     }
 
     public enum Error_Type
