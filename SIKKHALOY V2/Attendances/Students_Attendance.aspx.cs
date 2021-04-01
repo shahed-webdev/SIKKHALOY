@@ -179,7 +179,7 @@ namespace EDUCATION.COM.ATTENDANCES
                             #region Send SMS
                             if (SMSCheckBox.Checked)
                             {
-                                PhoneNo = StudentsAttendanceGridView.DataKeys[row.RowIndex]["SMSPhoneNo"].ToString();
+                                PhoneNo = StudentsAttendanceGridView.DataKeys[row.DataItemIndex]["SMSPhoneNo"].ToString();
                                 Msg = ReasonTextBox.Text + " " + Session["School_Name"].ToString();
 
                                 Get_Validation IsValid = SMS.SMS_Validation(PhoneNo, Msg);

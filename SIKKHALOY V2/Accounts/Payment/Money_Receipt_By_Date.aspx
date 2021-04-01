@@ -45,7 +45,7 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:GridView ID="PaidDetailsGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PaidDetailsSQL" CssClass="mGrid" ShowFooter="True" Font-Bold="False" RowStyle-CssClass="Rows">
+    <asp:GridView ID="PaidDetailsGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PaidDetailsSQL" CssClass="mGrid" ShowFooter="True" Font-Bold="False" RowStyle-CssClass="Rows" DataKeyNames="Role,PayFor">
         <Columns>
             <asp:BoundField DataField="PayFor" HeaderText="Pay For" />
             <asp:TemplateField HeaderText="Fee">

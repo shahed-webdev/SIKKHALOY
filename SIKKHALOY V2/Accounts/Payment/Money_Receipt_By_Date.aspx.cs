@@ -74,8 +74,8 @@ namespace EDUCATION.COM.Accounts.Payment
                 {
                     foreach (GridViewRow row in PaidDetailsGridView.Rows)
                     {
-                        var role = PaidDetailsGridView.DataKeys[row.RowIndex]?["Role"];
-                        var payFor = PaidDetailsGridView.DataKeys[row.RowIndex]?["PayFor"];
+                        var role = PaidDetailsGridView.DataKeys[row.DataItemIndex]?["Role"];
+                        var payFor = PaidDetailsGridView.DataKeys[row.DataItemIndex]?["PayFor"];
 
                         msg += $", {role}: {payFor}";
                     }
