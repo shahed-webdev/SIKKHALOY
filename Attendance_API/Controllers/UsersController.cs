@@ -15,7 +15,7 @@ namespace Attendance_API.Controllers
         [HttpGet]
         public async Task<IEnumerable<VW_Attendance_Users>> Get(int id)
         {
-            using (EduContext db = new EduContext())
+            using (var db = new EduContext())
             {
                 return await db.VW_Attendance_Users.Where(a => a.SchoolID == id && a.ScheduleID != null).ToListAsync();
             }
@@ -25,10 +25,10 @@ namespace Attendance_API.Controllers
         [HttpGet]
         public async Task<IEnumerable<Attendance_Schedule_Day>> GetSchedule(int id)
         {
-            using (EduContext db = new EduContext())
+            using (var db = new EduContext())
             {
-                var Day = DateTime.Now.ToString("dddd");
-                return await db.Attendance_Schedule_Days.Where(a => a.SchoolID == id && a.Day == Day).ToListAsync();
+                var day = DateTime.Now.ToString("dddd");
+                return await db.Attendance_Schedule_Days.Where(a => a.SchoolID == id && a.Day == day).ToListAsync();
             }
         }
 
@@ -37,7 +37,7 @@ namespace Attendance_API.Controllers
         public async Task<IEnumerable<LeaveVM>> AttendanceLeave(int id)
         {
             var today = DateTime.Today.ToShortDateString();
-            using (EduContext db = new EduContext())
+            using (var db = new EduContext())
             {
                 return await db.Attendance_User_Leaves.Where(a => a.SchoolID == id && a.StartDate <= DateTime.Today && a.EndDate >= DateTime.Today)
                     .Select(a => new LeaveVM() { DeviceID = a.DeviceID, LeaveDate = today }).Distinct().ToListAsync();
@@ -49,12 +49,12 @@ namespace Attendance_API.Controllers
         [HttpGet]
         public async Task<IEnumerable<DataUpdateList_VM>> UpdateInfo(int id)
         {
-            using (EduContext db = new EduContext())
+            using (var db = new EduContext())
             {
                 var dataUpdateLists = await db.Attendance_Device_DataUpdateLists.Where(a => a.SchoolID == id).ToListAsync();
 
                 db.Attendance_Device_DataUpdateLists.RemoveRange(dataUpdateLists);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 return dataUpdateLists.Select(d => new DataUpdateList_VM()
                 {
@@ -69,7 +69,7 @@ namespace Attendance_API.Controllers
         [HttpGet]
         public async Task<IEnumerable<User_FingerPrintVM>> GetFP(int id)
         {
-            using (EduContext db = new EduContext())
+            using (var db = new EduContext())
             {
                 return await db.Device_Finger_Print_Records
                 .Where(a => a.SchoolID == id)

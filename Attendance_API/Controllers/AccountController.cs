@@ -37,14 +37,8 @@ namespace Attendance_API.Controllers
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            get => _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            private set => _userManager = value;
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
@@ -54,13 +48,13 @@ namespace Attendance_API.Controllers
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             return new UserInfoViewModel
             {
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin?.LoginProvider
             };
         }
 
@@ -83,9 +77,9 @@ namespace Attendance_API.Controllers
                 return null;
             }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+            var logins = new List<UserLoginInfoViewModel>();
 
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
+            foreach (var linkedAccount in user.Logins)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
@@ -121,14 +115,9 @@ namespace Attendance_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // POST api/Account/SetPassword
@@ -140,14 +129,9 @@ namespace Attendance_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // POST api/Account/AddExternalLogin
@@ -161,28 +145,23 @@ namespace Attendance_API.Controllers
 
             Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-            AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
+            var ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null && ticket.Properties.ExpiresUtc.HasValue && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+            if (ticket?.Identity == null || (ticket.Properties?.ExpiresUtc != null && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
                 return BadRequest("External login failure.");
             }
 
-            ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
+            var externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
             if (externalData == null)
             {
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
+            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // POST api/Account/RemoveLogin
@@ -205,12 +184,7 @@ namespace Attendance_API.Controllers
                 result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // GET api/Account/ExternalLogin
@@ -230,7 +204,7 @@ namespace Attendance_API.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             if (externalLogin == null)
             {
@@ -243,23 +217,22 @@ namespace Attendance_API.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
+            var user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
 
-            bool hasRegistered = user != null;
+            var hasRegistered = user != null;
 
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
-
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName); Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+                var oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
+                var cookieIdentity = await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
+                var properties = ApplicationOAuthProvider.CreateProperties(user.UserName); Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
             else
             {
-                IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                var claims = externalLogin.GetClaims();
+                var identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
             }
 
@@ -271,8 +244,8 @@ namespace Attendance_API.Controllers
         [Route("ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
-            IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-            List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
+            var descriptions = Authentication.GetExternalAuthenticationTypes();
+            var logins = new List<ExternalLoginViewModel>();
 
             string state;
 
@@ -286,9 +259,9 @@ namespace Attendance_API.Controllers
                 state = null;
             }
 
-            foreach (AuthenticationDescription description in descriptions)
+            foreach (var description in descriptions)
             {
-                ExternalLoginViewModel login = new ExternalLoginViewModel
+                var login = new ExternalLoginViewModel
                 {
                     Name = description.Caption,
                     Url = Url.Route("ExternalLogin", new
@@ -297,7 +270,7 @@ namespace Attendance_API.Controllers
                         response_type = "token",
                         client_id = Startup.PublicClientId,
                         redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-                        state = state
+                        state
                     }),
                     State = state
                 };
@@ -319,14 +292,9 @@ namespace Attendance_API.Controllers
 
             var user = new ApplicationUser() { UserName = model.Username, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // POST api/Account/RegisterExternal
@@ -348,18 +316,14 @@ namespace Attendance_API.Controllers
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user);
+            var result = await UserManager.CreateAsync(user);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         protected override void Dispose(bool disposing)
@@ -375,10 +339,7 @@ namespace Attendance_API.Controllers
 
         #region Helpers
 
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
+        private IAuthenticationManager Authentication => Request.GetOwinContext().Authentication;
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
@@ -387,35 +348,33 @@ namespace Attendance_API.Controllers
                 return InternalServerError();
             }
 
-            if (!result.Succeeded)
+            if (result.Succeeded) return null;
+
+            if (result.Errors != null)
             {
-                if (result.Errors != null)
+                foreach (var error in result.Errors)
                 {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
+                    ModelState.AddModelError("", error);
                 }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
             }
 
-            return null;
+            if (ModelState.IsValid)
+            {
+                // No ModelState errors are available to send, so just return an empty BadRequest.
+                return BadRequest();
+            }
+
+            return BadRequest(ModelState);
+
         }
 
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
-            public string UserName { get; set; }
+            private string UserName { get; set; }
 
-            public IList<Claim> GetClaims()
+            public IEnumerable<Claim> GetClaims()
             {
                 IList<Claim> claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
@@ -430,15 +389,9 @@ namespace Attendance_API.Controllers
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                if (identity == null)
-                {
-                    return null;
-                }
+                var providerKeyClaim = identity?.FindFirst(ClaimTypes.NameIdentifier);
 
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (providerKeyClaim == null || string.IsNullOrEmpty(providerKeyClaim.Issuer) || string.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
@@ -459,7 +412,7 @@ namespace Attendance_API.Controllers
 
         private static class RandomOAuthStateGenerator
         {
-            private static RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+            private static readonly RandomNumberGenerator Random = new RNGCryptoServiceProvider();
 
             public static string Generate(int strengthInBits)
             {
@@ -470,10 +423,10 @@ namespace Attendance_API.Controllers
                     throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
                 }
 
-                int strengthInBytes = strengthInBits / bitsPerByte;
+                var strengthInBytes = strengthInBits / bitsPerByte;
 
-                byte[] data = new byte[strengthInBytes];
-                _random.GetBytes(data);
+                var data = new byte[strengthInBytes];
+                Random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
         }
