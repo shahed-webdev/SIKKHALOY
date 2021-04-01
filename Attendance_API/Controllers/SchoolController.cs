@@ -12,9 +12,9 @@ namespace Attendance_API.Controllers
     {
         public async Task<SchoolVM> Get(string id)
         {
-            var ins = new SchoolVM();
+            SchoolVM ins;
 
-            using (EduContext entities = new EduContext())
+            using (var entities = new EduContext())
             {
                 var q = from i in entities.SchoolInfos
                         join a in entities.Attendance_Device_Settings
@@ -45,8 +45,6 @@ namespace Attendance_API.Controllers
                                 select h.HolidayID;
 
                 ins.Is_Today_Holiday = await isHoliday.AnyAsync<int>();
-
-
                 ins.LastUpdateDate = DateTime.Now.ToShortDateString();
                 ins.Current_Datetime = DateTime.Now;
             }
@@ -58,8 +56,8 @@ namespace Attendance_API.Controllers
         [HttpGet]
         public async Task<SchoolShortVM> Short(string id)
         {
-            var ins = new SchoolShortVM();
-            using (EduContext entities = new EduContext())
+            SchoolShortVM ins;
+            using (var entities = new EduContext())
             {
                 var q = from i in entities.SchoolInfos
                         join a in entities.Attendance_Device_Settings
@@ -96,65 +94,65 @@ namespace Attendance_API.Controllers
         [HttpGet]
         public async Task<bool> IsDeviceAttendaceEnable(string id)
         {
-            bool IsEnable = false;
-            using (EduContext db = new EduContext())
+            bool isEnable;
+            using (var db = new EduContext())
             {
-                IsEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Device_Attendance_Enable).FirstOrDefaultAsync<bool>();
+                isEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Device_Attendance_Enable).FirstOrDefaultAsync<bool>();
             }
-            return IsEnable;
+            return isEnable;
         }
 
         [Route("api/School/{id}/Student_Att_Enable")]
         [HttpGet]
         public async Task<bool> IsStudentAttEnable(string id)
         {
-            bool IsEnable = false;
-            using (EduContext db = new EduContext())
+            bool isEnable;
+            using (var db = new EduContext())
             {
-                IsEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Student_Attendance_Enable).FirstOrDefaultAsync<bool>();
+                isEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Student_Attendance_Enable).FirstOrDefaultAsync<bool>();
             }
-            return IsEnable;
+            return isEnable;
         }
 
         [Route("api/School/{id}/Employee_Att_Enable")]
         [HttpGet]
         public async Task<bool> IsEmployeeAttEnable(string id)
         {
-            bool IsEnable = false;
-            using (EduContext db = new EduContext())
+            bool isEnable;
+            using (var db = new EduContext())
             {
-                IsEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Employee_Attendance_Enable).FirstOrDefaultAsync<bool>();
+                isEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Employee_Attendance_Enable).FirstOrDefaultAsync<bool>();
             }
-            return IsEnable;
+            return isEnable;
         }
 
         [Route("api/School/{id}/Holiday_Active")]
         [HttpGet]
         public async Task<bool> HolidayActive(string id)
         {
-            bool IsEnable = false;
-            using (EduContext db = new EduContext())
+            var isEnable = false;
+            using (var db = new EduContext())
             {
-                IsEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Holiday_As_Offday).FirstOrDefaultAsync<bool>();
+                isEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Holiday_As_Offday).FirstOrDefaultAsync<bool>();
             }
-            return IsEnable;
+            return isEnable;
         }
 
         [Route("api/School/{id}/Today_Is_Holiday")]
         [HttpGet]
         public async Task<bool> Today_Holiday(string id)
         {
-            bool IsEnable = false;
-            using (EduContext db = new EduContext())
+            var isEnable = false;
+            using (var db = new EduContext())
             {
                 var q = from h in db.Holidays
                         join i in db.SchoolInfos
                         on h.SchoolID equals i.SchoolID
                         where i.UserName == id && h.HolidayDate == DateTime.Today
                         select h.HolidayID;
-                IsEnable = await q.AnyAsync<int>();
+                isEnable = await q.AnyAsync<int>();
             }
-            return IsEnable;
+            return isEnable;
         }
     }
 }
