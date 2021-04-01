@@ -12,44 +12,44 @@ namespace AttendanceDevice.Config_Class
     {
         public static readonly int Number = 1;
 
-        public static async Task Save_logData(List<LogView> prevLog, List<LogView> todayLog, Institution institution, Device device)
+        public static async Task SaveLogsOrAttendanceInPc(List<LogView> prevLog, List<LogView> todayLog, Institution institution, Device device)
         {
             using (var db = new ModelContext())
             {
-                var pLog = prevLog.Select(a => new AttendanceLog_Backup
+                var previousLogs = prevLog.Select(a => new AttendanceLog_Backup
                 {
-                    DeviceID = a.DeviceID,
-                    Entry_Date = a.Entry_Date,
-                    Entry_Time = a.Entry_Time.ToString(),
-                    Entry_Day = a.Entry_Day,
+                    DeviceID = a.DeviceId,
+                    Entry_Date = a.EntryDate,
+                    Entry_Time = a.EntryTime.ToString(),
+                    Entry_Day = a.EntryDay,
                     Backup_Reason = "Not Current Data"
                 });
 
-                db.attendanceLog_Backups.AddRange(pLog);
+                db.attendanceLog_Backups.AddRange(previousLogs);
 
                 if (!institution.Is_Device_Attendance_Enable)
                 {
-                    var log = todayLog.Select(a => new AttendanceLog_Backup
+                    var logs = todayLog.Select(a => new AttendanceLog_Backup
                     {
-                        DeviceID = a.DeviceID,
-                        Entry_Date = a.Entry_Date,
-                        Entry_Time = a.Entry_Time.ToString(),
-                        Entry_Day = a.Entry_Day,
+                        DeviceID = a.DeviceId,
+                        Entry_Date = a.EntryDate,
+                        Entry_Time = a.EntryTime.ToString(),
+                        Entry_Day = a.EntryDay,
                         Backup_Reason = "Device Attendance Disable"
                     });
 
-                    db.attendanceLog_Backups.AddRange(log);
+                    db.attendanceLog_Backups.AddRange(logs);
                 }
                 else
                 {
                     foreach (var log in todayLog)
                     {
-                        var dt = log.Entry_DateTime;
-                        var time = log.Entry_Time;
+                        var dt = log.EntryDateTime;
+                        var time = log.EntryTime;
 
-                        if (log.Entry_Date != DateTime.Today.ToShortDateString()) continue;
+                        if (log.EntryDate != DateTime.Today.ToShortDateString()) continue;
 
-                        var user = await db.Users.FirstOrDefaultAsync(u => u.DeviceID == log.DeviceID);
+                        var user = await db.Users.FirstOrDefaultAsync(u => u.DeviceID == log.DeviceId);
                         var schedule = await db.attendance_Schedule_Days.FirstOrDefaultAsync(u => u.ScheduleID == user.ScheduleID);
 
                         var isStuDisable = user != null && user.Is_Student && !institution.Is_Student_Attendance_Enable;
@@ -60,8 +60,8 @@ namespace AttendanceDevice.Config_Class
                         {
                             var logBackup = new AttendanceLog_Backup()
                             {
-                                DeviceID = log.DeviceID,
-                                Entry_Date = log.Entry_Date,
+                                DeviceID = log.DeviceId,
+                                Entry_Date = log.EntryDate,
                                 Entry_Time = dt.ToShortTimeString(),
                                 Entry_Day = dt.ToString("dddd"),
                                 Backup_Reason = "Student Attendance Disable"
@@ -74,8 +74,8 @@ namespace AttendanceDevice.Config_Class
                         {
                             var logBackup = new AttendanceLog_Backup()
                             {
-                                DeviceID = log.DeviceID,
-                                Entry_Date = log.Entry_Date,
+                                DeviceID = log.DeviceId,
+                                Entry_Date = log.EntryDate,
                                 Entry_Time = dt.ToShortTimeString(),
                                 Entry_Day = dt.ToString("dddd"),
                                 Backup_Reason = "Employee Attendance Disable"
@@ -89,8 +89,8 @@ namespace AttendanceDevice.Config_Class
                         {
                             var logBackup = new AttendanceLog_Backup()
                             {
-                                DeviceID = log.DeviceID,
-                                Entry_Date = log.Entry_Date,
+                                DeviceID = log.DeviceId,
+                                Entry_Date = log.EntryDate,
                                 Entry_Time = dt.ToShortTimeString(),
                                 Entry_Day = dt.ToString("dddd"),
                                 Backup_Reason = "Holiday attendance disable"
@@ -104,8 +104,8 @@ namespace AttendanceDevice.Config_Class
                         {
                             var logBackup = new AttendanceLog_Backup()
                             {
-                                DeviceID = log.DeviceID,
-                                Entry_Date = log.Entry_Date,
+                                DeviceID = log.DeviceId,
+                                Entry_Date = log.EntryDate,
                                 Entry_Time = dt.ToShortTimeString(),
                                 Entry_Day = dt.ToString("dddd"),
                                 Backup_Reason = "Schedule Off Day"
@@ -116,34 +116,34 @@ namespace AttendanceDevice.Config_Class
                         // Insert or Update Attendance Records
                         else
                         {
-                            var attRecord = await db.attendance_Records.Where(a => a.DeviceID == log.DeviceID && a.AttendanceDate == log.Entry_Date).FirstOrDefaultAsync();
-                            var S_startTime = TimeSpan.Parse(schedule.StartTime);
-                            var S_LateTime = TimeSpan.Parse(schedule.LateEntryTime);
-                            var S_EndTime = TimeSpan.Parse(schedule.EndTime);
+                            var attRecord = await db.attendance_Records.Where(a => a.DeviceID == log.DeviceId && a.AttendanceDate == log.EntryDate).FirstOrDefaultAsync();
+                            var sStartTime = TimeSpan.Parse(schedule.StartTime);
+                            var sLateTime = TimeSpan.Parse(schedule.LateEntryTime);
+                            var sEndTime = TimeSpan.Parse(schedule.EndTime);
 
                             if (attRecord == null)
                             {
                                 attRecord = new Attendance_Record();
 
-                                if (time > S_EndTime)
+                                if (time > sEndTime)
                                 {
                                     //Enroll after end time (as first enroll)
                                 }
                                 else
                                 {
-                                    attRecord.AttendanceDate = log.Entry_Date;
-                                    attRecord.DeviceID = log.DeviceID;
+                                    attRecord.AttendanceDate = log.EntryDate;
+                                    attRecord.DeviceID = log.DeviceId;
                                     attRecord.EntryTime = time.ToString();
 
-                                    if (time <= S_startTime)
+                                    if (time <= sStartTime)
                                     {
                                         attRecord.AttendanceStatus = "Pre";
                                     }
-                                    else if (time <= S_LateTime)
+                                    else if (time <= sLateTime)
                                     {
                                         attRecord.AttendanceStatus = "Late";
                                     }
-                                    else if (time <= S_EndTime)
+                                    else if (time <= sEndTime)
                                     {
                                         attRecord.AttendanceStatus = "Late Abs";
                                     }
@@ -166,20 +166,20 @@ namespace AttendanceDevice.Config_Class
                                 }
                                 else
                                 {
-                                    if (time > S_LateTime && time < S_EndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
+                                    if (time > sLateTime && time < sEndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
                                     {
                                         attRecord.ExitStatus = "Early Leave";
                                         attRecord.Is_OUT = true;
                                         attRecord.ExitTime = time.ToString();
                                     }
-                                    else if (time > S_LateTime && time < S_EndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
+                                    else if (time > sLateTime && time < sEndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
                                     {
                                         attRecord.ExitStatus = "Early Leave";
                                         attRecord.Is_OUT = true;
                                         attRecord.ExitTime = time.ToString();
                                         attRecord.Is_Updated = false;
                                     }
-                                    else if (time > S_EndTime)
+                                    else if (time > sEndTime)
                                     {
                                         attRecord.ExitStatus = "Out";
                                         attRecord.Is_OUT = true;
@@ -203,7 +203,7 @@ namespace AttendanceDevice.Config_Class
 
                 if (prevLog.Count > 0)
                 {
-                    maxDateTime = prevLog.Max(l => l.Entry_DateTime);
+                    maxDateTime = prevLog.Max(l => l.EntryDateTime);
                 }
 
                 device.Last_Down_Log_Time = maxDateTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -215,9 +215,9 @@ namespace AttendanceDevice.Config_Class
             }
         }
 
-        public static List<Attendance_view> GetAttendance(AttType att_type)
+        public static List<Attendance_view> GetDailyAttendanceRecords(AttType attType)
         {
-            var av = new List<Attendance_view>();
+            var attendanceRecords = new List<Attendance_view>();
             using (var db = new ModelContext())
             {
                 var q = from a in db.attendance_Records
@@ -240,22 +240,22 @@ namespace AttendanceDevice.Config_Class
 
                 var currentDate = DateTime.Today.ToShortDateString();
 
-                if (att_type == AttType.All)
-                    av = q.Where(a => a.AttendanceDate == currentDate).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == AttType.AllStudent)
-                    av = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == AttType.StudentIn)
-                    av = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == AttType.StudentOut)
-                    av = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == AttType.AllEmployee)
-                    av = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == AttType.EmployeeIn)
-                    av = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (att_type == AttType.EmployeeOut)
-                    av = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                if (attType == AttType.All)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.AllStudent)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.StudentIn)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.StudentOut)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.AllEmployee)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.EmployeeIn)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.EmployeeOut)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
             }
-            return av;
+            return attendanceRecords;
         }
     }
 }

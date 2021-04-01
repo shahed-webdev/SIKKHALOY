@@ -285,7 +285,7 @@ namespace AttendanceDevice.Settings.Pages
             if (string.IsNullOrWhiteSpace(_deviceId)) return;
 
             var button = sender as Button;
-            _deviceCon.FpMsg = MessageTB;
+            _deviceCon.FingerprintMessage = MessageTB;
             var index = Convert.ToInt32(button?.CommandParameter);
 
             if (button?.Background != Brushes.GreenYellow)

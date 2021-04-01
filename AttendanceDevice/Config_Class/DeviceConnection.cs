@@ -28,18 +28,15 @@ namespace AttendanceDevice.Config_Class
     }
     public class DeviceConnection
     {
+        private const int PrevDayLogCountable = 7;
         public Card EnrollUserCard { get; set; }
         public DialogHost EnrollUserDialogHost { get; set; }
         public bool IsSdkFullSupported { get; set; }
-
-        public TextBlock FpMsg { get; set; }
-
-        public ListBox LogViewLb { get; set; }
-        private const int PrevLogCountDay = 7;
+        public TextBlock FingerprintMessage { get; set; }
+        public ListBox LogViewListBox { get; set; }
         public Device Device { get; private set; }
-        public CZKEM axCZKEM1 { get; private set; }
         private DeviceReturn Returns { get; set; }
-
+        public CZKEM axCZKEM1 { get; private set; }
 
         public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
         {
@@ -74,37 +71,37 @@ namespace AttendanceDevice.Config_Class
             if (!LocalData.Instance.institution.Is_Device_Attendance_Enable)
             {
                 reason = "Device Attendance Disable";
-                await log_Backup_Insert(deviceId, dt, reason);
+                await LogBackupInsert(deviceId, dt, reason);
             }
             // Student Attendance Disable
             else if (isStuDisable)
             {
                 reason = "Student Attendance Disable";
-                await log_Backup_Insert(deviceId, dt, reason);
+                await LogBackupInsert(deviceId, dt, reason);
             }
             // Employee Attendance Disable
             else if (isEmpDisable)
             {
                 reason = "Employee Attendance Disable";
-                await log_Backup_Insert(deviceId, dt, reason);
+                await LogBackupInsert(deviceId, dt, reason);
             }
             // Today Check
             else if (sDate != DateTime.Today.ToShortDateString())
             {
                 reason = "Not Current Data";
-                await log_Backup_Insert(deviceId, dt, reason);
+                await LogBackupInsert(deviceId, dt, reason);
             }
             //Holiday attendance disable
             else if (LocalData.Instance.institution.Is_Today_Holiday && !LocalData.Instance.institution.Holiday_NotActive)
             {
                 reason = "Holiday attendance disable";
-                await log_Backup_Insert(deviceId, dt, reason);
+                await LogBackupInsert(deviceId, dt, reason);
             }
             //Schedule Off day
             else if (!schedule.Is_OnDay)
             {
                 reason = "Schedule Off Day";
-                await log_Backup_Insert(deviceId, dt, reason);
+                await LogBackupInsert(deviceId, dt, reason);
             }
             // Insert or Update Attendance Records
             else
@@ -193,7 +190,7 @@ namespace AttendanceDevice.Config_Class
             //string fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
             //string toTime = DateTime.Today.ToString("yyyy-MM-dd 23:00:00");
 
-            LogViewLb.ItemsSource = Machine.GetAttendance(AttType.All);
+            LogViewListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
             if (!this.IsSdkFullSupported)
             {
@@ -203,16 +200,16 @@ namespace AttendanceDevice.Config_Class
 
         public void axCZKEM1_OnFingerFeature(int score)
         {
-            FpMsg.Text = "Press finger score=" + score;
+            FingerprintMessage.Text = "Press finger score=" + score;
         }
 
 
         public void axCZKEM1_OnEnrollFingerEx(string enrollNumber, int fingerIndex, int actionResult, int templateLength)
         {
-            FpMsg.Text = actionResult == 0 ? $"Enroll finger succeed. UserId: ${enrollNumber}. Finger Index: ${fingerIndex}" : $"Enroll finger failed. Result: ${actionResult}";
+            FingerprintMessage.Text = actionResult == 0 ? $"Enroll finger succeed. UserId: ${enrollNumber}. Finger Index: ${fingerIndex}" : $"Enroll finger failed. Result: ${actionResult}";
         }
 
-        private async Task log_Backup_Insert(int deviceId, DateTime dt, string reason)
+        private async Task LogBackupInsert(int deviceId, DateTime dt, string reason)
         {
             using (var db = new ModelContext())
             {
@@ -298,7 +295,7 @@ namespace AttendanceDevice.Config_Class
                 Returns.Code = 1;
                 Returns.IsSuccess = true;
 
-                this.IsSdkFullSupported = Clear_PrevLog();
+                this.IsSdkFullSupported = ClearPrevLog();
 
                 if (axCZKEM1.RegEvent(Machine.Number, 1))
                 {
@@ -540,7 +537,7 @@ namespace AttendanceDevice.Config_Class
             }
             return users;
         }
-        public List<LogView> Download_Prev_Logs()
+        public List<LogView> DownloadPrevLogs()
         {
             if (!IsConnected()) return new List<LogView>();
 
@@ -557,11 +554,11 @@ namespace AttendanceDevice.Config_Class
                 var idwSecond = 0;
                 var idWorkCode = 0;
 
-                var fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
+                var fromTime = DateTime.Today.AddDays(-PrevDayLogCountable).ToString("yyyy-MM-dd 00:00:00");
 
                 if (DateTime.TryParse(Device.Last_Down_Log_Time, out var deviceLastUpdate))
                 {
-                    if ((DateTime.Today - deviceLastUpdate).TotalDays < 7)
+                    if ((DateTime.Today - deviceLastUpdate).TotalDays < PrevDayLogCountable)
                     {
                         fromTime = Device.Last_Down_Log_Time;
                     }
@@ -580,11 +577,11 @@ namespace AttendanceDevice.Config_Class
 
                         var log = new LogView()
                         {
-                            DeviceID = deviceId,
-                            Entry_Date = sDate,
-                            Entry_Time = time,
-                            Entry_Day = dt.ToString("dddd"),
-                            Entry_DateTime = dt
+                            DeviceId = deviceId,
+                            EntryDate = sDate,
+                            EntryTime = time,
+                            EntryDay = dt.ToString("dddd"),
+                            EntryDateTime = dt
                         };
                         logs.Add(log);
                     }
@@ -604,11 +601,11 @@ namespace AttendanceDevice.Config_Class
 
                             var log = new LogView()
                             {
-                                DeviceID = deviceId,
-                                Entry_Date = sDate,
-                                Entry_Time = time,
-                                Entry_Day = dt.ToString("dddd"),
-                                Entry_DateTime = dt,
+                                DeviceId = deviceId,
+                                EntryDate = sDate,
+                                EntryTime = time,
+                                EntryDay = dt.ToString("dddd"),
+                                EntryDateTime = dt,
                             };
 
                             logs.Add(log);
@@ -626,10 +623,10 @@ namespace AttendanceDevice.Config_Class
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
 
-            return logs.OrderBy(l => l.Entry_DateTime).ToList();
+            return logs.OrderBy(l => l.EntryDateTime).ToList();
         }
 
-        public List<LogView> Download_Today_Logs()
+        public List<LogView> DownloadTodayLogs()
         {
             if (!IsConnected()) return new List<LogView>();
 
@@ -660,11 +657,11 @@ namespace AttendanceDevice.Config_Class
 
                         var log = new LogView()
                         {
-                            DeviceID = deviceId,
-                            Entry_Date = sDate,
-                            Entry_Time = time,
-                            Entry_Day = dt.ToString("dddd"),
-                            Entry_DateTime = dt
+                            DeviceId = deviceId,
+                            EntryDate = sDate,
+                            EntryTime = time,
+                            EntryDay = dt.ToString("dddd"),
+                            EntryDateTime = dt
                         };
 
                         logs.Add(log);
@@ -683,11 +680,11 @@ namespace AttendanceDevice.Config_Class
 
                             var log = new LogView()
                             {
-                                DeviceID = deviceId,
-                                Entry_Date = sDate,
-                                Entry_Time = time,
-                                Entry_Day = dt.ToString("dddd"),
-                                Entry_DateTime = dt
+                                DeviceId = deviceId,
+                                EntryDate = sDate,
+                                EntryTime = time,
+                                EntryDay = dt.ToString("dddd"),
+                                EntryDateTime = dt
                             };
 
                             logs.Add(log);
@@ -704,7 +701,7 @@ namespace AttendanceDevice.Config_Class
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
-            return logs.OrderBy(l => l.Entry_DateTime).ToList();
+            return logs.OrderBy(l => l.EntryDateTime).ToList();
         }
 
         public bool ClearAllUsers()
@@ -761,12 +758,12 @@ namespace AttendanceDevice.Config_Class
             return isClear;
         }
 
-        public bool Clear_PrevLog()
+        public bool ClearPrevLog()
         {
             bool isClear;
             axCZKEM1.EnableDevice(Machine.Number, false);
 
-            var fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
+            var fromTime = DateTime.Today.AddDays(-PrevDayLogCountable).ToString("yyyy-MM-dd 00:00:00");
 
             if (axCZKEM1.DeleteAttlogByTime(Machine.Number, fromTime))
             {
@@ -803,11 +800,11 @@ namespace AttendanceDevice.Config_Class
 
                         var log = new LogView()
                         {
-                            DeviceID = deviceId,
-                            Entry_Date = sDate,
-                            Entry_Time = time,
-                            Entry_Day = dt.ToString("dddd"),
-                            Entry_DateTime = dt
+                            DeviceId = deviceId,
+                            EntryDate = sDate,
+                            EntryTime = time,
+                            EntryDay = dt.ToString("dddd"),
+                            EntryDateTime = dt
                         };
                         logs.Add(log);
                     }
@@ -821,7 +818,7 @@ namespace AttendanceDevice.Config_Class
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
-            return logs.OrderBy(l => l.Entry_DateTime).ToList();
+            return logs.OrderBy(l => l.EntryDateTime).ToList();
         }
         public DeviceDetails GetDeviceDetails()
         {
@@ -867,18 +864,18 @@ namespace AttendanceDevice.Config_Class
 
             if (axCZKEM1.StartEnrollEx(deviceId, fingerIndex, iFlag))
             {
-                FpMsg.Text = $"Start to Enroll a new User,UserId: {deviceId} FingerId: {fingerIndex}";
+                FingerprintMessage.Text = $"Start to Enroll a new User,UserId: {deviceId} FingerId: {fingerIndex}";
 
                 if (axCZKEM1.StartIdentify())
                 {
-                    FpMsg.Text = $"Enroll a new User,UserId: {deviceId}";
+                    FingerprintMessage.Text = $"Enroll a new User,UserId: {deviceId}";
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
             }
             else
             {
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                FpMsg.Text = $"Operation failed, Error Code: {idwErrorCode}";
+                FingerprintMessage.Text = $"Operation failed, Error Code: {idwErrorCode}";
             }
             //axCZKEM1.OnFingerFeature -= new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(axCZKEM1_OnFingerFeature);
             // axCZKEM1.OnEnrollFingerEx -= new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);

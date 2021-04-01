@@ -270,10 +270,10 @@ namespace AttendanceDevice
                         await Task.Run(() => device.SetDateTime());
                     }
 
-                    var prevLog = device.Download_Prev_Logs();
-                    var todayLog = device.Download_Today_Logs();
+                    var prevLog = device.DownloadPrevLogs();
+                    var todayLog = device.DownloadTodayLogs();
 
-                    await Machine.Save_logData(prevLog, todayLog, ins, device.Device);
+                    await Machine.SaveLogsOrAttendanceInPc(prevLog, todayLog, ins, device.Device);
                 }
 
                 #endregion Device data send to server
