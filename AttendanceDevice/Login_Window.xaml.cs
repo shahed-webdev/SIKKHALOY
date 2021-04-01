@@ -163,65 +163,6 @@ namespace AttendanceDevice
                     return;
                 }
 
-                //check device added or not
-                if (!LocalData.Instance.IsDeviceExist())
-                {
-                    LocalData.Current_Error.Message = "No Device Added In PC!";
-                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                    var setting = new Setting();
-                    setting.Show();
-                    this.Close();
-                    return;
-                }
-
-                //create all device list
-                var deviceList = await LocalData.Instance.DeviceListAsync();
-                var deviceConnections = new List<DeviceConnection>();
-
-                foreach (var device in deviceList)
-                {
-                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                    if (checkIp)
-                    {
-                        deviceConnections.Add(new DeviceConnection(device));
-                    }
-                }
-
-                //check device ip
-                if (!deviceConnections.Any())
-                {
-                    LocalData.Current_Error.Message = "Device IP Not Found";
-                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                    var setting = new Setting();
-                    setting.Show();
-                    this.Close();
-                    return;
-                }
-
-
-                //try connection to device successfully
-                var isDeviceConnected = false;
-                foreach (var item in deviceConnections)
-                {
-                    var status = await Task.Run(() => item.ConnectDevice());
-                    if (status.IsSuccess)
-                    {
-                        isDeviceConnected = true;
-                    }
-                }
-
-                if (!isDeviceConnected)
-                {
-                    LocalData.Current_Error.Message = "Device Unable to Connect";
-                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                    var setting = new Setting();
-                    setting.Show();
-                    this.Close();
-                    return;
-                }
 
                 //Leave request
                 #region Leave data
@@ -263,21 +204,83 @@ namespace AttendanceDevice
 
                 #endregion Schedule data
 
-                //Device data send to server
-                #region Device data send to server
 
-                foreach (var item in deviceConnections)
+
+
+                //check device added or not
+                if (!LocalData.Instance.IsDeviceExist())
                 {
-                    var status = await Task.Run(() => item.ConnectDevice());
-                    if (!status.IsSuccess) continue;
+                    LocalData.Current_Error.Message = "No Device Added In PC!";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
 
-                    var prevLog = item.Download_Prev_Logs();
-                    var todayLog = item.Download_Today_Logs();
-
-                    await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
                 }
 
+                //create all device list
+                var deviceList = await LocalData.Instance.DeviceListAsync();
+                var deviceConnections = new List<DeviceConnection>();
+
+                foreach (var device in deviceList)
+                {
+                    var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                    if (checkIp)
+                    {
+                        deviceConnections.Add(new DeviceConnection(device));
+                    }
+                }
+
+                //check device ip
+                if (!deviceConnections.Any())
+                {
+                    LocalData.Current_Error.Message = "Device IP Not Found";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+
+                //try connection to device successfully
+                #region Device data send to server
+                var isDeviceConnected = false;
+                foreach (var device in deviceConnections)
+                {
+                    var status = await Task.Run(() => device.ConnectDevice());
+                    if (!status.IsSuccess) continue;
+
+                    isDeviceConnected = true;
+
+                    var deviceTime = device.GetDateTime();
+                    if (deviceTime.ToString("dd-MM-yyyy hh:mm tt") != DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
+                    {
+                        //Set server time to device
+                        await Task.Run(() => device.SetDateTime());
+                    }
+
+                    var prevLog = device.Download_Prev_Logs();
+                    var todayLog = device.Download_Today_Logs();
+
+                    await Machine.Save_logData(prevLog, todayLog, ins, device.Device);
+                }
                 #endregion Device data send to server
+
+                if (!isDeviceConnected)
+                {
+                    LocalData.Current_Error.Message = "Device Unable to Connect";
+                    LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+                }
+
+
                 //show display
                 var initDevice = new DeviceDisplay(deviceConnections);
                 var display = new DisplayWindow(initDevice);

@@ -99,16 +99,16 @@ namespace AttendanceDevice
                     return;
                 }
 
-                //try connection to device successfully
+                //try connection to device successfully   & Device data send to server
                 var isDeviceConnected = false;
-                foreach (var item in deviceConnections)
+                foreach (var device in deviceConnections)
                 {
-                    var status = await Task.Run(() => item.ConnectDevice());
-                    if (status.IsSuccess)
-                    {
-                        isDeviceConnected = true;
-                    }
+                    var status = await Task.Run(() => device.ConnectDevice());
+                    if (!status.IsSuccess) continue;
+
+                    isDeviceConnected = true;
                 }
+
 
                 if (!isDeviceConnected)
                 {
@@ -255,19 +255,25 @@ namespace AttendanceDevice
 
                 #endregion Schedule data
 
-
                 //Device data send to server
                 #region Device data send to server
 
-                foreach (var item in deviceConnections)
+                foreach (var device in deviceConnections)
                 {
-                    var status = await Task.Run(() => item.ConnectDevice());
+                    var status = await Task.Run(() => device.ConnectDevice());
                     if (!status.IsSuccess) continue;
 
-                    var prevLog = item.Download_Prev_Logs();
-                    var todayLog = item.Download_Today_Logs();
+                    var deviceTime = device.GetDateTime();
+                    if (deviceTime.ToString("dd-MM-yyyy hh:mm tt") != DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
+                    {
+                        //Set server time to device
+                        await Task.Run(() => device.SetDateTime());
+                    }
 
-                    await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
+                    var prevLog = device.Download_Prev_Logs();
+                    var todayLog = device.Download_Today_Logs();
+
+                    await Machine.Save_logData(prevLog, todayLog, ins, device.Device);
                 }
 
                 #endregion Device data send to server

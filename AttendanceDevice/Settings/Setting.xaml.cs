@@ -1,9 +1,7 @@
 ﻿using AttendanceDevice.Config_Class;
-using AttendanceDevice.Model;
 using AttendanceDevice.Settings.Pages;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,7 +69,9 @@ namespace AttendanceDevice.Settings
         {
             var da = new DoubleAnimation
             {
-                From = 0, To = 1, Duration = new Duration(TimeSpan.FromMilliseconds(900))
+                From = 0,
+                To = 1,
+                Duration = new Duration(TimeSpan.FromMilliseconds(900))
             };
             FrameSetting.BeginAnimation(OpacityProperty, da);
         }
@@ -80,111 +80,121 @@ namespace AttendanceDevice.Settings
             PB.IsIndeterminate = true;
             btnDisplay.IsEnabled = false;
 
-            using (var db = new ModelContext())
+            //No user in local database
+            if (!LocalData.Instance.IsUserExist())
             {
-                //User is Null
-                var user = await db.Users.FirstOrDefaultAsync();
-                var deviceList = new List<DeviceConnection>();
-                if (user != null)
+                btnDisplay.IsEnabled = true;
+                PB.IsIndeterminate = false;
+
+                LocalData.Current_Error.Message = "No User Found on PC!";
+                LocalData.Current_Error.Type = Error_Type.UserInfoPage;
+
+                var setting = new Setting();
+                setting.Show();
+                this.Close();
+                return;
+            }
+
+            //check device added or not
+            if (!LocalData.Instance.IsDeviceExist())
+            {
+                btnDisplay.IsEnabled = true;
+                PB.IsIndeterminate = false;
+
+                LocalData.Current_Error.Message = "No Device Added In PC!";
+                LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                var setting = new Setting();
+                setting.Show();
+                this.Close();
+                return;
+            }
+
+
+            //create all device list
+            var deviceList = await LocalData.Instance.DeviceListAsync();
+            var deviceConnections = new List<DeviceConnection>();
+
+            foreach (var device in deviceList)
+            {
+                var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                if (checkIp)
                 {
-                    var devices = await db.Devices.ToListAsync();
-                    var ins = await db.Institutions.FirstOrDefaultAsync();
-
-                    //Device Check
-                    if (devices.Any())
-                    {
-                        foreach (var device in devices)
-                        {
-                            var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
-                            if (checkIp)
-                            {
-                                deviceList.Add(new DeviceConnection(device));
-                            }
-                        }
-
-                        if (deviceList.Count > 0)
-                        {
-                            bool D_Check = false;
-                            foreach (var device in deviceList)
-                            {
-                                var status = await Task.Run(() => device.ConnectDevice());
-                                if (status.IsSuccess)
-                                {
-                                    var deviceTime = device.GetDateTime();
-                                    if (deviceTime.ToString("dd-MM-yyyy hh:mm tt") != DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
-                                    {
-                                        //Set server time to device
-                                        await Task.Run(() => device.SetDateTime());
-                                    }
-
-                                    D_Check = true;
-                                    var prev_log = device.Download_Prev_Logs();
-                                    var today_log = device.Download_Today_Logs();
-
-                                    await Machine.Save_logData(prev_log, today_log, ins, device.Device);
-                                }
-                            }
-
-
-                            if (D_Check)
-                            {
-                                PB.IsIndeterminate = false;
-                                btnDisplay.IsEnabled = true;
-
-                                var D_Display = new DeviceDisplay(deviceList);
-
-                                var DisplayWindow = new DisplayWindow(D_Display);
-                                DisplayWindow.Show();
-                                this.Close();
-                            }
-                            else
-                            {
-                                btnDisplay.IsEnabled = true;
-                                PB.IsIndeterminate = false;
-
-                                var errorObj = new Error("Connect Device", "Device Not connected!");
-                                var ErrorWindow = new Error_Window(errorObj);
-                                ErrorWindow.Show();
-                            }
-                        }
-                        else
-                        {
-                            btnDisplay.IsEnabled = true;
-                            PB.IsIndeterminate = false;
-
-                            var errorObj = new Error("Connect Device", "Device Not connected!");
-                            var ErrorWindow = new Error_Window(errorObj);
-                            ErrorWindow.Show();
-                        }
-                    }
-                    else
-                    {
-                        btnDisplay.IsEnabled = true;
-                        PB.IsIndeterminate = false;
-
-                        LocalData.Current_Error.Message = "No Device Added In PC!";
-                        LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
-
-                        var setting = new Setting();
-                        setting.Show();
-                        this.Close();
-                        return;
-                    }
-                }
-                else
-                {
-                    btnDisplay.IsEnabled = true;
-                    PB.IsIndeterminate = false;
-
-                    LocalData.Current_Error.Message = "No User Found on PC!";
-                    LocalData.Current_Error.Type = Error_Type.UserInfoPage;
-
-                    var setting = new Setting();
-                    setting.Show();
-                    this.Close();
-                    return;
+                    deviceConnections.Add(new DeviceConnection(device));
                 }
             }
+
+            //check device ip
+            if (!deviceConnections.Any())
+            {
+
+                btnDisplay.IsEnabled = true;
+                PB.IsIndeterminate = false;
+
+                LocalData.Current_Error.Message = "Device IP Not Found";
+                LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                var setting = new Setting();
+                setting.Show();
+                this.Close();
+                return;
+            }
+
+            //try connection to device successfully
+            var isDeviceConnected = false;
+            foreach (var device in deviceConnections)
+            {
+                var status = await Task.Run(() => device.ConnectDevice());
+                if (!status.IsSuccess) continue;
+
+                isDeviceConnected = true;
+
+                var deviceTime = device.GetDateTime();
+                if (deviceTime.ToString("dd-MM-yyyy hh:mm tt") != DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
+                {
+                    //Set server time to device
+                    await Task.Run(() => device.SetDateTime());
+                }
+
+                var prevLog = device.Download_Prev_Logs();
+                var todayLog = device.Download_Today_Logs();
+
+                await Machine.Save_logData(prevLog, todayLog, LocalData.Instance.institution, device.Device);
+            }
+
+            if (!isDeviceConnected)
+            {
+                btnDisplay.IsEnabled = true;
+                PB.IsIndeterminate = false;
+
+                LocalData.Current_Error.Message = "Device Unable to Connect";
+                LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
+
+                var setting = new Setting();
+                setting.Show();
+                this.Close();
+                return;
+            }
+
+            var initDevice = new DeviceDisplay(deviceConnections);
+
+            //Check Internet connection || Server connection
+            if (await ApiUrl.IsNoNetConnection() || await ApiUrl.IsServerUnavailable())
+            {
+                //show  Offline display window
+                var offlineDisplay = new Offline_DisplayWindow(initDevice);
+                offlineDisplay.Show();
+                this.Close();
+                return;
+            }
+
+            PB.IsIndeterminate = false;
+            btnDisplay.IsEnabled = true;
+
+            var DisplayWindow = new DisplayWindow(initDevice);
+            DisplayWindow.Show();
+            this.Close();
+
         }
         private void UserButton_Click(object sender, RoutedEventArgs e)
         {
