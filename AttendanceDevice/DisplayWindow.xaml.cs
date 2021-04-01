@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
 namespace AttendanceDevice
@@ -48,14 +49,16 @@ namespace AttendanceDevice
             StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
 
-            //DoubleAnimation doubleAnimation = new DoubleAnimation();
-            //doubleAnimation.From = -this.ActualWidth;
-            //doubleAnimation.To = this.ActualWidth;
-            //doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            //doubleAnimation.AutoReverse = true;
-            //doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds((this.ActualWidth) * 0.010));
+            //var doubleAnimation = new DoubleAnimation
+            //{
+            //    From = -this.ActualWidth,
+            //    To = this.ActualWidth,
+            //    RepeatBehavior = RepeatBehavior.Forever,
+            //    AutoReverse = true,
+            //    Duration = new Duration(TimeSpan.FromSeconds((this.ActualWidth) * 0.010))
+            //};
 
-            //StudentImageListview.BeginAnimation(canvas, doubleAnimation);
+            //StudentImageListBox.BeginAnimation(canvas, doubleAnimation);
 
             //var dt = this.Resources["myFirstItemTemplate"] as DataTemplate;
             //Storyboard sb = this.Resources["sb"] as Storyboard;

@@ -193,14 +193,14 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
-                        <DataTemplate> 
+                        <DataTemplate>
                             <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
-                                   
+
                                     <Image
                                         SnapsToDevicePixels="True"
                                         MaxWidth="300"
@@ -243,7 +243,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </Grid>
+            </Grid> 
         </Grid>
 
         <!--enroll user info-->
