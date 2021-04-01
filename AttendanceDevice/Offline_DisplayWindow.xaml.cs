@@ -37,7 +37,7 @@ namespace AttendanceDevice
 
             if (userView == null)
             {
-                userView = new UserView {Name = "User Not found on PC"};
+                userView = new UserView { Name = "User Not found on PC" };
                 UserDataGrid.DataContext = userView;
                 return;
             }
@@ -56,10 +56,10 @@ namespace AttendanceDevice
             {
                 device.axCZKEM1.OnAttTransactionEx += axCZKEM1_OnAttTransactionEx;
                 device.EnrollUserCard = UserDataGrid;
-                device.LogViewLb = StudentImageListview;
+                device.LogViewListBox = StudentImageListview;
             }
 
-            StudentImageListview.ItemsSource = Machine.GetAttendance(AttType.All);
+            StudentImageListview.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 2, 0);
@@ -184,17 +184,17 @@ namespace AttendanceDevice
                                     if (deviceList.Count > 0)
                                     {
                                         var dCheck = false;
-                                        foreach (var item in deviceList)
+                                        foreach (var device in deviceList)
                                         {
-                                            var status = await Task.Run(() => item.ConnectDevice());
+                                            var status = await Task.Run(() => device.ConnectDevice());
                                             if (!status.IsSuccess) continue;
 
                                             dCheck = true;
 
-                                            var prevLog = item.Download_Prev_Logs();
-                                            var todayLog = item.Download_Today_Logs();
+                                            var prevLog = device.DownloadPrevLogs();
+                                            var todayLog = device.DownloadTodayLogs();
 
-                                            await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
+                                            await Machine.SaveLogsOrAttendanceInPc(prevLog, todayLog, ins, device.Device);
                                         }
 
                                         if (dCheck)

@@ -4,10 +4,10 @@ namespace AttendanceDevice.ViewModel
 {
     public class LogView
     {
-        public int DeviceID { get; set; }
-        public TimeSpan Entry_Time { get; set; }
-        public string Entry_Date { get; set; }
-        public string Entry_Day { get; set; }
-        public DateTime Entry_DateTime { get; set; }
+        public int DeviceId { get; set; }
+        public TimeSpan EntryTime { get; set; }
+        public string EntryDate { get; set; }
+        public string EntryDay { get; set; }
+        public DateTime EntryDateTime { get; set; }
     }
 }

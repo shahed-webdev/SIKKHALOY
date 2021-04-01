@@ -156,10 +156,10 @@ namespace AttendanceDevice.Settings
                     await Task.Run(() => device.SetDateTime());
                 }
 
-                var prevLog = device.Download_Prev_Logs();
-                var todayLog = device.Download_Today_Logs();
+                var prevLog = device.DownloadPrevLogs();
+                var todayLog = device.DownloadTodayLogs();
 
-                await Machine.Save_logData(prevLog, todayLog, LocalData.Instance.institution, device.Device);
+                await Machine.SaveLogsOrAttendanceInPc(prevLog, todayLog, LocalData.Instance.institution, device.Device);
             }
 
             if (!isDeviceConnected)

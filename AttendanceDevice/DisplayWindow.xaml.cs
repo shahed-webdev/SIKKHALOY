@@ -42,10 +42,10 @@ namespace AttendanceDevice
                 //Data Show context pass to the device class
                 device.EnrollUserCard = UserDataGrid;
                 device.EnrollUserDialogHost = EnrollUserDialog;
-                device.LogViewLb = StudentImageListBox;
+                device.LogViewListBox = StudentImageListBox;
             }
 
-            StudentImageListBox.ItemsSource = Machine.GetAttendance(AttType.All);
+            StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
 
             //DoubleAnimation doubleAnimation = new DoubleAnimation();
@@ -288,10 +288,10 @@ namespace AttendanceDevice
                         if (status.IsSuccess)
                         {
                             dCheck = true;
-                            var prevLog = item.Download_Prev_Logs();
-                            var todayLog = item.Download_Today_Logs();
+                            var prevLog = item.DownloadPrevLogs();
+                            var todayLog = item.DownloadTodayLogs();
 
-                            await Machine.Save_logData(prevLog, todayLog, ins, item.Device);
+                            await Machine.SaveLogsOrAttendanceInPc(prevLog, todayLog, ins, item.Device);
                         }
                     }
 
