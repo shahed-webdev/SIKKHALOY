@@ -30,20 +30,20 @@ namespace AttendanceDevice.Settings.Pages
             LoadingDH.IsOpen = true;
             using (var db = new ModelContext())
             {
-                var Devices = db.Devices.ToList();
+                var devices = db.Devices.ToList();
 
-                if (Devices.Count() > 0)
+                if (devices.Any())
                 {
-                    foreach (var Device in Devices)
+                    foreach (var device in devices)
                     {
-                        var checkIP = await Device_PingTest.PingHostAsync(Device.DeviceIP);
-                        Device.IsConnected = Convert.ToInt32(checkIP);
-                        db.Entry(Device).State = EntityState.Modified;
+                        var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
+                        device.IsConnected = Convert.ToInt32(checkIp);
+                        db.Entry(device).State = EntityState.Modified;
                     }
 
                     await db.SaveChangesAsync();
 
-                    DeviceDtagrid.ItemsSource = Devices;
+                    DeviceDtagrid.ItemsSource = devices;
                 }
             }
 
@@ -85,7 +85,7 @@ namespace AttendanceDevice.Settings.Pages
 
             if (!status.IsSuccess) return;
 
-            device.DeviceSN = d1.SN();
+            device.DeviceSN = d1.DeviceSerialNumber();
             device.IsConnected = 1;
 
             using (var db = new ModelContext())

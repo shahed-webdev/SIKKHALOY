@@ -11,20 +11,20 @@ using zkemkeeper;
 
 namespace AttendanceDevice.Config_Class
 {
-    public enum Data_Code
+    public enum DataCode
     {
-        Number_of_admin = 1,
-        Number_of_users = 2,
-        Number_of_FP = 3,
-        Number_of_passwords = 4,
-        Number_of_operation_records = 5,
-        Attendance_Records = 6,
-        FP_Capacity = 7,
-        User_capacity = 8,
-        Attendance_Record_Capacity = 9,
-        Remaining_PF_Capacity = 10,
-        Remaining_User_Capacity = 11,
-        Remaining_Attendance_Record_Capacity = 12
+        NumberOfAdmin = 1,
+        NumberOfUsers = 2,
+        NumberOfFp = 3,
+        NumberOfPasswords = 4,
+        NumberOfOperationRecords = 5,
+        AttendanceRecords = 6,
+        FpCapacity = 7,
+        UserCapacity = 8,
+        AttendanceRecordCapacity = 9,
+        RemainingPfCapacity = 10,
+        RemainingUserCapacity = 11,
+        RemainingAttendanceRecordCapacity = 12
     }
     public class DeviceConnection
     {
@@ -41,11 +41,11 @@ namespace AttendanceDevice.Config_Class
         private DeviceReturn Returns { get; set; }
 
 
-        public async void axCZKEM1_OnAttTransactionEx(string EnrollNumber, int IsInValid, int AttState, int VerifyMethod, int Year, int Month, int Day, int Hour, int Minute, int Second, int WorkCode)
+        public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
         {
-            var deviceId = Convert.ToInt32(EnrollNumber);
-            var dt = new DateTime(Year, Month, Day, Hour, Minute, Second);
-            var time = new TimeSpan(Hour, Minute, Second);
+            var deviceId = Convert.ToInt32(enrollNumber);
+            var dt = new DateTime(year, month, day, hour, minute, second);
+            var time = new TimeSpan(hour, minute, second);
             var userView = LocalData.Instance.GetUserView(deviceId);
 
             if (userView == null)
@@ -57,7 +57,7 @@ namespace AttendanceDevice.Config_Class
 
             if (EnrollUserDialogHost.CurrentSession == null)
                 EnrollUserDialogHost.IsOpen = true;
-            
+
 
             userView.Enroll_Time = dt;
             var sDate = dt.ToShortDateString();
@@ -207,28 +207,22 @@ namespace AttendanceDevice.Config_Class
         }
 
 
-        public void axCZKEM1_OnEnrollFingerEx(string EnrollNumber, int FingerIndex, int ActionResult, int TemplateLength)
+        public void axCZKEM1_OnEnrollFingerEx(string enrollNumber, int fingerIndex, int actionResult, int templateLength)
         {
-            if (ActionResult == 0)
-            {
-                FpMsg.Text = "Enroll finger succeed. UserID=" + EnrollNumber.ToString() + "...FingerIndex=" + FingerIndex.ToString();
-            }
-            else
-            {
-                FpMsg.Text = "Enroll finger failed. Result=" + ActionResult.ToString();
-            }
+            FpMsg.Text = actionResult == 0 ? $"Enroll finger succeed. UserId: ${enrollNumber}. Finger Index: ${fingerIndex}" : $"Enroll finger failed. Result: ${actionResult}";
         }
-        private async Task log_Backup_Insert(int DeviceID, DateTime dt, string Reason)
+
+        private async Task log_Backup_Insert(int deviceId, DateTime dt, string reason)
         {
             using (var db = new ModelContext())
             {
                 var logBackup = new AttendanceLog_Backup()
                 {
-                    DeviceID = DeviceID,
+                    DeviceID = deviceId,
                     Entry_Date = dt.ToShortDateString(),
                     Entry_Time = dt.ToShortTimeString(),
                     Entry_Day = dt.ToString("dddd"),
-                    Backup_Reason = Reason
+                    Backup_Reason = reason
                 };
 
 
@@ -291,7 +285,7 @@ namespace AttendanceDevice.Config_Class
                 var idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
 
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
+                Returns.Message = $"Unable to connect the device, Error Code: ${idwErrorCode}";
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -317,7 +311,7 @@ namespace AttendanceDevice.Config_Class
             {
                 var idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
+                Returns.Message = $"Unable to connect the device, Error Code: ${idwErrorCode}";
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -363,10 +357,10 @@ namespace AttendanceDevice.Config_Class
 
             if (!axCZKEM1.SetCommPassword(this.Device.CommKey))
             {
-                int idwErrorCode = 0;
+                var idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
 
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
+                Returns.Message = $"Unable to connect the device, Error Code: {idwErrorCode}";
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -383,9 +377,9 @@ namespace AttendanceDevice.Config_Class
             }
             else
             {
-                int idwErrorCode = 0;
+                var idwErrorCode = 0;
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                Returns.Message = "Unable to connect the device, ErrorCode=" + idwErrorCode;
+                Returns.Message = $"Unable to connect the device, ErrorCode: {idwErrorCode}";
                 Returns.Code = -1;
                 Returns.IsSuccess = false;
 
@@ -419,7 +413,7 @@ namespace AttendanceDevice.Config_Class
 
             if (!pingCheck) return false;
 
-            int a = -1;
+            var a = -1;
             axCZKEM1.GetConnectStatus(ref a);
             return a == 0;
         }
@@ -428,34 +422,27 @@ namespace AttendanceDevice.Config_Class
         public async Task<bool> IsConnectedAsync()
         {
             var checkIp = await Device_PingTest.PingHostAsync(this.Device.DeviceIP);
-            if (checkIp)
-            {
-                int A = -1;
+            if (!checkIp) return false;
 
-                axCZKEM1.GetConnectStatus(ref A);
-
-                return A == 0;
-            }
-            else
-            {
-                return checkIp;
-            }
+            var dwErrorCode = -1;
+            axCZKEM1.GetConnectStatus(ref dwErrorCode);
+            return dwErrorCode == 0;
         }
-        public string SN()
+
+        public string DeviceSerialNumber()
         {
-            string DeviceSN;
-            axCZKEM1.GetSerialNumber(Machine.Number, out DeviceSN);
-            return DeviceSN;
+            axCZKEM1.GetSerialNumber(Machine.Number, out var deviceSn);
+            return deviceSn;
         }
 
         public DateTime GetDateTime()
         {
-            int idwYear = 0;
-            int idwMonth = 0;
-            int idwDay = 0;
-            int idwHour = 0;
-            int idwMinute = 0;
-            int idwSecond = 0;
+            var idwYear = 0;
+            var idwMonth = 0;
+            var idwDay = 0;
+            var idwHour = 0;
+            var idwMinute = 0;
+            var idwSecond = 0;
 
             axCZKEM1.GetDeviceTime(Machine.Number, ref idwYear, ref idwMonth, ref idwDay, ref idwHour, ref idwMinute, ref idwSecond);
 
@@ -464,13 +451,10 @@ namespace AttendanceDevice.Config_Class
 
         public bool SetDateTime()
         {
-            bool status = false;
-            if (axCZKEM1.SetDeviceTime(Machine.Number))
-            {
-                axCZKEM1.RefreshData(Machine.Number);
-                status = true;
-            }
-            return status;
+            if (!axCZKEM1.SetDeviceTime(Machine.Number)) return false;
+
+            axCZKEM1.RefreshData(Machine.Number);
+            return true;
         }
         public bool Restart()
         {
@@ -485,26 +469,26 @@ namespace AttendanceDevice.Config_Class
             //Duplicate time 5min 
             return axCZKEM1.SetDeviceInfo(Machine.Number, 8, 5);
         }
+
         public void Upload_User(List<User> users)
         {
             axCZKEM1.EnableDevice(Machine.Number, false);
             try
             {
-                bool batchUpdate = axCZKEM1.BeginBatchUpdate(Machine.Number, 1);
+                var batchUpdate = axCZKEM1.BeginBatchUpdate(Machine.Number, 1);
                 foreach (var user in users)
                 {
                     axCZKEM1.SetStrCardNumber(user.RFID);
                     axCZKEM1.SSR_SetUserInfo(Machine.Number, user.DeviceID.ToString(), user.Name, "", 0, true);
                 }
 
-                if (batchUpdate)
-                {
-                    axCZKEM1.BatchUpdate(Machine.Number);
-                    batchUpdate = false;
-                }
+                if (!batchUpdate) return;
+                axCZKEM1.BatchUpdate(Machine.Number);
             }
             catch
-            { }
+            {
+                // ignored
+            }
             finally
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
@@ -515,29 +499,22 @@ namespace AttendanceDevice.Config_Class
         {
             if (!IsConnected()) return new List<User>();
 
-            List<User> Users = new List<User>();
-
-            string DeviceID = string.Empty;
-            string name = string.Empty;
-            string pwd = string.Empty;
-            int pri = 0;
-            bool enable = true;
-            string RFID = null;
+            var users = new List<User>();
 
             axCZKEM1.EnableDevice(Machine.Number, false);
             try
             {
                 axCZKEM1.ReadAllUserID(Machine.Number);
 
-                while (axCZKEM1.SSR_GetAllUserInfo(Machine.Number, out DeviceID, out name, out pwd, out pri, out enable))
+                while (axCZKEM1.SSR_GetAllUserInfo(Machine.Number, out var deviceId, out var name, out _, out _, out _))
                 {
-                    axCZKEM1.GetStrCardNumber(out RFID);
+                    axCZKEM1.GetStrCardNumber(out var rfId);
 
                     //RFID = "";
                     //if (axCZKEM1.GetStrCardNumber(out RFID))
                     //{
-                    if (string.IsNullOrEmpty(RFID) || RFID == "0")
-                        RFID = null;
+                    if (string.IsNullOrEmpty(rfId) || rfId == "0")
+                        rfId = null;
                     //}
                     //if (!string.IsNullOrEmpty(name))
                     //{
@@ -548,9 +525,9 @@ namespace AttendanceDevice.Config_Class
                     //    }
                     //}
 
-                    var user = new User { DeviceID = Convert.ToInt32(DeviceID), Name = name, RFID = RFID };
+                    var user = new User { DeviceID = Convert.ToInt32(deviceId), Name = name, RFID = rfId };
 
-                    Users.Add(user);
+                    users.Add(user);
                 }
             }
             catch
@@ -561,91 +538,84 @@ namespace AttendanceDevice.Config_Class
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
-            return Users;
+            return users;
         }
         public List<LogView> Download_Prev_Logs()
         {
             if (!IsConnected()) return new List<LogView>();
 
-            List<LogView> Logs = new List<LogView>();
+            var logs = new List<LogView>();
             axCZKEM1.EnableDevice(Machine.Number, false);
             try
             {
-                string sdwEnrollNumber = "";
-                int idwVerifyMode = 0;
-                int idwInOutMode = 0;
-                int idwYear = 0;
-                int idwMonth = 0;
-                int idwDay = 0;
-                int idwHour = 0;
-                int idwMinute = 0;
-                int idwSecond = 0;
-                int idwWorkcode = 0;
+                var sdwEnrollNumber = "";
+                var idwYear = 0;
+                var idwMonth = 0;
+                var idwDay = 0;
+                var idwHour = 0;
+                var idwMinute = 0;
+                var idwSecond = 0;
+                var idWorkCode = 0;
 
-                string fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
+                var fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
 
-                var Device_last_update = new DateTime();
-
-                if (DateTime.TryParse(Device.Last_Down_Log_Time, out Device_last_update))
+                if (DateTime.TryParse(Device.Last_Down_Log_Time, out var deviceLastUpdate))
                 {
-                    if ((DateTime.Today - Device_last_update).TotalDays < 7)
+                    if ((DateTime.Today - deviceLastUpdate).TotalDays < 7)
                     {
                         fromTime = Device.Last_Down_Log_Time;
                     }
                 }
-                string toTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
 
+                var toTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
 
                 if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTime, toTime))
                 {
-                    while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out idwVerifyMode, out idwInOutMode, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idwWorkcode))//get records from the memory
+                    while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                     {
-                        var DeviceID = Convert.ToInt32(sdwEnrollNumber);
+                        var deviceId = Convert.ToInt32(sdwEnrollNumber);
                         var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
                         var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                        var s_Date = dt.ToShortDateString();
+                        var sDate = dt.ToShortDateString();
 
                         var log = new LogView()
                         {
-                            DeviceID = DeviceID,
-                            Entry_Date = s_Date,
+                            DeviceID = deviceId,
+                            Entry_Date = sDate,
                             Entry_Time = time,
                             Entry_Day = dt.ToString("dddd"),
                             Entry_DateTime = dt
                         };
-                        Logs.Add(log);
+                        logs.Add(log);
                     }
                 }
                 else
                 {
                     if (axCZKEM1.ReadGeneralLogData(Machine.Number))
                     {
-                        while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out idwVerifyMode, out idwInOutMode, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idwWorkcode))//get records from the memory
+                        while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                         {
-                            var DeviceID = Convert.ToInt32(sdwEnrollNumber);
+                            var deviceId = Convert.ToInt32(sdwEnrollNumber);
                             var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
                             var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                            var s_Date = dt.ToShortDateString();
+                            var sDate = dt.ToShortDateString();
 
-                            if (dt.Date != DateTime.Today.Date)
+                            if (dt.Date == DateTime.Today.Date) continue;
+
+                            var log = new LogView()
                             {
-                                var log = new LogView()
-                                {
-                                    DeviceID = DeviceID,
-                                    Entry_Date = s_Date,
-                                    Entry_Time = time,
-                                    Entry_Day = dt.ToString("dddd"),
-                                    Entry_DateTime = dt,
+                                DeviceID = deviceId,
+                                Entry_Date = sDate,
+                                Entry_Time = time,
+                                Entry_Day = dt.ToString("dddd"),
+                                Entry_DateTime = dt,
+                            };
 
-                                };
-                                Logs.Add(log);
-                            }
+                            logs.Add(log);
                         }
                     }
 
                 }
-
-
             }
             catch
             {
@@ -655,204 +625,191 @@ namespace AttendanceDevice.Config_Class
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
-            return Logs.OrderBy(l => l.Entry_DateTime).ToList();
+
+            return logs.OrderBy(l => l.Entry_DateTime).ToList();
         }
+
         public List<LogView> Download_Today_Logs()
         {
             if (!IsConnected()) return new List<LogView>();
 
-            List<LogView> Logs = new List<LogView>();
+            var logs = new List<LogView>();
             axCZKEM1.EnableDevice(Machine.Number, false);
             try
             {
-                string sdwEnrollNumber = "";
-                int idwVerifyMode = 0;
-                int idwInOutMode = 0;
-                int idwYear = 0;
-                int idwMonth = 0;
-                int idwDay = 0;
-                int idwHour = 0;
-                int idwMinute = 0;
-                int idwSecond = 0;
-                int idwWorkcode = 0;
+                var sdwEnrollNumber = "";
+                var idwYear = 0;
+                var idwMonth = 0;
+                var idwDay = 0;
+                var idwHour = 0;
+                var idwMinute = 0;
+                var idwSecond = 0;
+                var idWorkCode = 0;
 
-                string fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
-                string toTime = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
+                var fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
+                var toTime = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
 
                 if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTime, toTime))
                 {
-                    while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out idwVerifyMode, out idwInOutMode, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idwWorkcode))//get records from the memory
+                    while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                     {
-
-                        var DeviceID = Convert.ToInt32(sdwEnrollNumber);
+                        var deviceId = Convert.ToInt32(sdwEnrollNumber);
                         var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
                         var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                        var s_Date = dt.ToShortDateString();
+                        var sDate = dt.ToShortDateString();
 
                         var log = new LogView()
                         {
-                            DeviceID = DeviceID,
-                            Entry_Date = s_Date,
+                            DeviceID = deviceId,
+                            Entry_Date = sDate,
                             Entry_Time = time,
                             Entry_Day = dt.ToString("dddd"),
                             Entry_DateTime = dt
-
                         };
-                        Logs.Add(log);
-                    }
 
+                        logs.Add(log);
+                    }
                 }
                 else
                 {
-
                     if (axCZKEM1.ReadGeneralLogData(Machine.Number))
                     {
-                        while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out idwVerifyMode, out idwInOutMode, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idwWorkcode))//get records from the memory
+                        while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                         {
-                            var DeviceID = Convert.ToInt32(sdwEnrollNumber);
+                            var deviceId = Convert.ToInt32(sdwEnrollNumber);
                             var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
                             var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                            var s_Date = dt.ToShortDateString();
+                            var sDate = dt.ToShortDateString();
 
                             var log = new LogView()
                             {
-                                DeviceID = DeviceID,
-                                Entry_Date = s_Date,
+                                DeviceID = deviceId,
+                                Entry_Date = sDate,
                                 Entry_Time = time,
                                 Entry_Day = dt.ToString("dddd"),
                                 Entry_DateTime = dt
-
                             };
-                            Logs.Add(log);
+
+                            logs.Add(log);
                         }
 
                     }
-
                 }
-
             }
             catch
             {
-
+                // ignored
             }
             finally
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
-            return Logs.OrderBy(l => l.Entry_DateTime).ToList();
+            return logs.OrderBy(l => l.Entry_DateTime).ToList();
         }
+
         public bool ClearAllUsers()
         {
             if (!IsConnected()) return false;
 
-            bool IsClear = false;
+            bool isClear;
             axCZKEM1.EnableDevice(Machine.Number, false);
 
             if (axCZKEM1.ClearData(Machine.Number, 5))
             {
                 axCZKEM1.RefreshData(Machine.Number);
-                IsClear = true;
+                isClear = true;
             }
             else
             {
-                IsClear = false;
+                isClear = false;
             }
 
             axCZKEM1.EnableDevice(Machine.Number, true);
-            return IsClear;
+            return isClear;
         }
+
         public bool ClearAll_Logs()
         {
             if (!IsConnected()) return false;
 
-            bool IsClear = false;
-
             axCZKEM1.EnableDevice(Machine.Number, false);
 
-            IsClear = axCZKEM1.ClearGLog(Machine.Number);
+            var isClear = axCZKEM1.ClearGLog(Machine.Number);
 
             axCZKEM1.EnableDevice(Machine.Number, true);
 
-            return IsClear;
+            return isClear;
         }
         public bool ClearAll_FPs()
         {
             if (!IsConnected()) return false;
 
-            bool IsClear = false;
+            bool isClear;
             axCZKEM1.EnableDevice(Machine.Number, false);
 
             if (axCZKEM1.ClearData(Machine.Number, 2))
             {
                 axCZKEM1.RefreshData(Machine.Number);
-                IsClear = true;
+                isClear = true;
             }
             else
             {
-                IsClear = false;
+                isClear = false;
             }
 
             axCZKEM1.EnableDevice(Machine.Number, true);
-            return IsClear;
+            return isClear;
         }
+
         public bool Clear_PrevLog()
         {
-            bool IsClear = false;
+            bool isClear;
             axCZKEM1.EnableDevice(Machine.Number, false);
 
-            string fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
+            var fromTime = DateTime.Today.AddDays(-PrevLogCountDay).ToString("yyyy-MM-dd 00:00:00");
 
             if (axCZKEM1.DeleteAttlogByTime(Machine.Number, fromTime))
             {
                 axCZKEM1.RefreshData(Machine.Number);
-                IsClear = true;
+                isClear = true;
             }
             else
             {
-                IsClear = false;
+                isClear = false;
             }
 
             axCZKEM1.EnableDevice(Machine.Number, true);
-            return IsClear;
-
+            return isClear;
         }
+
         public List<LogView> DownloadLogs()
         {
             if (!IsConnected()) return new List<LogView>();
 
-            List<LogView> Logs = new List<LogView>();
+            var logs = new List<LogView>();
             axCZKEM1.EnableDevice(Machine.Number, false);
             try
             {
-                string sdwEnrollNumber = "";
-                int idwVerifyMode = 0;
-                int idwInOutMode = 0;
-                int idwYear = 0;
-                int idwMonth = 0;
-                int idwDay = 0;
-                int idwHour = 0;
-                int idwMinute = 0;
-                int idwSecond = 0;
-                int idwWorkcode = 0;
+                var idWorkCode = 0;
 
                 if (axCZKEM1.ReadGeneralLogData(Machine.Number))
                 {
-                    while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out idwVerifyMode, out idwInOutMode, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idwWorkcode))//get records from the memory
+                    while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out var sdwEnrollNumber, out _, out _, out var idwYear, out var idwMonth, out var idwDay, out var idwHour, out var idwMinute, out var idwSecond, ref idWorkCode))//get records from the memory
                     {
-                        var DeviceID = Convert.ToInt32(sdwEnrollNumber);
+                        var deviceId = Convert.ToInt32(sdwEnrollNumber);
                         var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
                         var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                        var s_Date = dt.ToShortDateString();
+                        var sDate = dt.ToShortDateString();
 
                         var log = new LogView()
                         {
-                            DeviceID = DeviceID,
-                            Entry_Date = s_Date,
+                            DeviceID = deviceId,
+                            Entry_Date = sDate,
                             Entry_Time = time,
                             Entry_Day = dt.ToString("dddd"),
                             Entry_DateTime = dt
                         };
-                        Logs.Add(log);
+                        logs.Add(log);
                     }
                 }
             }
@@ -864,34 +821,35 @@ namespace AttendanceDevice.Config_Class
             {
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
-            return Logs.OrderBy(l => l.Entry_DateTime).ToList();
+            return logs.OrderBy(l => l.Entry_DateTime).ToList();
         }
         public DeviceDetails GetDeviceDetails()
         {
-            int userCapacity = 0;
-            int userCount = 0;
-            int fpCnt = 0;
-            int fpCapacity = 0;
-            int recordCnt = 0;
-            int recordCapacity = 0;
-            int duplicate_Punch_Time = 0;
+            var userCapacity = 0;
+            var userCount = 0;
+            var fpCnt = 0;
+            var fpCapacity = 0;
+            var recordCnt = 0;
+            var recordCapacity = 0;
+            var duplicatePunchTime = 0;
+
             //axCZKEM1.EnableDevice(Machine.Number, false);//disable the device
 
-            axCZKEM1.GetDeviceStatus(Machine.Number, (int)Data_Code.User_capacity, ref userCapacity);
-            axCZKEM1.GetDeviceStatus(Machine.Number, (int)Data_Code.Number_of_users, ref userCount);
-            axCZKEM1.GetDeviceStatus(Machine.Number, (int)Data_Code.Number_of_FP, ref fpCnt);
-            axCZKEM1.GetDeviceStatus(Machine.Number, (int)Data_Code.FP_Capacity, ref fpCapacity);
-            axCZKEM1.GetDeviceStatus(Machine.Number, (int)Data_Code.Attendance_Records, ref recordCnt);
-            axCZKEM1.GetDeviceStatus(Machine.Number, (int)Data_Code.Attendance_Record_Capacity, ref recordCapacity);
-            axCZKEM1.GetDeviceInfo(Machine.Number, 8, ref duplicate_Punch_Time);
+            axCZKEM1.GetDeviceStatus(Machine.Number, (int)DataCode.UserCapacity, ref userCapacity);
+            axCZKEM1.GetDeviceStatus(Machine.Number, (int)DataCode.NumberOfUsers, ref userCount);
+            axCZKEM1.GetDeviceStatus(Machine.Number, (int)DataCode.NumberOfFp, ref fpCnt);
+            axCZKEM1.GetDeviceStatus(Machine.Number, (int)DataCode.FpCapacity, ref fpCapacity);
+            axCZKEM1.GetDeviceStatus(Machine.Number, (int)DataCode.AttendanceRecords, ref recordCnt);
+            axCZKEM1.GetDeviceStatus(Machine.Number, (int)DataCode.AttendanceRecordCapacity, ref recordCapacity);
+            axCZKEM1.GetDeviceInfo(Machine.Number, 8, ref duplicatePunchTime);
 
             // axCZKEM1.EnableDevice(Machine.Number, true);//enable the device
 
-            return new DeviceDetails(fpCapacity, fpCnt, userCapacity, userCount, recordCapacity, recordCnt, duplicate_Punch_Time);
+            return new DeviceDetails(fpCapacity, fpCnt, userCapacity, userCount, recordCapacity, recordCnt, duplicatePunchTime);
         }
 
 
-        public int FP_Add(string DeviceID, int FingerIndex)
+        public int FP_Add(string deviceId, int fingerIndex)
         {
             if (axCZKEM1.RegEvent(Machine.Number, 65535))
             {
@@ -899,44 +857,41 @@ namespace AttendanceDevice.Config_Class
                 axCZKEM1.OnEnrollFingerEx += new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);
             }
 
-            int idwErrorCode = 0;
-            int iFlag = 1;
+            var idwErrorCode = 0;
+            const int iFlag = 1;
 
             axCZKEM1.CancelOperation();
 
             //If the specified index of user's templates has existed ,delete it first
-            axCZKEM1.SSR_DelUserTmpExt(Machine.Number, DeviceID, FingerIndex);
+            axCZKEM1.SSR_DelUserTmpExt(Machine.Number, deviceId, fingerIndex);
 
-            if (axCZKEM1.StartEnrollEx(DeviceID, FingerIndex, iFlag))
+            if (axCZKEM1.StartEnrollEx(deviceId, fingerIndex, iFlag))
             {
-                FpMsg.Text = "Start to Enroll a new User,UserID=" + DeviceID + " FingerID=" + FingerIndex.ToString();
+                FpMsg.Text = $"Start to Enroll a new User,UserId: {deviceId} FingerId: {fingerIndex}";
 
                 if (axCZKEM1.StartIdentify())
                 {
-                    FpMsg.Text = "Enroll a new User,UserID" + DeviceID;
+                    FpMsg.Text = $"Enroll a new User,UserId: {deviceId}";
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
             }
             else
             {
                 axCZKEM1.GetLastError(ref idwErrorCode);
-                FpMsg.Text = "*Operation failed,ErrorCode=" + idwErrorCode.ToString();
+                FpMsg.Text = $"Operation failed, Error Code: {idwErrorCode}";
             }
             //axCZKEM1.OnFingerFeature -= new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(axCZKEM1_OnFingerFeature);
             // axCZKEM1.OnEnrollFingerEx -= new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);
             return 1;
         }
 
-        public int FP_Delete(string DeviceID, int FingerIndex)
+        public int FP_Delete(string deviceId, int fingerIndex)
         {
-            int idwErrorCode = 0;
+            var idwErrorCode = 0;
 
             axCZKEM1.CancelOperation();
 
-
-
-
-            if (axCZKEM1.SSR_DelUserTmpExt(Machine.Number, DeviceID, FingerIndex))
+            if (axCZKEM1.SSR_DelUserTmpExt(Machine.Number, deviceId, fingerIndex))
             {
                 axCZKEM1.RefreshData(Machine.Number);//the data in the device should be refreshed
             }
@@ -949,22 +904,23 @@ namespace AttendanceDevice.Config_Class
     }
     public class DeviceDetails
     {
-        public int FP_Capacity { get; private set; }
-        public int Number_of_FP { get; private set; }
-        public int User_capacity { get; private set; }
-        public int Number_of_users { get; private set; }
-        public int Attendance_Record_Capacity { get; private set; }
-        public int Attendance_Records { get; private set; }
-        public int Duplicate_Punch_Time { get; private set; }
-        public DeviceDetails(int fp_Capacity, int number_of_FP, int user_capacity, int number_of_users, int attendance_Record_Capacity, int attendance_Records, int duplicate_Punch_Time)
+        public DeviceDetails(int fpCapacity, int numberOfFp, int userCapacity, int numberOfUsers, int attendanceRecordCapacity, int attendanceRecords, int duplicatePunchTime)
         {
-            this.FP_Capacity = fp_Capacity;
-            this.Number_of_FP = number_of_FP;
-            this.User_capacity = user_capacity;
-            this.Number_of_users = number_of_users;
-            this.Attendance_Record_Capacity = attendance_Record_Capacity;
-            this.Attendance_Records = attendance_Records;
-            this.Duplicate_Punch_Time = duplicate_Punch_Time;
+            this.FpCapacity = fpCapacity;
+            this.NumberOfFp = numberOfFp;
+            this.UserCapacity = userCapacity;
+            this.NumberOfUsers = numberOfUsers;
+            this.AttendanceRecordCapacity = attendanceRecordCapacity;
+            this.AttendanceRecords = attendanceRecords;
+            this.DuplicatePunchTime = duplicatePunchTime;
         }
+
+        public int FpCapacity { get; private set; }
+        public int NumberOfFp { get; private set; }
+        public int UserCapacity { get; private set; }
+        public int NumberOfUsers { get; private set; }
+        public int AttendanceRecordCapacity { get; private set; }
+        public int AttendanceRecords { get; private set; }
+        public int DuplicatePunchTime { get; private set; }
     }
 }

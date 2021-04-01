@@ -35,12 +35,12 @@ namespace AttendanceDevice.Settings.Pages
 
             var deDetails = _deviceCon.GetDeviceDetails();
 
-            CapacityTB.Text = deDetails.User_capacity + "/" + deDetails.Number_of_users;
-            LogCapacity.Text = deDetails.Attendance_Record_Capacity + "/" + deDetails.Attendance_Records;
-            FP_Capacity.Text = deDetails.FP_Capacity + "/" + deDetails.Number_of_FP;
+            CapacityTB.Text = deDetails.UserCapacity + "/" + deDetails.NumberOfUsers;
+            LogCapacity.Text = deDetails.AttendanceRecordCapacity + "/" + deDetails.AttendanceRecords;
+            FP_Capacity.Text = deDetails.FpCapacity + "/" + deDetails.NumberOfFp;
 
             //duplicate time
-            btnDuplicateTime.Content = "Set Duplicate Punch Time (" + deDetails.Duplicate_Punch_Time + " min)";
+            btnDuplicateTime.Content = "Set Duplicate Punch Time (" + deDetails.DuplicatePunchTime + " min)";
 
             //PC new user
             PcNewUser();
@@ -230,7 +230,7 @@ namespace AttendanceDevice.Settings.Pages
                 cv.Filter = o =>
                 {
                     var user = o as User;
-                    return (user.DeviceID.ToString() == filterText || user.Name.ToUpper().StartsWith(filterText.ToUpper()));
+                    return user.DeviceID.ToString() == filterText || user.Name.ToUpper().StartsWith(filterText.ToUpper());
                 };
             }
         }
