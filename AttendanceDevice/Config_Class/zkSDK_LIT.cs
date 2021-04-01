@@ -12,11 +12,11 @@ namespace AttendanceDevice.Config_Class
     {
         public static readonly int Number = 1;
 
-        public static async Task Save_logData(List<LogView> prev_log, List<LogView> today_log, Institution institution, Device device)
+        public static async Task Save_logData(List<LogView> prevLog, List<LogView> todayLog, Institution institution, Device device)
         {
             using (var db = new ModelContext())
             {
-                var pLog = prev_log.Select(a => new AttendanceLog_Backup
+                var pLog = prevLog.Select(a => new AttendanceLog_Backup
                 {
                     DeviceID = a.DeviceID,
                     Entry_Date = a.Entry_Date,
@@ -29,7 +29,7 @@ namespace AttendanceDevice.Config_Class
 
                 if (!institution.Is_Device_Attendance_Enable)
                 {
-                    var log = today_log.Select(a => new AttendanceLog_Backup
+                    var log = todayLog.Select(a => new AttendanceLog_Backup
                     {
                         DeviceID = a.DeviceID,
                         Entry_Date = a.Entry_Date,
@@ -42,7 +42,7 @@ namespace AttendanceDevice.Config_Class
                 }
                 else
                 {
-                    foreach (var log in today_log)
+                    foreach (var log in todayLog)
                     {
                         var dt = log.Entry_DateTime;
                         var time = log.Entry_Time;
@@ -198,12 +198,12 @@ namespace AttendanceDevice.Config_Class
                 }
 
                 //Device last update time record
-                prev_log.AddRange(today_log);
+                prevLog.AddRange(todayLog);
                 var maxDateTime = DateTime.Now;
 
-                if (prev_log.Count > 0)
+                if (prevLog.Count > 0)
                 {
-                    maxDateTime = prev_log.Max(l => l.Entry_DateTime);
+                    maxDateTime = prevLog.Max(l => l.Entry_DateTime);
                 }
 
                 device.Last_Down_Log_Time = maxDateTime.ToString("yyyy-MM-dd HH:mm:ss");
