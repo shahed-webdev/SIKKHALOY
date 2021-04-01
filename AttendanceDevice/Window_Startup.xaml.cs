@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -87,7 +88,7 @@ namespace AttendanceDevice
                 }
 
                 //check device ip
-                if (deviceConnections.Count > 0)
+                if (!deviceConnections.Any())
                 {
                     LocalData.Current_Error.Message = "Device IP Not Found";
                     LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;

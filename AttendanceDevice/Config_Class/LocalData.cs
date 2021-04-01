@@ -386,8 +386,7 @@ namespace AttendanceDevice.Config_Class
         {
             using (var db = new ModelContext())
             {
-                institution = await db.Institutions.FirstOrDefaultAsync();
-                if (institution == null)
+                if (this.institution == null)
                 {
                     db.Institutions.Add(data);
                     db.Entry(data).State = EntityState.Added;
