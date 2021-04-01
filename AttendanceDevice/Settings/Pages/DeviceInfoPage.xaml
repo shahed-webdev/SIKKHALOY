@@ -96,10 +96,6 @@
                 ColumnWidth="*"
                 RowEditEnding="DeviceDtagrid_RowEditEnding">
                 <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Binding="{Binding Id}"
-                        Header="ID"
-                        IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding DeviceName, UpdateSourceTrigger=PropertyChanged}" Header="Device Name" />
                     <DataGridTextColumn Binding="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Header="Port" />
                     <DataGridTextColumn Binding="{Binding CommKey, UpdateSourceTrigger=PropertyChanged}" Header="Comm Key" />
