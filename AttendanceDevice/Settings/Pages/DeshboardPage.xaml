@@ -245,7 +245,7 @@
                         <TextBlock
                                 FontSize="13"
                                 Foreground="#777"
-                                Text="BACKUP DATA" />
+                                Text="DEVICE DATA" />
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>

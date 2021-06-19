@@ -189,7 +189,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 Foreground="WhiteSmoke"
-                                Text="Attendance Record" />
+                                Text="Pending Record" />
                         </StackPanel>
                     </Button>
                     <Button Click="BackUpData_Button_Click" Style="{StaticResource ManuButton}">
@@ -205,7 +205,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 Foreground="WhiteSmoke"
-                                Text="Backup Logs" />
+                                Text="Device Logs" />
                         </StackPanel>
                     </Button>
                     <Button Click="FingerPrint_Button_Click" Style="{StaticResource ManuButton}">
