@@ -305,11 +305,11 @@
                             FontSize="15"
                             FontWeight="Bold"
                             Foreground="#333"
-                            Text="Setting Login" />
+                            Text="Setting Key" />
                         <PasswordBox
                             x:Name="SettingPasswordBox"
                             HorizontalAlignment="Stretch"
-                            materialDesign:HintAssist.Hint="Password"
+                            materialDesign:HintAssist.Hint="Insert Setting Key"
                             FontSize="16"
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
                     </StackPanel>
@@ -323,7 +323,7 @@
                             Name="LoginButton"
                             Margin="0,0,10,0"
                             Click="LoginButton_Click"
-                            Content="Login"
+                            Content="Setting"
                             IsDefault="True" />
                         <Button
                             Name="CancelButton"
