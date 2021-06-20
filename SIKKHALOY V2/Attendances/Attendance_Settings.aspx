@@ -249,6 +249,25 @@
                             <asp:LinkButton ID="LinkButton2" CssClass="btn btn-primary" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
                         </div>
                     </div>
+
+                    <h5>Change Device Login Password</h5>
+                    <div class="card card-body mb-3">
+                        <div class="form-group">
+                            <label>Current password</label>
+                            <input id="inputOldPassword" type="password" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input id="inputNewPassword" type="password" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input id="inputConfirmPassword" type="password" class="form-control" />
+                        </div>
+                        
+                        <button id="btnChangePassword" class="btn btn-primary">Change Password</button>
+                        <div class="red-text" id="error-response"></div>
+                    </div>
                 </div>
             </div>
         </EditItemTemplate>
@@ -287,6 +306,7 @@
 
     <script src="/JS/Zip_File/FileServer.js"></script>
     <script src="/JS/Zip_File/jszip.min.js"></script>
+    <script src="/JS/attendance/api-methods.js"></script>
     <script>
         function Download() {
             $.ajax({
@@ -302,7 +322,7 @@
                     console.log("Request completed.");
                 },
                 success: function (r) {
-                    var response = JSON.parse(r.d);
+                    const response = JSON.parse(r.d);
                     zipGenerate(response);
                 },
                 error: function (err) {
@@ -328,24 +348,44 @@
         }
 
         function b64toFile(b64Data) {
-            var sliceSize = 512;
-            var byteCharacters = atob(b64Data);
-            var byteArrays = [];
+            const sliceSize = 512;
+            const byteCharacters = atob(b64Data);
+            const byteArrays = [];
 
-            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                var slice = byteCharacters.slice(offset, offset + sliceSize);
+            for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-                var byteNumbers = new Array(slice.length);
-                for (var i = 0; i < slice.length; i++) {
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
                     byteNumbers[i] = slice.charCodeAt(i);
                 }
 
-                var byteArray = new Uint8Array(byteNumbers);
+                const byteArray = new Uint8Array(byteNumbers);
 
                 byteArrays.push(byteArray);
             }
 
             return new Blob(byteArrays, { type: 'image/png' });
         }
+
+        //change password
+        const btnChangePassword = document.getElementById("btnChangePassword");
+        const inputOldPassword = document.getElementById("inputOldPassword");
+        const inputNewPassword = document.getElementById("inputNewPassword");
+        const inputConfirmPassword = document.getElementById("inputConfirmPassword");
+
+        btnChangePassword.addEventListener("click", function(evt) {
+            evt.preventDefault();
+
+            if (inputOldPassword.value === "" || inputNewPassword.value === "" || inputConfirmPassword.value === "") return;
+
+            const model = {
+                OldPassword: inputOldPassword.value,
+                NewPassword: inputNewPassword.value,
+                ConfirmPassword: inputConfirmPassword.value
+            }
+
+            attendance.changeDevicePassword(model);
+        });
     </script>
 </asp:Content>

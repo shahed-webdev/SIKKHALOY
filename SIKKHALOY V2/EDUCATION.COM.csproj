@@ -393,6 +393,7 @@
     <Content Include="Exam\WeeklyExam\Weekly_Merit_Status_Marks.aspx" />
     <Content Include="Exam\WeeklyExam\Weekly_Merit_Status_Results.aspx" />
     <Content Include="Handeler\Default\Default_Sign.jpg" />
+    <Content Include="JS\attendance\api-methods.js" />
     <Content Include="JS\mui.min.js" />
     <Content Include="JS\Zip_File\FileServer.js" />
     <Content Include="googleeb74826106350c63.html" />

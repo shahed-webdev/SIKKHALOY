@@ -110,11 +110,8 @@ namespace Attendance_API.Controllers
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
 
             return !result.Succeeded ? GetErrorResult(result) : Ok();
@@ -285,11 +282,8 @@ namespace Attendance_API.Controllers
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            if (!ModelState.IsValid)return BadRequest(ModelState);
+            
             var user = new ApplicationUser() { UserName = model.Username, Email = model.Email };
 
             var result = await UserManager.CreateAsync(user, model.Password);
