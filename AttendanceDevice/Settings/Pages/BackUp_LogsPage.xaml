@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}">
-            BACKUP LOGS
+           DEVICE DATA
         </TextBlock>
 
         <Grid Grid.Row="1">

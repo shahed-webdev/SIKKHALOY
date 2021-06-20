@@ -19,7 +19,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="ATTENDANCE RECORD" />
+        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="PENDING ATTENDANCE RECORD" />
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
