@@ -24,6 +24,8 @@ namespace AttendanceDevice
     public partial class DisplayWindow : Window
     {
         private DispatcherTimer _tmr = new DispatcherTimer();
+        private DispatcherTimer _dialogTimer = new DispatcherTimer();
+
         private readonly DeviceDisplay _deviceDisplay;
 
         public DisplayWindow(DeviceDisplay deviceDisplay)
@@ -380,6 +382,21 @@ namespace AttendanceDevice
         private void LoopsIT_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("http://loopsit.com/");
+        }
+
+        private void EnrollUserDialog_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //Timer-setup
+            _dialogTimer.Interval = new TimeSpan(0, 0, 5);
+            _dialogTimer.Tick += _dialogTimer_Tick;
+            _dialogTimer.Start();
+        }
+
+        private void _dialogTimer_Tick(object sender, EventArgs e)
+        {
+            EnrollUserDialog.IsOpen = false;
+            _dialogTimer.Stop();
+            _dialogTimer = null;
         }
     }
 }
