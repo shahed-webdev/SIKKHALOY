@@ -99,7 +99,7 @@ namespace AttendanceDevice
                     return;
                 }
 
-                //try connection to device successfully   & Device data send to server
+                //try connection to device successfully & Device data send to server
                 var isDeviceConnected = false;
                 foreach (var device in deviceConnections)
                 {
@@ -215,7 +215,6 @@ namespace AttendanceDevice
                 await LocalData.Instance.InstitutionUpdate(ins);
 
                 //Leave request
-
                 #region Leave request
                 var leaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
                 leaveRequest.AddUrlSegment("id", ins.SchoolID);

@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using zkemkeeper;
 
 namespace AttendanceDevice.Config_Class
@@ -38,6 +39,25 @@ namespace AttendanceDevice.Config_Class
         private DeviceReturn Returns { get; set; }
         public CZKEM axCZKEM1 { get; private set; }
 
+        private DispatcherTimer _dialogTimer = new DispatcherTimer();
+        private void _dialogTimer_Tick(object sender, EventArgs e)
+        {
+            EnrollUserDialogHost.IsOpen = false;
+        }
+        private void EnrollUserDialog_OnDialogOpened(object sender, DialogOpenedEventArgs eventargs)
+        {
+            //Timer-setup
+            _dialogTimer.Interval = TimeSpan.FromSeconds(5);
+            _dialogTimer.Tick += _dialogTimer_Tick;
+            _dialogTimer.Start();
+        }
+
+        private void EnrollUserDialog_OnDialogClosing(object sender, DialogClosingEventArgs eventargs)
+        {
+            _dialogTimer.Stop();
+            _dialogTimer = null;
+        }
+
         public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
         {
             var deviceId = Convert.ToInt32(enrollNumber);
@@ -52,8 +72,17 @@ namespace AttendanceDevice.Config_Class
                 return;
             }
 
-            if (EnrollUserDialogHost.CurrentSession == null)
-                EnrollUserDialogHost.IsOpen = true;
+            if (EnrollUserDialogHost != null)
+            {
+                EnrollUserDialogHost.DialogOpened += EnrollUserDialog_OnDialogOpened;
+                EnrollUserDialogHost.DialogClosing += EnrollUserDialog_OnDialogClosing;
+
+                if (EnrollUserDialogHost.CurrentSession == null)
+                    EnrollUserDialogHost.IsOpen = true;
+
+                _dialogTimer.Interval = TimeSpan.FromSeconds(5);
+            }
+
 
 
             userView.Enroll_Time = dt;
@@ -234,6 +263,8 @@ namespace AttendanceDevice.Config_Class
 
         public DeviceConnection(Device device)
         {
+
+
             axCZKEM1 = new CZKEM();
 
             this.Device = device;
@@ -920,4 +951,6 @@ namespace AttendanceDevice.Config_Class
         public int AttendanceRecords { get; private set; }
         public int DuplicatePunchTime { get; private set; }
     }
+
+
 }
