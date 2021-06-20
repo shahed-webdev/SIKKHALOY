@@ -13,7 +13,13 @@ namespace AttendanceDevice.ViewModel
                 Total_Stuent = db.Users.Where(u => u.Is_Student).Count();
                 Total_Employee = db.Users.Where(u => !u.Is_Student).Count();
                 Total_Device = db.Devices.Count();
-                Backup_Datas = db.attendanceLog_Backups.Count();
+                Backup_Datas = db.attendanceLog_Backups.Select(b => new Log_Backups_View
+                {
+                    DeviceID = b.DeviceID,
+                    Entry_Time = b.Entry_Time,
+                    Entry_Date = b.Entry_Date,
+                    Backup_Reason = b.Backup_Reason
+                }).Distinct().Count();
                 Pending_Attn_Records = db.attendance_Records.Where(a => !a.Is_Sent || !a.Is_Updated).Count();
                 No_of_Schedules = db.attendance_Schedule_Days.Count();
                 Total_Leave_Users = db.user_Leave_Records.Count();

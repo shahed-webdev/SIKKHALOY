@@ -104,7 +104,9 @@ namespace AttendanceDevice
                 //Institution Deactivate By Authority
                 if (!schoolInfo.IsValid)
                 {
-                    LocalData.Current_Error.Message = "Institution Deactivate By Authority!";
+                    queue.Enqueue("Institution Deactivate By Authority!");
+                    LoadingPb.IsIndeterminate = false;
+                    LoginButton.IsEnabled = true;
                     return;
                 }
 

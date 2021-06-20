@@ -358,9 +358,9 @@ namespace AttendanceDevice
 
                 if (institution == null) return;
 
-                if (institution.SettingKey == SettingPasswordBox.Password)
+                if (institution.SettingKey != SettingPasswordBox.Password)
                 {
-                    Error.Text = "Password is incorrect!";
+                    Error.Text = "Setting key is incorrect!";
                     SettingPasswordBox.Password = "";
                     return;
                 }

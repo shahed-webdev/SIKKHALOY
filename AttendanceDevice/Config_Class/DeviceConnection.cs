@@ -52,7 +52,7 @@ namespace AttendanceDevice.Config_Class
                 return;
             }
 
-            if (EnrollUserDialogHost.CurrentSession == null)
+            if (EnrollUserDialogHost != null && EnrollUserDialogHost.CurrentSession == null)
                 EnrollUserDialogHost.IsOpen = true;
 
 
