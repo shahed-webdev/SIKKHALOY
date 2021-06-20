@@ -1,18 +1,16 @@
 ﻿using AttendanceDevice.Config_Class;
 using AttendanceDevice.Model;
 using AttendanceDevice.Settings;
+using MaterialDesignThemes.Wpf;
 using RestSharp;
 using System;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
 namespace AttendanceDevice
@@ -24,7 +22,7 @@ namespace AttendanceDevice
     public partial class DisplayWindow : Window
     {
         private DispatcherTimer _tmr = new DispatcherTimer();
-        private DispatcherTimer _dialogTimer = new DispatcherTimer();
+
 
         private readonly DeviceDisplay _deviceDisplay;
 
@@ -39,7 +37,6 @@ namespace AttendanceDevice
             this.DataContext = LocalData.Instance.institution;
 
             countDevice.Badge = _deviceDisplay.Total_Devices();
-
             foreach (var device in _deviceDisplay.Devices)
             {
                 //Data Show context pass to the device class
@@ -384,19 +381,8 @@ namespace AttendanceDevice
             Process.Start("http://loopsit.com/");
         }
 
-        private void EnrollUserDialog_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            //Timer-setup
-            _dialogTimer.Interval = new TimeSpan(0, 0, 5);
-            _dialogTimer.Tick += _dialogTimer_Tick;
-            _dialogTimer.Start();
-        }
+       
 
-        private void _dialogTimer_Tick(object sender, EventArgs e)
-        {
-            EnrollUserDialog.IsOpen = false;
-            _dialogTimer.Stop();
-            _dialogTimer = null;
-        }
+       
     }
 }
