@@ -141,9 +141,11 @@
                 <script src="/JS/Resize_Img/canvasResize.js"></script>
                 <script src="/JS/Resize_Img/exif.js"></script>
 
-                 <!--Search_In_Dropdownlist-->
+                 <!--Search dropdown list-->
                 <script src="/JS/Search_In_Dropdownlist.js"></script>
-
+                
+                <!--notify-->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
                 <asp:ContentPlaceHolder ID="body" runat="server" />
             </div>
         </div>

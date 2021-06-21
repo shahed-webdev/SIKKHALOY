@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Services;
 using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Authority.Institutions.Device
@@ -36,6 +37,14 @@ namespace EDUCATION.COM.Authority.Institutions.Device
             DeviceActiveInactiveSQL.UpdateParameters["SchoolID"].DefaultValue = schoolId;
             DeviceActiveInactiveSQL.UpdateParameters["IsActive"].DefaultValue = activeCheckBox.Checked.ToString();
             DeviceActiveInactiveSQL.Update();
+        }
+
+
+        //update password
+        [WebMethod]
+        public static void UpdatePassword()
+        {
+
         }
     }
 }

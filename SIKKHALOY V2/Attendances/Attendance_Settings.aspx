@@ -249,25 +249,6 @@
                             <asp:LinkButton ID="LinkButton2" CssClass="btn btn-primary" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
                         </div>
                     </div>
-
-                    <h5>Change Device Login Password</h5>
-                    <div class="card card-body mb-3">
-                        <div class="form-group">
-                            <label>Current password</label>
-                            <input id="inputOldPassword" type="password" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>New Password</label>
-                            <input id="inputNewPassword" type="password" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm New Password</label>
-                            <input id="inputConfirmPassword" type="password" class="form-control" />
-                        </div>
-                        
-                        <button id="btnChangePassword" class="btn btn-primary">Change Password</button>
-                        <div class="red-text" id="error-response"></div>
-                    </div>
                 </div>
             </div>
         </EditItemTemplate>
@@ -306,7 +287,7 @@
 
     <script src="/JS/Zip_File/FileServer.js"></script>
     <script src="/JS/Zip_File/jszip.min.js"></script>
-    <script src="/JS/attendance/api-methods.js"></script>
+    
     <script>
         function Download() {
             $.ajax({
@@ -367,25 +348,5 @@
 
             return new Blob(byteArrays, { type: 'image/png' });
         }
-
-        //change password
-        const btnChangePassword = document.getElementById("btnChangePassword");
-        const inputOldPassword = document.getElementById("inputOldPassword");
-        const inputNewPassword = document.getElementById("inputNewPassword");
-        const inputConfirmPassword = document.getElementById("inputConfirmPassword");
-
-        btnChangePassword.addEventListener("click", function(evt) {
-            evt.preventDefault();
-
-            if (inputOldPassword.value === "" || inputNewPassword.value === "" || inputConfirmPassword.value === "") return;
-
-            const model = {
-                OldPassword: inputOldPassword.value,
-                NewPassword: inputNewPassword.value,
-                ConfirmPassword: inputConfirmPassword.value
-            }
-
-            attendance.changeDevicePassword(model);
-        });
     </script>
 </asp:Content>

@@ -56,6 +56,12 @@
             <asp:BoundField DataField="SchoolName" HeaderText="Institution" SortExpression="SchoolName" />
             <asp:BoundField DataField="UserName" HeaderText="Username" SortExpression="UserName" />
             <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
+            <asp:TemplateField HeaderText="Change Password" SortExpression="UserName">
+                <ItemTemplate>
+                    <input type="password" placeholder="new password" class="form-control input-password" />
+                   <a class="change-password blue-text" id="<%# Eval("UserName") %>" data-password="<%# Eval("Password") %>">Change Password</a>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="Active" SortExpression="IsActive">
                 <ItemTemplate>
                     <asp:CheckBox ID="ActiveCheckBox" AutoPostBack="True" OnCheckedChanged="ActiveCheckBox_OnCheckedChanged" Text=" " runat="server" Checked='<%# Bind("IsActive") %>'/>
@@ -64,8 +70,35 @@
         </Columns>
     </asp:GridView>
 
+
+    <!-- password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100" id="myModalLabel">Change Password</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="institutionName"></p>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input id="inputNewPassword" type="password" class="form-control" />
+                    </div>
+
+                    <button id="btnChangePassword" type="button" class="btn btn-success">Change Password</button>
+                    <div class="red-text" id="password-error"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
     
-    <script src="/JS/attendance/api-methods.js"></script>
+
+    
+    <script src="/JS/attendance/api-methods.js?v=1.0.0"></script>
     <script>
         $(function () {
             $('#linkClose').click(function () {
@@ -73,8 +106,34 @@
             });
         });
 
+        //register new user
         function CrateUser() {
             return attendance.registerNewDeviceUser();
         }
+
+
+        //change device password
+        const tBody = document.getElementById("body_UsersGridView");
+        tBody.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            if (!e.target.classList.contains("change-password")) return;
+
+            const newPassword = e.target.previousElementSibling.value;
+
+            if (!newPassword) {
+                $.notify("enter new password", "error");
+                return;
+            }
+
+            const model = {
+                newPassword: newPassword,
+                username: e.target.id,
+                password: e.target.getAttribute("data-password"),
+                grant_type: "password"
+            }
+
+            attendance.changeDevicePassword(model);
+        });
     </script>
 </asp:Content>
