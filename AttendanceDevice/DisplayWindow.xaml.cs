@@ -1,7 +1,6 @@
 ﻿using AttendanceDevice.Config_Class;
 using AttendanceDevice.Model;
 using AttendanceDevice.Settings;
-using MaterialDesignThemes.Wpf;
 using RestSharp;
 using System;
 using System.ComponentModel;
@@ -22,8 +21,6 @@ namespace AttendanceDevice
     public partial class DisplayWindow : Window
     {
         private DispatcherTimer _tmr = new DispatcherTimer();
-
-
         private readonly DeviceDisplay _deviceDisplay;
 
         public DisplayWindow(DeviceDisplay deviceDisplay)
@@ -381,8 +378,8 @@ namespace AttendanceDevice
             Process.Start("http://loopsit.com/");
         }
 
-       
 
-       
+
+
     }
 }

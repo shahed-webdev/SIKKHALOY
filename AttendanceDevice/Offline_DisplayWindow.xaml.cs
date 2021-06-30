@@ -28,25 +28,7 @@ namespace AttendanceDevice
             _deviceDisplay = deviceDisplay;
             InitializeComponent();
         }
-        public void axCZKEM1_OnAttTransactionEx(string EnrollNumber, int IsInValid, int AttState, int VerifyMethod, int Year, int Month, int Day, int Hour, int Minute, int Second, int WorkCode)
-        {
-            var deviceId = Convert.ToInt32(EnrollNumber);
-            var dt = new DateTime(Year, Month, Day, Hour, Minute, Second);
-            var time = new TimeSpan(Hour, Minute, Second);
-            var userView = LocalData.Instance.GetUserView(deviceId);
 
-            if (userView == null)
-            {
-                userView = new UserView { Name = "User Not found on PC" };
-                UserDataGrid.DataContext = userView;
-                return;
-            }
-
-            userView.Enroll_Time = dt;
-            var sDate = dt.ToShortDateString();
-
-            UserDataGrid.DataContext = userView;
-        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = LocalData.Instance.institution;
@@ -67,6 +49,26 @@ namespace AttendanceDevice
             _tmr.Start();
             this.Closing += Window_Closing;
         }
+        public void axCZKEM1_OnAttTransactionEx(string EnrollNumber, int IsInValid, int AttState, int VerifyMethod, int Year, int Month, int Day, int Hour, int Minute, int Second, int WorkCode)
+        {
+            var deviceId = Convert.ToInt32(EnrollNumber);
+            var dt = new DateTime(Year, Month, Day, Hour, Minute, Second);
+            var time = new TimeSpan(Hour, Minute, Second);
+            var userView = LocalData.Instance.GetUserView(deviceId);
+
+            if (userView == null)
+            {
+                userView = new UserView { Name = "User Not found on PC" };
+                UserDataGrid.DataContext = userView;
+                return;
+            }
+
+            userView.Enroll_Time = dt;
+            var sDate = dt.ToShortDateString();
+
+            UserDataGrid.DataContext = userView;
+        }
+
 
         public void Window_Closing(object sender, CancelEventArgs e)
         {
