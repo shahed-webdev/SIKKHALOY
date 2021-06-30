@@ -71,33 +71,6 @@
     </asp:GridView>
 
 
-    <!-- password Modal -->
-    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title w-100" id="myModalLabel">Change Password</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="institutionName"></p>
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input id="inputNewPassword" type="password" class="form-control" />
-                    </div>
-
-                    <button id="btnChangePassword" type="button" class="btn btn-success">Change Password</button>
-                    <div class="red-text" id="password-error"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    
-
-    
     <script src="/JS/attendance/api-methods.js?v=1.0.0"></script>
     <script>
         $(function () {
