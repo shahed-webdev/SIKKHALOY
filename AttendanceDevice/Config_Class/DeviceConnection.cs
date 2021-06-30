@@ -72,6 +72,7 @@ namespace AttendanceDevice.Config_Class
                 return;
             }
 
+            //popup for Show the user 
             if (EnrollUserDialogHost != null)
             {
                 EnrollUserDialogHost.DialogOpened += EnrollUserDialog_OnDialogOpened;
@@ -606,7 +607,7 @@ namespace AttendanceDevice.Config_Class
                         var time = new TimeSpan(idwHour, idwMinute, idwSecond);
                         var sDate = dt.ToShortDateString();
 
-                        var log = new LogView()
+                        var log = new LogView
                         {
                             DeviceId = deviceId,
                             EntryDate = sDate,
@@ -630,7 +631,7 @@ namespace AttendanceDevice.Config_Class
 
                             if (dt.Date == DateTime.Today.Date) continue;
 
-                            var log = new LogView()
+                            var log = new LogView
                             {
                                 DeviceId = deviceId,
                                 EntryDate = sDate,
