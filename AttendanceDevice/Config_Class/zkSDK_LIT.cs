@@ -14,6 +14,8 @@ namespace AttendanceDevice.Config_Class
 
         public static async Task SaveLogsOrAttendanceInPc(List<LogView> prevLog, List<LogView> todayLog, Institution institution, Device device)
         {
+            var DuplicatePunchCountableMin = 10;
+
             using (var db = new ModelContext())
             {
                 var previousLogs = prevLog.Select(a => new AttendanceLog_Backup
@@ -135,8 +137,6 @@ namespace AttendanceDevice.Config_Class
                                 }
                                 else
                                 {
-
-
                                     if (time <= sStartTime)
                                     {
                                         attRecord.AttendanceStatus = "Pre";
@@ -158,37 +158,59 @@ namespace AttendanceDevice.Config_Class
                             }
                             else
                             {
-                                if (attRecord.AttendanceStatus == "Abs")
+                                var isDuplicatePunch = false;
+
+                                if (attRecord.Is_OUT)
                                 {
-                                    attRecord.AttendanceStatus = "Late Abs";
-                                    attRecord.EntryTime = time.ToString();
-                                    attRecord.Is_Updated = false;
-                                }
-                                else if (attRecord.AttendanceStatus == "Leave")
-                                {
-                                    // no insert
+                                    if (TimeSpan.TryParse(attRecord.ExitStatus, out var previousTime))
+                                    {
+                                        isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
+                                    }
                                 }
                                 else
                                 {
-                                    if (time > sLateTime && time < sEndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
-                                    {
-                                        attRecord.ExitStatus = "Early Leave";
-                                    }
-                                    else if (time > sLateTime && time < sEndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
-                                    {
-                                        attRecord.ExitStatus = "Early Leave";
-                                    }
-                                    else if (time > sEndTime)
-                                    {
-                                        attRecord.ExitStatus = "Out";
-                                    }
 
-                                    attRecord.Is_Updated = false;
-                                    attRecord.ExitTime = time.ToString();
-                                    attRecord.Is_OUT = true;
+                                    if (TimeSpan.TryParse(attRecord.EntryTime, out var previousTime))
+                                    {
+                                        isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
+                                    }
                                 }
 
-                                db.Entry(attRecord).State = EntityState.Modified;
+                                if (!isDuplicatePunch)
+                                {
+                                    if (attRecord.AttendanceStatus == "Abs")
+                                    {
+                                        attRecord.AttendanceStatus = "Late Abs";
+                                        attRecord.EntryTime = time.ToString();
+                                        attRecord.Is_Updated = false;
+
+
+                                    }
+                                    else if (attRecord.AttendanceStatus == "Leave")
+                                    {
+                                        // no insert
+                                    }
+                                    else
+                                    {
+                                        if (time > sLateTime && time < sEndTime)
+                                        {
+                                            attRecord.ExitStatus = "Early Leave";
+                                        }
+                                        else if (time > sEndTime)
+                                        {
+                                            attRecord.ExitStatus = "Out";
+                                        }
+
+                                        attRecord.Is_Updated = false;
+                                        attRecord.ExitTime = time.ToString();
+                                        attRecord.Is_OUT = true;
+
+
+                                    }
+
+
+                                    db.Entry(attRecord).State = EntityState.Modified;
+                                }
                             }
 
                         }

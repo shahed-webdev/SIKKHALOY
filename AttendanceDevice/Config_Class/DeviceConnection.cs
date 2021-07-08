@@ -64,7 +64,7 @@ namespace AttendanceDevice.Config_Class
             var dt = new DateTime(year, month, day, hour, minute, second);
             var time = new TimeSpan(hour, minute, second);
             var userView = LocalData.Instance.GetUserView(deviceId);
-
+            var DuplicatePunchCountableMin = 10;
             if (userView == null)
             {
                 userView = new UserView { Name = "User Not found on PC" };
@@ -155,8 +155,6 @@ namespace AttendanceDevice.Config_Class
                         }
                         else
                         {
-
-
                             if (time <= sStartTime)
                             {
                                 attRecord.AttendanceStatus = "Pre";
@@ -169,45 +167,62 @@ namespace AttendanceDevice.Config_Class
                             {
                                 attRecord.AttendanceStatus = "Late Abs";
                             }
-
-                            attRecord.Is_Sent = false;
-                            attRecord.Is_Updated = false;
-                            db.attendance_Records.Add(attRecord);
-                            db.Entry(attRecord).State = EntityState.Added;
                         }
+                        attRecord.Is_Sent = false;
+                        attRecord.Is_Updated = false;
+                        db.attendance_Records.Add(attRecord);
+                        db.Entry(attRecord).State = EntityState.Added;
                     }
                     else
                     {
-                        if (attRecord.AttendanceStatus == "Abs")
-                        {
-                            if (time < sEndTime)
-                            {
-                                attRecord.AttendanceStatus = "Late Abs";
-                            }
+                        var isDuplicatePunch = false;
 
-                            attRecord.EntryTime = time.ToString();
-                            attRecord.Is_Updated = false;
+                        if (attRecord.Is_OUT)
+                        {
+                            if (TimeSpan.TryParse(attRecord.ExitStatus, out var previousTime))
+                            {
+                                isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
+                            }
                         }
                         else
                         {
-                            if (time > sLateTime && time < sEndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
+
+                            if (TimeSpan.TryParse(attRecord.EntryTime, out var previousTime))
                             {
-                                attRecord.ExitStatus = "Early Leave";
+                                isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
                             }
-                            else if (time > sLateTime && time < sEndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
-                            {
-                                attRecord.ExitStatus = "Early Leave";
-                            }
-                            else if (time > sEndTime)
-                            {
-                                attRecord.ExitStatus = "Out";
-                            }
-                            attRecord.Is_OUT = true;
-                            attRecord.ExitTime = time.ToString();
-                            attRecord.Is_Updated = false;
                         }
 
-                        db.Entry(attRecord).State = EntityState.Modified;
+                        if (!isDuplicatePunch)
+                        {
+                            if (attRecord.AttendanceStatus == "Abs")
+                            {
+                                if (time < sEndTime)
+                                {
+                                    attRecord.AttendanceStatus = "Late Abs";
+                                }
+
+                                attRecord.EntryTime = time.ToString();
+                                attRecord.Is_Updated = false;
+                            }
+                            else
+                            {
+                                if (time > sLateTime && time < sEndTime)
+                                {
+                                    attRecord.ExitStatus = "Early Leave";
+                                }
+                                else if (time > sEndTime)
+                                {
+                                    attRecord.ExitStatus = "Out";
+                                }
+                                attRecord.Is_OUT = true;
+                                attRecord.ExitTime = time.ToString();
+                                attRecord.Is_Updated = false;
+                            }
+
+                            db.Entry(attRecord).State = EntityState.Modified;
+                        }
+
                     }
 
                     await db.SaveChangesAsync();
@@ -595,7 +610,7 @@ namespace AttendanceDevice.Config_Class
                 }
 
                 var toTime = DateTime.Today.Date;
-                var toTimeString = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
+                var toTimeString = toTime.ToString("yyyy-MM-dd 00:00:00");
 
                 if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTimeString, toTimeString))
                 {
@@ -619,29 +634,37 @@ namespace AttendanceDevice.Config_Class
                 }
                 else
                 {
-                    if (axCZKEM1.ReadGeneralLogData(Machine.Number))
+                    var idwErrorCode = 0;
+                    axCZKEM1.GetLastError(ref idwErrorCode);
+                    //check no data found or a error  
+                    if (idwErrorCode != 0)
                     {
-                        while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
+                        if (axCZKEM1.ReadGeneralLogData(Machine.Number))
                         {
-                            var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
-
-                            //Check data in Last Downloaded Log Time 
-                            if (fromTime <= dt || dt >= toTime) continue;
-
-                            var deviceId = Convert.ToInt32(sdwEnrollNumber);
-                            var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                            var sDate = dt.ToShortDateString();
-
-                            var log = new LogView
+                            while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _,
+                                out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond,
+                                ref idWorkCode)) //get records from the memory
                             {
-                                DeviceId = deviceId,
-                                EntryDate = sDate,
-                                EntryTime = time,
-                                EntryDay = dt.ToString("dddd"),
-                                EntryDateTime = dt,
-                            };
+                                var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
 
-                            logs.Add(log);
+                                //Check data in Last Downloaded Log Time 
+                                if (fromTime <= dt || dt >= toTime) continue;
+
+                                var deviceId = Convert.ToInt32(sdwEnrollNumber);
+                                var time = new TimeSpan(idwHour, idwMinute, idwSecond);
+                                var sDate = dt.ToShortDateString();
+
+                                var log = new LogView
+                                {
+                                    DeviceId = deviceId,
+                                    EntryDate = sDate,
+                                    EntryTime = time,
+                                    EntryDay = dt.ToString("dddd"),
+                                    EntryDateTime = dt,
+                                };
+
+                                logs.Add(log);
+                            }
                         }
                     }
 
@@ -676,15 +699,25 @@ namespace AttendanceDevice.Config_Class
                 var idwSecond = 0;
                 var idWorkCode = 0;
 
-                var fromTime = DateTime.Today.Date.ToString("yyyy-MM-dd 00:00:00");
-                var toTime = DateTime.Today.AddDays(1).Date.ToString("yyyy-MM-dd 00:00:00");
 
-                if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTime, toTime))
+
+
+                var fromTime = DateTime.Today.Date;
+                var fromTimeString = fromTime.ToString("yyyy-MM-dd 00:00:00");
+
+                var toTime = DateTime.Today.AddDays(1).Date;
+                var toTimeString = toTime.ToString("yyyy-MM-dd 00:00:00");
+
+
+
+                if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTimeString, toTimeString))
                 {
                     while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                     {
-                        var deviceId = Convert.ToInt32(sdwEnrollNumber);
                         var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
+
+
+                        var deviceId = Convert.ToInt32(sdwEnrollNumber);
                         var time = new TimeSpan(idwHour, idwMinute, idwSecond);
                         var sDate = dt.ToShortDateString();
 
@@ -702,27 +735,38 @@ namespace AttendanceDevice.Config_Class
                 }
                 else
                 {
-                    if (axCZKEM1.ReadGeneralLogData(Machine.Number))
+                    var idwErrorCode = 0;
+                    axCZKEM1.GetLastError(ref idwErrorCode);
+                    //check no data found or a error  
+                    if (idwErrorCode != 0)
                     {
-                        while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
+                        if (axCZKEM1.ReadGeneralLogData(Machine.Number))
                         {
-                            var deviceId = Convert.ToInt32(sdwEnrollNumber);
-                            var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
-                            var time = new TimeSpan(idwHour, idwMinute, idwSecond);
-                            var sDate = dt.ToShortDateString();
-
-                            var log = new LogView()
+                            while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _,
+                                out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond,
+                                ref idWorkCode)) //get records from the memory
                             {
-                                DeviceId = deviceId,
-                                EntryDate = sDate,
-                                EntryTime = time,
-                                EntryDay = dt.ToString("dddd"),
-                                EntryDateTime = dt
-                            };
+                                var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
+                                //Check data in Last Downloaded Log Time 
+                                if (fromTime <= dt || dt >= toTime) continue;
 
-                            logs.Add(log);
+                                var deviceId = Convert.ToInt32(sdwEnrollNumber);
+                                var time = new TimeSpan(idwHour, idwMinute, idwSecond);
+                                var sDate = dt.ToShortDateString();
+
+                                var log = new LogView()
+                                {
+                                    DeviceId = deviceId,
+                                    EntryDate = sDate,
+                                    EntryTime = time,
+                                    EntryDay = dt.ToString("dddd"),
+                                    EntryDateTime = dt
+                                };
+
+                                logs.Add(log);
+                            }
+
                         }
-
                     }
                 }
             }

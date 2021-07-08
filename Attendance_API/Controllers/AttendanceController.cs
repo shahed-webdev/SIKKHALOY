@@ -26,7 +26,7 @@ namespace Attendance_API.Controllers
             using (var db = new EduContext())
             {
                 var today = DateTime.Now;
-                var timeToday = DateTime.Now;
+                var timeToday = DateTime.Now.Date;
 
                 var attSetting = db.Attendance_Device_Settings.FirstOrDefault(s => s.SchoolID == id);
                 var schoolName = db.SchoolInfos.Find(id)?.SchoolName;
@@ -130,8 +130,8 @@ namespace Attendance_API.Controllers
                                                       StudentID = a.StudentID,
                                                       ScheduleTime = s.StartTime,
                                                       AttendanceDate = a.AttendanceDate,
-                                                      SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} has reached {schoolName} at {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):hh:mm tt}"
-                                                          : $"সম্মানিত অভিভাবক, {s.StudentsName} নিরাপদে {schoolName} এ ({DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):hh:mm tt}) প্রবেশ করেছে",
+                                                      SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} has reached {schoolName} at {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}"
+                                                          : $"সম্মানিত অভিভাবক, {s.StudentsName} নিরাপদে {schoolName} এ ({DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}) প্রবেশ করেছে",
                                                       MobileNo = s.SMSPhoneNo,
                                                       AttendanceStatus = a.Attendance,
                                                       SMS_TimeOut = attSetting.SMS_TimeOut_Minute
