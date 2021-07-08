@@ -31,7 +31,7 @@ namespace Attendance_API.Controllers
                             Is_Device_Attendance_Enable = a.Is_Device_Attendance_Enable,
                             Is_Employee_Attendance_Enable = a.Is_Employee_Attendance_Enable,
                             Is_Student_Attendance_Enable = a.Is_Student_Attendance_Enable,
-                            Holiday_Active = a.Is_Holiday_As_Offday,
+                            Holiday_Active = !a.Is_Holiday_As_Offday,
                             IsValid = a.IsActive
                         };
 
@@ -44,7 +44,7 @@ namespace Attendance_API.Controllers
                                 where i.UserName == id && h.HolidayDate == DateTime.Today
                                 select h.HolidayID;
 
-                ins.Is_Today_Holiday = await isHoliday.AnyAsync<int>();
+                ins.Is_Today_Holiday = await isHoliday.AnyAsync();
                 ins.LastUpdateDate = DateTime.Now.ToShortDateString();
                 ins.Current_Datetime = DateTime.Now;
             }
@@ -71,7 +71,7 @@ namespace Attendance_API.Controllers
                             Is_Device_Attendance_Enable = a.Is_Device_Attendance_Enable,
                             Is_Employee_Attendance_Enable = a.Is_Employee_Attendance_Enable,
                             Is_Student_Attendance_Enable = a.Is_Student_Attendance_Enable,
-                            Holiday_NotActive = a.Is_Holiday_As_Offday
+                            Holiday_NotActive = !a.Is_Holiday_As_Offday
                         };
 
                 ins = await q.FirstOrDefaultAsync<SchoolShortVM>();
@@ -82,7 +82,7 @@ namespace Attendance_API.Controllers
                                 where i.UserName == id && h.HolidayDate == DateTime.Today
                                 select h.HolidayID;
 
-                ins.Is_Today_Holiday = await isHoliday.AnyAsync<int>();
+                ins.Is_Today_Holiday = await isHoliday.AnyAsync();
                 ins.LastUpdateDate = DateTime.Now.ToShortDateString();
                 ins.Current_Datetime = DateTime.Now;
             }
@@ -133,7 +133,7 @@ namespace Attendance_API.Controllers
             var isEnable = false;
             using (var db = new EduContext())
             {
-                isEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Holiday_As_Offday).FirstOrDefaultAsync<bool>();
+                isEnable = await db.Attendance_Device_Settings.Where(d => d.UserName == id).Select(d => d.Is_Holiday_As_Offday).FirstOrDefaultAsync();
             }
             return isEnable;
         }
@@ -150,7 +150,7 @@ namespace Attendance_API.Controllers
                         on h.SchoolID equals i.SchoolID
                         where i.UserName == id && h.HolidayDate == DateTime.Today
                         select h.HolidayID;
-                isEnable = await q.AnyAsync<int>();
+                isEnable = await q.AnyAsync();
             }
             return isEnable;
         }

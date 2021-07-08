@@ -32,7 +32,8 @@ namespace AttendanceDevice.Config_Class
                 //        ScheduleID = u.ScheduleID
                 //    }).ToList();
                 //}
-                Schedules = db.attendance_Schedule_Days.ToList();
+
+                //Schedules = db.attendance_Schedule_Days.ToList();
             }
         }
 
@@ -72,28 +73,34 @@ namespace AttendanceDevice.Config_Class
             return this.UserViews.Where(u => u.DeviceID == deviceID).FirstOrDefault();
         }
 
-        public List<Attendance_Schedule_Day> Schedules { get; set; } = new List<Attendance_Schedule_Day>();
+        // public List<Attendance_Schedule_Day> Schedules { get; set; } = new List<Attendance_Schedule_Day>();
         public List<Attendance_Schedule_Day> Schedules_Get()
         {
-            return Schedules.Select(a => new Attendance_Schedule_Day
+            var schedules = new List<Attendance_Schedule_Day>();
+            using (var db = new ModelContext())
             {
-                id = a.id,
-                Day = a.Day,
-                Is_OnDay = a.Is_OnDay,
-                ScheduleID = a.ScheduleID,
-                SchoolID = a.SchoolID,
-                StartTime = Convert.ToDateTime(a.StartTime).ToString("hh:mm tt"),
-                EndTime = Convert.ToDateTime(a.EndTime).ToString("hh:mm tt"),
-                LateEntryTime = Convert.ToDateTime(a.LateEntryTime).ToString("hh:mm tt")
-            }).ToList();
+                schedules = db.attendance_Schedule_Days.ToList();
+            }
+            return schedules;
+            //return Schedules.Select(a => new Attendance_Schedule_Day
+            //{
+            //    id = a.id,
+            //    Day = a.Day,
+            //    Is_OnDay = a.Is_OnDay,
+            //    ScheduleID = a.ScheduleID,
+            //    SchoolID = a.SchoolID,
+            //    StartTime = Convert.ToDateTime(a.StartTime).ToString("hh:mm tt"),
+            //    EndTime = Convert.ToDateTime(a.EndTime).ToString("hh:mm tt"),
+            //    LateEntryTime = Convert.ToDateTime(a.LateEntryTime).ToString("hh:mm tt")
+            //}).ToList();
         }
         public Attendance_Schedule_Day GetUserSchedule(int scheduleID)
         {
-            return this.Schedules.Where(u => u.ScheduleID == scheduleID).FirstOrDefault();
+            return Schedules_Get().FirstOrDefault(u => u.ScheduleID == scheduleID);
         }
-        public List<int> GetCurrent_Onday_SchduleIDs()
+        public List<int> GetCurrentOndaySchduleIds()
         {
-            return this.Schedules.Where(s => Convert.ToDateTime(s.LateEntryTime) < DateTime.Now && s.Is_OnDay && !s.Is_Abs_Count).Select(s => s.ScheduleID).ToList();
+            return Schedules_Get().Where(s => Convert.ToDateTime(s.LateEntryTime) < DateTime.Now && s.Is_OnDay && !s.Is_Abs_Count).Select(s => s.ScheduleID).ToList();
         }
 
         public async Task<List<Device>> DeviceListAsync()
@@ -184,24 +191,25 @@ namespace AttendanceDevice.Config_Class
 
         public List<Log_Backups_View> Get_Log_Backup()
         {
+            var logs = new List<Log_Backups_View>();
             using (var db = new ModelContext())
             {
-                var logs = from a in db.attendanceLog_Backups
-                           join u in db.Users
-                           on a.DeviceID equals u.DeviceID
-                           select new Log_Backups_View()
-                           {
-                               DeviceID = a.DeviceID,
-                               Entry_Date = a.Entry_Date,
-                               Entry_Time = a.Entry_Time,
-                               Backup_Reason = a.Backup_Reason,
-                               ID = u.ID,
-                               Name = u.Name,
-                               Is_Student = u.Is_Student
-                           };
-
-                return logs.Distinct().ToList();
+                logs = (from a in db.attendanceLog_Backups
+                        join u in db.Users
+                        on a.DeviceID equals u.DeviceID
+                        select new Log_Backups_View()
+                        {
+                            DeviceID = a.DeviceID,
+                            Entry_Date = a.Entry_Date,
+                            Entry_Time = a.Entry_Time,
+                            Backup_Reason = a.Backup_Reason,
+                            ID = u.ID,
+                            Name = u.Name,
+                            Is_Student = u.Is_Student
+                        }).Distinct().ToList();
             }
+
+            return logs;
         }
         public List<LeaveView> Get_Leave()
         {
@@ -321,48 +329,44 @@ namespace AttendanceDevice.Config_Class
                 db.SaveChanges();
             }
         }
-        public void Abs_Insert(List<int> ScheduleIDs, string date, Institution Ins)
+        public void Abs_Insert(List<int> scheduleIDs, string date, Institution ins)
         {
-            List<Attendance_Record> Records = new List<Attendance_Record>();
+            var scheduleUser = new List<int>();
 
-            var ScheduleUser = new List<int>();
-
-            if (Ins.Is_Employee_Attendance_Enable && Ins.Is_Student_Attendance_Enable)
-                ScheduleUser = Users.Where(u => ScheduleIDs.Contains(u.ScheduleID)).Select(u => u.DeviceID).ToList();
-            else if (Ins.Is_Employee_Attendance_Enable)
-                ScheduleUser = Users.Where(u => ScheduleIDs.Contains(u.ScheduleID) && !u.Is_Student).Select(u => u.DeviceID).ToList();
-            else if (Ins.Is_Student_Attendance_Enable)
-                ScheduleUser = Users.Where(u => ScheduleIDs.Contains(u.ScheduleID) && u.Is_Student).Select(u => u.DeviceID).ToList();
+            if (ins.Is_Employee_Attendance_Enable && ins.Is_Student_Attendance_Enable)
+                scheduleUser = Users.Where(u => scheduleIDs.Contains(u.ScheduleID)).Select(u => u.DeviceID).ToList();
+            else if (ins.Is_Employee_Attendance_Enable)
+                scheduleUser = Users.Where(u => scheduleIDs.Contains(u.ScheduleID) && !u.Is_Student).Select(u => u.DeviceID).ToList();
+            else if (ins.Is_Student_Attendance_Enable)
+                scheduleUser = Users.Where(u => scheduleIDs.Contains(u.ScheduleID) && u.Is_Student).Select(u => u.DeviceID).ToList();
 
             using (var db = new ModelContext())
             {
                 var logs = db.attendance_Records.Where(a => a.AttendanceDate == date).Select(a => a.DeviceID).ToList();
 
-                var DeviceIDs = ScheduleUser.Where(u => !logs.Contains(u)).ToList();
+                var deviceIDs = scheduleUser.Where(u => !logs.Contains(u)).ToList();
 
 
-                foreach (var DeviceID in DeviceIDs)
+
+                var attRecords = deviceIDs.Select(deviceId => new Attendance_Record
                 {
-                    var Att_record = new Attendance_Record();
-
-                    Att_record.AttendanceDate = date;
-                    Att_record.DeviceID = DeviceID;
-                    Att_record.AttendanceStatus = "Abs";
-                    Records.Add(Att_record);
-                }
+                    AttendanceDate = date,
+                    DeviceID = deviceId,
+                    AttendanceStatus = "Abs"
+                }).ToList();
 
 
                 //Schedules updates
-                var Schs = db.attendance_Schedule_Days.Where(s => ScheduleIDs.Contains(s.ScheduleID)).ToList();
-                Schs.ForEach(s => s.Is_Abs_Count = true);
+                var schs = db.attendance_Schedule_Days.Where(s => scheduleIDs.Contains(s.ScheduleID)).ToList();
+                schs.ForEach(s => s.Is_Abs_Count = true);
 
-                if (Records.Count() > 0)
+                if (attRecords.Any())
                 {
-                    db.attendance_Records.AddRange(Records);
+                    db.attendance_Records.AddRange(attRecords);
                 }
                 db.SaveChanges();
 
-                this.Schedules = db.attendance_Schedule_Days.ToList();
+                // this.Schedules = db.attendance_Schedule_Days.ToList();
             }
         }
 
@@ -447,7 +451,7 @@ namespace AttendanceDevice.Config_Class
                         .ForEach(s => s.Is_Abs_Count = true);
                 }
 
-                this.Schedules = data;
+                // this.Schedules = data;
 
                 db.attendance_Schedule_Days.Clear();
 
@@ -472,7 +476,6 @@ namespace AttendanceDevice.Config_Class
         public Error_Type Type { get; set; }
         public string Message { get; set; }
     }
-
     public class Finger
     {
         public SolidColorBrush LeftIndex { get; set; } = Brushes.White;

@@ -146,16 +146,16 @@ namespace AttendanceDevice.Config_Class
                     if (attRecord == null)
                     {
                         attRecord = new Attendance_Record();
-
+                        attRecord.AttendanceDate = sDate;
+                        attRecord.DeviceID = deviceId;
+                        attRecord.EntryTime = time.ToString();
                         if (time > sEndTime)
                         {
-                            //Enroll after end time (as first enroll)
+                            attRecord.AttendanceStatus = "Late Abs";
                         }
                         else
                         {
-                            attRecord.AttendanceDate = sDate;
-                            attRecord.DeviceID = deviceId;
-                            attRecord.EntryTime = time.ToString();
+
 
                             if (time <= sStartTime)
                             {
@@ -170,6 +170,8 @@ namespace AttendanceDevice.Config_Class
                                 attRecord.AttendanceStatus = "Late Abs";
                             }
 
+                            attRecord.Is_Sent = false;
+                            attRecord.Is_Updated = false;
                             db.attendance_Records.Add(attRecord);
                             db.Entry(attRecord).State = EntityState.Added;
                         }
@@ -184,30 +186,25 @@ namespace AttendanceDevice.Config_Class
                             }
 
                             attRecord.EntryTime = time.ToString();
-                            attRecord.Is_Sent = false;
+                            attRecord.Is_Updated = false;
                         }
                         else
                         {
                             if (time > sLateTime && time < sEndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
                             {
                                 attRecord.ExitStatus = "Early Leave";
-                                attRecord.Is_OUT = true;
-                                attRecord.ExitTime = time.ToString();
                             }
                             else if (time > sLateTime && time < sEndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
                             {
                                 attRecord.ExitStatus = "Early Leave";
-                                attRecord.Is_OUT = true;
-                                attRecord.ExitTime = time.ToString();
-                                attRecord.Is_Updated = false;
                             }
                             else if (time > sEndTime)
                             {
                                 attRecord.ExitStatus = "Out";
-                                attRecord.Is_OUT = true;
-                                attRecord.ExitTime = time.ToString();
-                                attRecord.Is_Updated = false;
                             }
+                            attRecord.Is_OUT = true;
+                            attRecord.ExitTime = time.ToString();
+                            attRecord.Is_Updated = false;
                         }
 
                         db.Entry(attRecord).State = EntityState.Modified;
@@ -586,19 +583,21 @@ namespace AttendanceDevice.Config_Class
                 var idwSecond = 0;
                 var idWorkCode = 0;
 
-                var fromTime = DateTime.Today.AddDays(-PrevDayLogCountable).ToString("yyyy-MM-dd 00:00:00");
+                var fromTime = DateTime.Today.AddDays(-PrevDayLogCountable);
+                var fromTimeString = fromTime.ToString("yyyy-MM-dd 00:00:00");
 
                 if (DateTime.TryParse(Device.Last_Down_Log_Time, out var deviceLastUpdate))
                 {
                     if ((DateTime.Today - deviceLastUpdate).TotalDays < PrevDayLogCountable)
                     {
-                        fromTime = Device.Last_Down_Log_Time;
+                        fromTimeString = Device.Last_Down_Log_Time;
                     }
                 }
 
-                var toTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
+                var toTime = DateTime.Today.Date;
+                var toTimeString = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
 
-                if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTime, toTime))
+                if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTimeString, toTimeString))
                 {
                     while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                     {
@@ -624,12 +623,14 @@ namespace AttendanceDevice.Config_Class
                     {
                         while (axCZKEM1.SSR_GetGeneralLogData(Machine.Number, out sdwEnrollNumber, out _, out _, out idwYear, out idwMonth, out idwDay, out idwHour, out idwMinute, out idwSecond, ref idWorkCode))//get records from the memory
                         {
-                            var deviceId = Convert.ToInt32(sdwEnrollNumber);
                             var dt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
+
+                            //Check data in Last Downloaded Log Time 
+                            if (fromTime <= dt || dt >= toTime) continue;
+
+                            var deviceId = Convert.ToInt32(sdwEnrollNumber);
                             var time = new TimeSpan(idwHour, idwMinute, idwSecond);
                             var sDate = dt.ToShortDateString();
-
-                            if (dt.Date == DateTime.Today.Date) continue;
 
                             var log = new LogView
                             {
@@ -675,8 +676,8 @@ namespace AttendanceDevice.Config_Class
                 var idwSecond = 0;
                 var idWorkCode = 0;
 
-                var fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
-                var toTime = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd 00:00:00");
+                var fromTime = DateTime.Today.Date.ToString("yyyy-MM-dd 00:00:00");
+                var toTime = DateTime.Today.AddDays(1).Date.ToString("yyyy-MM-dd 00:00:00");
 
                 if (axCZKEM1.ReadTimeGLogData(Machine.Number, fromTime, toTime))
                 {

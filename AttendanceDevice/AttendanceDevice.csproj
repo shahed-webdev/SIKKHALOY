@@ -213,6 +213,7 @@
     <Compile Include="ViewModel\Attendance_Record_View.cs" />
     <Compile Include="ViewModel\ErrorData_View.cs" />
     <Compile Include="ViewModel\LeaveView.cs" />
+    <Compile Include="ViewModel\LogDataSendModel.cs" />
     <Compile Include="ViewModel\LogView.cs" />
     <Compile Include="ViewModel\Log_Backups_View.cs" />
     <Compile Include="ViewModel\Setting_Dashboard_View.cs" />

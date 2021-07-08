@@ -1,9 +1,13 @@
 ﻿using AttendanceDevice.Config_Class;
+using AttendanceDevice.Model;
 using AttendanceDevice.Settings.Pages;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
@@ -140,6 +144,109 @@ namespace AttendanceDevice.Settings
                 return;
             }
 
+            var ins = LocalData.Instance.institution;
+            //Update Local PC information if date not same
+            if (ins.LastUpdateDate != DateTime.Today.ToShortDateString())
+            {
+                var client = new RestClient(ApiUrl.EndPoint);
+                //get institution info
+                var schoolRequest = new RestRequest("api/school/{id}", Method.GET);
+
+                schoolRequest.AddUrlSegment("id", ins.UserName);
+                schoolRequest.AddHeader("Authorization", "Bearer " + ins.Token);
+
+                //School info execute the request
+                var schoolResponse = await client.ExecuteTaskAsync(schoolRequest);
+                var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
+
+                if (schoolResponse.StatusCode != HttpStatusCode.OK && schoolInfo == null)
+                {
+                    LocalData.Current_Error.Message = "Institution Information Not Found in Server!";
+                    var login = new Login_Window();
+                    login.Show();
+                    this.Close();
+                    return;
+                }
+
+                //Institution Deactivate By Authority
+                if (!schoolInfo.IsValid)
+                {
+                    LocalData.Current_Error.Message = "Institution Deactivate By Authority!";
+                    var login = new Login_Window();
+                    login.Show();
+                    this.Close();
+                    return;
+                }
+
+                var serverDatetime = schoolInfo.Current_Datetime;
+                //check pc date time
+                if (!(serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now))
+                {
+                    var errorObj = new Error("Invalid",
+                        "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
+                    var errorWindow = new Error_Window(errorObj);
+                    errorWindow.Show();
+                    this.Close();
+                    return;
+                }
+
+                //Update Institution Information
+                ins.IsValid = schoolInfo.IsValid;
+                ins.SettingKey = schoolInfo.SettingKey;
+                ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
+                ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
+                ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
+                ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
+                ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
+                ins.LastUpdateDate = schoolInfo.LastUpdateDate;
+
+                await LocalData.Instance.InstitutionUpdate(ins);
+
+                //Leave request
+
+                #region Leave request
+
+                var leaveRequest = new RestRequest("api/Users/{id}/leave", Method.GET);
+                leaveRequest.AddUrlSegment("id", ins.SchoolID);
+                leaveRequest.AddHeader("Authorization", "Bearer " + ins.Token);
+                //Leave execute the request
+                var leaveResponse = await client.ExecuteTaskAsync<List<User_Leave_Record>>(leaveRequest);
+
+                if (leaveResponse.StatusCode == HttpStatusCode.OK && leaveResponse.Data != null)
+                {
+                    await LocalData.Instance.LeaveDataHandling(leaveResponse.Data);
+                }
+                else
+                {
+                    var errorObj = new Error("Api Leave Error", leaveResponse.ErrorMessage);
+                    var errorWindow = new Error_Window(errorObj);
+                    errorWindow.Show();
+                    this.Close();
+                    return;
+                }
+
+                #endregion Leave request
+
+                //Schedule Day Request
+
+                #region Schedule data
+
+                var scheduleDayRequest = new RestRequest("api/Users/{id}/schedule", Method.GET);
+                scheduleDayRequest.AddUrlSegment("id", ins.SchoolID);
+                scheduleDayRequest.AddHeader("Authorization", "Bearer " + ins.Token);
+
+                var scheduleDayResponse =
+                    await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
+
+                if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null)
+                {
+                    await LocalData.Instance.ScheduleDataHandling(scheduleDayResponse.Data);
+                }
+
+                #endregion Schedule data
+            }
+
+
             //try connection to device successfully
             var isDeviceConnected = false;
             foreach (var device in deviceConnections)
@@ -182,14 +289,16 @@ namespace AttendanceDevice.Settings
             if (await ApiUrl.IsNoNetConnection() || await ApiUrl.IsServerUnavailable())
             {
                 //show  Offline display window
-                var offlineDisplay = new Offline_DisplayWindow(initDevice);
-                offlineDisplay.Show();
+                var noInternetWindow = new No_Internet_Window(initDevice);
+                noInternetWindow.Show();
                 this.Close();
                 return;
             }
 
             PB.IsIndeterminate = false;
             btnDisplay.IsEnabled = true;
+
+            //Need to send data to server 
 
             var DisplayWindow = new DisplayWindow(initDevice);
             DisplayWindow.Show();

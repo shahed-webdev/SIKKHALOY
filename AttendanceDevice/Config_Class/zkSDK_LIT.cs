@@ -124,16 +124,18 @@ namespace AttendanceDevice.Config_Class
                             if (attRecord == null)
                             {
                                 attRecord = new Attendance_Record();
+                                attRecord.AttendanceDate = log.EntryDate;
+                                attRecord.DeviceID = log.DeviceId;
+                                attRecord.EntryTime = time.ToString();
 
                                 if (time > sEndTime)
                                 {
                                     //Enroll after end time (as first enroll)
+                                    attRecord.AttendanceStatus = "Late Abs";
                                 }
                                 else
                                 {
-                                    attRecord.AttendanceDate = log.EntryDate;
-                                    attRecord.DeviceID = log.DeviceId;
-                                    attRecord.EntryTime = time.ToString();
+
 
                                     if (time <= sStartTime)
                                     {
@@ -148,9 +150,11 @@ namespace AttendanceDevice.Config_Class
                                         attRecord.AttendanceStatus = "Late Abs";
                                     }
 
-                                    db.attendance_Records.Add(attRecord);
-                                    db.Entry(attRecord).State = EntityState.Added;
                                 }
+                                attRecord.Is_Sent = false;
+                                attRecord.Is_Updated = false;
+                                db.attendance_Records.Add(attRecord);
+                                db.Entry(attRecord).State = EntityState.Added;
                             }
                             else
                             {
@@ -158,7 +162,7 @@ namespace AttendanceDevice.Config_Class
                                 {
                                     attRecord.AttendanceStatus = "Late Abs";
                                     attRecord.EntryTime = time.ToString();
-                                    attRecord.Is_Sent = false;
+                                    attRecord.Is_Updated = false;
                                 }
                                 else if (attRecord.AttendanceStatus == "Leave")
                                 {
@@ -169,23 +173,19 @@ namespace AttendanceDevice.Config_Class
                                     if (time > sLateTime && time < sEndTime && !attRecord.Is_OUT && TimeSpan.Parse(attRecord.EntryTime).TotalMinutes + 10 < time.TotalMinutes)
                                     {
                                         attRecord.ExitStatus = "Early Leave";
-                                        attRecord.Is_OUT = true;
-                                        attRecord.ExitTime = time.ToString();
                                     }
                                     else if (time > sLateTime && time < sEndTime && attRecord.Is_OUT && TimeSpan.Parse(attRecord.ExitTime).TotalMinutes + 10 < time.TotalMinutes)
                                     {
                                         attRecord.ExitStatus = "Early Leave";
-                                        attRecord.Is_OUT = true;
-                                        attRecord.ExitTime = time.ToString();
-                                        attRecord.Is_Updated = false;
                                     }
                                     else if (time > sEndTime)
                                     {
                                         attRecord.ExitStatus = "Out";
-                                        attRecord.Is_OUT = true;
-                                        attRecord.ExitTime = time.ToString();
-                                        attRecord.Is_Updated = false;
                                     }
+
+                                    attRecord.Is_Updated = false;
+                                    attRecord.ExitTime = time.ToString();
+                                    attRecord.Is_OUT = true;
                                 }
 
                                 db.Entry(attRecord).State = EntityState.Modified;
@@ -201,9 +201,11 @@ namespace AttendanceDevice.Config_Class
                 prevLog.AddRange(todayLog);
                 var maxDateTime = DateTime.Now;
 
+
                 if (prevLog.Count > 0)
                 {
-                    maxDateTime = prevLog.Max(l => l.EntryDateTime);
+                    maxDateTime = prevLog.Max(l => l.EntryDateTime).AddSeconds(1);
+
                 }
 
                 device.Last_Down_Log_Time = maxDateTime.ToString("yyyy-MM-dd HH:mm:ss");

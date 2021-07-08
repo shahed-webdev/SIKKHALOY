@@ -67,8 +67,8 @@
                                 </li>
                                 <li class="list-group-item d-sm-flex justify-content-between align-items-center">
                                     <div>
-                                        <p class="mb-0">HOLIDAY AS ACTIVE DAY</p>
-                                        <small>Attendance count if holiday is ON.</small>
+                                        <p class="mb-0">HOLIDAY</p>
+                                        <small>Attendance count if holiday is off.</small>
                                     </div>
                                     <asp:RadioButtonList ID="RadioButtonList1" SelectedValue='<%# Bind("Is_Holiday_As_Offday") %>' runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
                                         <asp:ListItem Value="False">OFF</asp:ListItem>

@@ -92,7 +92,7 @@ namespace AttendanceDevice
 
             using (var db = new ModelContext())
             {
-                var ins = await db.Institutions.FirstOrDefaultAsync();
+                var ins = LocalData.Instance.institution;
                 var client = new RestClient(ApiUrl.EndPoint);
                 var allDevices = db.Devices.Count();
 
@@ -120,7 +120,8 @@ namespace AttendanceDevice
                 }
                 else
                 {
-                    var schScheduleIDs = LocalData.Instance.GetCurrent_Onday_SchduleIDs();
+                    //get only Late time exceed and Abs not Count schedules
+                    var schScheduleIDs = LocalData.Instance.GetCurrentOndaySchduleIds();
                     if (schScheduleIDs.Any())
                     {
                         LocalData.Instance.Abs_Insert(schScheduleIDs, currentDate, ins);
@@ -251,6 +252,18 @@ namespace AttendanceDevice
                     }
                 }
                 #endregion Employee Put
+
+                StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
+                #region SMS_Send
+
+                var smsRequest = new RestRequest("api/Attendance/{id}/SendSms", Method.POST);
+
+                smsRequest.AddUrlSegment("id", ins.SchoolID);
+                smsRequest.AddHeader("Authorization", "Bearer " + ins.Token);
+
+                await client.ExecutePostTaskAsync(smsRequest);
+
+                #endregion
             }
         }
 

@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Attendance_API.Models
+﻿namespace AttendanceDevice.ViewModel
 {
-    public class BackupDataAPI
+    public class LogDataSendModel
     {
         public int DeviceID { get; set; }
-        public TimeSpan EntryTime { get; set; }
-        public DateTime EntryDate { get; set; }
+        public string EntryTime { get; set; }
+        public string EntryDate { get; set; }
         public string EntryDay { get; set; }
         public bool Is_Student { get; set; }
         public int ScheduleID { get; set; }
