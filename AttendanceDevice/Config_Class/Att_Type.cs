@@ -8,6 +8,8 @@
         StudentIn,
         StudentOut,
         EmployeeIn,
-        EmployeeOut
+        EmployeeOut,
+        AllIn,
+        AllOut
     }
 }

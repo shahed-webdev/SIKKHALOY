@@ -3,6 +3,7 @@ using AttendanceDevice.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -278,8 +279,24 @@ namespace AttendanceDevice.Config_Class
                     attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
                 else if (attType == AttType.EmployeeOut)
                     attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.AllIn)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.AttendanceStatus != "Abs" && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
+                else if (attType == AttType.AllOut)
+                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_OUT).OrderByDescending(a => a.ExitTime).ToList();
             }
-            return attendanceRecords;
+
+
+            return attendanceRecords.Select(a =>
+            {
+                a.EntryTime = string.IsNullOrEmpty(a.EntryTime)
+                       ? ""
+                       : DateTime.Parse(a.EntryTime, CultureInfo.CurrentCulture).ToString("hh:mm tt");
+                a.ExitTime = string.IsNullOrEmpty(a.ExitTime)
+                       ? ""
+                       : DateTime.Parse(a.ExitTime, CultureInfo.CurrentCulture).ToString("hh:mm tt");
+
+                return a;
+            }).ToList();
         }
     }
 }
