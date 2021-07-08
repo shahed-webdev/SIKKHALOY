@@ -42,7 +42,7 @@ namespace AttendanceDevice
                 device.LogViewListBox = StudentImageListBox;
             }
 
-            StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
+            StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.AllIn);
 
 
             //var doubleAnimation = new DoubleAnimation

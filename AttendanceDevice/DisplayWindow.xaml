@@ -221,7 +221,12 @@
                                             BorderBrush="#ddd"
                                             BorderThickness="0,0,0,1" />
                                         <StackPanel Margin="0 0 0 10">
-                                            <TextBlock Text="{Binding EntryTime}" TextAlignment="Center" FontSize="17"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding EntryTime}" TextAlignment="Center" FontSize="17"/>
+                                                <TextBlock Text=" - "/>
+                                                <TextBlock Text="{Binding ExitTime}" TextAlignment="Center" FontSize="17"/>
+                                            </StackPanel>
+
                                             <TextBlock Text="{Binding AttendanceStatus}" TextAlignment="Center" FontSize="17">
                                                 <TextBlock.Style>
                                                     <Style>
@@ -230,7 +235,13 @@
                                                                 <Setter Property="TextBlock.Foreground" Value="Red"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding AttendanceStatus}" Value="Late Abs">
-                                                                <Setter Property="TextBlock.Foreground" Value="DarkOrange"/>
+                                                                <Setter Property="TextBlock.Foreground" Value="#ff4444"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Late">
+                                                                <Setter Property="TextBlock.Foreground" Value="#FF8800"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Pre">
+                                                                <Setter Property="TextBlock.Foreground" Value="#00C851"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
