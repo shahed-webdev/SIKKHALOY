@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Web.Services;
 using System.Web.UI.WebControls;
 
@@ -42,9 +44,16 @@ namespace EDUCATION.COM.Authority.Institutions.Device
 
         //update device password
         [WebMethod]
-        public static void UpdatePassword(string userName)
+        public static void UpdatePassword(string userName, string password)
         {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+            SqlCommand command = new SqlCommand("UPDATE Attendance_Device_Setting SET Password = @Password WHERE (UserName = @UserName)", con);
+            command.Parameters.AddWithValue("@UserName", userName);
+            command.Parameters.AddWithValue("@Password", password);
 
+            con.Open();
+            command.ExecuteNonQuery();
+            con.Close();
         }
     }
 }
