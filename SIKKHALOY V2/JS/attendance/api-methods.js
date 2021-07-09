@@ -91,7 +91,7 @@
             contentType: 'application/json',
             data: JSON.stringify(model),
             success: function () {
-                updatePassword(user.username);
+                updatePassword(user.username, user.newPassword);
             },
             error: function (err) {
                 var response = null;
@@ -124,13 +124,13 @@
     }
 
     //update password in sikkhaloy db
-    function updatePassword(userName) {
+    function updatePassword(userName, password) {
         $.ajax({
             url: "InstitutionRegister.aspx/UpdatePassword",
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: { userName },
+            data: { userName, password },
             success: function () {
                 console.log("success")
                 $("#password-error").html("Password Changed Success!");
