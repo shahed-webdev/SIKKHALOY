@@ -74,11 +74,11 @@
     }
 
     //post change password
-    function postChangePassword(token,data) {
+    function postChangePassword(token, user) {
         const model = {
-            OldPassword: data.password,
-            NewPassword: data.newPassword,
-            ConfirmPassword: data.newPassword
+            OldPassword: user.password,
+            NewPassword: user.newPassword,
+            ConfirmPassword: user.newPassword
         }
         if (!token) return;
 
@@ -91,8 +91,7 @@
             contentType: 'application/json',
             data: JSON.stringify(model),
             success: function () {
-                updatePassword({})
-                $("#password-error").html("Password Changed Success!");
+                updatePassword(user.username);
             },
             error: function (err) {
                 var response = null;
@@ -125,15 +124,16 @@
     }
 
     //update password in sikkhaloy db
-    function updatePassword(data) {
+    function updatePassword(userName) {
         $.ajax({
             url: "InstitutionRegister.aspx/UpdatePassword",
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: JSON.stringify(data),
+            data: { userName },
             success: function () {
                 console.log("success")
+                $("#password-error").html("Password Changed Success!");
             },
             error: function (err) {
                 console.log(err)

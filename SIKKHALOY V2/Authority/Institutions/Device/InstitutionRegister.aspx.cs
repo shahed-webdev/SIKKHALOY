@@ -40,9 +40,9 @@ namespace EDUCATION.COM.Authority.Institutions.Device
         }
 
 
-        //update password
+        //update device password
         [WebMethod]
-        public static void UpdatePassword()
+        public static void UpdatePassword(string userName)
         {
 
         }
