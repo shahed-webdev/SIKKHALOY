@@ -192,33 +192,9 @@ namespace AttendanceDevice.Settings.Pages
         {
             LoadingDH.IsOpen = true;
             var deleted = await Task.Run(() => _deviceCon.ClearAll_Logs());
-
-            if (deleted)
-            {
-                LoadingDH.IsOpen = false;
-                AttenLogDG.ItemsSource = null;
-            }
-            else
-            {
-                LoadingDH.IsOpen = false;
-                MessageBox.Show("log not deleted", "Error!");
-            }
-
-            NavigationService?.Refresh();
         }
-        private async void BtnDownloadLogs_Click(object sender, RoutedEventArgs e)
-        {
-            LoadingDH.IsOpen = true;
-            var logs = await Task.Run(() => _deviceCon.DownloadLogs());
 
-            if (logs.Count > 0)
-            {
-                AttenLogDG.ItemsSource = logs;
-            }
-
-            LoadingDH.IsOpen = false;
-            NavigationService?.Refresh();
-        }
+      
         private void BtnFindUser_Click(object sender, RoutedEventArgs e)
         {
             var filterText = findDeviceidTextBox.Text;

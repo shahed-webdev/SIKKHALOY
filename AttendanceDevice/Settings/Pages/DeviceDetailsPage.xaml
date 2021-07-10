@@ -448,33 +448,6 @@
                             </DataGrid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="ATTENDANCE LOG">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <StackPanel Margin="10" Orientation="Horizontal">
-                                <Button Click="BtnDownloadLogs_Click" Content="Download Logs from Device" />
-                            </StackPanel>
-
-                            <DataGrid
-                                x:Name="AttenLogDG"
-                                Grid.Row="1"
-                                AutoGenerateColumns="False"
-                                CanUserAddRows="False"
-                                CanUserDeleteRows="False"
-                                ColumnWidth="*"
-                                IsHitTestVisible="False">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding DeviceID}" Header="Device ID" />
-                                    <DataGridTextColumn Binding="{Binding Entry_Date}" Header="Entry Date" />
-                                    <DataGridTextColumn Binding="{Binding Entry_Time}" Header="Entry Time" />
-                                    <DataGridTextColumn Binding="{Binding Entry_Day}" Header="Entry Day" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
-                    </TabItem>
                     <TabItem Header="ADD FINGERPRINT">
                         <Grid Margin="20">
                             <Grid.RowDefinitions>

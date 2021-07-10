@@ -63,7 +63,7 @@
             method: 'POST',
             contentType: 'application/x-www-form-urlencoded',
             data: user,
-            success: token => postChangePassword(token,user),
+            success: token => postChangePassword(token, user),
             error: function (err) {
                 console.log(err)
 
@@ -86,7 +86,7 @@
             url: `${baseUrl}/api/account/ChangePassword`,
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token.access_token}`
             },
             contentType: 'application/json',
             data: JSON.stringify(model),
@@ -101,9 +101,9 @@
                 if (err.status === 400) {
                     try {
                         response = JSON.parse(err.responseText);
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                 }
+
                 if (response != null) {
                     const modelState = response.ModelState;
 
@@ -117,7 +117,7 @@
 
                 //DISPLAY THE LIST OF ERROR MESSAGES 
                 if (errorsString !== "") {
-                    $("#password-error").html(errorsString);
+                    $.notify(errorsString, "error");
                 }
             }
         });
@@ -130,10 +130,9 @@
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: { userName, password },
+            data: JSON.stringify({ userName, password }),
             success: function () {
-                console.log("success")
-                $("#password-error").html("Password Changed Success!");
+                location.reload();
             },
             error: function (err) {
                 console.log(err)

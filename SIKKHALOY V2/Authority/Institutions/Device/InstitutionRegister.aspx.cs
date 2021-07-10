@@ -46,8 +46,8 @@ namespace EDUCATION.COM.Authority.Institutions.Device
         [WebMethod]
         public static void UpdatePassword(string userName, string password)
         {
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
-            SqlCommand command = new SqlCommand("UPDATE Attendance_Device_Setting SET Password = @Password WHERE (UserName = @UserName)", con);
+            var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+            var command = new SqlCommand("UPDATE Attendance_Device_Setting SET Password = @Password WHERE (UserName = @UserName)", con);
             command.Parameters.AddWithValue("@UserName", userName);
             command.Parameters.AddWithValue("@Password", password);
 

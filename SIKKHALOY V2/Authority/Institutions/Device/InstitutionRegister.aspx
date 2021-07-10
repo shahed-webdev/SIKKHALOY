@@ -58,7 +58,7 @@
             <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
             <asp:TemplateField HeaderText="Change Password" SortExpression="UserName">
                 <ItemTemplate>
-                    <input type="password" placeholder="new password" class="form-control input-password" />
+                    <input type="te" placeholder="new password" class="form-control input-password" />
                    <a class="change-password blue-text" id="<%# Eval("UserName") %>" data-password="<%# Eval("Password") %>">Change Password</a>
                 </ItemTemplate>
             </asp:TemplateField>
@@ -71,7 +71,7 @@
     </asp:GridView>
 
 
-    <script src="/JS/attendance/api-methods.js?v=1.0.0"></script>
+    <script src="/JS/attendance/api-methods.js?v=1.0.1"></script>
     <script>
         $(function () {
             $('#linkClose').click(function () {
