@@ -949,37 +949,6 @@ namespace AttendanceDevice.Config_Class
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
 
-                if (axCZKEM1.GetUserTmpExStr(Machine.Number, deviceId, fingerIndex, out var flag, out var tmpData, out var tmpLength))
-                {
-                    axCZKEM1.RefreshData(Machine.Number);
-
-
-                    var deviceIdInt = Convert.ToInt32(deviceId);
-                    using (var db = new ModelContext())
-                    {
-                        var fp = db.user_FingerPrints.FirstOrDefault(f => f.DeviceID == deviceIdInt && f.Finger_Index == fingerIndex);
-
-                        if (fp == null)
-                        {
-                            fp = new User_FingerPrint
-                            {
-                                DeviceID = deviceIdInt,
-                                Finger_Index = fingerIndex,
-                                Temp_Data = tmpData,
-                                Flag = flag
-                            };
-                            db.Entry(fp).State = EntityState.Added;
-                        }
-                        else
-                        {
-                            fp.Temp_Data = tmpData;
-                            fp.Flag = flag;
-                            db.Entry(fp).State = EntityState.Modified;
-                        }
-
-                        db.SaveChanges();
-                    }
-                }
             }
             else
             {
