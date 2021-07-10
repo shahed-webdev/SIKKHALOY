@@ -463,6 +463,16 @@ namespace AttendanceDevice.Config_Class
                 await db.SaveChangesAsync();
             }
         }
+
+        public List<User_FingerPrint> FingerPrintData()
+        {
+            var fpList = new List<User_FingerPrint>();
+            using (var db = new ModelContext())
+            {
+                fpList = db.user_FingerPrints.ToList();
+            }
+            return fpList;
+        }
     }
 
     public enum Error_Type

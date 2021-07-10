@@ -9,7 +9,7 @@ namespace AttendanceDevice.Model
 {
     class ModelContext : DbContext
     {
-        public ModelContext() : base(new SQLiteConnection(@"Data Source=" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\database.db"), true) { }
+        public ModelContext() : base(new SQLiteConnection(@"Data Source=" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\SikkhaloyAppDB.db"), true) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Institution> Institutions { get; set; }

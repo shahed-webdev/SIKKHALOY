@@ -948,6 +948,38 @@ namespace AttendanceDevice.Config_Class
                     FingerprintMessage.Text = $"Enroll a new User,UserId: {deviceId}";
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
+
+                if (axCZKEM1.GetUserTmpExStr(Machine.Number, deviceId, fingerIndex, out var flag, out var tmpData, out var tmpLength))
+                {
+                    axCZKEM1.RefreshData(Machine.Number);
+
+
+                    var deviceIdInt = Convert.ToInt32(deviceId);
+                    using (var db = new ModelContext())
+                    {
+                        var fp = db.user_FingerPrints.FirstOrDefault(f => f.DeviceID == deviceIdInt && f.Finger_Index == fingerIndex);
+
+                        if (fp == null)
+                        {
+                            fp = new User_FingerPrint
+                            {
+                                DeviceID = deviceIdInt,
+                                Finger_Index = fingerIndex,
+                                Temp_Data = tmpData,
+                                Flag = flag
+                            };
+                            db.Entry(fp).State = EntityState.Added;
+                        }
+                        else
+                        {
+                            fp.Temp_Data = tmpData;
+                            fp.Flag = flag;
+                            db.Entry(fp).State = EntityState.Modified;
+                        }
+
+                        db.SaveChanges();
+                    }
+                }
             }
             else
             {
@@ -958,7 +990,10 @@ namespace AttendanceDevice.Config_Class
             // axCZKEM1.OnEnrollFingerEx -= new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);
             return 1;
         }
-
+        public void FP_StateCancel()
+        {
+            axCZKEM1.CancelOperation();
+        }
         public int FP_Delete(string deviceId, int fingerIndex)
         {
             var idwErrorCode = 0;
@@ -974,6 +1009,94 @@ namespace AttendanceDevice.Config_Class
                 axCZKEM1.GetLastError(ref idwErrorCode);
             }
             return idwErrorCode;
+        }
+        public void FP_DownloadInPc()
+        {
+            if (!IsConnected()) return;
+
+            var users = LocalData.Instance.Users;
+            if (!users.Any()) return;
+
+            axCZKEM1.EnableDevice(Machine.Number, false);
+            try
+            {
+                using (var db = new ModelContext())
+                {
+                    foreach (var user in users)
+                    {
+                        for (int idwFingerIndex = 0; idwFingerIndex < 10; idwFingerIndex++)
+                        {
+                            //get the corresponding templates string and length from the memory
+                            if (axCZKEM1.GetUserTmpExStr(Machine.Number, user.DeviceID.ToString(), idwFingerIndex, out var flag, out var tmpData, out var tmpLength))
+                            {
+
+                                var fp = db.user_FingerPrints.FirstOrDefault(f =>
+                                    f.DeviceID == user.DeviceID && f.Finger_Index == idwFingerIndex);
+
+                                if (fp == null)
+                                {
+                                    fp = new User_FingerPrint
+                                    {
+                                        DeviceID = user.DeviceID,
+                                        Finger_Index = idwFingerIndex,
+                                        Temp_Data = tmpData,
+                                        Flag = flag
+                                    };
+                                    db.Entry(fp).State = EntityState.Added;
+                                }
+                                else
+                                {
+                                    fp.Temp_Data = tmpData;
+                                    fp.Flag = flag;
+                                    db.Entry(fp).State = EntityState.Modified;
+                                }
+                            }
+                        }
+                    }
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                axCZKEM1.EnableDevice(Machine.Number, true);
+            }
+        }
+        public void FP_UploadPcToDevice()
+        {
+            var users = LocalData.Instance.Users;
+            if (!users.Any()) return;
+
+            axCZKEM1.EnableDevice(Machine.Number, false);
+            try
+            {
+                var fps = new List<User_FingerPrint>();
+                using (var db = new ModelContext())
+                {
+                    fps = db.user_FingerPrints.ToList();
+                }
+
+                var batchUpdate = axCZKEM1.BeginBatchUpdate(Machine.Number, 1);
+                foreach (var fp in fps)
+                {
+
+                    if (fp.Temp_Data != "")
+                    {
+                        axCZKEM1.SetUserTmpExStr(Machine.Number, fp.DeviceID.ToString(), fp.Finger_Index, fp.Flag, fp.Temp_Data);
+                    }
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                axCZKEM1.EnableDevice(Machine.Number, true);
+            }
         }
     }
     public class DeviceDetails

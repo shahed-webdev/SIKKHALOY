@@ -83,8 +83,31 @@ namespace AttendanceDevice.Settings.Pages
             UserFP.ItemsSource = LocalData.Instance.Get_AllUserFP();
         }
 
-        private void Upload_Button_Click(object sender, RoutedEventArgs e)
+        private async void Upload_Button_Click(object sender, RoutedEventArgs e)
         {
+            var internet = await ApiUrl.IsNoNetConnection();
+            if (internet) return;
+
+
+            var ins = LocalData.Instance.institution;
+            var FpLog = LocalData.Instance.FingerPrintData();
+            var client = new RestClient(ApiUrl.EndPoint);
+
+            if (FpLog.Count > 0)
+            {
+                var request = new RestRequest("api/Users/{id}/FingerPrintPost", Method.POST);
+
+                request.AddUrlSegment("id", ins.SchoolID);
+                request.AddHeader("Authorization", "Bearer " + ins.Token);
+                request.AddJsonBody(FpLog);
+
+                var response = await client.ExecutePostTaskAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+
+                }
+            }
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Attendance_API.DB_Model;
+using Attendance_API.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -82,5 +83,41 @@ namespace Attendance_API.Controllers
                 }).ToListAsync();
             }
         }
+
+
+        [Route("api/Users/{id}/FingerPrintPost")]
+        [HttpPost]
+        public IHttpActionResult PostStudents(int id, [FromBody] List<FingerPrintRecordAPI> fingerPrintRecords)
+        {
+            if (fingerPrintRecords == null) return NotFound();
+            if (fingerPrintRecords.Count < 1) return NotFound();
+
+            var deviceIds = fingerPrintRecords.Select(f => f.DeviceID).ToList();
+
+            using (var db = new EduContext())
+            {
+                var oldFingerPrints = db.Device_Finger_Print_Records.Where(f => deviceIds.Contains(f.DeviceID)).ToList();
+                if (oldFingerPrints.Any())
+                {
+                    db.Device_Finger_Print_Records.RemoveRange(oldFingerPrints);
+                    db.SaveChanges();
+                }
+
+                var newFingerPrints = fingerPrintRecords.Select(f => new Device_Finger_Print_Record
+                {
+                    SchoolID = id,
+                    DeviceID = f.DeviceID,
+                    Finger_Index = f.Finger_Index,
+                    Temp_Data = f.Temp_Data,
+                    Flag = f.Flag
+                }).ToList();
+
+                db.Device_Finger_Print_Records.AddRange(newFingerPrints);
+                db.SaveChanges();
+            }
+
+            return Ok();
+        }
+
     }
 }

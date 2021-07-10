@@ -2,7 +2,6 @@
 using AttendanceDevice.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -122,7 +121,7 @@ namespace AttendanceDevice.Settings.Pages
                 pcUsers = db.Users.OrderBy(x => x.RFID).ToList();
             }
 
-            var newUser = pcUsers.Where(pu => !dUsers.Any(du =>  du.RFID.ToInt(0) == pu.RFID.ToInt(0) && du.DeviceID == pu.DeviceID)).ToList();
+            var newUser = pcUsers.Where(pu => !dUsers.Any(du => du.RFID.ToInt(0) == pu.RFID.ToInt(0) && du.DeviceID == pu.DeviceID)).ToList();
 
             if (newUser.Count > 0)
             {
@@ -254,6 +253,7 @@ namespace AttendanceDevice.Settings.Pages
 
         private void FindUserButton_Click(object sender, RoutedEventArgs e)
         {
+            _deviceCon.FP_StateCancel();
             if (string.IsNullOrWhiteSpace(UserIDTextbox.Text)) return;
 
             var info = LocalData.Instance.UserViews.FirstOrDefault(u => u.ID == UserIDTextbox.Text.Trim());
