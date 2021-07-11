@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 
 namespace AttendanceDevice.Settings.Pages
 {
@@ -21,13 +20,8 @@ namespace AttendanceDevice.Settings.Pages
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (LocalData.Current_Error.Type == Error_Type.DeviceInfoPage)
-            {
-                ErrorSnackbar.Message.Content = LocalData.Current_Error.Message;
-                ErrorSnackbar.IsActive = true;
-            }
-
             LoadingDH.IsOpen = true;
+            var isAnyDeviceConnected = false;
             using (var db = new ModelContext())
             {
                 var devices = db.Devices.ToList();
@@ -39,11 +33,27 @@ namespace AttendanceDevice.Settings.Pages
                         var checkIp = await Device_PingTest.PingHostAsync(device.DeviceIP);
                         device.IsConnected = Convert.ToInt32(checkIp);
                         db.Entry(device).State = EntityState.Modified;
+
+                        if (checkIp) isAnyDeviceConnected = true;
                     }
 
                     await db.SaveChangesAsync();
 
                     DeviceDtagrid.ItemsSource = devices;
+                }
+            }
+
+            if (LocalData.Current_Error.Type == Error_Type.DeviceInfoPage)
+            {
+                if (!isAnyDeviceConnected)
+                {
+                    ErrorSnackbar.Message.Content = LocalData.Current_Error.Message;
+                    ErrorSnackbar.IsActive = true;
+                }
+                else
+                {
+                    ErrorSnackbar.Message.Content = "";
+                    ErrorSnackbar.IsActive = false;
                 }
             }
 
@@ -61,10 +71,10 @@ namespace AttendanceDevice.Settings.Pages
             if (!checkIp)
             {
                 LoadingDH.IsOpen = false;
-                
+
                 if (ErrorSnackbar.Message != null)
                     ErrorSnackbar.Message.Content = $"Device is not connected to this {DeviceIPTextbox.Text} IP!";
-                
+
                 ErrorSnackbar.IsActive = true;
                 return;
             }
@@ -107,7 +117,7 @@ namespace AttendanceDevice.Settings.Pages
             ErrorSnackbar.IsActive = false;
             btnConnect.Content = "Connecting...";
 
-            var device = ((Button) sender).DataContext as Device;
+            var device = ((Button)sender).DataContext as Device;
 
             var checkIp = device != null && await Device_PingTest.PingHostAsync(device.DeviceIP);
             if (!checkIp)

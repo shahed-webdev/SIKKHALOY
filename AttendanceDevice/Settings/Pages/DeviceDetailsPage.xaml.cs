@@ -288,14 +288,38 @@ namespace AttendanceDevice.Settings.Pages
         }
 
         //download/upload finger print 
-        private void BtnDownloadFP_OnClick(object sender, RoutedEventArgs e)
+        private async void BtnDownloadFP_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            LoadingDH.IsOpen = true;
+            btnDownloadUsers.IsEnabled = false;
+
+            await Task.Run(() => _deviceCon.FP_DownloadInPc());
+
+            btnDownloadUsers.IsEnabled = true;
+            LoadingDH.IsOpen = false;
+
+            NavigationService?.Refresh();
         }
 
-        private void BtnUploadFP_OnClick(object sender, RoutedEventArgs e)
+        private async void BtnUploadFP_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (!await _deviceCon.IsConnectedAsync()) return;
+
+            LoadingDH.IsOpen = true;
+            btnUploadUsers.IsEnabled = false;
+
+            using (var db = new ModelContext())
+            {
+                var fingerPrints = db.user_FingerPrints.ToList();
+                if (fingerPrints.Count > 0)
+                {
+                    await Task.Run(() => _deviceCon.FP_UploadPcToDevice());
+                }
+            }
+
+            LoadingDH.IsOpen = false;
+            btnUploadUsers.IsEnabled = true;
+            NavigationService?.Refresh();
         }
     }
 }
