@@ -1,5 +1,5 @@
 ﻿const attendance = (function() {
-    const baseUrl = "http://localhost:19362";
+    const baseUrl = "http://api.sikkhaloy.com";
 
     //create new user
     const registerNewDeviceUser = function () {

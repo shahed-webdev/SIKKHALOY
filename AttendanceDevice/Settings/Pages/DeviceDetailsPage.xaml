@@ -565,8 +565,11 @@
                                         Width="100"
                                         Height="100"
                                         IsEnabled="False"
-                                        Style="{StaticResource CircleButton}" />
+                                        Style="{StaticResource CircleButton}" >
                                     <TextBlock x:Name="MessageTB" />
+                                    </Button>
+
+                                    <Button x:Name="btnCancelFinger" Click="BtnCancelFinger_OnClick" Content="CANCEL" Background="Red" BorderBrush="red" Margin="10"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

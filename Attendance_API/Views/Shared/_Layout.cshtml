@@ -6,6 +6,16 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    
+    <style>
+        .navbar-inverse {
+            background-color: #05a000;
+            border: none;
+        }
+        .navbar-inverse .navbar-brand {
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -16,21 +26,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("API.SIKKHALOY", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                </ul>
-            </div>
+            @* <div class="navbar-collapse collapse"> *@
+            @*     <ul class="nav navbar-nav"> *@
+            @*         <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li> *@
+            @*         <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li> *@
+            @*     </ul> *@
+            @* </div> *@
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - sikkhaloy.com</p>
         </footer>
     </div>
 

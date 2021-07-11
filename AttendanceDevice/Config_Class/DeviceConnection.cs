@@ -243,13 +243,13 @@ namespace AttendanceDevice.Config_Class
 
         public void axCZKEM1_OnFingerFeature(int score)
         {
-            FingerprintMessage.Text = "Press finger score=" + score;
+            FingerprintMessage.Text = $"Score: ${score}";
         }
 
 
         public void axCZKEM1_OnEnrollFingerEx(string EnrollNumber, int FingerIndex, int ActionResult, int TemplateLength)
         {
-            FingerprintMessage.Text = ActionResult == 0 ? $"Enroll finger succeed. UserId: ${EnrollNumber}. Finger Index: ${_fingerIndex}" : $"Enroll finger failed. Result: ${ActionResult}";
+            FingerprintMessage.Text = ActionResult == 0 ? "Success" : "Failed";
 
             if (axCZKEM1.GetUserTmpExStr(Machine.Number, EnrollNumber, _fingerIndex, out var flag, out var tmpData, out var tmpLength))
             {
@@ -973,7 +973,7 @@ namespace AttendanceDevice.Config_Class
 
             if (axCZKEM1.StartEnrollEx(deviceId, fingerIndex, iFlag))
             {
-                FingerprintMessage.Text = $"Start to Enroll a new User,UserId: {deviceId} FingerId: {fingerIndex}";
+                FingerprintMessage.Text = "Start";
 
                 if (axCZKEM1.StartIdentify())
                 {

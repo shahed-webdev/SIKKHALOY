@@ -326,5 +326,10 @@ namespace AttendanceDevice.Settings.Pages
             btnUploadUsers.IsEnabled = true;
             NavigationService?.Refresh();
         }
+
+        private async void BtnCancelFinger_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(() => _deviceCon.FP_StateCancel());
+        }
     }
 }

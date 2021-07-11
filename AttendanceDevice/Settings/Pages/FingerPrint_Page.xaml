@@ -26,7 +26,7 @@
         <TextBlock
             Margin="0,0,0,10"
             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-            Text="DOWNLOAD/UPLOAD FINGERPRINT" />
+            Text="DOWNLOAD/UPLOAD FINGERPRINT FROM SIKKHALOY" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
