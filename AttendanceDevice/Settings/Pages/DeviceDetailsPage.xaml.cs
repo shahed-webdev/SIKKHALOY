@@ -286,5 +286,16 @@ namespace AttendanceDevice.Settings.Pages
                 }
             }
         }
+
+        //download/upload finger print 
+        private void BtnDownloadFP_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void BtnUploadFP_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

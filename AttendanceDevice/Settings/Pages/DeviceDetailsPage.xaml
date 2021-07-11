@@ -480,6 +480,9 @@
                                     VerticalAlignment="Center"
                                     FontWeight="Bold"
                                     Foreground="#FFF90000" />
+
+                                <Button x:Name="btnDownloadFP" Click="BtnDownloadFP_OnClick" Content="Download FP From Device" Margin="0 0 10 0"/>
+                                <Button x:Name="btnUploadFP" Click="BtnUploadFP_OnClick" Content="Upload FP To Device"/>
                             </StackPanel>
 
                             <StackPanel
