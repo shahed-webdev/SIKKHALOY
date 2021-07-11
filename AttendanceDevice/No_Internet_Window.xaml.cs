@@ -205,7 +205,8 @@ namespace AttendanceDevice
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Clean up.
-            _tmr.Stop();
+            _tmr?.Stop();
+
             _tmr = null;
         }
     }
