@@ -231,7 +231,12 @@ namespace AttendanceDevice.Settings.Pages
         private void FindUserButton_Click(object sender, RoutedEventArgs e)
         {
             _deviceCon.FP_StateCancel();
-            if (string.IsNullOrWhiteSpace(UserIDTextbox.Text)) return;
+            if (string.IsNullOrWhiteSpace(UserIDTextbox.Text))
+            {
+                _deviceId = "";
+                Userpanel.Visibility = Visibility.Collapsed;
+                return;
+            };
 
             var info = LocalData.Instance.UserViews.FirstOrDefault(u => u.ID == UserIDTextbox.Text.Trim());
 
