@@ -189,13 +189,14 @@ namespace AttendanceDevice.Settings.Pages
             }
             NavigationService?.Refresh();
         }
+
         private async void BtnClearAllLogs_Click(object sender, RoutedEventArgs e)
         {
             LoadingDH.IsOpen = true;
             var deleted = await Task.Run(() => _deviceCon.ClearAll_Logs());
         }
 
-      
+
         private void BtnFindUser_Click(object sender, RoutedEventArgs e)
         {
             var filterText = findDeviceidTextBox.Text;
@@ -271,7 +272,6 @@ namespace AttendanceDevice.Settings.Pages
 
                 if (_deviceCon.axCZKEM1.GetUserTmpExStr(Machine.Number, _deviceId, index, out var flag, out var tmpData, out var tmpLength))
                 {
-
                     var deviceIdInt = Convert.ToInt32(_deviceId);
                     using (var db = new ModelContext())
                     {

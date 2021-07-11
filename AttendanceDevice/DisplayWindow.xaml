@@ -221,11 +221,15 @@
                                             BorderBrush="#ddd"
                                             BorderThickness="0,0,0,1" />
                                         <StackPanel Margin="0 0 0 10">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding EntryTime}" TextAlignment="Center" FontSize="17"/>
-                                                <TextBlock Text=" - "/>
-                                                <TextBlock Text="{Binding ExitTime}" TextAlignment="Center" FontSize="17"/>
-                                            </StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" Text="{Binding EntryTime}" TextAlignment="Center" FontSize="17"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding ExitTime}" TextAlignment="Center" FontSize="17"/>
+                                            </Grid>
 
                                             <TextBlock Text="{Binding AttendanceStatus}" TextAlignment="Center" FontSize="17">
                                                 <TextBlock.Style>
