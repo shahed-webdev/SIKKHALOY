@@ -58,7 +58,7 @@
             <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
             <asp:TemplateField HeaderText="Change Password" SortExpression="UserName">
                 <ItemTemplate>
-                    <input type="te" placeholder="new password" class="form-control input-password" />
+                    <input type="text" placeholder="new password" class="form-control input-password" />
                    <a class="change-password blue-text" id="<%# Eval("UserName") %>" data-password="<%# Eval("Password") %>">Change Password</a>
                 </ItemTemplate>
             </asp:TemplateField>
@@ -71,7 +71,7 @@
     </asp:GridView>
 
 
-    <script src="/JS/attendance/api-methods.js?v=1.0.1"></script>
+    <script src="/JS/attendance/api-methods.js?v=1.1.1"></script>
     <script>
         $(function () {
             $('#linkClose').click(function () {
@@ -87,26 +87,29 @@
 
         //change device password
         const tBody = document.getElementById("body_UsersGridView");
-        tBody.addEventListener("click", function(e) {
-            e.preventDefault();
+        if (tBody) {
+            tBody.addEventListener("click",
+                function(e) {
+                    e.preventDefault();
 
-            if (!e.target.classList.contains("change-password")) return;
+                    if (!e.target.classList.contains("change-password")) return;
 
-            const newPassword = e.target.previousElementSibling.value;
+                    const newPassword = e.target.previousElementSibling.value;
 
-            if (!newPassword) {
-                $.notify("enter new password", "error");
-                return;
-            }
+                    if (!newPassword) {
+                        $.notify("enter new password", "error");
+                        return;
+                    }
 
-            const model = {
-                newPassword: newPassword,
-                username: e.target.id,
-                password: e.target.getAttribute("data-password"),
-                grant_type: "password"
-            }
+                    const model = {
+                        newPassword: newPassword,
+                        username: e.target.id,
+                        password: e.target.getAttribute("data-password"),
+                        grant_type: "password"
+                    }
 
-            attendance.changeDevicePassword(model);
-        });
+                    attendance.changeDevicePassword(model);
+                });
+        }
     </script>
 </asp:Content>

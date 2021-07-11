@@ -1,5 +1,5 @@
 ﻿const attendance = (function() {
-    const baseUrl = "http://api.sikkhaloy.com";
+    const baseUrl = "https://api.sikkhaloy.com";
 
     //create new user
     const registerNewDeviceUser = function () {
