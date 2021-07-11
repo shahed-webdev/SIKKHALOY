@@ -30,6 +30,7 @@ namespace AttendanceDevice.Config_Class
     public class DeviceConnection
     {
         private const int PrevDayLogCountable = 7;
+        private  int _fingerIndex = 0;
         public Card EnrollUserCard { get; set; }
         public DialogHost EnrollUserDialogHost { get; set; }
         public bool IsSdkFullSupported { get; set; }
@@ -246,9 +247,39 @@ namespace AttendanceDevice.Config_Class
         }
 
 
-        public void axCZKEM1_OnEnrollFingerEx(string enrollNumber, int fingerIndex, int actionResult, int templateLength)
+        public void axCZKEM1_OnEnrollFingerEx(string EnrollNumber, int FingerIndex, int ActionResult, int TemplateLength)
         {
-            FingerprintMessage.Text = actionResult == 0 ? $"Enroll finger succeed. UserId: ${enrollNumber}. Finger Index: ${fingerIndex}" : $"Enroll finger failed. Result: ${actionResult}";
+            FingerprintMessage.Text = ActionResult == 0 ? $"Enroll finger succeed. UserId: ${EnrollNumber}. Finger Index: ${_fingerIndex}" : $"Enroll finger failed. Result: ${ActionResult}";
+
+            if (axCZKEM1.GetUserTmpExStr(Machine.Number, EnrollNumber, _fingerIndex, out var flag, out var tmpData, out var tmpLength))
+            {
+
+                var deviceIdInt = Convert.ToInt32(EnrollNumber);
+                using (var db = new ModelContext())
+                {
+                    var fp = db.user_FingerPrints.FirstOrDefault(f => f.DeviceID == deviceIdInt && f.Finger_Index == _fingerIndex);
+
+                    if (fp == null)
+                    {
+                        fp = new User_FingerPrint
+                        {
+                            DeviceID = deviceIdInt,
+                            Finger_Index = _fingerIndex,
+                            Temp_Data = tmpData,
+                            Flag = flag
+                        };
+                        db.Entry(fp).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        fp.Temp_Data = tmpData;
+                        fp.Flag = flag;
+                        db.Entry(fp).State = EntityState.Modified;
+                    }
+
+                    db.SaveChanges();
+                }
+            }
         }
 
         private async Task LogBackupInsert(int deviceId, DateTime dt, string reason)
@@ -925,6 +956,7 @@ namespace AttendanceDevice.Config_Class
 
         public int FP_Add(string deviceId, int fingerIndex)
         {
+            _fingerIndex = fingerIndex;
             if (axCZKEM1.RegEvent(Machine.Number, 65535))
             {
                 axCZKEM1.OnFingerFeature += new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(axCZKEM1_OnFingerFeature);
@@ -945,7 +977,7 @@ namespace AttendanceDevice.Config_Class
 
                 if (axCZKEM1.StartIdentify())
                 {
-                    FingerprintMessage.Text = $"Enroll a new User,UserId: {deviceId}";
+                  //FingerprintMessage.Text = $"Enroll a new User,UserId: {deviceId}";
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
 

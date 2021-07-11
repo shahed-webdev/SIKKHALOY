@@ -542,7 +542,7 @@
                                             Foreground="Black" />
 
                                         <Button CommandParameter="5"
-                                            x:Name="RT"
+                                            x:Name="RI"
                                             Margin="15,0,10,0"
                                             Background="White"
                                             BorderBrush="Gainsboro"
@@ -550,7 +550,7 @@
                                             Content="Right Thumb"
                                             Foreground="Black" />
                                         <Button CommandParameter="6"
-                                            x:Name="RI"
+                                            x:Name="RT"
                                             Background="White"
                                             BorderBrush="Gainsboro"
                                             Click="FingerButton_Click"

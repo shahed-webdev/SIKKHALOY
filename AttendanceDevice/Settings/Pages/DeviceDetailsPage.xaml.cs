@@ -2,7 +2,6 @@
 using AttendanceDevice.Model;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -269,36 +268,6 @@ namespace AttendanceDevice.Settings.Pages
             if (button?.Background != Brushes.GreenYellow)
             {
                 _deviceCon.FP_Add(_deviceId, index);
-
-                if (_deviceCon.axCZKEM1.GetUserTmpExStr(Machine.Number, _deviceId, index, out var flag, out var tmpData, out var tmpLength))
-                {
-                    var deviceIdInt = Convert.ToInt32(_deviceId);
-                    using (var db = new ModelContext())
-                    {
-                        var fp = db.user_FingerPrints.FirstOrDefault(f => f.DeviceID == deviceIdInt && f.Finger_Index == index);
-
-                        if (fp == null)
-                        {
-                            fp = new User_FingerPrint
-                            {
-                                DeviceID = deviceIdInt,
-                                Finger_Index = index,
-                                Temp_Data = tmpData,
-                                Flag = flag
-                            };
-                            db.Entry(fp).State = EntityState.Added;
-                        }
-                        else
-                        {
-                            fp.Temp_Data = tmpData;
-                            fp.Flag = flag;
-                            db.Entry(fp).State = EntityState.Modified;
-                        }
-
-                        db.SaveChanges();
-                    }
-                    _deviceCon.axCZKEM1.RefreshData(Machine.Number);
-                }
             }
             else
             {
