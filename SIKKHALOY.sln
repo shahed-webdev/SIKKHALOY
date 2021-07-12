@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceDevice", "Attenda
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUCATION.COM", "SIKKHALOY V2\EDUCATION.COM.csproj", "{F49BD885-4D99-4838-9547-91584D56DC1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZkDllReg", "ZkDllReg\ZkDllReg.csproj", "{DCE3E999-38E9-4EB4-9638-1227019E8060}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKdllRegistrationApp", "ZKdllRegistrationApp\ZKdllRegistrationApp.csproj", "{93A5C225-C847-447C-8DBF-09F764F34688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +43,14 @@ Global
 		{F49BD885-4D99-4838-9547-91584D56DC1C}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{F49BD885-4D99-4838-9547-91584D56DC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F49BD885-4D99-4838-9547-91584D56DC1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.All|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.All|Any CPU.Build.0 = Debug|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCE3E999-38E9-4EB4-9638-1227019E8060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.All|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.All|Any CPU.Build.0 = Debug|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A5C225-C847-447C-8DBF-09F764F34688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
