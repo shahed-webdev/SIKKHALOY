@@ -44,23 +44,6 @@ namespace AttendanceDevice
 
             StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
-
-            //var doubleAnimation = new DoubleAnimation
-            //{
-            //    From = -this.ActualWidth,
-            //    To = this.ActualWidth,
-            //    RepeatBehavior = RepeatBehavior.Forever,
-            //    AutoReverse = true,
-            //    Duration = new Duration(TimeSpan.FromSeconds((this.ActualWidth) * 0.010))
-            //};
-
-            //StudentImageListBox.BeginAnimation(canvas, doubleAnimation);
-
-            //var dt = this.Resources["myFirstItemTemplate"] as DataTemplate;
-            //Storyboard sb = this.Resources["sb"] as Storyboard;
-            //sb.Begin();
-
-
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 0, 10);
             _tmr.Tick += Timer_Tick;
@@ -384,7 +367,7 @@ namespace AttendanceDevice
         //external page link
         private void Sikkhaloy_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("http://sikkhaloy.com/");
+            Process.Start("http://sikkhaloy.com/Attendances/Online_Display/Attendance_Slider.aspx");
         }
         private void LoopsIT_Click(object sender, RoutedEventArgs e)
         {

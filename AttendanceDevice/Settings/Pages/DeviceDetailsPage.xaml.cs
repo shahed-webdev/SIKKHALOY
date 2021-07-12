@@ -264,6 +264,7 @@ namespace AttendanceDevice.Settings.Pages
 
         private void FingerButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageTB.Text = "";
             if (string.IsNullOrWhiteSpace(_deviceId)) return;
 
             var button = sender as Button;

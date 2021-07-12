@@ -82,7 +82,7 @@ namespace AttendanceDevice.Config_Class
                 if (EnrollUserDialogHost.CurrentSession == null)
                     EnrollUserDialogHost.IsOpen = true;
 
-                _dialogTimer.Interval = TimeSpan.FromSeconds(5);
+                _dialogTimer.Interval = TimeSpan.FromSeconds(30);
             }
 
 
