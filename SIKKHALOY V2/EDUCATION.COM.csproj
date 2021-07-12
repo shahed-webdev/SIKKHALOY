@@ -485,7 +485,6 @@
     <Content Include="Exam\CumulativeResult\Cu_Exam.xsc">
       <DependentUpon>Cu_Exam.xsd</DependentUpon>
     </Content>
-    <Content Include="databse\Edu.bak" />
     <None Include="Exam\CumulativeResult\Cu_Exam.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>Cu_Exam1.Designer.cs</LastGenOutput>
@@ -513,7 +512,6 @@
     <Content Include="Handeler\Sign_Principal.ashx" />
     <Content Include="Handeler\Sign_Teacher.ashx" />
     <None Include="Properties\PublishProfiles\Demo Edu.pubxml" />
-    <None Include="Properties\PublishProfiles\Sikkhaloy.pubxml" />
     <Content Include="Routines\CSS\Routine.css" />
     <Content Include="Routines\Modify_Routine.aspx" />
     <Content Include="SMS\Send_SMS.aspx" />

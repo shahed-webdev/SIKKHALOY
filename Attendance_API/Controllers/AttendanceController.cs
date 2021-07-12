@@ -860,7 +860,7 @@ namespace Attendance_API.Controllers
                 }
                 #endregion
             }
-            catch (Exception e)
+            catch
             {
 
             }
