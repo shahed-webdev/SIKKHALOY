@@ -813,13 +813,15 @@ namespace Attendance_API.Controllers
 
                 var smsBalance = sms.SMSBalance;
                 #region Send SMS to All students
-                {
-                    var smsList = new List<Attendance_SMS>();
-                    using (var db = new EduContext())
-                    {
-                        smsList = db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today && s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
-                    }
 
+                var smsList = new List<Attendance_SMS>();
+                using (var db = new EduContext())
+                {
+                    smsList = db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today && s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
+                }
+
+                if (smsList.Any())
+                {
                     foreach (var item in smsList)
                     {
                         var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
@@ -834,7 +836,8 @@ namespace Attendance_API.Controllers
                     {
                         if (sms.SMS_GetBalance() >= totalSms)
                         {
-                            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EduConnection"].ToString());
+                            SqlConnection con =
+                                new SqlConnection(ConfigurationManager.ConnectionStrings["EduConnection"].ToString());
                             con.Open();
                             foreach (var item in smsList)
                             {
@@ -844,20 +847,28 @@ namespace Attendance_API.Controllers
                                     var smsSendId = sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendence");
                                     if (smsSendId != Guid.Empty)
                                     {
-                                        SqlCommand Insert_SMS_Command = new SqlCommand("INSERT INTO SMS_OtherInfo  (SMS_Send_ID, SchoolID, StudentID, TeacherID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @EmployeeID) DELETE  FROM Attendance_SMS WHERE (Attendance_SMSID = @Attendance_SMSID)", con);
-                                        Insert_SMS_Command.Parameters.AddWithValue("@SMS_Send_ID", smsSendId.ToString());
+                                        SqlCommand Insert_SMS_Command = new SqlCommand(
+                                            "INSERT INTO SMS_OtherInfo  (SMS_Send_ID, SchoolID, StudentID, TeacherID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @EmployeeID) DELETE  FROM Attendance_SMS WHERE (Attendance_SMSID = @Attendance_SMSID)",
+                                            con);
+                                        Insert_SMS_Command.Parameters.AddWithValue("@SMS_Send_ID",
+                                            smsSendId.ToString());
                                         Insert_SMS_Command.Parameters.AddWithValue("@SchoolID", item.SchoolID);
-                                        Insert_SMS_Command.Parameters.AddWithValue("@StudentID", item.StudentID == 0 ? "" : item.StudentID.ToString());
-                                        Insert_SMS_Command.Parameters.AddWithValue("@EmployeeID", item.EmployeeID == 0 ? "" : item.EmployeeID.ToString());
-                                        Insert_SMS_Command.Parameters.AddWithValue("@Attendance_SMSID", item.Attendance_SMSID);
+                                        Insert_SMS_Command.Parameters.AddWithValue("@StudentID",
+                                            item.StudentID == 0 ? "" : item.StudentID.ToString());
+                                        Insert_SMS_Command.Parameters.AddWithValue("@EmployeeID",
+                                            item.EmployeeID == 0 ? "" : item.EmployeeID.ToString());
+                                        Insert_SMS_Command.Parameters.AddWithValue("@Attendance_SMSID",
+                                            item.Attendance_SMSID);
                                         Insert_SMS_Command.ExecuteNonQuery();
                                     }
                                 }
                             }
+
                             con.Close();
                         }
                     }
                 }
+
                 #endregion
             }
             catch

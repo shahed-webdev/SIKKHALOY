@@ -303,8 +303,6 @@ namespace EDUCATION.COM.Admission.Re_Admission
 
                         StudentClassSQL.UpdateParameters["StudentClassID"].DefaultValue = StudentsGridView.DataKeys[Row.DataItemIndex]["StudentClassID"].ToString();
                         StudentClassSQL.Update();
-
-                        Response.Redirect(Request.Url.AbsoluteUri);
                     }
                     else
                     {
@@ -312,6 +310,7 @@ namespace EDUCATION.COM.Admission.Re_Admission
                     }
                 }
             }
+            Response.Redirect(Request.Url.AbsoluteUri);
         }
 
         protected void ShowPositionButton_Click(object sender, EventArgs e)
