@@ -77,7 +77,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = s.StartTime,
+                                                      ScheduleTime = s.LateEntryTime, // Abs, so Late Enter time will start counting for sms sending time limit
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} today({a.AttendanceDate:d MMM yy}) absent, please send to class regularly. {schoolName}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName} আজ({a.AttendanceDate:d MMM yy}) অনুপস্থিত, অনুগ্রহ করে নিয়মিত ক্লাসে পাঠান {schoolName}",
@@ -100,7 +100,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = s.StartTime,
+                                                      ScheduleTime = a.EntryTime ?? s.LateEntryTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} today({a.AttendanceDate:d MMM yy}) late absent. entry time {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName} আজ({a.AttendanceDate:d MMM yy}) বিলম্বে (অনুপস্থিত হিসাবে), প্রবেশ করেছে। প্রবেশ সময় {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}",
@@ -128,7 +128,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = s.StartTime,
+                                                      ScheduleTime = a.ExitTime ?? s.StartTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} has reached {schoolName} at {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName} নিরাপদে {schoolName} এ ({DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}) প্রবেশ করেছে",
@@ -156,7 +156,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = s.StartTime,
+                                                      ScheduleTime = a.EntryTime ?? s.LateEntryTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} today({a.AttendanceDate:d MMM yy}) late {(a.EntryTime.GetValueOrDefault() - s.StartTime).Minutes} min, entry time {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName} আজ({a.AttendanceDate:d MMM yy}) {(a.EntryTime.GetValueOrDefault() - s.StartTime).Minutes} মি: বিলম্বে, প্রবেশ করেছে। প্রবেশ সময় {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}",
@@ -184,7 +184,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = s.StartTime,
+                                                      ScheduleTime = a.EntryTime ?? s.EndTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} has exited from {schoolName} at {timeToday.Add(a.ExitTime.GetValueOrDefault()):h:mm tt}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName}, {schoolName} থেকে {timeToday.Add(a.ExitTime.GetValueOrDefault()):h:mm tt} প্রস্থান করেছে",
@@ -288,7 +288,7 @@ namespace Attendance_API.Controllers
                                     {
                                         SchoolID = id,
                                         StudentID = log.StudentID,
-                                        ScheduleTime = stu.StartTime,
+                                        ScheduleTime = log.EntryTime ?? stu.LateEntryTime,
                                         AttendanceDate = log.AttendanceDate,
                                         SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {stu.StudentsName} today({log.AttendanceDate:d MMM yy}) late absent. Entry time {timeToday.Add(log.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}"
                                             : $"সম্মানিত অভিভাবক, {stu.StudentsName} আজ({log.AttendanceDate:d MMM yy}) বিলম্বে (অনুপস্থিত হিসাবে), প্রবেশ করেছে। প্রবেশ সময় {timeToday.Add(log.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}",
@@ -322,7 +322,7 @@ namespace Attendance_API.Controllers
                                     {
                                         SchoolID = id,
                                         StudentID = log.StudentID,
-                                        ScheduleTime = stu.StartTime,
+                                        ScheduleTime = log.ExitTime ?? stu.EndTime,
                                         AttendanceDate = log.AttendanceDate,
                                         SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {stu.StudentsName} has exited from {schoolName} at {timeToday.Add(log.ExitTime.GetValueOrDefault()):h:mm tt}"
                                             : $"সম্মানিত অভিভাবক, {stu.StudentsName}, {schoolName} থেকে {timeToday.Add(log.ExitTime.GetValueOrDefault()):h:mm tt} প্রস্থান করেছে",
@@ -401,7 +401,7 @@ namespace Attendance_API.Controllers
                                                    {
                                                        SchoolID = id,
                                                        EmployeeID = a.EmployeeID,
-                                                       ScheduleTime = e.StartTime,
+                                                       ScheduleTime = e.LateEntryTime,
                                                        AttendanceDate = a.AttendanceDate,
                                                        SMS_Text = attSetting.Is_English_SMS ? $"{e.Name} Today({a.AttendanceDate:d MMM yy}) absent"
                                                            : $"{e.Name} আজ({a.AttendanceDate:d MMM yy}) অনুপস্থিত",
@@ -424,7 +424,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       EmployeeID = a.EmployeeID,
-                                                      ScheduleTime = e.StartTime,
+                                                      ScheduleTime = a.EntryTime ?? e.LateEntryTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"{e.Name} Today({a.AttendanceDate:d MMM yy}) late absent. Entry time {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}"
                                                           : $"{e.Name} আজ({a.AttendanceDate:d MMM yy}) বিলম্বে (অনুপস্থিত হিসাবে), প্রবেশ করেছে। প্রবেশ সময় {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}",
@@ -453,7 +453,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       EmployeeID = a.EmployeeID,
-                                                      ScheduleTime = e.StartTime,
+                                                      ScheduleTime = a.EntryTime ?? e.LateEntryTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"{e.Name} Today({a.AttendanceDate:d MMM yy}) late {(a.EntryTime.GetValueOrDefault() - e.StartTime).Minutes} min. Entry time {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}"
                                                           : $"{e.Name} আজ({a.AttendanceDate:d MMM yy}) {(a.EntryTime.GetValueOrDefault() - e.StartTime).Minutes} মি: বিলম্বে প্রবেশ করেছে। প্রবেশ সময় {timeToday.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}",
@@ -807,13 +807,17 @@ namespace Attendance_API.Controllers
 
                 var totalSms = 0;
 
+                var today = DateTime.Today;
+
+                var currentTime = DateTime.Now.TimeOfDay;
+
                 var smsBalance = sms.SMSBalance;
                 #region Send SMS to All students
                 {
                     var smsList = new List<Attendance_SMS>();
                     using (var db = new EduContext())
                     {
-                        smsList = db.Attendance_sms.Where(s => s.SchoolID == id).ToList();
+                        smsList = db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today && s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
                     }
 
                     foreach (var item in smsList)
@@ -840,21 +844,17 @@ namespace Attendance_API.Controllers
                                     var smsSendId = sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendence");
                                     if (smsSendId != Guid.Empty)
                                     {
-                                        SqlCommand Insert_SMS_Command = new SqlCommand("INSERT INTO SMS_OtherInfo (SMS_Send_ID, SchoolID, StudentID, EducationYearID) SELECT @SMS_Send_ID, @SchoolID, @StudentID, EducationYearID FROM Education_Year WHERE (Status = N'True') AND (SchoolID = @SchoolID)", con);
+                                        SqlCommand Insert_SMS_Command = new SqlCommand("INSERT INTO SMS_OtherInfo  (SMS_Send_ID, SchoolID, StudentID, TeacherID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @EmployeeID) DELETE  FROM Attendance_SMS WHERE (Attendance_SMSID = @Attendance_SMSID)", con);
                                         Insert_SMS_Command.Parameters.AddWithValue("@SMS_Send_ID", smsSendId.ToString());
                                         Insert_SMS_Command.Parameters.AddWithValue("@SchoolID", item.SchoolID);
-                                        Insert_SMS_Command.Parameters.AddWithValue("@StudentID", item.StudentID);
+                                        Insert_SMS_Command.Parameters.AddWithValue("@StudentID", item.StudentID == 0 ? "" : item.StudentID.ToString());
+                                        Insert_SMS_Command.Parameters.AddWithValue("@EmployeeID", item.EmployeeID == 0 ? "" : item.EmployeeID.ToString());
+                                        Insert_SMS_Command.Parameters.AddWithValue("@Attendance_SMSID", item.Attendance_SMSID);
                                         Insert_SMS_Command.ExecuteNonQuery();
                                     }
                                 }
                             }
                             con.Close();
-
-                            using (var db = new EduContext())
-                            {
-                                db.Attendance_sms.RemoveRange(smsList);
-                                await db.SaveChangesAsync();
-                            }
                         }
                     }
                 }

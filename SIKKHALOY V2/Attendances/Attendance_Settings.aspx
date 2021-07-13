@@ -94,6 +94,15 @@
                                         <asp:ListItem Value="True">ENGLISH</asp:ListItem>
                                     </asp:RadioButtonList>
                                 </li>
+                                <li class="list-group-item d-sm-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-0">SMS SEND TIMEOUT MINUTE</p>
+                                        <small>SMS don't send after this time.</small>
+                                    </div>
+                                    <div class="form-group m-0">
+                                        <asp:TextBox CssClass="form-control" ID="SMS_TimeOut_MinuteTextBox" runat="server" Text='<%# Bind("SMS_TimeOut_Minute") %>' />
+                                    </div>
+                                </li>
                             </ul>
 
                             <asp:LinkButton ID="UpdateButton" CssClass="btn btn-primary" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
@@ -234,15 +243,6 @@
                                     </div>
                                     <div class="form-group m-0">
                                         <asp:TextBox CssClass="form-control" ID="Employee_SMS_NumberTextBox" runat="server" Text='<%# Bind("Employee_SMS_Number") %>' />
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-sm-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="mb-0">SMS SEND TIMEOUT MINUTE</p>
-                                        <small>SMS don't send after this time.</small>
-                                    </div>
-                                    <div class="form-group m-0">
-                                        <asp:TextBox CssClass="form-control" ID="SMS_TimeOut_MinuteTextBox" runat="server" Text='<%# Bind("SMS_TimeOut_Minute") %>' />
                                     </div>
                                 </li>
                             </ul>
