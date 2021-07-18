@@ -128,7 +128,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = a.ExitTime ?? s.StartTime,
+                                                      ScheduleTime = a.EntryTime ?? s.StartTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} has reached {schoolName} at {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName} নিরাপদে {schoolName} এ ({DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}) প্রবেশ করেছে",
@@ -184,7 +184,7 @@ namespace Attendance_API.Controllers
                                                   {
                                                       SchoolID = id,
                                                       StudentID = a.StudentID,
-                                                      ScheduleTime = a.EntryTime ?? s.EndTime,
+                                                      ScheduleTime = a.ExitTime ?? s.EndTime,
                                                       AttendanceDate = a.AttendanceDate,
                                                       SMS_Text = attSetting.Is_English_SMS ? $"Respected guardian, {s.StudentsName} has exited from {schoolName} at {timeToday.Add(a.ExitTime.GetValueOrDefault()):h:mm tt}"
                                                           : $"সম্মানিত অভিভাবক, {s.StudentsName}, {schoolName} থেকে {timeToday.Add(a.ExitTime.GetValueOrDefault()):h:mm tt} প্রস্থান করেছে",
