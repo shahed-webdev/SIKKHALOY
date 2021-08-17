@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Authority {
-    
-    
-    public partial class SignUp_Institution {
-        
+namespace EDUCATION.COM.Authority
+{
+
+
+    public partial class SignUp_Institution
+    {
+
         /// <summary>
         /// InstitutionCW control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CreateUserWizard InstitutionCW;
-        
+
         /// <summary>
         /// CreateUserWizardStep1 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CreateUserWizardStep CreateUserWizardStep1;
-        
+
         /// <summary>
         /// InstitutionInfo control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.WizardStep InstitutionInfo;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// PerStudentTkTextBox control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PerStudentTkTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// SchoolNameTextBox control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SchoolNameTextBox;
-        
+
         /// <summary>
         /// EstablishedTextBox control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox EstablishedTextBox;
-        
+
         /// <summary>
         /// PrincipalTextBox control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PrincipalTextBox;
-        
+
         /// <summary>
         /// AcadamicStaffTextBox control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox AcadamicStaffTextBox;
-        
+
         /// <summary>
         /// StudentsTextBox control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox StudentsTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// CityTextBox control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox CityTextBox;
-        
+
         /// <summary>
         /// StateTextBox control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox StateTextBox;
-        
+
         /// <summary>
         /// LocalAreaTextBox control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox LocalAreaTextBox;
-        
+
         /// <summary>
         /// PostalCodeTextBox control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PostalCodeTextBox;
-        
+
         /// <summary>
         /// Phone1TextBox control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Phone1TextBox;
-        
+
         /// <summary>
         /// EmailTextBox control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox EmailTextBox;
-        
+
         /// <summary>
         /// WebsiteTextBox control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox WebsiteTextBox;
-        
+
         /// <summary>
         /// AddressTextBox control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox AddressTextBox;
-        
+
         /// <summary>
         /// LogoUpload control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload LogoUpload;
-        
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// SchoolInfoSQL control.
         /// </summary>
@@ -218,16 +220,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SchoolInfoSQL;
-        
-        /// <summary>
-        /// API_ConfigSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource API_ConfigSQL;
-        
+
         /// <summary>
         /// RegistrationSQL control.
         /// </summary>
@@ -236,7 +229,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource RegistrationSQL;
-        
+
         /// <summary>
         /// AdminSQL control.
         /// </summary>
@@ -245,7 +238,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AdminSQL;
-        
+
         /// <summary>
         /// Edu_YearSQL control.
         /// </summary>
@@ -254,7 +247,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Edu_YearSQL;
-        
+
         /// <summary>
         /// SMS_SQL control.
         /// </summary>
@@ -263,7 +256,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SMS_SQL;
-        
+
         /// <summary>
         /// LIT_SQL control.
         /// </summary>
@@ -272,7 +265,7 @@ namespace EDUCATION.COM.Authority {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource LIT_SQL;
-        
+
         /// <summary>
         /// CompleteWizardStep1 control.
         /// </summary>
