@@ -567,10 +567,18 @@ namespace Attendance_API.Controllers
                                 s.Day == data.EntryDay && s.ScheduleID == data.ScheduleID);
 
                             var isHoliday = db.Holidays.Any(h => h.SchoolID == id && h.HolidayDate == dt);
-
-
+                            //student not found
+                            if (sInfo == null)
+                            {
+                                continue;
+                            }
+                            //schedule not found
+                            else if (schedule == null)
+                            {
+                                continue;
+                            }
                             //Hodiday attendance disable
-                            if (isHoliday && attSetting.Is_Holiday_As_Offday)
+                            else if (isHoliday && attSetting.Is_Holiday_As_Offday)
                             {
                                 continue;
                             }
@@ -690,7 +698,16 @@ namespace Attendance_API.Controllers
 
                             var isHoliday = db.Holidays.Any(h => h.SchoolID == id && h.HolidayDate == dt);
 
-
+                            //student not found
+                            if (eInfo == null)
+                            {
+                                continue;
+                            }
+                            //schedule not found
+                            else if (schedule == null)
+                            {
+                                continue;
+                            }
                             //Hodiday attendance disable
                             if (isHoliday && attSetting.Is_Holiday_As_Offday)
                             {
@@ -844,7 +861,7 @@ namespace Attendance_API.Controllers
                                 var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
                                 if (isValid.Validation)
                                 {
-                                    var smsSendId = sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendence");
+                                    var smsSendId = sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendance");
                                     if (smsSendId != Guid.Empty)
                                     {
                                         SqlCommand Insert_SMS_Command = new SqlCommand(

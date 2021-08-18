@@ -6,6 +6,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -238,9 +239,23 @@ namespace AttendanceDevice.Settings
                 var scheduleDayResponse =
                     await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
 
-                if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null)
+                if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null && scheduleDayResponse.Data.Any())
                 {
-                    await LocalData.Instance.ScheduleDataHandling(scheduleDayResponse.Data);
+                    var isNoScheduleUserExist = await LocalData.Instance.ScheduleDataHandling(scheduleDayResponse.Data);
+                    if (isNoScheduleUserExist)
+                    {
+                        LocalData.Current_Error.Message = "Not all User assigned in the schedule on PC, Update User from server!";
+                        LocalData.Current_Error.Type = Error_Type.UserInfoPage;
+
+                        var setting = new Setting();
+                        setting.Show();
+                        this.Close();
+                        return;
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException("No Schedule data found in Server");
                 }
 
                 #endregion Schedule data
