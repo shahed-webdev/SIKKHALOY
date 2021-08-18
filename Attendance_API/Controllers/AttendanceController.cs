@@ -611,7 +611,7 @@ namespace Attendance_API.Controllers
 
                                     if (time > sEndTime)
                                     {
-                                        //Enroll after end time (as frist enroll)
+                                        //Enroll after end time (as first enroll)
                                     }
                                     else
                                     {
@@ -708,7 +708,7 @@ namespace Attendance_API.Controllers
                             {
                                 continue;
                             }
-                            //Hodiday attendance disable
+                            //Holiday attendance disable
                             if (isHoliday && attSetting.Is_Holiday_As_Offday)
                             {
                                 continue;
@@ -740,7 +740,7 @@ namespace Attendance_API.Controllers
 
                                     if (time > sEndTime)
                                     {
-                                        //Enroll after end time (as frist enroll)
+                                        //Enroll after end time (as first enroll)
                                     }
                                     else
                                     {
@@ -829,12 +829,13 @@ namespace Attendance_API.Controllers
                 var currentTime = DateTime.Now.TimeOfDay;
 
                 var smsBalance = sms.SMSBalance;
+
                 #region Send SMS to All students
 
                 var smsList = new List<Attendance_SMS>();
                 using (var db = new EduContext())
                 {
-                    smsList = db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today && s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
+                    smsList = await db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today && s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToListAsync();
                 }
 
                 if (smsList.Any())
@@ -853,34 +854,34 @@ namespace Attendance_API.Controllers
                     {
                         if (sms.SMS_GetBalance() >= totalSms)
                         {
-                            SqlConnection con =
-                                new SqlConnection(ConfigurationManager.ConnectionStrings["EduConnection"].ToString());
+                            var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EduConnection"].ToString());
                             con.Open();
                             foreach (var item in smsList)
                             {
                                 var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
                                 if (isValid.Validation)
                                 {
-                                    var smsSendId = sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendance");
+
+                                    var smsSendId = await Task.Run(() => sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendance"));
                                     if (smsSendId != Guid.Empty)
                                     {
-                                        SqlCommand Insert_SMS_Command = new SqlCommand(
+                                        var insertSmsCommand = new SqlCommand(
                                             "INSERT INTO SMS_OtherInfo  (SMS_Send_ID, SchoolID, StudentID, TeacherID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @EmployeeID) DELETE  FROM Attendance_SMS WHERE (Attendance_SMSID = @Attendance_SMSID)",
                                             con);
-                                        Insert_SMS_Command.Parameters.AddWithValue("@SMS_Send_ID",
+                                        insertSmsCommand.Parameters.AddWithValue("@SMS_Send_ID",
                                             smsSendId.ToString());
-                                        Insert_SMS_Command.Parameters.AddWithValue("@SchoolID", item.SchoolID);
-                                        Insert_SMS_Command.Parameters.AddWithValue("@StudentID",
+                                        insertSmsCommand.Parameters.AddWithValue("@SchoolID", item.SchoolID);
+                                        insertSmsCommand.Parameters.AddWithValue("@StudentID",
                                             item.StudentID == 0 ? "" : item.StudentID.ToString());
-                                        Insert_SMS_Command.Parameters.AddWithValue("@EmployeeID",
+                                        insertSmsCommand.Parameters.AddWithValue("@EmployeeID",
                                             item.EmployeeID == 0 ? "" : item.EmployeeID.ToString());
-                                        Insert_SMS_Command.Parameters.AddWithValue("@Attendance_SMSID",
+                                        insertSmsCommand.Parameters.AddWithValue("@Attendance_SMSID",
                                             item.Attendance_SMSID);
-                                        Insert_SMS_Command.ExecuteNonQuery();
+
+                                        await insertSmsCommand.ExecuteNonQueryAsync();
                                     }
                                 }
                             }
-
                             con.Close();
                         }
                     }
@@ -890,7 +891,7 @@ namespace Attendance_API.Controllers
             }
             catch
             {
-
+                // ignored
             }
         }
 
