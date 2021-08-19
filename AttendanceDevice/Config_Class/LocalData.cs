@@ -442,7 +442,7 @@ namespace AttendanceDevice.Config_Class
             {
 
                 //if same date Absent count remain same 
-                if (institution.LastUpdateDate == DateTime.Today.ToShortDateString())
+                if (Convert.ToDateTime(institution.LastUpdateDate) == DateTime.Today)
                 {
                     var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
                         .Select(s => s.ScheduleID).ToList();

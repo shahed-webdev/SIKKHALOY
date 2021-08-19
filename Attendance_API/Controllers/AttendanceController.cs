@@ -816,7 +816,7 @@ namespace Attendance_API.Controllers
 
         [Route("api/Attendance/{id}/SendSms")]
         [HttpPost]
-        public async Task SendSms(int id)
+        public async Task<IHttpActionResult> SendSms(int id)
         {
             try
             {
@@ -835,7 +835,8 @@ namespace Attendance_API.Controllers
                 var smsList = new List<Attendance_SMS>();
                 using (var db = new EduContext())
                 {
-                    smsList = await db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today && s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToListAsync();
+                    var smsListDay = await db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today).ToListAsync();
+                    smsList = smsListDay.Where(s => s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
                 }
 
                 if (smsList.Any())
@@ -888,10 +889,13 @@ namespace Attendance_API.Controllers
                 }
 
                 #endregion
+
+                return Ok();
             }
-            catch
+            catch (Exception ex)
             {
                 // ignored
+                return BadRequest(ex.Message);
             }
         }
 

@@ -244,7 +244,7 @@ namespace AttendanceDevice
                 smsRequest.AddUrlSegment("id", ins.SchoolID);
                 smsRequest.AddHeader("Authorization", "Bearer " + ins.Token);
 
-                await client.ExecutePostTaskAsync(smsRequest);
+                var responseSms = await client.ExecutePostTaskAsync(smsRequest);
 
                 #endregion
             }
