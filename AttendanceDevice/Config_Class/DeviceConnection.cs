@@ -30,7 +30,7 @@ namespace AttendanceDevice.Config_Class
     public class DeviceConnection
     {
         private const int PrevDayLogCountable = 7;
-        private  int _fingerIndex = 0;
+        private int _fingerIndex = 0;
         public Card EnrollUserCard { get; set; }
         public DialogHost EnrollUserDialogHost { get; set; }
         public bool IsSdkFullSupported { get; set; }
@@ -48,6 +48,11 @@ namespace AttendanceDevice.Config_Class
         private void EnrollUserDialog_OnDialogOpened(object sender, DialogOpenedEventArgs eventargs)
         {
             //Timer-setup
+            if (_dialogTimer == null)
+            {
+                _dialogTimer = new DispatcherTimer();
+            }
+
             _dialogTimer.Interval = TimeSpan.FromSeconds(5);
             _dialogTimer.Tick += _dialogTimer_Tick;
             _dialogTimer.Start();
@@ -55,8 +60,11 @@ namespace AttendanceDevice.Config_Class
 
         private void EnrollUserDialog_OnDialogClosing(object sender, DialogClosingEventArgs eventargs)
         {
-            _dialogTimer.Stop();
-            _dialogTimer = null;
+            if (_dialogTimer != null)
+            {
+                _dialogTimer.Stop();
+                _dialogTimer = null;
+            }
         }
 
         public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
@@ -66,12 +74,7 @@ namespace AttendanceDevice.Config_Class
             var time = new TimeSpan(hour, minute, second);
             var userView = LocalData.Instance.GetUserView(deviceId);
             var DuplicatePunchCountableMin = 10;
-            if (userView == null)
-            {
-                userView = new UserView { Name = "User Not found on PC" };
-                EnrollUserCard.DataContext = userView;
-                return;
-            }
+
 
             //popup for Show the user 
             if (EnrollUserDialogHost != null)
@@ -85,7 +88,12 @@ namespace AttendanceDevice.Config_Class
                 _dialogTimer.Interval = TimeSpan.FromSeconds(30);
             }
 
-
+            if (userView == null)
+            {
+                userView = new UserView { Name = "User Not found on PC", Enroll_Time = dt };
+                EnrollUserCard.DataContext = userView;
+                return;
+            }
 
             userView.Enroll_Time = dt;
             var sDate = dt.ToShortDateString();
@@ -98,6 +106,13 @@ namespace AttendanceDevice.Config_Class
             var schedule = LocalData.Instance.GetUserSchedule(userView.ScheduleID);
 
             string reason;
+            //Schedule data not found
+            if (schedule == null)
+            {
+                reason = "Schedule data not found";
+                await LogBackupInsert(deviceId, dt, reason);
+                return;
+            }
             // Device Attendance Disable
             if (!LocalData.Instance.institution.Is_Device_Attendance_Enable)
             {
@@ -139,7 +154,10 @@ namespace AttendanceDevice.Config_Class
             {
                 using (var db = new ModelContext())
                 {
-                    var attRecord = await db.attendance_Records.Where(a => a.DeviceID == deviceId && a.AttendanceDate == sDate).FirstOrDefaultAsync();
+                    var attRecords = await db.attendance_Records.Where(a => a.DeviceID == deviceId).ToListAsync();
+
+                    var attRecord = attRecords.FirstOrDefault(a => Convert.ToDateTime(a.AttendanceDate) == Convert.ToDateTime(sDate));
+
                     var sStartTime = TimeSpan.Parse(schedule.StartTime);
                     var sLateTime = TimeSpan.Parse(schedule.LateEntryTime);
                     var sEndTime = TimeSpan.Parse(schedule.EndTime);
@@ -977,7 +995,7 @@ namespace AttendanceDevice.Config_Class
 
                 if (axCZKEM1.StartIdentify())
                 {
-                  //FingerprintMessage.Text = $"Enroll a new User,UserId: {deviceId}";
+                    //FingerprintMessage.Text = $"Enroll a new User,UserId: {deviceId}";
                 }
                 //After enrolling templates,you should let the device into the 1:N verification condition
 

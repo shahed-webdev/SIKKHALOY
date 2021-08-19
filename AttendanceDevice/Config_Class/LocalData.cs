@@ -342,7 +342,7 @@ namespace AttendanceDevice.Config_Class
 
             using (var db = new ModelContext())
             {
-                var logs = db.attendance_Records.Where(a => a.AttendanceDate == date).Select(a => a.DeviceID).ToList();
+                var logs = db.attendance_Records.ToList().Where(a => Convert.ToDateTime(a.AttendanceDate) == Convert.ToDateTime(date)).Select(a => a.DeviceID).ToList();
 
                 var deviceIDs = scheduleUser.Where(u => !logs.Contains(u)).ToList();
 
@@ -436,13 +436,13 @@ namespace AttendanceDevice.Config_Class
             }
         }
 
-        public async Task ScheduleDataHandling(List<Attendance_Schedule_Day> data)
+        public async Task<bool> ScheduleDataHandling(List<Attendance_Schedule_Day> data)
         {
             using (var db = new ModelContext())
             {
 
                 //if same date Absent count remain same 
-                if (institution.LastUpdateDate == DateTime.Today.ToShortDateString())
+                if (Convert.ToDateTime(institution.LastUpdateDate) == DateTime.Today)
                 {
                     var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
                         .Select(s => s.ScheduleID).ToList();
@@ -461,6 +461,12 @@ namespace AttendanceDevice.Config_Class
                 }
 
                 await db.SaveChangesAsync();
+
+                var scheduleIds = data.Select(s => s.ScheduleID).ToArray();
+
+                var isNoScheduleUserExist = await db.Users.AnyAsync(u => !scheduleIds.Contains(u.ScheduleID));
+
+                return isNoScheduleUserExist;
             }
         }
 

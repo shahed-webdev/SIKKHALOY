@@ -193,6 +193,16 @@ namespace AttendanceDevice.Settings.Pages
         {
             LoadingDH.IsOpen = true;
             var deleted = await Task.Run(() => _deviceCon.ClearAll_Logs());
+            if (deleted)
+            {
+                LoadingDH.IsOpen = false;
+            }
+            else
+            {
+                LoadingDH.IsOpen = false;
+                MessageBox.Show("System error", "Error!");
+            }
+            NavigationService?.Refresh();
         }
 
 

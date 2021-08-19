@@ -49,10 +49,6 @@ namespace EDUCATION.COM.Authority
             LIT_SQL.InsertParameters["PasswordAnswer"].DefaultValue = ViewState["PasswordAnswer"].ToString();
             LIT_SQL.Insert();
 
-            API_ConfigSQL.InsertParameters["SchoolID"].DefaultValue = schoolId;
-            API_ConfigSQL.InsertParameters["UserName"].DefaultValue = InstitutionCW.UserName;
-            API_ConfigSQL.Insert();
-
             Edu_YearSQL.InsertParameters["SchoolID"].DefaultValue = schoolId;
             Edu_YearSQL.InsertParameters["RegistrationID"].DefaultValue = registrationId;
             Edu_YearSQL.Insert();

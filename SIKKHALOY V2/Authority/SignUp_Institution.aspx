@@ -174,15 +174,6 @@
                                                 <asp:Parameter Name="UserName" Type="String" />
                                             </InsertParameters>
                                         </asp:SqlDataSource>
-                                        <asp:SqlDataSource ID="API_ConfigSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO API_Config(SchoolID, API_PIN, UserName, Password, Validation) VALUES (@SchoolID, @SchoolID, @UserName, @Password, @Validation)" SelectCommand="SELECT * FROM [API_Config]">
-                                            <InsertParameters>
-                                                <asp:Parameter Name="SchoolID" Type="Int32" />
-                                                <asp:Parameter Name="UserName" Type="String" />
-                                                <asp:Parameter Name="API_PIN" Type="String" />
-                                                <asp:Parameter DefaultValue="123456" Name="Password" Type="String" />
-                                                <asp:Parameter DefaultValue="True" Name="Validation" Type="Boolean" />
-                                            </InsertParameters>
-                                        </asp:SqlDataSource>
                                         <asp:SqlDataSource ID="RegistrationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO Registration(SchoolID, UserName, Validation, Category, CreateDate) VALUES ((Select IDENT_CURRENT('SchoolInfo')), @UserName, 'Valid', 'Admin', GETDATE())" SelectCommand="SELECT * FROM [Registration]">
                                             <InsertParameters>
                                                 <asp:Parameter DefaultValue="" Name="UserName" Type="String" />

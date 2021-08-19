@@ -71,14 +71,13 @@
             <PagerStyle CssClass="pgr" />
         </asp:GridView>
         <asp:SqlDataSource ID="SMSRecordsSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-            SelectCommand="SELECT SMS_Send_Record.SMS_Send_ID, SMS_Send_Record.PhoneNumber, SMS_Send_Record.TextSMS, SMS_Send_Record.TextCount, SMS_Send_Record.SMSCount, SMS_Send_Record.PurposeOfSMS, SMS_Send_Record.SMS_Response, SMS_Send_Record.Status, SMS_Send_Record.Date FROM SMS_Send_Record INNER JOIN SMS_OtherInfo ON SMS_Send_Record.SMS_Send_ID = SMS_OtherInfo.SMS_Send_ID WHERE (SMS_OtherInfo.SchoolID = @SchoolID) AND (SMS_OtherInfo.EducationYearID = @EducationYearID) AND  (CAST(SMS_Send_Record.Date AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))ORDER BY SMS_Send_Record.Date DESC"
+            SelectCommand="SELECT SMS_Send_Record.SMS_Send_ID, SMS_Send_Record.PhoneNumber, SMS_Send_Record.TextSMS, SMS_Send_Record.TextCount, SMS_Send_Record.SMSCount, SMS_Send_Record.PurposeOfSMS, SMS_Send_Record.SMS_Response, SMS_Send_Record.Status, SMS_Send_Record.Date FROM SMS_Send_Record INNER JOIN SMS_OtherInfo ON SMS_Send_Record.SMS_Send_ID = SMS_OtherInfo.SMS_Send_ID WHERE (SMS_OtherInfo.SchoolID = @SchoolID) AND (CAST(SMS_Send_Record.Date AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) ORDER BY SMS_Send_Record.Date DESC"
             FilterExpression="PhoneNumber LIKE '{0}%'or PurposeOfSMS LIKE '{0}%'" CancelSelectOnNullParameter="False">
             <FilterParameters>
                 <asp:ControlParameter ControlID="Phone_Purpose_TextBox" Name="Phone_Purpose" PropertyName="Text" />
             </FilterParameters>
             <SelectParameters>
                 <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-                <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                 <asp:ControlParameter ControlID="FromDateTextBox" Name="From_Date" PropertyName="Text" />
                 <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             </SelectParameters>

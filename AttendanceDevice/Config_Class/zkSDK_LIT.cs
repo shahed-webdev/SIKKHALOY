@@ -53,13 +53,30 @@ namespace AttendanceDevice.Config_Class
                         if (log.EntryDate != DateTime.Today.ToShortDateString()) continue;
 
                         var user = await db.Users.FirstOrDefaultAsync(u => u.DeviceID == log.DeviceId);
+                        if (user == null) continue;
+
                         var schedule = await db.attendance_Schedule_Days.FirstOrDefaultAsync(u => u.ScheduleID == user.ScheduleID);
 
                         var isStuDisable = user != null && user.Is_Student && !institution.Is_Student_Attendance_Enable;
                         var isEmpDisable = user != null && !user.Is_Student && !institution.Is_Employee_Attendance_Enable;
 
                         // Student Attendance Disable
-                        if (isStuDisable)
+                        if (schedule == null)
+                        {
+
+                            var logBackup = new AttendanceLog_Backup()
+                            {
+                                DeviceID = log.DeviceId,
+                                Entry_Date = log.EntryDate,
+                                Entry_Time = dt.ToShortTimeString(),
+                                Entry_Day = dt.ToString("dddd"),
+                                Backup_Reason = "Schedule data not found"
+                            };
+
+                            db.attendanceLog_Backups.Add(logBackup);
+
+                        }
+                        else if (isStuDisable)
                         {
                             var logBackup = new AttendanceLog_Backup()
                             {
@@ -103,7 +120,7 @@ namespace AttendanceDevice.Config_Class
 
                         }
                         //Schedule Off day
-                        else if (schedule != null && !schedule.Is_OnDay)
+                        else if (!schedule.Is_OnDay)
                         {
                             var logBackup = new AttendanceLog_Backup()
                             {
@@ -119,7 +136,8 @@ namespace AttendanceDevice.Config_Class
                         // Insert or Update Attendance Records
                         else
                         {
-                            var attRecord = await db.attendance_Records.Where(a => a.DeviceID == log.DeviceId && a.AttendanceDate == log.EntryDate).FirstOrDefaultAsync();
+                            var attRecords = await db.attendance_Records.Where(a => a.DeviceID == log.DeviceId).ToListAsync();
+                            var attRecord = attRecords.FirstOrDefault(a => Convert.ToDateTime(a.AttendanceDate) == Convert.ToDateTime(log.EntryDate));
                             var sStartTime = TimeSpan.Parse(schedule.StartTime);
                             var sLateTime = TimeSpan.Parse(schedule.LateEntryTime);
                             var sEndTime = TimeSpan.Parse(schedule.EndTime);
@@ -247,7 +265,7 @@ namespace AttendanceDevice.Config_Class
             {
                 var q = from a in db.attendance_Records
                         join u in db.Users
-                        on a.DeviceID equals u.DeviceID
+                            on a.DeviceID equals u.DeviceID
                         select new Attendance_view
                         {
                             DeviceID = u.DeviceID,
@@ -263,40 +281,63 @@ namespace AttendanceDevice.Config_Class
                             ExitTime = a.ExitTime
                         };
 
-                var currentDate = DateTime.Today.ToShortDateString();
-
-                if (attType == AttType.All)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.AllStudent)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.StudentIn)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.StudentOut)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.AllEmployee)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.EmployeeIn)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.EmployeeOut)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && !a.Is_Student && a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.AllIn)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.AttendanceStatus != "Abs" && !a.Is_OUT).OrderByDescending(a => a.EntryTime).ToList();
-                else if (attType == AttType.AllOut)
-                    attendanceRecords = q.Where(a => a.AttendanceDate == currentDate && a.Is_OUT).OrderByDescending(a => a.ExitTime).ToList();
+                switch (attType)
+                {
+                    case AttType.All:
+                        attendanceRecords = q.ToList();
+                        break;
+                    case AttType.AllStudent:
+                        attendanceRecords = q.Where(a => a.Is_Student)
+                            .ToList();
+                        break;
+                    case AttType.StudentIn:
+                        attendanceRecords = q.Where(a => a.Is_Student && !a.Is_OUT)
+                            .ToList();
+                        break;
+                    case AttType.StudentOut:
+                        attendanceRecords = q.Where(a => a.Is_Student && !a.Is_OUT)
+                            .ToList();
+                        break;
+                    case AttType.AllEmployee:
+                        attendanceRecords = q.Where(a => !a.Is_Student)
+                            .ToList();
+                        break;
+                    case AttType.EmployeeIn:
+                        attendanceRecords = q.Where(a => !a.Is_Student && !a.Is_OUT)
+                            .ToList();
+                        break;
+                    case AttType.EmployeeOut:
+                        attendanceRecords = q.Where(a => !a.Is_Student && a.Is_OUT)
+                            .ToList();
+                        break;
+                    case AttType.AllIn:
+                        attendanceRecords = q.Where(a => a.AttendanceStatus != "Abs" && !a.Is_OUT)
+                            .ToList();
+                        break;
+                    case AttType.AllOut:
+                        attendanceRecords = q.Where(a => a.Is_OUT)
+                            .ToList();
+                        break;
+                }
             }
 
 
-            return attendanceRecords.Select(a =>
-            {
-                a.EntryTime = string.IsNullOrEmpty(a.EntryTime)
-                       ? ""
-                       : DateTime.Parse(a.EntryTime, CultureInfo.CurrentCulture).ToString("hh:mm tt");
-                a.ExitTime = string.IsNullOrEmpty(a.ExitTime)
-                       ? ""
-                       : DateTime.Parse(a.ExitTime, CultureInfo.CurrentCulture).ToString("hh:mm tt");
+            return attendanceRecords
+                .Where(a => Convert.ToDateTime(a.AttendanceDate) == DateTime.Today)
+                .OrderByDescending(a => a.EntryTime)
+                .ThenBy(a => a.ID)
+                .Select(a =>
+                {
+                    a.EntryTime = string.IsNullOrEmpty(a.EntryTime)
+                        ? ""
+                        : DateTime.Parse(a.EntryTime, CultureInfo.CurrentCulture).ToString("hh:mm tt");
+                    a.ExitTime = string.IsNullOrEmpty(a.ExitTime)
+                        ? ""
+                        : DateTime.Parse(a.ExitTime, CultureInfo.CurrentCulture).ToString("hh:mm tt");
 
-                return a;
-            }).ToList();
+                    return a;
+                })
+                .ToList();
         }
     }
 }
