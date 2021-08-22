@@ -186,9 +186,6 @@
     <Compile Include="No_Internet_Window.xaml.cs">
       <DependentUpon>No_Internet_Window.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Offline_DisplayWindow.xaml.cs">
-      <DependentUpon>Offline_DisplayWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Pages\Attendance_LogPage.xaml.cs">
       <DependentUpon>Attendance_LogPage.xaml</DependentUpon>
     </Compile>
@@ -254,10 +251,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="No_Internet_Window.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Offline_DisplayWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -75,7 +75,7 @@ namespace AttendanceDevice
             var token = loginResponse.Data.access_token;
 
             //Update Local PC information if date not same
-            if (ins.LastUpdateDate != DateTime.Today.ToShortDateString())
+            if (Convert.ToDateTime(ins.LastUpdateDate) != DateTime.Today)
             {
                 //get institution info
                 var schoolRequest = new RestRequest("api/school/{id}", Method.GET);
@@ -127,7 +127,6 @@ namespace AttendanceDevice
                 ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
                 ins.Is_Today_Holiday = schoolInfo.Is_Today_Holiday;
                 ins.Holiday_NotActive = schoolInfo.Holiday_NotActive;
-                ins.LastUpdateDate = schoolInfo.LastUpdateDate;
 
                 await LocalData.Instance.InstitutionUpdate(ins);
 
@@ -187,6 +186,10 @@ namespace AttendanceDevice
                 }
 
                 #endregion Schedule data
+
+                //Update Local PC information update time
+                ins.LastUpdateDate = schoolInfo.LastUpdateDate;
+                await LocalData.Instance.InstitutionUpdate(ins);
             }
 
             //Device data send to server

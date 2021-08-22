@@ -440,16 +440,17 @@ namespace AttendanceDevice.Config_Class
         {
             using (var db = new ModelContext())
             {
+                //Commented because Schedule can be changed in the same date or user can be updated
 
                 //if same date Absent count remain same 
-                if (Convert.ToDateTime(institution.LastUpdateDate) == DateTime.Today)
-                {
-                    var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
-                        .Select(s => s.ScheduleID).ToList();
+                //if (Convert.ToDateTime(institution.LastUpdateDate) == DateTime.Today)
+                //{
+                //    var schedulesUpdate = db.attendance_Schedule_Days.Where(s => s.Is_Abs_Count)
+                //        .Select(s => s.ScheduleID).ToList();
 
-                    data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList()
-                        .ForEach(s => s.Is_Abs_Count = true);
-                }
+                //    data.Where(s => schedulesUpdate.Contains(s.ScheduleID)).ToList()
+                //        .ForEach(s => s.Is_Abs_Count = true);
+                //}
 
                 // this.Schedules = data;
 
