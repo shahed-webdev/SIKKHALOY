@@ -262,7 +262,7 @@
         </Grid>
 
         <!--enroll user info-->
-        <materialDesign:DialogHost Name="EnrollUserDialog" CloseOnClickAway="True" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+        <materialDesign:DialogHost Name="EnrollUserDialog" CloseOnClickAway="False" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
             <materialDesign:DialogHost.DialogContent>
                 <materialDesign:Card
                         Name="UserDataGrid"

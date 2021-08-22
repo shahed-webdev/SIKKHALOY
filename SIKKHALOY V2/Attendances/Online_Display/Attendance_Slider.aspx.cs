@@ -7,25 +7,25 @@ namespace EDUCATION.COM.Attendances.Online_Display
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["SchoolID"] == null)
+            if (Session["SchoolID"] == null || Session["Edu_Year"] == null)
                 Response.Redirect("~/Default.aspx");
         }
 
         protected void Employee_CheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string Filter = "";
+            var filter = "";
             foreach (ListItem item in Employee_CheckBoxList.Items)
             {
                 if (item.Selected)
                 {
-                    Filter += "'" + item.Value + "',";
+                    filter += "'" + item.Value + "',";
                 }
             }
-            if (Filter != "")
+            if (filter != "")
             {
-                Filter.TrimEnd(',');
-                Emp_INSQL.FilterExpression = "AttendanceStatus in (" + Filter + ")";
-                Emp_OUTSQL.FilterExpression = "AttendanceStatus in (" + Filter + ")";
+                filter.TrimEnd(',');
+                Emp_INSQL.FilterExpression = "AttendanceStatus in (" + filter + ")";
+                Emp_OUTSQL.FilterExpression = "AttendanceStatus in (" + filter + ")";
             }
             else
             {
