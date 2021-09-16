@@ -92,7 +92,7 @@ namespace EDUCATION.COM.Authority.Institutions
             GridViewRow row = (sender as Button).Parent.Parent as GridViewRow;
 
             Session["Edu_Year"] = Total_StudentGridView.DataKeys[row.DataItemIndex]["EducationYearID"].ToString();
-            Session["SchoolID"] = Request.QueryString["SchoolID"].ToString();
+            Session["SchoolID"] = Request.QueryString["SchoolID"];
             Session["School_Name"] = SchoolFormView.DataKey["SchoolName"].ToString();
 
             Response.Redirect("~/Profile/Admin.aspx");
