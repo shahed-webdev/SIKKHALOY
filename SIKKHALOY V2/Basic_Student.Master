@@ -23,13 +23,13 @@
     <!-- Bootstrap Date-Picker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
     <!-- gridview -->
-    <link href="/CSS/Gridview.css?v=15" rel="stylesheet" />
+    <link type="text/css" href="/CSS/Gridview.css?v=15" rel="stylesheet" />
     <!-- Sidebar -->
-    <link href="/Student/css/Student_Sidebar.css?v=17.3" rel="stylesheet" />
+    <link href="/CSS/student_teacher/sidebar-style.css" rel="stylesheet" />
     <!-- Custom -->
-    <link href="/Student/css/Student_Basic.css?v=17.3" rel="stylesheet" />
+    <link href="/CSS/student_teacher/basic-style.css" rel="stylesheet" />
     <!-- Print -->
-    <link href="/CSS/Print.css?v=17" media="print" rel="stylesheet" />
+    <link type="text/css" href="/CSS/Print.css?v=17" media="print" rel="stylesheet" />
 
     <!--[if lt IE 9]>
      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

@@ -1,5 +1,4 @@
 ﻿
-
 #header {z-index:5; transition: left 0.2s; }
 #sidedrawer {background-color:#273A28;padding-top: 15px; position: fixed; top: 0; bottom: 0; width: 250px; left: -250px; overflow: auto; z-index: 2; transition: transform 0.2s; }
 #content-wrapper { min-height: 830px; overflow-x: auto;padding: 15px 0; margin-left: 0px; transition: margin-left 0.2s;}

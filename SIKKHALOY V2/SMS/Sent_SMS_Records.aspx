@@ -42,10 +42,10 @@
             </div>
         </ItemTemplate>
     </asp:FormView>
-    <asp:SqlDataSource ID="CountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT ISNULL(SUM(SMS_Send_Record.SMSCount),0) AS Total_SENT FROM SMS_Send_Record INNER JOIN SMS_OtherInfo ON SMS_Send_Record.SMS_Send_ID = SMS_OtherInfo.SMS_Send_ID WHERE (SMS_OtherInfo.SchoolID = @SchoolID) AND (SMS_OtherInfo.EducationYearID = @EducationYearID) AND (SMS_Send_Record.PurposeOfSMS like @PurposeOfSMS) AND (CAST(SMS_Send_Record.Date AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))" CancelSelectOnNullParameter="False">
+    <asp:SqlDataSource ID="CountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT ISNULL(SUM(SMS_Send_Record.SMSCount),0) AS Total_SENT FROM SMS_Send_Record INNER JOIN SMS_OtherInfo ON SMS_Send_Record.SMS_Send_ID = SMS_OtherInfo.SMS_Send_ID WHERE (SMS_OtherInfo.SchoolID = @SchoolID)  AND (SMS_Send_Record.PurposeOfSMS like @PurposeOfSMS) AND (CAST(SMS_Send_Record.Date AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))" CancelSelectOnNullParameter="False">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-            <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
+            <%-- <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" /> --%>
             <asp:ControlParameter ControlID="FromDateTextBox" Name="From_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="Phone_Purpose_TextBox" DefaultValue="%" Name="PurposeOfSMS" PropertyName="Text" />
@@ -164,7 +164,7 @@
                 }
             }, cb);
 
-            cb(start, end);
+//            cb(start, end);
         });
     </script>
 </asp:Content>

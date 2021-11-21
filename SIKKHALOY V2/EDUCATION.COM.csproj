@@ -521,8 +521,8 @@
     <Content Include="Student\Attendance.aspx" />
     <Content Include="Student\Change_Password.aspx" />
     <Content Include="Student\Class_Routine.aspx" />
-    <Content Include="Student\css\Student_Basic.css" />
-    <Content Include="Student\css\Student_Sidebar.css" />
+    <Content Include="CSS\student_teacher\basic-style.css" />
+    <Content Include="CSS\student_teacher\sidebar-style.css" />
     <Content Include="Student\Exam\Cumulative_Exam.aspx" />
     <Content Include="Student\Exam\Individual_Exam.aspx" />
     <Content Include="Student\Exam\Weekly_Exam.aspx" />
