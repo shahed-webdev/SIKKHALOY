@@ -304,6 +304,7 @@
     <Content Include="Authority\Reference\School_Reference.aspx" />
     <Content Include="Authority\SignUp_Institution.aspx" />
     <Content Include="CSS\bootstrap-multiselect.css" />
+    <Content Include="CSS\bootstrap\bootstrap.css" />
     <Content Include="CSS\Default.css" />
     <Content Include="CSS\Gridview.css" />
     <Content Include="CSS\External_Master.css" />
