@@ -66,7 +66,7 @@
                     <asp:DropDownList ID="SessionYearDropDownList" runat="server" CssClass="form-control" DataSourceID="Edu_YearSQL" DataTextField="EducationYear" DataValueField="EducationYearID" AppendDataBoundItems="True">
                         <asp:ListItem Value="0">[ SELECT SESSION ]</asp:ListItem>
                     </asp:DropDownList>
-                    <asp:SqlDataSource ID="Edu_YearSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT EducationYearID, EducationYear FROM Education_Year WHERE (EducationYearID NOT IN (SELECT DISTINCT EducationYearID FROM StudentsClass WHERE (StudentID = @StudentID) AND (SchoolID = @SchoolID))) AND (SchoolID = @SchoolID)">
+                    <asp:SqlDataSource ID="Edu_YearSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT EducationYearID, EducationYear FROM Education_Year WHERE (EducationYearID NOT IN (SELECT DISTINCT EducationYearID FROM StudentsClass WHERE (StudentID = @StudentID) AND (SchoolID = @SchoolID))) AND (SchoolID = @SchoolID) AND (SN &gt; (SELECT MAX(Education_Year_1.SN) AS Expr1 FROM StudentsClass AS StudentsClass_1 INNER JOIN Education_Year AS Education_Year_1 ON StudentsClass_1.EducationYearID = Education_Year_1.EducationYearID WHERE (StudentsClass_1.StudentID = @StudentID) AND (StudentsClass_1.SchoolID = @SchoolID)))">
                         <SelectParameters>
                             <asp:QueryStringParameter Name="StudentID" QueryStringField="Student" />
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
