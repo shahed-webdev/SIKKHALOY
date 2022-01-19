@@ -184,13 +184,14 @@ ORDER BY CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLACE
 
             <div class="form-inline NoPrint">
                 <div class="form-group">
-                    <asp:DropDownList ID="New_Session_DropDownList" runat="server" CssClass="form-control" DataSourceID="New_SessionSQL" DataTextField="EducationYear" DataValueField="EducationYearID" AppendDataBoundItems="True">
+                    <asp:DropDownList ID="New_Session_DropDownList" runat="server" CssClass="form-control" DataSourceID="New_SessionSQL" DataTextField="EducationYear" DataValueField="EducationYearID" OnDataBound="New_Session_DropDownList_DataBound">
                         <asp:ListItem Value="0">[ NEW SESSION ]</asp:ListItem>
                     </asp:DropDownList>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="New_Session_DropDownList" CssClass="EroorSummer" ErrorMessage="*" InitialValue="0" ValidationGroup="SB"></asp:RequiredFieldValidator>
-                    <asp:SqlDataSource ID="New_SessionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT EducationYearID, SchoolID, RegistrationID, EducationYear, Status FROM Education_Year WHERE (SchoolID = @SchoolID)">
+                    <asp:SqlDataSource ID="New_SessionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT EducationYearID, SchoolID, RegistrationID, EducationYear, Status, SN FROM Education_Year WHERE (SchoolID = @SchoolID) AND (SN &gt; (SELECT SN FROM Education_Year AS Education_Year_1 WHERE (SchoolID = @SchoolID) AND (EducationYearID = @OldEducationYearID)))">
                         <SelectParameters>
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                            <asp:ControlParameter ControlID="SessionYearDropDownList" Name="OldEducationYearID" PropertyName="SelectedValue" />
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
