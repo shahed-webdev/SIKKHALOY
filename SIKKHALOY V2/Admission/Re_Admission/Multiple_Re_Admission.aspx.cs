@@ -435,5 +435,10 @@ namespace EDUCATION.COM.Admission.Re_Admission
         {
             Cu_ExamDropDownList.Items.Insert(0, new ListItem("[ SELECT EXAM ]", "0"));
         }
+
+        protected void New_Session_DropDownList_DataBound(object sender, EventArgs e)
+        {
+            New_Session_DropDownList.Items.Insert(0, new ListItem("[NEW SESSION]", "0"));
+        }
     }
 }
