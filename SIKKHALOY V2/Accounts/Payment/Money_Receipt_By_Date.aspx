@@ -34,11 +34,13 @@
                 <br />
                 Paid Date: 
             <asp:Label ID="PaidDateLabel" runat="server" Text='<%# Eval("PaidDate","{0:d-MMM-yy}") %>' />
+                <br />
+                <%#Eval("AccountName", "Payment Method: {0}").ToString()%>
             </div>
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="MoneyRSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT PaidDate, MoneyReceipt_SN, TotalAmount FROM Income_MoneyReceipt WHERE (MoneyReceiptID = @MoneyReceiptID) AND (SchoolID = @SchoolID)">
+        SelectCommand="SELECT DISTINCT Income_MoneyReceipt.PaidDate, Income_MoneyReceipt.MoneyReceipt_SN, Income_MoneyReceipt.TotalAmount, Account.AccountName FROM Account INNER JOIN                       Income_PaymentRecord ON Account.AccountID = Income_PaymentRecord.AccountID RIGHT OUTER JOIN                       Income_MoneyReceipt ON Income_PaymentRecord.MoneyReceiptID = Income_MoneyReceipt.MoneyReceiptID WHERE (Income_MoneyReceipt.SchoolID = @SchoolID) AND (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID)">
         <SelectParameters>
             <asp:Parameter Name="MoneyReceiptID" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -151,16 +153,16 @@
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="SMS_OtherInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-            InsertCommand="INSERT INTO SMS_OtherInfo(SMS_Send_ID, SchoolID, StudentID, TeacherID, EducationYearID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @TeacherID, @EducationYearID)" SelectCommand="SELECT * FROM [SMS_OtherInfo]">
-            <InsertParameters>
-                <asp:Parameter Name="SMS_Send_ID" DbType="Guid" />
-                <asp:Parameter Name="SchoolID" />
-                <asp:Parameter Name="StudentID" />
-                <asp:Parameter Name="TeacherID" />
-                <asp:Parameter Name="EducationYearID" />
-            </InsertParameters>
-        </asp:SqlDataSource>
-    
+        InsertCommand="INSERT INTO SMS_OtherInfo(SMS_Send_ID, SchoolID, StudentID, TeacherID, EducationYearID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @TeacherID, @EducationYearID)" SelectCommand="SELECT * FROM [SMS_OtherInfo]">
+        <InsertParameters>
+            <asp:Parameter Name="SMS_Send_ID" DbType="Guid" />
+            <asp:Parameter Name="SchoolID" />
+            <asp:Parameter Name="StudentID" />
+            <asp:Parameter Name="TeacherID" />
+            <asp:Parameter Name="EducationYearID" />
+        </InsertParameters>
+    </asp:SqlDataSource>
+
     <div class="d-print-none my-4 card">
         <div class="card-header">
             <h4 class="card-title mb-0">
@@ -192,7 +194,7 @@
     </div>
 
     <div class="form-group d-print-none">
-        <asp:CheckBox ID="RoleCheckBox" runat="server" Text="Send Payment Roles" /><br/>
+        <asp:CheckBox ID="RoleCheckBox" runat="server" Text="Send Payment Roles" /><br />
         <asp:Button ID="SMSButton" runat="server" Text="Send SMS" CssClass="btn btn-primary" OnClick="SMSButton_Click" />
         <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
     </div>

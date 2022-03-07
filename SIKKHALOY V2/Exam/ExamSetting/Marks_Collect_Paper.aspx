@@ -105,6 +105,7 @@
                 </div>
                 <div class="Class_GSS">
                     <label id="Subject"></label>
+                    <label id="number-of-student"></label>
                 </div>
                 <div class="clearfix"></div>
 
@@ -195,7 +196,7 @@ ORDER BY Exam_SubExam_Name.Sub_ExamSN">
 
             $('#Exam_Name').text($('[id*=ExamDropDownList] :selected').text());
             $('#Class_Name').text(Class + Group + Section + Shift);
-            $('#Subject').text(Subject);
+            $('#Subject').text(`Subject: ${Subject}. `);
 
             $("#ExportWord").click(function () {
                 $(".Class_GSS").show();
@@ -207,6 +208,14 @@ ORDER BY Exam_SubExam_Name.Sub_ExamSN">
                 $(".Ex_Cls").hide();
                 $(".Ins_Name").hide();
             });
+
+            //count number of student
+            const gridViewRowCount = document.getElementById("<%= StudentsGridView.ClientID %>");
+            
+
+            if (gridViewRowCount) {
+                document.getElementById("number-of-student").textContent = ` Total Student: ${gridViewRowCount.rows.length - 1}`;
+            }
         });
     </script>
 </asp:Content>

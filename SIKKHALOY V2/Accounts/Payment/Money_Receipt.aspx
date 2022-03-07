@@ -35,11 +35,13 @@
                 <br />
                 Paid Date: 
             <asp:Label ID="PaidDateLabel" runat="server" Text='<%# Eval("PaidDate","{0:d-MMM-yy (hh:mm tt)}") %>' />
+                <br />
+                <%#Eval("AccountName", "Payment Method: {0}").ToString()%>
             </div>
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="MoneyRSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT PaidDate, MoneyReceipt_SN, TotalAmount FROM Income_MoneyReceipt WHERE (MoneyReceiptID = @MoneyReceiptID) AND (SchoolID = @SchoolID)">
+        SelectCommand="SELECT DISTINCT Income_MoneyReceipt.PaidDate, Income_MoneyReceipt.MoneyReceipt_SN, Income_MoneyReceipt.TotalAmount, Account.AccountName FROM Account INNER JOIN                       Income_PaymentRecord ON Account.AccountID = Income_PaymentRecord.AccountID RIGHT OUTER JOIN                       Income_MoneyReceipt ON Income_PaymentRecord.MoneyReceiptID = Income_MoneyReceipt.MoneyReceiptID WHERE (Income_MoneyReceipt.SchoolID = @SchoolID) AND (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID)">
         <SelectParameters>
             <asp:Parameter Name="MoneyReceiptID" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
