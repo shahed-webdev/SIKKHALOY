@@ -303,6 +303,10 @@
     <Content Include="Authority\Reference\Add_Reference.aspx" />
     <Content Include="Authority\Reference\School_Reference.aspx" />
     <Content Include="Authority\SignUp_Institution.aspx" />
+    <Content Include="Committee\DonationAdd.aspx" />
+    <Content Include="Committee\DonationCategory.aspx" />
+    <Content Include="Committee\DonationCollect.aspx" />
+    <Content Include="Committee\MemberAdd.aspx" />
     <Content Include="CSS\bootstrap-multiselect.css" />
     <Content Include="CSS\bootstrap\bootstrap.css" />
     <Content Include="CSS\Default.css" />
@@ -328,6 +332,7 @@
     <Content Include="Employee\Acadamic_Calender.aspx" />
     <Content Include="Employee\Add_Holidays.aspx" />
     <Content Include="Employee\Attendance_Schedule.aspx" />
+    <Content Include="Committee\MemberType.aspx" />
     <Content Include="Employee\CSS\Acadamic_Calender.css" />
     <Content Include="Employee\CSS\Employee_Attendance_Record.css" />
     <Content Include="Employee\CSS\Emp_List.css" />
@@ -1401,6 +1406,34 @@
     <Compile Include="Basic_Teacher.Master.designer.cs">
       <DependentUpon>Basic_Teacher.Master</DependentUpon>
     </Compile>
+    <Compile Include="Committee\DonationAdd.aspx.cs">
+      <DependentUpon>DonationAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\DonationAdd.aspx.designer.cs">
+      <DependentUpon>DonationAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Committee\DonationCategory.aspx.cs">
+      <DependentUpon>DonationCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\DonationCategory.aspx.designer.cs">
+      <DependentUpon>DonationCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Committee\DonationCollect.aspx.cs">
+      <DependentUpon>DonationCollect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\DonationCollect.aspx.designer.cs">
+      <DependentUpon>DonationCollect.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Committee\MemberAdd.aspx.cs">
+      <DependentUpon>MemberAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\MemberAdd.aspx.designer.cs">
+      <DependentUpon>MemberAdd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Cumulativie.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1433,6 +1466,13 @@
     </Compile>
     <Compile Include="Employee\Attendance_Schedule.aspx.designer.cs">
       <DependentUpon>Attendance_Schedule.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Committee\MemberType.aspx.cs">
+      <DependentUpon>MemberType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\MemberType.aspx.designer.cs">
+      <DependentUpon>MemberType.aspx</DependentUpon>
     </Compile>
     <Compile Include="Employee\Edit_Employee\Deactivated_Employee_List.aspx.cs">
       <DependentUpon>Deactivated_Employee_List.aspx</DependentUpon>
