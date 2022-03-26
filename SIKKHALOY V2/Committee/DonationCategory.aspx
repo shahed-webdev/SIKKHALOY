@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="DonationCategory.aspx.cs" Inherits="EDUCATION.COM.Committee.DonationCategory" %>
+﻿<%@ Page Title="Donation Category" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="DonationCategory.aspx.cs" Inherits="EDUCATION.COM.Committee.DonationCategory" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -15,9 +15,28 @@
 
     <asp:GridView ID="CategoryGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationCategoryId" DataSourceID="CategorySQL">
         <Columns>
-            <asp:CommandField ShowEditButton="True" />
-            <asp:BoundField DataField="DonationCategory" HeaderText="Category Name" SortExpression="DonationCategory" />
-            <asp:BoundField DataField="InsertDate" HeaderText="Create Date" SortExpression="InsertDate" DataFormatString="{0:d MMM yyyy}" />
+            <asp:TemplateField HeaderText="Category Name" SortExpression="DonationCategory">
+                <EditItemTemplate>
+                    <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server" Text='<%# Bind("DonationCategory") %>'></asp:TextBox>
+                </EditItemTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("DonationCategory") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Create Date" SortExpression="InsertDate">
+                <ItemTemplate>
+                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("InsertDate", "{0:d MMM yyyy}") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField ShowHeader="False">
+                <EditItemTemplate>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                </EditItemTemplate>
+                <ItemTemplate>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:CommandField ShowDeleteButton="True" />
         </Columns>
     </asp:GridView>

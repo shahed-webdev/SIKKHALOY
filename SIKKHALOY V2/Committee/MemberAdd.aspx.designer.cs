@@ -15,15 +15,6 @@ namespace EDUCATION.COM.Committee
     {
 
         /// <summary>
-        /// RequiredFieldValidator1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-
-        /// <summary>
         /// MemberNameTextBox control.
         /// </summary>
         /// <remarks>
@@ -78,15 +69,6 @@ namespace EDUCATION.COM.Committee
         protected global::System.Web.UI.WebControls.Button AddMemberButton;
 
         /// <summary>
-        /// MemberSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource MemberSQL;
-
-        /// <summary>
         /// MemberTypeSQL control.
         /// </summary>
         /// <remarks>
@@ -103,5 +85,14 @@ namespace EDUCATION.COM.Committee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView MemberGridView;
+
+        /// <summary>
+        /// MemberSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource MemberSQL;
     }
 }

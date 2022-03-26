@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="MemberType.aspx.cs" Inherits="EDUCATION.COM.Employee.MemberType" %>
+﻿<%@ Page Title="Committee Member Type" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="MemberType.aspx.cs" Inherits="EDUCATION.COM.Employee.MemberType" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -14,17 +14,37 @@
     </div>
 
     <asp:GridView ID="MemberTypeGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeMemberTypeId" DataSourceID="MemberTypeSQL">
-        <Columns>
-            <asp:CommandField ShowEditButton="True" />
-            <asp:BoundField DataField="CommitteeMemberType" HeaderText="Member Type Name" SortExpression="CommitteeMemberType" />
-            <asp:BoundField DataField="InsertDate" HeaderText="Create Date" SortExpression="InsertDate" DataFormatString="{0:d MMM yyyy}" />
+        <Columns>       
+            <asp:TemplateField HeaderText="Member Type Name" SortExpression="CommitteeMemberType">
+                <EditItemTemplate>
+                    <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Text='<%# Bind("CommitteeMemberType") %>'></asp:TextBox>
+                </EditItemTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("CommitteeMemberType") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Create Date" SortExpression="InsertDate">
+                <ItemTemplate>
+                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("InsertDate", "{0:d MMM yyyy}") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField ShowHeader="False">
+                <EditItemTemplate>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                </EditItemTemplate>
+                <ItemTemplate>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:CommandField ShowDeleteButton="True" />
         </Columns>
     </asp:GridView>
-    <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" DeleteCommand="DELETE FROM [CommitteeMemberType] WHERE [CommitteeMemberTypeId] = @CommitteeMemberTypeId" InsertCommand="IF NOT EXISTS(SELECT * FROM CommitteeMemberType WHERE SchoolID = @SchoolID AND CommitteeMemberType = @CommitteeMemberType)
-INSERT INTO [CommitteeMemberType] ([SchoolID], [RegistrationID], [CommitteeMemberType]) VALUES (@SchoolID, @RegistrationID, @CommitteeMemberType)"
-        SelectCommand="SELECT CommitteeMemberTypeId, SchoolID, RegistrationID, CommitteeMemberType, InsertDate FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)" UpdateCommand="IF NOT EXISTS(SELECT * FROM CommitteeMemberType WHERE SchoolID = @SchoolID AND CommitteeMemberType = @CommitteeMemberType)
-UPDATE CommitteeMemberType SET CommitteeMemberType = @CommitteeMemberType WHERE (CommitteeMemberTypeId = @CommitteeMemberTypeId)">
+    <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" 
+        DeleteCommand="DELETE FROM [CommitteeMemberType] WHERE [CommitteeMemberTypeId] = @CommitteeMemberTypeId" 
+        InsertCommand="IF NOT EXISTS(SELECT * FROM CommitteeMemberType WHERE SchoolID = @SchoolID AND CommitteeMemberType = @CommitteeMemberType) INSERT INTO [CommitteeMemberType] ([SchoolID], [RegistrationID], [CommitteeMemberType]) VALUES (@SchoolID, @RegistrationID, @CommitteeMemberType)"
+        SelectCommand="SELECT CommitteeMemberTypeId, SchoolID, RegistrationID, CommitteeMemberType, InsertDate FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)" 
+        UpdateCommand="IF NOT EXISTS(SELECT * FROM CommitteeMemberType WHERE SchoolID = @SchoolID AND CommitteeMemberType = @CommitteeMemberType) UPDATE CommitteeMemberType SET CommitteeMemberType = @CommitteeMemberType WHERE (CommitteeMemberTypeId = @CommitteeMemberTypeId)">
         <DeleteParameters>
             <asp:Parameter Name="CommitteeMemberTypeId" Type="Int32" />
         </DeleteParameters>

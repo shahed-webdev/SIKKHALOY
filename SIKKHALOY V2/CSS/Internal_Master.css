@@ -1,7 +1,7 @@
 ﻿
 html,
 body { height: 100%; }
-body { color: #707070; }
+/*body { color: #707070; }*/
 h3 { padding: 1rem; border-radius: .25rem; margin-top: 3px; text-transform: uppercase; color:#3e4551; font-size: 1rem; font-weight: 400; background-color: #fff; box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12); margin-bottom: 1.5rem !important; }
 h3 label { margin: 0 !important; }
 
