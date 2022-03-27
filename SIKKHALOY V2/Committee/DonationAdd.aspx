@@ -86,8 +86,8 @@
     <asp:Button ID="SubmitButton" OnClientClick="isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
         SelectCommand="SELECT * FROM [CommitteeDonation] WHERE ([SchoolID] = @SchoolID)"
-        InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, PaidAmount, Description, PromiseDate) 
-                       VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@PaidAmount,@Description,@PromiseDate); 
+        InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
+                       VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
                        SELECT @CommitteeDonationId = SCOPE_IDENTITY();" 
         OnInserted="AddDonationSQL_Inserted">
         
@@ -97,7 +97,6 @@
             <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
             <asp:ControlParameter ControlID="CategoryDownList" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="DonationAmountTextBox" Name="Amount" PropertyName="Text" />
-            <asp:ControlParameter ControlID="PaidAmountTextBox" Name="PaidAmount" PropertyName="Text" />
             <asp:ControlParameter ControlID="DescriptionsTextBox" Name="Description" PropertyName="Text" />
             <asp:ControlParameter ControlID="PromisedDateTextBox" Name="PromiseDate" PropertyName="Text" />
             <asp:Parameter Direction="Output" Name="CommitteeDonationId" Size="100" />
@@ -112,26 +111,26 @@
         InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
                        VALUES (@RegistrationID, @SchoolID, @CommitteeMemberId, @EducationYearId, @AccountId, [dbo].[F_CommitteeMoneyReceiptSn](@SchoolID), @PaidDate);
                        SELECT @CommitteeMoneyReceiptId = SCOPE_IDENTITY();"
-                       OnInserted="ReceiptSQL_Inserted">
+                       OnInserted="ReceiptSQL_Inserted" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeMoneyReceiptId FROM CommitteeMoneyReceipt">
         <InsertParameters>
-            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
+            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
             <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
             <asp:ControlParameter ControlID="AccountDropDownList" Name="AccountId" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="PaidDateTextBox" Name="PaidDate" PropertyName="Text" />
-            <asp:Parameter Direction="Output" Name="CommitteeMoneyReceiptId" Size="100" />
+            <asp:Parameter Direction="Output" Name="CommitteeMoneyReceiptId" Size="50" />
         </InsertParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="PaymentRecordSQL" runat="server" 
-        InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)">
+        InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteePaymentRecordId FROM CommitteePaymentRecord">
         <InsertParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
-            <asp:ControlParameter ControlID="PaidAmountTextBox" Name="PaidAmount" PropertyName="Text" />
             <asp:Parameter Name="CommitteeDonationId" />
             <asp:Parameter Name="CommitteeMoneyReceiptId" />
+            <asp:ControlParameter ControlID="PaidAmountTextBox" Name="PaidAmount" PropertyName="Text" />
         </InsertParameters>
     </asp:SqlDataSource>
 
