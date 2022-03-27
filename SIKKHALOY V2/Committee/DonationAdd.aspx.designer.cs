@@ -24,6 +24,15 @@ namespace EDUCATION.COM.Committee
         protected global::System.Web.UI.WebControls.TextBox FindDonarTextBox;
 
         /// <summary>
+        /// HiddenCommitteeMemberId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenCommitteeMemberId;
+
+        /// <summary>
         /// CategoryDownList control.
         /// </summary>
         /// <remarks>
@@ -96,6 +105,15 @@ namespace EDUCATION.COM.Committee
         protected global::System.Web.UI.WebControls.DropDownList AccountDropDownList;
 
         /// <summary>
+        /// AccountSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource AccountSQL;
+
+        /// <summary>
         /// SubmitButton control.
         /// </summary>
         /// <remarks>
@@ -103,5 +121,41 @@ namespace EDUCATION.COM.Committee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
+
+        /// <summary>
+        /// AddDonationSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource AddDonationSQL;
+
+        /// <summary>
+        /// ReceiptSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource ReceiptSQL;
+
+        /// <summary>
+        /// PaymentRecordSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource PaymentRecordSQL;
+
+        /// <summary>
+        /// DonationGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView DonationGridView;
     }
 }

@@ -399,6 +399,7 @@
     <Content Include="Exam\WeeklyExam\Weekly_Merit_Status_Marks.aspx" />
     <Content Include="Exam\WeeklyExam\Weekly_Merit_Status_Results.aspx" />
     <Content Include="Handeler\Default\Default_Sign.jpg" />
+    <Content Include="Handeler\FindDonar.asmx" />
     <Content Include="JS\attendance\api-methods.js" />
     <Content Include="JS\mui.min.js" />
     <Content Include="JS\Zip_File\FileServer.js" />
@@ -1811,6 +1812,10 @@
     </Compile>
     <Compile Include="Handeler\Employee_Image.ashx.cs">
       <DependentUpon>Employee_Image.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handeler\FindDonar.asmx.cs">
+      <DependentUpon>FindDonar.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Handeler\Guardian_Photo.ashx.cs">
       <DependentUpon>Guardian_Photo.ashx</DependentUpon>

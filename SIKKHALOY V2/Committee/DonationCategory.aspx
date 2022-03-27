@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Donation Category" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="DonationCategory.aspx.cs" Inherits="EDUCATION.COM.Committee.DonationCategory" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -61,4 +62,4 @@ UPDATE CommitteeDonationCategory SET DonationCategory = @DonationCategory WHERE 
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
         </UpdateParameters>
     </asp:SqlDataSource>
-    </asp:Content>
+</asp:Content>
