@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Money Receipt" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Money_Receipt.aspx.cs" Inherits="EDUCATION.COM.Accounts.Payment.Money_Receipt" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="CSS/Money_Receipt.css?v=.1" rel="stylesheet" />
+    <link href="CSS/Money_Receipt.css?v=0.1" rel="stylesheet" />
 
     <!--for printing options-->
     <style type="text/css" media="print" id="print-content"></style>

@@ -306,6 +306,7 @@
     <Content Include="Committee\DonationAdd.aspx" />
     <Content Include="Committee\DonationCategory.aspx" />
     <Content Include="Committee\DonationCollect.aspx" />
+    <Content Include="Committee\DonationReceipt.aspx" />
     <Content Include="Committee\MemberAdd.aspx" />
     <Content Include="CSS\bootstrap-multiselect.css" />
     <Content Include="CSS\bootstrap\bootstrap.css" />
@@ -1427,6 +1428,13 @@
     </Compile>
     <Compile Include="Committee\DonationCollect.aspx.designer.cs">
       <DependentUpon>DonationCollect.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Committee\DonationReceipt.aspx.cs">
+      <DependentUpon>DonationReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\DonationReceipt.aspx.designer.cs">
+      <DependentUpon>DonationReceipt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Committee\MemberAdd.aspx.cs">
       <DependentUpon>MemberAdd.aspx</DependentUpon>

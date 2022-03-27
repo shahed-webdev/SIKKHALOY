@@ -12,6 +12,7 @@ namespace EDUCATION.COM.Committee
     public partial class DonationAdd : System.Web.UI.Page
     {
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+      
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack && Session["SchoolID"] != null)
@@ -66,6 +67,7 @@ namespace EDUCATION.COM.Committee
         {
             ViewState["CommitteeDonationId"] = e.Command.Parameters["@CommitteeDonationId"].Value;
         }
+
 
         protected void ReceiptSQL_Inserted(object sender, SqlDataSourceStatusEventArgs e)
         {
