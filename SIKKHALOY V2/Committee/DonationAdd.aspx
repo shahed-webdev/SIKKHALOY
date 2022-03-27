@@ -52,19 +52,19 @@
         <div class="col-sm-3">
             <div class="form-btn-group">
                 <label>Promised Date</label>
-                <asp:TextBox ID="PromisedDateTextBox" runat="server" CssClass="form-control date-picker"></asp:TextBox>
+                <asp:TextBox ID="PromisedDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker"></asp:TextBox>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="form-btn-group">
                 <label>Paid Amount</label>
-                <asp:TextBox ID="PaidAmountTextBox" min="0" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="PaidAmountTextBox" autocomplete="off" min="0" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="form-btn-group">
                 <label>Paid Date</label>
-                <asp:TextBox ID="PaidDateTextBox" runat="server" CssClass="form-control date-picker"></asp:TextBox>
+                <asp:TextBox ID="PaidDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker"></asp:TextBox>
             </div>
         </div>
         <div class="col-sm-3">
