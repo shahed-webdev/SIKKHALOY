@@ -64,7 +64,7 @@
         <div class="col-sm-3">
             <div class="form-btn-group">
                 <label>Paid Date</label>
-                <asp:TextBox ID="PaidDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker"></asp:TextBox>
+                <asp:TextBox ID="PaidDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker" disabled=""></asp:TextBox>
             </div>
         </div>
         <div class="col-sm-3">
@@ -88,9 +88,9 @@
         SelectCommand="SELECT * FROM [CommitteeDonation] WHERE ([SchoolID] = @SchoolID)"
         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
                        VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
-                       SELECT @CommitteeDonationId = SCOPE_IDENTITY();" 
+                       SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
         OnInserted="AddDonationSQL_Inserted">
-        
+
         <InsertParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
@@ -101,7 +101,7 @@
             <asp:ControlParameter ControlID="PromisedDateTextBox" Name="PromiseDate" PropertyName="Text" />
             <asp:Parameter Direction="Output" Name="CommitteeDonationId" Size="100" />
         </InsertParameters>
-        
+
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
         </SelectParameters>
@@ -111,7 +111,7 @@
         InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
                        VALUES (@RegistrationID, @SchoolID, @CommitteeMemberId, @EducationYearId, @AccountId, [dbo].[F_CommitteeMoneyReceiptSn](@SchoolID), @PaidDate);
                        SELECT @CommitteeMoneyReceiptId = SCOPE_IDENTITY();"
-                       OnInserted="ReceiptSQL_Inserted" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeMoneyReceiptId FROM CommitteeMoneyReceipt">
+        OnInserted="ReceiptSQL_Inserted" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeMoneyReceiptId FROM CommitteeMoneyReceipt">
         <InsertParameters>
             <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -123,7 +123,7 @@
         </InsertParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="PaymentRecordSQL" runat="server" 
+    <asp:SqlDataSource ID="PaymentRecordSQL" runat="server"
         InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteePaymentRecordId FROM CommitteePaymentRecord">
         <InsertParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -135,7 +135,7 @@
     </asp:SqlDataSource>
 
 
-    <div class="table-embed-responsive">
+    <div class="table-embed-responsive mt-4">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
             <Columns>
                 <asp:BoundField DataField="Amount" HeaderText="Donation Amount" SortExpression="Amount" />
@@ -244,7 +244,12 @@
         //on change paid amount
         function onChangePaidAmount(self) {
             const paidDateTextBox = document.getElementById("<%=PaidDateTextBox.ClientID%>");
-            paidDateTextBox.required = !!self.value
+
+            paidDateTextBox.required = !!self.value;
+            paidDateTextBox.disabled = !self.value;
+
+            if (!self.value)
+                paidDateTextBox.value = "";
 
         }
 

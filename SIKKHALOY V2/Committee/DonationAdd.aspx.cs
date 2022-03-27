@@ -35,7 +35,10 @@ namespace EDUCATION.COM.Committee
             {
                 AddDonationSQL.Insert();
 
-                Double.TryParse(PaidAmountTextBox.Text, out var paidAmount);
+                //clear donar info from local storage
+                ScriptManager.RegisterStartupScript(this, GetType(), "clear-donar", "clearDonarInfo()", true);
+
+                double.TryParse(PaidAmountTextBox.Text, out var paidAmount);
 
                 if (paidAmount > 0) {
                     ReceiptSQL.Insert();
@@ -47,8 +50,14 @@ namespace EDUCATION.COM.Committee
 
                 DonationGridView.DataBind();
 
-                //clear donar info from local storage
-                ScriptManager.RegisterStartupScript(this,GetType(), "clear-donar", "clearDonarInfo()", true);
+                
+                //clear input value
+                CategoryDownList.SelectedIndex = 0;
+                DonationAmountTextBox.Text = "";
+                DescriptionsTextBox.Text = "";
+                PromisedDateTextBox.Text = "";
+                PaidAmountTextBox.Text = "";
+                PaidDateTextBox.Text = "";
             }
         }
 
