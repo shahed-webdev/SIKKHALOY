@@ -109,7 +109,7 @@
 
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-            <asp:Parameter Name="CommitteeMemberId" />
+            <asp:Parameter Name="CommitteeMemberId" DefaultValue="2" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter Name="CommitteeDonationCategoryId" />
@@ -154,7 +154,7 @@
                         </asp:DropDownList>
                     </EditItemTemplate>
                     <ItemTemplate>
-                        Category
+                        <%# Eval("DonationCategory") %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Donation Amount" SortExpression="Amount">
