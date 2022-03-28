@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        #donar-info { margin: 0.5rem 0; display: flex; align-items: center; }
+        #donar-info { display: flex; align-items: center; }
         #donar-info span { border: 1px solid #a5f3b7; margin-right: 8px; padding: 3px 11px; border-radius: 5px; background-color: #e0ffe6; color: #22c147; font-weight: 500; }
         #donar-info span:last-child { cursor: pointer; border: none; border-radius: 5px; background-color: #fff; color: #ff3547; padding: 0 }
     </style>
@@ -12,15 +12,18 @@
 
     <div class="row">
         <div class="col-md-3 col-lg-2">
-            <div class="form-btn-group">
+            <div class="form-group">
                 <label>Find Donar</label>
                 <asp:TextBox ID="FindDonarTextBox" autocomplete="off" runat="server" CssClass="form-control" required=""></asp:TextBox>
                 <asp:HiddenField ID="HiddenCommitteeMemberId" runat="server" />
             </div>
         </div>
         <div class="col-md-3">
-            <div class="form-btn-group">
-                <label>Donation Category</label>
+            <div class="form-group">
+                <label>
+                    Donation Category
+                    <a class="ml-1" href="DonationCategory.aspx">Add New</a>
+                </label>
                 <asp:DropDownList ID="CategoryDownList" required="" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId">
                     <asp:ListItem Value="">[ Select Category ]</asp:ListItem>
                 </asp:DropDownList>
@@ -33,13 +36,13 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="form-btn-group">
+            <div class="form-group">
                 <label>Donation Amount</label>
                 <asp:TextBox ID="DonationAmountTextBox" onchange="setMaxPaidAmount()" min="0.01" step="0.01" type="number" runat="server" CssClass="form-control" required=""></asp:TextBox>
             </div>
         </div>
         <div class="col-md-3 col-lg-4">
-            <div class="form-btn-group">
+            <div class="form-group">
                 <label>Descriptions</label>
                 <asp:TextBox ID="DescriptionsTextBox" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
@@ -85,8 +88,7 @@
 
     <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
 
-    <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId LIKE @CommitteeMemberId) AND (CommitteeDonation.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)"
+    <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" 
         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
                        VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
                        SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
@@ -146,63 +148,6 @@
     </asp:SqlDataSource>
 
 
-    <div class="table-embed-responsive mt-4">
-        <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
-            <Columns>
-                <asp:TemplateField HeaderText="Donation Amount" SortExpression="Amount">
-                    <EditItemTemplate>
-                        <asp:DropDownList ID="EditCategoryDownList" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId" SelectedValue='<%# Bind("CommitteeDonationCategoryId") %>'>
-                        </asp:DropDownList>
-                    </EditItemTemplate>
-                    <ItemTemplate>
-                        <%# Eval("DonationCategory") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Donation Amount" SortExpression="Amount">
-                    <EditItemTemplate>
-                        <asp:TextBox ID="TextBox3" CssClass="form-control" runat="server" Text='<%# Bind("Amount") %>'></asp:TextBox>
-                    </EditItemTemplate>
-                    <ItemTemplate>
-                        <%# Eval("Amount") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="PaidAmount" SortExpression="PaidAmount">
-                    <ItemTemplate>
-                        <%# Eval("PaidAmount") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Due" SortExpression="Due">
-                    <ItemTemplate>
-                        <%# Eval("Due") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Description" SortExpression="Description">
-                    <EditItemTemplate>
-                        <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server" Text='<%# Bind("Description") %>'></asp:TextBox>
-                    </EditItemTemplate>
-                    <ItemTemplate>
-                        <%# Eval("Description") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Add Date" SortExpression="InsertDate">
-                    <ItemTemplate>
-                        <%# Eval("InsertDate", "{0:d MMM yyyy}") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Edit">
-                    <EditItemTemplate>
-                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
-                        &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
-                    </EditItemTemplate>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:CommandField HeaderText="Delete" ShowDeleteButton="True" />
-            </Columns>
-        </asp:GridView>
-    </div>
-
 
     <script type="text/javascript">
         $(function () {
@@ -236,7 +181,7 @@
                 },
                 updater: function (item) {
                     localStorage.setItem("_committee_", JSON.stringify(item));
-                    location.reload(true);
+                    showDonarInfo();
 
                     return item;
                 }

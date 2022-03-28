@@ -3,15 +3,35 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3 class="d-flex justify-content-between align-items-center py-0">
-        Donations
+    <h3 class="d-flex justify-content-between align-items-center py-0">Donations
         <a class="btn btn-dark" href="DonationAdd.aspx">Add Donation</a>
     </h3>
 
-    <div class="table-embed-responsive mt-4">
+    <div class="d-flex align-items-center">
+        <div class="form-group">
+            <label>Committee Member</label>
+            <asp:DropDownList ID="CommitteeMemberDropDownList" required="" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CommitteeMemberSQL" DataTextField="MemberName" DataValueField="CommitteeMemberId">
+                <asp:ListItem Value="">[ All ]</asp:ListItem>
+            </asp:DropDownList>
+            <asp:SqlDataSource ID="CommitteeMemberSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+                SelectCommand="SELECT CommitteeMemberId, MemberName FROM CommitteeMember WHERE (SchoolID = @SchoolID)">
+                <SelectParameters>
+                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+        </div>
+        <div class="form-group ml-4">
+            <label>Donation Category</label>
+            <asp:DropDownList ID="DonationCategoryDownList" required="" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId">
+                <asp:ListItem Value="">[ All ]</asp:ListItem>
+            </asp:DropDownList>
+        </div>
+    </div>
+
+    <div class="table-embed-responsive mt-2">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
             <Columns>
-                <asp:TemplateField HeaderText="Donation Amount" SortExpression="Amount">
+                <asp:TemplateField HeaderText="Donation Category" SortExpression="Amount">
                     <EditItemTemplate>
                         <asp:DropDownList ID="EditCategoryDownList" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId" SelectedValue='<%# Bind("CommitteeDonationCategoryId") %>'>
                         </asp:DropDownList>
@@ -28,7 +48,7 @@
                         <%# Eval("Amount") %>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="PaidAmount" SortExpression="PaidAmount">
+                <asp:TemplateField HeaderText="Paid Amount" SortExpression="PaidAmount">
                     <ItemTemplate>
                         <%# Eval("PaidAmount") %>
                     </ItemTemplate>
@@ -66,7 +86,7 @@
     </div>
 
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId = @CommitteeMemberId)"
+        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId LIKE @CommitteeMemberId) AND (CommitteeDonation.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)"
         DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)"
         UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
         <DeleteParameters>
@@ -74,7 +94,8 @@
         </DeleteParameters>
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-            <asp:Parameter Name="CommitteeMemberId" DefaultValue="2" />
+            <asp:ControlParameter ControlID="CommitteeMemberDropDownList" DefaultValue="%" Name="CommitteeMemberId" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="DonationCategoryDownList" DefaultValue="%" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter Name="CommitteeDonationCategoryId" />

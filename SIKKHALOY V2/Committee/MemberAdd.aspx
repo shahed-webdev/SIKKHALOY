@@ -15,7 +15,10 @@
             <asp:TextBox ID="MemberNameTextBox" runat="server" CssClass="form-control" required=""></asp:TextBox>
         </div>
         <div class="form-group">
-            <label>Member Type</label>
+            <label>
+                Member Type
+                 <a class="ml-1" href="MemberType.aspx">Add New</a>
+            </label>
             <asp:DropDownList ID="TypeDropDownList" required="" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="MemberTypeSQL" DataTextField="CommitteeMemberType" DataValueField="CommitteeMemberTypeId">
                 <asp:ListItem Value="">[ All Type ]</asp:ListItem>
             </asp:DropDownList>

@@ -48,16 +48,8 @@ namespace EDUCATION.COM.Committee
                     Response.Redirect($"./DonationReceipt.aspx?id={ViewState["CommitteeMoneyReceiptId"]}");
                 }
 
-                DonationGridView.DataBind();
-
-                
-                //clear input value
-                CategoryDownList.SelectedIndex = 0;
-                DonationAmountTextBox.Text = "";
-                DescriptionsTextBox.Text = "";
-                PromisedDateTextBox.Text = "";
-                PaidAmountTextBox.Text = "";
-                PaidDateTextBox.Text = "";
+                //if not paid return to donations list
+                Response.Redirect("Donations.aspx");
             }
         }
 
