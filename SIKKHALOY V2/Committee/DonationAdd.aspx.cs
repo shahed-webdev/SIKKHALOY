@@ -32,10 +32,8 @@ namespace EDUCATION.COM.Committee
             {
                 AddDonationSQL.Insert();
 
-                //clear donar info from local storage
-                ScriptManager.RegisterStartupScript(this, GetType(), "clear-donar", "clearDonarInfo()", true);
-
                 double.TryParse(PaidAmountTextBox.Text, out var paidAmount);
+                
 
                 if (paidAmount > 0) {
                     ReceiptSQL.Insert();
@@ -53,12 +51,10 @@ namespace EDUCATION.COM.Committee
             }
         }
 
-
         protected void AddDonationSQL_Inserted(object sender, SqlDataSourceStatusEventArgs e)
         {
             ViewState["CommitteeDonationId"] = e.Command.Parameters["@CommitteeDonationId"].Value;
         }
-
 
         protected void ReceiptSQL_Inserted(object sender, SqlDataSourceStatusEventArgs e)
         {

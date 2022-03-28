@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="table-embed-responsive mt-2">
+    <div class="table-responsive mt-2">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
             <Columns>
                 <asp:BoundField DataField="MemberName" HeaderText="MemberName" ReadOnly="True" SortExpression="MemberName" />
@@ -113,4 +113,11 @@
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
         </SelectParameters>
     </asp:SqlDataSource>
+
+    <script>
+        $(function () {
+            //remove donation add saved record
+            sessionStorage.removeItem("_committee_");
+        });
+    </script>
 </asp:Content>

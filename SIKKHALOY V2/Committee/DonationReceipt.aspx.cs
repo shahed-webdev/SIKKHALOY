@@ -20,43 +20,37 @@ namespace EDUCATION.COM.Committee
         //send sms
         protected void SMSButton_Click(object sender, EventArgs e)
         {
-            ErrorLabel.Text = "";
-            var msg = "Congrats! ";
-            var isSentSMS = false;
-
             if (InfoFormView.CurrentMode == FormViewMode.ReadOnly)
             {
-                var phoneNo = InfoFormView.DataKey["SMSPhoneNo"].ToString();
-                var paid = InfoFormView.DataKey["TotalAmount"].ToString();
+                ErrorLabel.Text = "";
+                var isSentSMS = false;
 
-                msg += (InfoFormView.Row.FindControl("StudentsNameLabel") as Label)?.Text;
-                msg += ". You've Paid: " + paid;
-                msg += " Tk. Receipt No: " + (InfoFormView.Row.FindControl("MoneyReceiptIDLabel") as Label)?.Text;
+                var memberName = InfoFormView.DataKey["MemberName"].ToString();
+                var mobileNumber = InfoFormView.DataKey["SmsNumber"].ToString();
+                var paidAmount = InfoFormView.DataKey["TotalAmount"].ToString();
+                var receiptNo = InfoFormView.DataKey["CommitteeMoneyReceiptSn"].ToString();
 
-  
-
-                msg += ". Regards, " + Session["School_Name"];
+                var message = $"Congrats! ${memberName}. You've paid: ${paidAmount} tk, receipt No: ${receiptNo}. Regards, ${Session["School_Name"]}";
 
                 var sms = new SMS_Class(Session["SchoolID"].ToString());
                 var smsBalance = sms.SMSBalance;
-                var totalSMS = sms.SMS_Conut(msg);
+                var totalSMS = sms.SMS_Conut(message);
 
                 if (smsBalance >= totalSMS)
                 {
                     if (sms.SMS_GetBalance() >= totalSMS)
                     {
-                        var isValid = sms.SMS_Validation(phoneNo, msg);
+                        var isValid = sms.SMS_Validation(mobileNumber, message);
 
                         if (isValid.Validation)
                         {
-                            var smsSendId = sms.SMS_Send(phoneNo, msg, "Payment Collection");
+                            var smsSendId = sms.SMS_Send(mobileNumber, message, "donation");
 
                             SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
                             SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
                             SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
-                            SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue = InfoFormView.DataKey["StudentID"].ToString();
-                            SMS_OtherInfoSQL.InsertParameters["TeacherID"].DefaultValue = "";
                             SMS_OtherInfoSQL.Insert();
+
                             isSentSMS = true;
                         }
                         else
@@ -71,14 +65,16 @@ namespace EDUCATION.COM.Committee
                 }
                 else
                 {
-                    ErrorLabel.Text = "You don't have sufficient SMS balance, Your Current Balance is " + smsBalance;
+                    ErrorLabel.Text = $"You don't have sufficient SMS balance, Your Current Balance is ${smsBalance}";
+                }
+
+                if (isSentSMS)
+                {
+                    Response.Redirect("Donations.aspx");
                 }
             }
 
-            if (isSentSMS)
-            {
-                Response.Redirect("DonationAdd.aspx");
-            }
+           
         }
     }
 }
