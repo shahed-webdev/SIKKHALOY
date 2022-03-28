@@ -82,9 +82,9 @@
             </div>
         </div>
     </div>
-    
+
     <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
-   
+
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
         SelectCommand="SELECT * FROM [CommitteeDonation] WHERE ([SchoolID] = @SchoolID)"
         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
@@ -137,11 +137,56 @@
     <div class="table-embed-responsive mt-4">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
             <Columns>
-                <asp:BoundField DataField="Amount" HeaderText="Donation Amount" SortExpression="Amount" />
-                <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" />
-                <asp:BoundField DataField="Due" HeaderText="Due" SortExpression="Due" />
-                <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                <asp:BoundField DataField="InsertDate" HeaderText="Add Date" SortExpression="InsertDate" DataFormatString="{0:d MMM yyyy}" />
+                <asp:TemplateField HeaderText="Donation Amount" SortExpression="Amount">
+                    <EditItemTemplate>
+                        <asp:DropDownList ID="EditCategoryDownList" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId" SelectedValue='<%# Bind("CommitteeDonationCategoryId") %>'>
+                        </asp:DropDownList>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        Category
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Donation Amount" SortExpression="Amount">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox3" CssClass="form-control" runat="server" Text='<%# Bind("Amount") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <%# Eval("Amount") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="PaidAmount" SortExpression="PaidAmount">
+                    <ItemTemplate>
+                        <%# Eval("PaidAmount") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Due" SortExpression="Due">
+                    <ItemTemplate>
+                        <%# Eval("Due") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Description" SortExpression="Description">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server" Text='<%# Bind("Description") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <%# Eval("Description") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Add Date" SortExpression="InsertDate">
+                    <ItemTemplate>
+                        <%# Eval("InsertDate", "{0:d MMM yyyy}") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Edit">
+                    <EditItemTemplate>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
+                        &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:CommandField HeaderText="Delete" ShowDeleteButton="True" />
             </Columns>
         </asp:GridView>
     </div>
@@ -179,7 +224,7 @@
                 },
                 updater: function (item) {
                     localStorage.setItem("_committee_", JSON.stringify(item));
-                    showDonarInfo();
+                    location.reload(true);
 
                     return item;
                 }
@@ -198,7 +243,7 @@
 
         function showDonarInfo() {
             const info = getDonarInfo();
-            
+
             const findDonarTextBox = document.getElementById("<%= FindDonarTextBox.ClientID %>");
             const committeeMemberId = document.getElementById("<%= HiddenCommitteeMemberId.ClientID %>");
 

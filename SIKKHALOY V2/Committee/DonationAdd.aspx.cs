@@ -12,9 +12,8 @@ namespace EDUCATION.COM.Committee
       
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack && Session["SchoolID"] != null)
+            if (!IsPostBack && Session["SchoolID"] != null)
             {
-
                 SqlCommand AccountCmd = new SqlCommand("Select AccountID from Account where SchoolID = @SchoolID AND Default_Status = 'True'", con);
                 AccountCmd.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
 

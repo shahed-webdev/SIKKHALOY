@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Accounts.Payment
 {
-    public partial class Money_Receipt : System.Web.UI.Page
+    public partial class Money_Receipt : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
