@@ -2,151 +2,143 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        #donar-info { display: flex; align-items: center; }
+        #donar-info { display: flex; align-items: center; margin-top:15px; }
         #donar-info span { border: 1px solid #a5f3b7; margin-right: 8px; padding: 3px 11px; border-radius: 5px; background-color: #e0ffe6; color: #22c147; font-weight: 500; }
         #donar-info span:last-child { cursor: pointer; border: none; border-radius: 5px; background-color: #fff; color: #ff3547; padding: 0 }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Add Donation</h3>
-
     <div class="row">
-        <div class="col-md-3 col-lg-2">
-            <div class="form-group">
-                <label>Find Donar</label>
-                <asp:TextBox ID="FindDonarTextBox" autocomplete="off" runat="server" CssClass="form-control" required=""></asp:TextBox>
-                <asp:HiddenField ID="HiddenCommitteeMemberId" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>
-                    Donation Category
+        <div class="col-md-10 col-lg-8 mx-auto">
+            <div class="card card-body">
+                <h2 class="font-weight-bold mb-3">Add Donation</h2>
+
+                <div class="form-group">
+                    <label>Find Donar</label>
+                    <asp:TextBox ID="FindDonarTextBox" autocomplete="off" runat="server" CssClass="form-control" required=""></asp:TextBox>
+                    <asp:HiddenField ID="HiddenCommitteeMemberId" runat="server" />
+                    <div id="donar-info"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        Donation Category
                     <a class="ml-1" href="DonationCategory.aspx">Add New</a>
-                </label>
-                <asp:DropDownList ID="CategoryDownList" required="" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId">
-                    <asp:ListItem Value="">[ Select Category ]</asp:ListItem>
-                </asp:DropDownList>
-                <asp:SqlDataSource ID="CategorySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                    SelectCommand="SELECT CommitteeDonationCategoryId, DonationCategory FROM CommitteeDonationCategory WHERE (SchoolID = @SchoolID)">
-                    <SelectParameters>
-                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-                    </SelectParameters>
-                </asp:SqlDataSource>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Donation Amount</label>
-                <asp:TextBox ID="DonationAmountTextBox" onchange="setMaxPaidAmount()" min="0.01" step="0.01" type="number" runat="server" CssClass="form-control" required=""></asp:TextBox>
-            </div>
-        </div>
-        <div class="col-md-3 col-lg-4">
-            <div class="form-group">
-                <label>Descriptions</label>
-                <asp:TextBox ID="DescriptionsTextBox" runat="server" CssClass="form-control"></asp:TextBox>
-            </div>
-        </div>
-    </div>
+                    </label>
+                    <asp:DropDownList ID="CategoryDownList" required="" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId">
+                        <asp:ListItem Value="">[ Select Category ]</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="CategorySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+                        SelectCommand="SELECT CommitteeDonationCategoryId, DonationCategory FROM CommitteeDonationCategory WHERE (SchoolID = @SchoolID)">
+                        <SelectParameters>
+                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                </div>
 
-    <div id="donar-info"></div>
+                <div class="form-group">
+                    <label>Donation Amount</label>
+                    <asp:TextBox ID="DonationAmountTextBox" onchange="setMaxPaidAmount()" min="0.01" step="0.01" type="number" runat="server" CssClass="form-control" required=""></asp:TextBox>
+                </div>
 
-    <div class="row my-4">
-        <div class="col-sm-3">
-            <div class="form-btn-group">
-                <label>Promised Date</label>
-                <asp:TextBox ID="PromisedDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker"></asp:TextBox>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-btn-group">
-                <label>Paid Amount</label>
-                <asp:TextBox ID="PaidAmountTextBox" autocomplete="off" min="1" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-btn-group">
-                <label>Paid Date</label>
-                <asp:TextBox ID="PaidDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker" disabled=""></asp:TextBox>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-btn-group">
-                <label>Account</label>
+                <div class="form-group">
+                    <label>Descriptions</label>
+                    <asp:TextBox ID="DescriptionsTextBox" runat="server" CssClass="form-control"></asp:TextBox>
+                </div>
 
-                <asp:DropDownList ID="AccountDropDownList" runat="server" CssClass="form-control" DataSourceID="AccountSQL" DataTextField="AccountName" DataValueField="AccountID">
-                </asp:DropDownList>
+                <div class="form-group">
+                    <label>Promised Date</label>
+                    <asp:TextBox ID="PromisedDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker"></asp:TextBox>
+                </div>
 
-                <asp:SqlDataSource ID="AccountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT AccountID,AccountName,Default_Status FROM Account WHERE (SchoolID = @SchoolID)" ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>">
-                    <SelectParameters>
-                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-                    </SelectParameters>
-                </asp:SqlDataSource>
-            </div>
-        </div>
-    </div>
+                <div class="form-group">
+                    <label>Paid Amount</label>
+                    <asp:TextBox ID="PaidAmountTextBox" autocomplete="off" min="1" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
+                </div>
 
-    <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
+                <div class="form-group">
+                    <label>Paid Date</label>
+                    <asp:TextBox ID="PaidDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker" disabled=""></asp:TextBox>
+                </div>
 
-    <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" 
-        InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
+                <div class="form-group">
+                    <label>Account</label>
+
+                    <asp:DropDownList ID="AccountDropDownList" runat="server" CssClass="form-control" DataSourceID="AccountSQL" DataTextField="AccountName" DataValueField="AccountID">
+                    </asp:DropDownList>
+
+                    <asp:SqlDataSource ID="AccountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT AccountID,AccountName,Default_Status FROM Account WHERE (SchoolID = @SchoolID)" ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>">
+                        <SelectParameters>
+                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                </div>
+
+                <div class="mt-4">
+                    <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
+
+                    <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+                        InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
                        VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
                        SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
-        OnInserted="AddDonationSQL_Inserted" DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)" UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
+                        OnInserted="AddDonationSQL_Inserted" DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)" UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
 
-        <DeleteParameters>
-            <asp:Parameter Name="CommitteeDonationId" />
-        </DeleteParameters>
+                        <DeleteParameters>
+                            <asp:Parameter Name="CommitteeDonationId" />
+                        </DeleteParameters>
 
-        <InsertParameters>
-            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
-            <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
-            <asp:ControlParameter ControlID="CategoryDownList" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
-            <asp:ControlParameter ControlID="DonationAmountTextBox" Name="Amount" PropertyName="Text" />
-            <asp:ControlParameter ControlID="DescriptionsTextBox" Name="Description" PropertyName="Text" />
-            <asp:ControlParameter ControlID="PromisedDateTextBox" Name="PromiseDate" PropertyName="Text" />
-            <asp:Parameter Name="CommitteeDonationId" />
-        </InsertParameters>
+                        <InsertParameters>
+                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
+                            <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
+                            <asp:ControlParameter ControlID="CategoryDownList" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
+                            <asp:ControlParameter ControlID="DonationAmountTextBox" Name="Amount" PropertyName="Text" />
+                            <asp:ControlParameter ControlID="DescriptionsTextBox" Name="Description" PropertyName="Text" />
+                            <asp:ControlParameter ControlID="PromisedDateTextBox" Name="PromiseDate" PropertyName="Text" />
+                            <asp:Parameter Name="CommitteeDonationId" Direction="Output" Size="100" />
+                        </InsertParameters>
 
-        <SelectParameters>
-            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-            <asp:Parameter Name="CommitteeMemberId" DefaultValue="%" />
-            <asp:Parameter DefaultValue="%" Name="CommitteeDonationCategoryId" />
-        </SelectParameters>
-        <UpdateParameters>
-            <asp:Parameter Name="CommitteeDonationCategoryId" />
-            <asp:Parameter Name="Amount" />
-            <asp:Parameter Name="Description" />
-            <asp:Parameter Name="CommitteeDonationId" />
-        </UpdateParameters>
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="ReceiptSQL" runat="server"
-        InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
+                        <SelectParameters>
+                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
+                            <asp:Parameter Name="CommitteeMemberId" DefaultValue="%" />
+                            <asp:Parameter DefaultValue="%" Name="CommitteeDonationCategoryId" />
+                        </SelectParameters>
+                        <UpdateParameters>
+                            <asp:Parameter Name="CommitteeDonationCategoryId" />
+                            <asp:Parameter Name="Amount" />
+                            <asp:Parameter Name="Description" />
+                            <asp:Parameter Name="CommitteeDonationId" />
+                        </UpdateParameters>
+                    </asp:SqlDataSource>
+                    <asp:SqlDataSource ID="ReceiptSQL" runat="server"
+                        InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
                        VALUES (@RegistrationID, @SchoolID, @CommitteeMemberId, @EducationYearId, @AccountId, [dbo].[F_CommitteeMoneyReceiptSn](@SchoolID), @PaidDate);
                        SELECT @CommitteeMoneyReceiptId = SCOPE_IDENTITY();"
-        OnInserted="ReceiptSQL_Inserted" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeMoneyReceiptId FROM CommitteeMoneyReceipt">
-        <InsertParameters>
-            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
-            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-            <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
-            <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
-            <asp:ControlParameter ControlID="AccountDropDownList" Name="AccountId" PropertyName="SelectedValue" />
-            <asp:ControlParameter ControlID="PaidDateTextBox" Name="PaidDate" PropertyName="Text" />
-            <asp:Parameter Direction="Output" Name="CommitteeMoneyReceiptId" Size="50" />
-        </InsertParameters>
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="PaymentRecordSQL" runat="server"
-        InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteePaymentRecordId FROM CommitteePaymentRecord">
-        <InsertParameters>
-            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
-            <asp:Parameter Name="CommitteeDonationId" />
-            <asp:Parameter Name="CommitteeMoneyReceiptId" />
-            <asp:ControlParameter ControlID="PaidAmountTextBox" Name="PaidAmount" PropertyName="Text" />
-        </InsertParameters>
-    </asp:SqlDataSource>
-
+                        OnInserted="ReceiptSQL_Inserted" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeMoneyReceiptId FROM CommitteeMoneyReceipt">
+                        <InsertParameters>
+                            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
+                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                            <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
+                            <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
+                            <asp:ControlParameter ControlID="AccountDropDownList" Name="AccountId" PropertyName="SelectedValue" />
+                            <asp:ControlParameter ControlID="PaidDateTextBox" Name="PaidDate" PropertyName="Text" />
+                            <asp:Parameter Direction="Output" Name="CommitteeMoneyReceiptId" Size="50" />
+                        </InsertParameters>
+                    </asp:SqlDataSource>
+                    <asp:SqlDataSource ID="PaymentRecordSQL" runat="server"
+                        InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteePaymentRecordId FROM CommitteePaymentRecord">
+                        <InsertParameters>
+                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
+                            <asp:Parameter Name="CommitteeDonationId" />
+                            <asp:Parameter Name="CommitteeMoneyReceiptId" />
+                            <asp:ControlParameter ControlID="PaidAmountTextBox" Name="PaidAmount" PropertyName="Text" />
+                        </InsertParameters>
+                    </asp:SqlDataSource>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script type="text/javascript">
@@ -180,7 +172,7 @@
                     });
                 },
                 updater: function (item) {
-                    localStorage.setItem("_committee_", JSON.stringify(item));
+                    sessionStorage.setItem("_committee_", JSON.stringify(item));
                     showDonarInfo();
 
                     return item;
@@ -191,7 +183,7 @@
 
         //get donar info from local store
         function getDonarInfo() {
-            return JSON.parse(localStorage.getItem("_committee_")) || null;
+            return JSON.parse(sessionStorage.getItem("_committee_")) || null;
         }
 
 
@@ -219,7 +211,7 @@
 
         //clear Donar
         function clearDonarInfo() {
-            localStorage.removeItem("_committee_");
+            sessionStorage.removeItem("_committee_");
             showDonarInfo();
         }
 

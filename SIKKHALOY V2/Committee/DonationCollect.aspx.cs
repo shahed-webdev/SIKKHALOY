@@ -13,5 +13,10 @@ namespace EDUCATION.COM.Committee
         {
 
         }
+
+        protected void FindButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

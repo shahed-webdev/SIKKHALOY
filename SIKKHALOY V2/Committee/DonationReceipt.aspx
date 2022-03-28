@@ -24,12 +24,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <a class="d-print-none" href="DonationAdd.aspx"><< Back To</a>
 
-    <asp:FormView ID="InfoFormView" runat="server" DataSourceID="InfoSQL" RenderOuterTable="False" DataKeyNames="CommitteeMoneyReceiptId">
+    <asp:FormView ID="InfoFormView" runat="server" DataKeyNames="MemberName,TotalAmount,SmsNumber,CommitteeMoneyReceiptSn" DataSourceID="InfoSQL" RenderOuterTable="False">
         <ItemTemplate>
             <div class="info">
-                <p class="mb-0">Md Satter</p>
-                <p class="mb-0">01680525412, uttara, Dhaka 1362</p>
-                <p class="mb-2">Payment Method: CASH</p>
+                <p class="mb-0"><%# Eval("MemberName") %></p>
+                <p class="mb-0"><%# Eval("SmsNumber") %>,  <%# Eval("Address") %></p>
+                <p class="mb-2">Payment Method:  <%# Eval("AccountName") %></p>
 
                 <div class="d-flex justify-content-between align-items-center">
                     <span>Receipt: <%# Eval("CommitteeMoneyReceiptSn") %></span>
@@ -47,18 +47,24 @@
     </asp:SqlDataSource>
 
 
-    <asp:GridView ID="PaymentGridView" DataKeyNames="CommitteePaymentRecordId" runat="server" AutoGenerateColumns="False" DataSourceID="PaymentSQL" CssClass="mGrid" ShowFooter="True" Font-Bold="False" RowStyle-CssClass="Rows">
+    <asp:GridView ID="PaymentGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PaymentSQL" CssClass="mGrid" ShowFooter="True" Font-Bold="False" RowStyle-CssClass="Rows">
         <Columns>
-            <asp:BoundField DataField="CommitteeDonationId" HeaderText="Category" SortExpression="CommitteeDonationId" />
-            <asp:BoundField DataField="PaidAmount" HeaderText="Paid Amount" SortExpression="PaidAmount" />
-            <asp:BoundField DataField="CommitteeMoneyReceiptId" HeaderText="Description" SortExpression="CommitteeMoneyReceiptId" />
-
+            <asp:BoundField DataField="DonationCategory" HeaderText="Category" SortExpression="DonationCategory" />
+            <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+            <asp:TemplateField HeaderText="Paid Amount" SortExpression="PaidAmount">
+                <ItemTemplate>
+                    <label class="paid-amount"><%# Eval("PaidAmount") %></label>
+                </ItemTemplate>
+                <FooterTemplate>
+                    <strong id="total-paid"></strong>
+                </FooterTemplate>
+            </asp:TemplateField>
         </Columns>
         <FooterStyle CssClass="grid-footer" />
         <RowStyle CssClass="Rows" />
     </asp:GridView>
     <asp:SqlDataSource ID="PaymentSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteePaymentRecord.CommitteePaymentRecordId, CommitteePaymentRecord.SchoolId, CommitteePaymentRecord.RegistrationId, CommitteePaymentRecord.CommitteeDonationId, CommitteePaymentRecord.CommitteeMoneyReceiptId, CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description FROM CommitteePaymentRecord INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteePaymentRecord.SchoolId = @SchoolId) AND (CommitteePaymentRecord.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
+        SelectCommand="SELECT CommitteePaymentRecord.SchoolId, CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description FROM CommitteePaymentRecord INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteePaymentRecord.SchoolId = @SchoolId) AND (CommitteePaymentRecord.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
             <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />
@@ -99,6 +105,17 @@
     <script>
         $(function () {
             bindPrintOption();
+
+            //remove donation add saved record
+            sessionStorage.removeItem("_committee_");
+
+            //show total in gridview footer
+            let total = 0;
+            $(".paid-amount").each(function () {
+                total += parseFloat($(this).text())
+            });
+
+            $("#total-paid").text(`Total: ${total}`);
         });
 
 
