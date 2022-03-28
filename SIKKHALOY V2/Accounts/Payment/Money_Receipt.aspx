@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="CSS/Money_Receipt.css?v=0.1" rel="stylesheet" />
 
-    <!--for printing options-->
+    <!--add dynamic css for printing-->
     <style type="text/css" media="print" id="print-content"></style>
 </asp:Content>
 
@@ -41,7 +41,9 @@
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="MoneyRSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT DISTINCT Income_MoneyReceipt.PaidDate, Income_MoneyReceipt.MoneyReceipt_SN, Income_MoneyReceipt.TotalAmount, Account.AccountName FROM Account INNER JOIN                       Income_PaymentRecord ON Account.AccountID = Income_PaymentRecord.AccountID RIGHT OUTER JOIN                       Income_MoneyReceipt ON Income_PaymentRecord.MoneyReceiptID = Income_MoneyReceipt.MoneyReceiptID WHERE (Income_MoneyReceipt.SchoolID = @SchoolID) AND (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID)">
+        SelectCommand="SELECT DISTINCT Income_MoneyReceipt.PaidDate, Income_MoneyReceipt.MoneyReceipt_SN, Income_MoneyReceipt.TotalAmount, Account.AccountName FROM Account INNER JOIN
+                       Income_PaymentRecord ON Account.AccountID = Income_PaymentRecord.AccountID RIGHT OUTER JOIN
+                       Income_MoneyReceipt ON Income_PaymentRecord.MoneyReceiptID = Income_MoneyReceipt.MoneyReceiptID WHERE (Income_MoneyReceipt.SchoolID = @SchoolID) AND (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID)">
         <SelectParameters>
             <asp:Parameter Name="MoneyReceiptID" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -172,21 +174,26 @@
             </h4>
         </div>
         <div class="card-body">
-            <div>
-                <input id="checkboxInstitution" type="checkbox" />
-                <label for="checkboxInstitution">Hide Institution Name</label>
+            <div class="d-flex align-items-center">
+                <div>
+                    <input id="checkboxInstitution" type="checkbox" />
+                    <label for="checkboxInstitution">Hide Institution Name</label>
+                </div>
+                <div class="ml-3">
+                    <input id="checkboxDueDetails" type="checkbox" />
+                    <label for="checkboxDueDetails">Hide Current Due</label>
+                </div>
             </div>
-            <div class="my-3">
-                <input id="checkboxDueDetails" type="checkbox" />
-                <label for="checkboxDueDetails">Hide Current Due</label>
-            </div>
-            <div class="form-group ml-2">
-                <label for="inputTopSpace">Page Space From Top (px)</label>
-                <input id="inputTopSpace" min="0" type="number" class="form-control" />
-            </div>
-            <div class="form-group ml-2">
-                <label for="inputFontSize">Font Size (px)</label>
-                <input id="inputFontSize" min="10" max="20" type="number" class="form-control" />
+
+            <div class="d-flex align-items-center mt-3">
+                <div>
+                    <label for="inputTopSpace">Page Space From Top (px)</label>
+                    <input id="inputTopSpace" min="0" type="number" class="form-control" />
+                </div>
+                <div class="ml-3">
+                    <label for="inputFontSize">Font Size (px)</label>
+                    <input id="inputFontSize" min="10" max="20" type="number" class="form-control" />
+                </div>
             </div>
         </div>
         <div class="card-footer">
@@ -195,7 +202,7 @@
     </div>
 
     <div class="form-group d-print-none">
-        <asp:CheckBox ID="RoleCheckBox" runat="server" Text="Send Payment Roles" /><br/>
+        <asp:CheckBox ID="RoleCheckBox" runat="server" Text="Send Payment Roles" /><br />
         <asp:Button ID="SMSButton" runat="server" Text="Send SMS" CssClass="btn btn-primary" OnClick="SMSButton_Click" />
         <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
     </div>

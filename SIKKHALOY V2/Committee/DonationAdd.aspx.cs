@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Committee
 {
-    public partial class DonationAdd : System.Web.UI.Page
+    public partial class DonationAdd : Page
     {
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+        readonly SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
       
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -47,6 +44,9 @@ namespace EDUCATION.COM.Committee
                     PaymentRecordSQL.InsertParameters["CommitteeDonationId"].DefaultValue = ViewState["CommitteeDonationId"].ToString();
                     PaymentRecordSQL.InsertParameters["CommitteeMoneyReceiptId"].DefaultValue = ViewState["CommitteeMoneyReceiptId"].ToString();
                     PaymentRecordSQL.Insert();
+
+                    //if paid amount return to receipt
+                    Response.Redirect($"./DonationReceipt.aspx?id={ViewState["CommitteeMoneyReceiptId"]}");
                 }
 
                 DonationGridView.DataBind();

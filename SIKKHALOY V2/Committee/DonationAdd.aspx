@@ -58,7 +58,7 @@
         <div class="col-sm-3">
             <div class="form-btn-group">
                 <label>Paid Amount</label>
-                <asp:TextBox ID="PaidAmountTextBox" autocomplete="off" min="0" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="PaidAmountTextBox" autocomplete="off" min="1" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
         </div>
         <div class="col-sm-3">
@@ -82,8 +82,9 @@
             </div>
         </div>
     </div>
-
-    <asp:Button ID="SubmitButton" OnClientClick="isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
+    
+    <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
+   
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
         SelectCommand="SELECT * FROM [CommitteeDonation] WHERE ([SchoolID] = @SchoolID)"
         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
@@ -106,7 +107,6 @@
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
-
     <asp:SqlDataSource ID="ReceiptSQL" runat="server"
         InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
                        VALUES (@RegistrationID, @SchoolID, @CommitteeMemberId, @EducationYearId, @AccountId, [dbo].[F_CommitteeMoneyReceiptSn](@SchoolID), @PaidDate);
@@ -122,7 +122,6 @@
             <asp:Parameter Direction="Output" Name="CommitteeMoneyReceiptId" Size="50" />
         </InsertParameters>
     </asp:SqlDataSource>
-
     <asp:SqlDataSource ID="PaymentRecordSQL" runat="server"
         InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteePaymentRecordId FROM CommitteePaymentRecord">
         <InsertParameters>
@@ -195,10 +194,11 @@
 
 
         //show Donar Info
+        const infoHolder = document.getElementById("donar-info");
+
         function showDonarInfo() {
             const info = getDonarInfo();
-
-            const infoHolder = document.getElementById("donar-info");
+            
             const findDonarTextBox = document.getElementById("<%= FindDonarTextBox.ClientID %>");
             const committeeMemberId = document.getElementById("<%= HiddenCommitteeMemberId.ClientID %>");
 
@@ -257,7 +257,10 @@
         function isValidForm() {
             const committeeMemberId = document.getElementById("<%= HiddenCommitteeMemberId.ClientID %>");
 
-            console.log(committeeMemberId.value)
+            if (committeeMemberId.value) return true;
+
+            infoHolder.innerHTML = `<strong class="red-text">find donar</strong>`;
+            return false;
         }
     </script>
 </asp:Content>
