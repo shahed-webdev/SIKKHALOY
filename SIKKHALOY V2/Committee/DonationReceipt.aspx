@@ -39,7 +39,7 @@
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="InfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT * FROM [CommitteeMoneyReceipt] WHERE (([SchoolId] = @SchoolId) AND ([CommitteeMoneyReceiptId] = @CommitteeMoneyReceiptId))">
+        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.AccountId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMember.Address, CommitteeMemberType.CommitteeMemberType, Account.AccountName, Education_Year.EducationYear FROM CommitteeMoneyReceipt INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID INNER JOIN Education_Year ON CommitteeMoneyReceipt.EducationYearId = Education_Year.EducationYearID WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
             <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />
@@ -58,7 +58,7 @@
         <RowStyle CssClass="Rows" />
     </asp:GridView>
     <asp:SqlDataSource ID="PaymentSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT * FROM [CommitteePaymentRecord] WHERE ([SchoolId] = @SchoolId) AND ([CommitteeMoneyReceiptId] = @CommitteeMoneyReceiptId)">
+        SelectCommand="SELECT CommitteePaymentRecord.CommitteePaymentRecordId, CommitteePaymentRecord.SchoolId, CommitteePaymentRecord.RegistrationId, CommitteePaymentRecord.CommitteeDonationId, CommitteePaymentRecord.CommitteeMoneyReceiptId, CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description FROM CommitteePaymentRecord INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteePaymentRecord.SchoolId = @SchoolId) AND (CommitteePaymentRecord.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
             <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />

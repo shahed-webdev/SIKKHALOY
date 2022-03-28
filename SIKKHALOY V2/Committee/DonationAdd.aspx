@@ -86,11 +86,15 @@
     <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
    
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT * FROM [CommitteeDonation] WHERE ([SchoolID] = @SchoolID)"
+        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId = @CommitteeMemberId)"
         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
                        VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
                        SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
-        OnInserted="AddDonationSQL_Inserted">
+        OnInserted="AddDonationSQL_Inserted" DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)" UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
+
+        <DeleteParameters>
+            <asp:Parameter Name="CommitteeDonationId" />
+        </DeleteParameters>
 
         <InsertParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -100,12 +104,19 @@
             <asp:ControlParameter ControlID="DonationAmountTextBox" Name="Amount" PropertyName="Text" />
             <asp:ControlParameter ControlID="DescriptionsTextBox" Name="Description" PropertyName="Text" />
             <asp:ControlParameter ControlID="PromisedDateTextBox" Name="PromiseDate" PropertyName="Text" />
-            <asp:Parameter Direction="Output" Name="CommitteeDonationId" Size="100" />
+            <asp:Parameter Name="CommitteeDonationId" />
         </InsertParameters>
 
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
+            <asp:Parameter Name="CommitteeMemberId" />
         </SelectParameters>
+        <UpdateParameters>
+            <asp:Parameter Name="CommitteeDonationCategoryId" />
+            <asp:Parameter Name="Amount" />
+            <asp:Parameter Name="Description" />
+            <asp:Parameter Name="CommitteeDonationId" />
+        </UpdateParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="ReceiptSQL" runat="server"
         InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
@@ -137,11 +148,12 @@
     <div class="table-embed-responsive mt-4">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
             <Columns>
-                <asp:BoundField DataField="Amount" HeaderText="Donation Amount" SortExpression="Amount" />
-                <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" />
-                <asp:BoundField DataField="Due" HeaderText="Due" SortExpression="Due" />
+                <asp:BoundField DataField="DonationCategory" HeaderText="Category" SortExpression="DonationCategory" />
                 <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                <asp:BoundField DataField="InsertDate" HeaderText="Add Date" SortExpression="InsertDate" DataFormatString="{0:d MMM yyyy}" />
+                <asp:BoundField DataField="Amount" HeaderText="Donation Amount" SortExpression="Amount" />
+                <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" ReadOnly="True" />
+                <asp:BoundField DataField="Due" HeaderText="Due" SortExpression="Due" ReadOnly="True" />
+                <asp:BoundField DataField="InsertDate" HeaderText="Add Date" SortExpression="InsertDate" DataFormatString="{0:d MMM yyyy}" ReadOnly="True" />
             </Columns>
         </asp:GridView>
     </div>
