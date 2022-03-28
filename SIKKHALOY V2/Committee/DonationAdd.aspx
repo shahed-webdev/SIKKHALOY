@@ -86,7 +86,7 @@
     <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
 
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId = @CommitteeMemberId)"
+        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId LIKE @CommitteeMemberId) AND (CommitteeDonation.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)"
         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
                        VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
                        SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
@@ -109,7 +109,8 @@
 
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-            <asp:Parameter Name="CommitteeMemberId" />
+            <asp:Parameter Name="CommitteeMemberId" DefaultValue="%" />
+            <asp:Parameter DefaultValue="%" Name="CommitteeDonationCategoryId" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter Name="CommitteeDonationCategoryId" />
