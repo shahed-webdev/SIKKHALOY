@@ -79,14 +79,15 @@
 
                     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                         InsertCommand="INSERT INTO CommitteeDonation(SchoolID, RegistrationID, CommitteeMemberId, CommitteeDonationCategoryId, Amount, Description, PromiseDate) 
-                       VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
-                       SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
-                        OnInserted="AddDonationSQL_Inserted" DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)" UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
+                        VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
+                        SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
+                        OnInserted="AddDonationSQL_Inserted"
+                        DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)" 
+                        UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
 
                         <DeleteParameters>
                             <asp:Parameter Name="CommitteeDonationId" />
                         </DeleteParameters>
-
                         <InsertParameters>
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                             <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
@@ -97,7 +98,6 @@
                             <asp:ControlParameter ControlID="PromisedDateTextBox" Name="PromiseDate" PropertyName="Text" />
                             <asp:Parameter Name="CommitteeDonationId" Direction="Output" Size="100" />
                         </InsertParameters>
-
                         <SelectParameters>
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
                             <asp:Parameter Name="CommitteeMemberId" DefaultValue="%" />

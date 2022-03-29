@@ -7,110 +7,83 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Committee
+namespace EDUCATION.COM.Administration_Basic_Settings
 {
 
 
-    public partial class DonationCollect
+    public partial class ClassBasedNotice
     {
 
         /// <summary>
-        /// FindDonarTextBox control.
+        /// ClassCheckBoxList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox FindDonarTextBox;
+        protected global::System.Web.UI.WebControls.CheckBoxList ClassCheckBoxList;
 
         /// <summary>
-        /// HiddenCommitteeMemberId control.
+        /// ClassNameSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HiddenCommitteeMemberId;
+        protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
 
         /// <summary>
-        /// FindButton control.
+        /// NoticeTitleTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button FindButton;
+        protected global::System.Web.UI.WebControls.TextBox NoticeTitleTextBox;
 
         /// <summary>
-        /// DonationGridView control.
+        /// NoticeTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DonationGridView;
+        protected global::System.Web.UI.WebControls.TextBox NoticeTextBox;
 
         /// <summary>
-        /// DonationSQL control.
+        /// NoticeButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource DonationSQL;
+        protected global::System.Web.UI.WebControls.Button NoticeButton;
 
         /// <summary>
-        /// AccountDropDownList control.
+        /// StudentNoticeSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList AccountDropDownList;
+        protected global::System.Web.UI.WebControls.SqlDataSource StudentNoticeSQL;
 
         /// <summary>
-        /// AccountSQL control.
+        /// StudentNoticeClassSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource AccountSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource StudentNoticeClassSQL;
 
         /// <summary>
-        /// CollectDateTextBox control.
+        /// NoticeGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox CollectDateTextBox;
-
-        /// <summary>
-        /// CollectButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CollectButton;
-
-        /// <summary>
-        /// ReceiptSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource ReceiptSQL;
-
-        /// <summary>
-        /// PaymentRecordSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource PaymentRecordSQL;
+        protected global::System.Web.UI.WebControls.GridView NoticeGridView;
     }
 }

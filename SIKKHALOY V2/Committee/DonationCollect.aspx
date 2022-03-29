@@ -70,7 +70,7 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Collect" SortExpression="Due">
                     <ItemTemplate>
-                        <asp:TextBox ID="DueAmountTextBox" type="number" step="0.01" min="0" max='<%# Eval("Due") %>' required="" Enabled="false" CssClass="form-control due-input" runat="server" Text='<%# Eval("Due") %>' autocomplete="off" />
+                        <asp:TextBox ID="PaidAmountTextBox" type="number" step="0.01" min="0" max='<%# Eval("Due") %>' required="" Enabled="false" CssClass="form-control due-input" runat="server" Text='<%# Eval("Due") %>' autocomplete="off" />
                     </ItemTemplate>
                     <ItemStyle Width="150px" />
                 </asp:TemplateField>
@@ -105,10 +105,38 @@
             </div>
 
             <div class="form-group">
-                <asp:Button ID="CollectButton" runat="server" Text="Submit" OnClientClick="return validateForm()" CssClass="btn btn-success" />
+                <asp:Button ID="CollectButton" OnClick="CollectButton_Click" runat="server" Text="Submit" OnClientClick="return validateForm()" CssClass="btn btn-success" />
             </div>
         </div>
+
+        <asp:SqlDataSource ID="ReceiptSQL" runat="server"
+            InsertCommand="INSERT INTO CommitteeMoneyReceipt (RegistrationId, SchoolId, CommitteeMemberId, EducationYearId, AccountId, CommitteeMoneyReceiptSn, PaidDate) 
+                       VALUES (@RegistrationID, @SchoolID, @CommitteeMemberId, @EducationYearId, @AccountId, [dbo].[F_CommitteeMoneyReceiptSn](@SchoolID), @PaidDate);
+                       SELECT @CommitteeMoneyReceiptId = SCOPE_IDENTITY();"
+            OnInserted="ReceiptSQL_Inserted" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeMoneyReceiptId FROM CommitteeMoneyReceipt">
+            <InsertParameters>
+                <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
+                <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
+                <asp:ControlParameter ControlID="HiddenCommitteeMemberId" Name="CommitteeMemberId" PropertyName="Value" />
+                <asp:ControlParameter ControlID="AccountDropDownList" Name="AccountId" PropertyName="SelectedValue" />
+                <asp:ControlParameter ControlID="CollectDateTextBox" Name="PaidDate" PropertyName="Text" />
+                <asp:Parameter Direction="Output" Name="CommitteeMoneyReceiptId" Size="50" />
+            </InsertParameters>
+        </asp:SqlDataSource>
+        <asp:SqlDataSource ID="PaymentRecordSQL" runat="server"
+            InsertCommand="INSERT INTO CommitteePaymentRecord (SchoolId, RegistrationId, CommitteeDonationId, CommitteeMoneyReceiptId, PaidAmount) VALUES (@SchoolID, @RegistrationID, @CommitteeDonationId, @CommitteeMoneyReceiptId, @PaidAmount)" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteePaymentRecordId FROM CommitteePaymentRecord">
+            <InsertParameters>
+                <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
+                <asp:Parameter Name="PaidAmount" />
+                <asp:Parameter Name="CommitteeDonationId" />
+                <asp:Parameter Name="CommitteeMoneyReceiptId" />
+            </InsertParameters>
+        </asp:SqlDataSource>
     </div>
+
+
 
     <script type="text/javascript">
         //date picker
@@ -122,6 +150,7 @@
         //find donar
         const committeeMemberId = document.getElementById("<%= HiddenCommitteeMemberId.ClientID %>");
 
+        //autocomplete
         $('[id*=FindDonarTextBox]').typeahead({
             displayText: function (item) {
                 return `${item.MemberName}, ${item.SmsNumber}`;

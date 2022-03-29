@@ -207,6 +207,7 @@
     <Content Include="Administration_Basic_Settings\Active_Deactivate_Teacher.aspx" />
     <Content Include="Administration_Basic_Settings\Assigning_subject_in_classes.aspx" />
     <Content Include="Administration_Basic_Settings\Character_Certificate.aspx" />
+    <Content Include="Administration_Basic_Settings\ClassBasedNotice.aspx" />
     <Content Include="Administration_Basic_Settings\Create_Student_Username_password.aspx" />
     <Content Include="Administration_Basic_Settings\Create_Sub_Admin.aspx" />
     <Content Include="Administration_Basic_Settings\Create_Edit_Delete_Subjects.aspx" />
@@ -841,6 +842,13 @@
     </Compile>
     <Compile Include="Administration_Basic_Settings\Character_Certificate.aspx.designer.cs">
       <DependentUpon>Character_Certificate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\ClassBasedNotice.aspx.cs">
+      <DependentUpon>ClassBasedNotice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\ClassBasedNotice.aspx.designer.cs">
+      <DependentUpon>ClassBasedNotice.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administration_Basic_Settings\Create_Student_Username_password.aspx.cs">
       <DependentUpon>Create_Student_Username_password.aspx</DependentUpon>
