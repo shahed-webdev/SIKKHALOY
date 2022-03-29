@@ -11,12 +11,12 @@ using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.ACCOUNTS.Payment
 {
-    public partial class Payment_Collection : System.Web.UI.Page
+    public partial class Payment_Collection : Page
     {
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (!IsPostBack)
             {
                 SelectedAccount();
             }
@@ -46,7 +46,7 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
         {
             PaidRecordsSQL.SelectParameters["MoneyReceiptID"].DefaultValue = e.CommandArgument.ToString();
             ReceivedBySQL.SelectParameters["MoneyReceiptID"].DefaultValue = e.CommandArgument.ToString();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "payment-record", "openModal();", true);
         }
 
         //Instant Payorder
@@ -63,24 +63,23 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
             OAmountTextBox.Text = "";
             OConcessiontBox.Text = "";
             DueGridView.DataBind();
-            ScriptManager.RegisterStartupScript(this, GetType(), "Msg", "Success();", true);
         }
 
         protected void DueGridView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                DateTime Startdate = Convert.ToDateTime(DueGridView.DataKeys[e.Row.DataItemIndex]["StartDate"]);
-                DateTime Endtdate = Convert.ToDateTime(e.Row.Cells[5].Text);
+                var Startdate = Convert.ToDateTime(DueGridView.DataKeys[e.Row.DataItemIndex]["StartDate"]);
+                var Endtdate = Convert.ToDateTime(e.Row.Cells[5].Text);
 
                 if (Endtdate < DateTime.Today)
                 {
-                    e.Row.CssClass = "PresentDue";
+                    e.Row.CssClass = "curremt-due";
                 }
                 else
                 {
                     if (Startdate == Endtdate && Startdate == DateTime.Today)
-                        e.Row.CssClass = "OthersPamnt";
+                        e.Row.CssClass = "others-payment";
                 }
             }
         }
@@ -117,19 +116,16 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
         //Payment button
         protected void PayButton_Click(object sender, EventArgs e)
         {
-            OrdersTableAdapter Payment_DataSet = new OrdersTableAdapter();
+            var Payment_DataSet = new OrdersTableAdapter();
 
             double TotalPaid = 0;
             int MoneyReceiptID = 0;
-            int StudentClassID = 0;
-
-            StudentClassID = Convert.ToInt32(StudentInfoFormView.DataKey["StudentClassID"]);
+            int StudentClassID = Convert.ToInt32(StudentInfoFormView.DataKey["StudentClassID"]);
             int StudentID = Convert.ToInt32(StudentInfoFormView.DataKey["StudentID"]);
 
             int Crrent_EduYearID = Convert.ToInt32(Session["Edu_Year"].ToString());
             int SchoolID = Convert.ToInt32(Session["SchoolID"].ToString());
             int RegistrationID = Convert.ToInt32(Session["RegistrationID"].ToString());
-
 
 
             bool Is_Paid = false;
@@ -143,10 +139,9 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
 
                 int PayOrderID = Convert.ToInt32(DueGridView.DataKeys[row.RowIndex]["PayOrderID"]);
 
-                double PaidAmount;
                 double DueByPayOrder = Convert.ToDouble(Payment_DataSet.DueByPayOrderID(PayOrderID));
 
-                if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out PaidAmount))
+                if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out double PaidAmount))
                 {
                     if (PaidAmount > DueByPayOrder)
                     {
@@ -163,10 +158,9 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
 
                 int PayOrderID = Convert.ToInt32(OtherSessionGridView.DataKeys[row.RowIndex]["PayOrderID"]);
 
-                double PaidAmount;
                 double DueByPayOrder = Convert.ToDouble(Payment_DataSet.DueByPayOrderID(PayOrderID));
 
-                if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out PaidAmount))
+                if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out double PaidAmount))
                 {
                     if (PaidAmount > DueByPayOrder)
                     {
@@ -179,7 +173,6 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
             if (MoneyReceipt_InsertChack)
             {
                 MoneyReceiptID = Convert.ToInt32(Payment_DataSet.Insert_MoneyReceipt(StudentID, RegistrationID, StudentClassID, Crrent_EduYearID, "Institution", DateTime.Now, SchoolID));
-                MoneyReceipt_InsertChack = false;
 
                 //Current Session GV
                 foreach (GridViewRow row in DueGridView.Rows)
@@ -192,10 +185,9 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
                     int RoleID = Convert.ToInt32(DueGridView.DataKeys[row.RowIndex]["RoleID"]);
                     int P_Order_EduYearID = Convert.ToInt32(DueGridView.DataKeys[row.RowIndex]["EducationYearID"]);
 
-                    double PaidAmount;
                     double DueByPayOrder = Convert.ToDouble(Payment_DataSet.DueByPayOrderID(PayOrderID));
 
-                    if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out PaidAmount))
+                    if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out double PaidAmount))
                     {
                         if (PaidAmount <= DueByPayOrder)
                         {
@@ -221,10 +213,9 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
                     int RoleID = Convert.ToInt32(OtherSessionGridView.DataKeys[row.RowIndex]["RoleID"]);
                     int P_Order_EduYearID = Convert.ToInt32(OtherSessionGridView.DataKeys[row.RowIndex]["EducationYearID"]);
 
-                    double PaidAmount;
                     double DueByPayOrder = Convert.ToDouble(Payment_DataSet.DueByPayOrderID(PayOrderID));
 
-                    if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out PaidAmount))
+                    if (DueCheckBox.Checked && double.TryParse(DueAmountTextBox.Text.Trim(), out double PaidAmount))
                     {
                         if (PaidAmount <= DueByPayOrder)
                         {
@@ -235,7 +226,6 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
                             Is_Paid = true;
                             DueCheckBox.Checked = false;
                         }
-
                     }
                 }
             }

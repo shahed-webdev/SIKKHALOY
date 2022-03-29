@@ -18,6 +18,11 @@
     <div class="my-4">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="DonationSQL">
             <Columns>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:CheckBox ID="DueCheckBox" runat="server" Text=" " />
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="Donation Category" SortExpression="Amount">
                     <ItemTemplate>
                         <%# Eval("DonationCategory") %>

@@ -178,6 +178,7 @@
     <Content Include="Accounts\Payment\Payment_Concession_All.aspx" />
     <Content Include="Accounts\Payment\Pay_Order.aspx" />
     <Content Include="Accounts\Payment\Remove_Pay_order.aspx" />
+    <Content Include="Accounts\Payment\paymentJsBackup.txt" />
     <Content Include="Accounts\Payment\Unpaid_Money_Receipt.aspx" />
     <Content Include="Accounts\ReportsSession\Concession_Report.aspx" />
     <Content Include="Accounts\ReportsSession\CSS\Session_Payorder.css" />
@@ -404,6 +405,7 @@
     <Content Include="Handeler\FindDonar.asmx" />
     <Content Include="JS\attendance\api-methods.js" />
     <Content Include="JS\mui.min.js" />
+    <Content Include="JS\notify.min.js" />
     <Content Include="JS\Zip_File\FileServer.js" />
     <Content Include="googleeb74826106350c63.html" />
     <Content Include="Handeler\Default\Male.png" />

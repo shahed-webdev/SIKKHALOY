@@ -1,12 +1,13 @@
 ﻿<%@ Page Title="Collect Payment By Date" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Payment_Collection_By_Date.aspx.cs" Inherits="EDUCATION.COM.Accounts.Payment.Payment_Collection_By_Date" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="CSS/Payment_Collection.css?v=11.1" rel="stylesheet" />
+    <link href="CSS/Payment_Collection.css?version=1.0.0" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3>Collect Payment by Date</h3>
 
+    <!--find student student id-->
     <div class="form-inline">
         <div class="form-group">
             <asp:TextBox ID="SearchIDTextBox" autocomplete="off" runat="server" CssClass="form-control" placeholder="Enter ID"></asp:TextBox>
@@ -17,15 +18,18 @@
         </div>
     </div>
 
+    <!--student info and payment record-->
     <div class="row">
         <div class="col-lg-8">
-            <asp:FormView ID="StudentInfoFormView" runat="server" DataKeyNames="StudentID,StudentClassID,ClassID,EducationYearID,ID" DataSourceID="StudentInfoSQL" Width="100%">
+            <asp:FormView ID="StudentInfoFormView" runat="server" DataKeyNames="StudentID,StudentClassID,ClassID,EducationYearID,ID" DataSourceID="StudentInfoSQL" RenderOuterTable="false">
                 <ItemTemplate>
                     <div class="z-depth-1 p-3 mb-4">
                         <div class="d-flex flex-sm-row flex-column text-center text-sm-left">
-                            <div class="p-image">
+                            <div class="student-photo">
                                 <img alt="No Image" src="/Handeler/Student_Photo.ashx?SID=<%#Eval("StudentImageID") %>" class="img-thumbnail rounded-circle img-fluid z-depth-1" />
-                                <div class="Student-Status"><%# Eval("Status") %></div>
+                                <div class="student-activation <%# Eval("Status").ToString() == "Active" ?"active-status":"in-active-status" %>">
+                                    <%# Eval("Status") %>
+                                </div>
                             </div>
                             <div class="info">
                                 <ul>
@@ -38,8 +42,7 @@
                                     </li>
                                     <li>Roll No:<%# Eval("RollNo") %><%#Eval("Section",", Section: {0}") %><%# Eval("Shift",", Shift: {0}") %></li>
                                     <li><b>Phone: </b><%# Eval("SMSPhoneNo") %></li>
-                                    <li><b>Session: </b><%# Eval("EducationYear") %> <i class="fa fa-hand-o-right"></i><a target="_blank" href="/Admission/Student_Report/Report.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>">Full Details</a>
-                                    </li>
+                                    <li><b>Session: </b><%# Eval("EducationYear") %> <i class="fa fa-hand-o-right"></i><a target="_blank" href="/Admission/Student_Report/Report.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>">Full Details</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -47,7 +50,7 @@
                 </ItemTemplate>
             </asp:FormView>
             <asp:SqlDataSource ID="StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                SelectCommand="SELECT Student.StudentID, Student.Status,StudentsClass.StudentClassID, StudentsClass.ClassID, Student.StudentImageID, Student.ID, Student.StudentsName, Student.SMSPhoneNo, CreateClass.Class,CreateSection.Section,CreateSubjectGroup.SubjectGroup,CreateShift.Shift, StudentsClass.RollNo, Student.FathersName, Education_Year.EducationYearID, Education_Year.EducationYear FROM StudentsClass INNER JOIN Student ON StudentsClass.StudentID = Student.StudentID INNER JOIN Education_Year ON StudentsClass.EducationYearID = Education_Year.EducationYearID LEFT OUTER JOIN CreateShift ON StudentsClass.ShiftID = CreateShift.ShiftID LEFT OUTER JOIN CreateSubjectGroup ON StudentsClass.SubjectGroupID = CreateSubjectGroup.SubjectGroupID LEFT OUTER JOIN CreateSection ON StudentsClass.SectionID = CreateSection.SectionID LEFT OUTER JOIN CreateClass ON StudentsClass.ClassID = CreateClass.ClassID WHERE (Student.ID = @ID) AND (StudentsClass.SchoolID = @SchoolID) AND (StudentsClass.Class_Status IS NULL)">
+                SelectCommand="SELECT Student.StudentID, StudentsClass.StudentClassID, StudentsClass.ClassID, Student.StudentImageID, Student.ID, Student.StudentsName, Student.SMSPhoneNo, CreateClass.Class, CreateSection.Section, CreateSubjectGroup.SubjectGroup, CreateShift.Shift, StudentsClass.RollNo, Student.FathersName, Education_Year.EducationYearID, Education_Year.EducationYear, Student.Status FROM StudentsClass INNER JOIN Student ON StudentsClass.StudentID = Student.StudentID INNER JOIN Education_Year ON StudentsClass.EducationYearID = Education_Year.EducationYearID LEFT OUTER JOIN CreateShift ON StudentsClass.ShiftID = CreateShift.ShiftID LEFT OUTER JOIN CreateSubjectGroup ON StudentsClass.SubjectGroupID = CreateSubjectGroup.SubjectGroupID LEFT OUTER JOIN CreateSection ON StudentsClass.SectionID = CreateSection.SectionID LEFT OUTER JOIN CreateClass ON StudentsClass.ClassID = CreateClass.ClassID WHERE (Student.ID = @ID) AND (StudentsClass.SchoolID = @SchoolID) AND (StudentsClass.Class_Status IS NULL)">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="SearchIDTextBox" Name="ID" PropertyName="Text" />
                     <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -59,13 +62,15 @@
             <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                 <ContentTemplate>
                     <div class="mb-4">
-                        <asp:GridView ID="PaidRecordGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid P-R" DataSourceID="PRecordSQL" AllowPaging="True" PageSize="3">
+                        <asp:GridView ID="PaidRecordGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="PRecordSQL" AllowPaging="True" PageSize="3">
                             <Columns>
                                 <asp:TemplateField HeaderText="Receipt">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="MSNLinkButton" runat="server" CommandArgument='<%# Eval("MoneyReceiptID") %>' Text='<%# Eval("MoneyReceipt_SN") %>' ToolTip="Click To Details" OnCommand="MSNLinkButton_Command" />
                                         <small class="d-block"><%# Eval("PaidDate", "{0:d-MMM-yy (hh:mm tt)}") %></small>
                                     </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Left" />
+                                    <ItemStyle HorizontalAlign="Left" />
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Paid">
                                     <ItemTemplate>
@@ -73,6 +78,8 @@
                                      <small class="d-block">
                                          <asp:LinkButton ID="Print_LinkButton" runat="server" CommandArgument='<%# Eval("MoneyReceiptID") %>' ToolTip="Click To Print" OnCommand="Print_LinkButton_Command"><i class="fa fa-print"></i> Print</asp:LinkButton></small>
                                     </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Right" />
+                                    <ItemStyle HorizontalAlign="Right" />
                                 </asp:TemplateField>
                             </Columns>
                             <PagerStyle CssClass="pgr" />
@@ -87,8 +94,9 @@ ORDER BY Income_MoneyReceipt.PaidDate DESC">
                             </SelectParameters>
                         </asp:SqlDataSource>
                     </div>
+
                     <!--Paid Record Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="paid-record-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -106,15 +114,15 @@ ORDER BY Income_MoneyReceipt.PaidDate DESC">
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Paid" SortExpression="PaidAmount">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="PaidAmountLabel" runat="server" Text='<%# Eval("PaidAmount") %>'></asp:Label>
+                                                    <label class="paid-record-paid-amount"><%# Eval("PaidAmount") %></label>
                                                 </ItemTemplate>
                                                 <FooterTemplate>
-                                                    <label id="PGTLabel"></label>
+                                                    <label id="paid-record-grand-total"></label>
                                                 </FooterTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                        <FooterStyle CssClass="GridFooter" />
-                                        <RowStyle CssClass="Rows"></RowStyle>
+
+                                        <RowStyle CssClass="Rows" />
                                     </asp:GridView>
                                     <asp:SqlDataSource ID="PaidRecordsSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Income_PaymentRecord.PaidAmount, Income_PaymentRecord.PayFor + ' (' + Education_Year.EducationYear + ')' AS PayFor, Income_PaymentRecord.PaidDate, Income_Roles.Role FROM Income_PaymentRecord INNER JOIN Income_Roles ON Income_PaymentRecord.RoleID = Income_Roles.RoleID INNER JOIN Income_MoneyReceipt ON Income_PaymentRecord.MoneyReceiptID = Income_MoneyReceipt.MoneyReceiptID INNER JOIN Education_Year ON Income_PaymentRecord.EducationYearID = Education_Year.EducationYearID WHERE (Income_PaymentRecord.SchoolID = @SchoolID) AND (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID)">
                                         <SelectParameters>
@@ -145,9 +153,10 @@ ORDER BY Income_MoneyReceipt.PaidDate DESC">
         </div>
     </div>
 
-    <asp:FormView ID="PDue" runat="server" DataSourceID="TotalDue_ByID_ODS" Width="100%">
+    <!--current due-->
+    <asp:FormView ID="CurrentDueFormView" runat="server" DataSourceID="TotalDue_ByID_ODS" RenderOuterTable="false">
         <ItemTemplate>
-            <div class="Total_p-due">
+            <div class="current-due-total">
                 CURRENT DUE: <%# Eval("Due") %> TK
             </div>
         </ItemTemplate>
@@ -159,12 +168,13 @@ ORDER BY Income_MoneyReceipt.PaidDate DESC">
         </SelectParameters>
     </asp:ObjectDataSource>
 
-    <div class="table-responsive">
-        <asp:GridView ID="DueGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid paid-gv" DataKeyNames="PayOrderID,Amount,StudentID,StudentClassID,RoleID,PayFor,StartDate,EducationYearID" DataSourceID="DueSQL" ShowFooter="True" OnRowDataBound="DueGridView_RowDataBound">
+    <!--due gridview-->
+    <div id="payment-container" class="table-responsive">
+        <asp:GridView ID="DueGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataKeyNames="PayOrderID,Amount,StudentID,StudentClassID,RoleID,PayFor,StartDate,EducationYearID" DataSourceID="DueSQL" OnRowDataBound="DueGridView_RowDataBound">
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:CheckBox ID="DueCheckBox" runat="server" Text=" " />
+                        <asp:CheckBox ID="DueCheckBox" CssClass="due-checkbox" runat="server" Text=" " />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
@@ -178,19 +188,13 @@ ORDER BY Income_MoneyReceipt.PaidDate DESC">
                 <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" />
                 <asp:TemplateField HeaderText="Due" SortExpression="Due">
                     <ItemTemplate>
-                        <asp:Label ID="DueLabel" runat="server" Text='<%# Eval("Due") %>'></asp:Label>
+                        <%# Eval("Due") %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Pay" SortExpression="Due">
                     <ItemTemplate>
-                        <asp:TextBox ID="DueAmountTextBox" CssClass="form-control" Enabled="false" runat="server" Text='<%# Eval("Due") %>' onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" />
-                        <asp:RequiredFieldValidator ID="RFV" runat="server" ControlToValidate="DueAmountTextBox" CssClass="EroorSummer" ErrorMessage="*" SetFocusOnError="True" ValidationGroup="PaY"></asp:RequiredFieldValidator>
+                        <asp:TextBox ID="DueAmountTextBox" type="number" step="0.01" min="0" max='<%# Eval("Due") %>' required="" Enabled="false" CssClass="form-control due-input" runat="server" Text='<%# Eval("Due") %>' autocomplete="off" />
                     </ItemTemplate>
-                    <FooterTemplate>
-                        <b class="GTotal">Total
-                  <label id="GrandTotal">0</label>
-                            Tk.</b>
-                    </FooterTemplate>
                     <ItemStyle Width="150px" />
                 </asp:TemplateField>
             </Columns>
@@ -217,12 +221,12 @@ ORDER BY Income_PayOrder.EndDate">
 
         <%if (OtherSessionGridView.Rows.Count > 0)
             {%>
-        <div class="alert alert-success mt-3">OTHERS SESSION DUE</div>
-        <asp:GridView ID="OtherSessionGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid paid-gv" DataKeyNames="PayOrderID,Amount,StudentID,StudentClassID,RoleID,PayFor,StartDate,EducationYearID" DataSourceID="OtherSessionSQL" ShowFooter="True" OnRowDataBound="OtherSessionGridView_RowDataBound">
+        <h5 class="font-weight-bold mt-3">OTHERS SESSION DUE</h5>
+        <asp:GridView ID="OtherSessionGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataKeyNames="PayOrderID,Amount,StudentID,StudentClassID,RoleID,PayFor,StartDate,EducationYearID" DataSourceID="OtherSessionSQL" ShowFooter="True" OnRowDataBound="OtherSessionGridView_RowDataBound">
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:CheckBox ID="Other_Session_CheckBox" runat="server" Text=" " />
+                        <asp:CheckBox ID="Other_Session_CheckBox" CssClass="due-checkbox" runat="server" Text=" " />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
@@ -236,19 +240,13 @@ ORDER BY Income_PayOrder.EndDate">
                 <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" />
                 <asp:TemplateField HeaderText="Due" SortExpression="Due">
                     <ItemTemplate>
-                        <asp:Label ID="Other_Session_DueLabel" runat="server" Text='<%# Eval("Due") %>'></asp:Label>
+                        <%# Eval("Due") %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Pay" SortExpression="Due">
                     <ItemTemplate>
-                        <asp:TextBox ID="Other_Session_AmountTextBox" CssClass="form-control" Enabled="false" runat="server" Text='<%# Eval("Due") %>' onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" />
-                        <asp:RequiredFieldValidator ID="RFV" runat="server" ControlToValidate="Other_Session_AmountTextBox" CssClass="EroorSummer" ErrorMessage="*" SetFocusOnError="True" ValidationGroup="PaY"></asp:RequiredFieldValidator>
+                        <asp:TextBox ID="Other_Session_AmountTextBox" type="number" step="0.01" min="0" max='<%# Eval("Due") %>' required="" Enabled="false" CssClass="form-control due-input" runat="server" Text='<%# Eval("Due") %>' autocomplete="off" />
                     </ItemTemplate>
-                    <FooterTemplate>
-                        <b class="GTotal_Others">Total
-                  <label id="Others_GrandTotal">0</label>
-                            Tk.</b>
-                    </FooterTemplate>
                     <ItemStyle Width="150px" />
                 </asp:TemplateField>
             </Columns>
@@ -273,43 +271,6 @@ ORDER BY Income_PayOrder.EndDate">
             </SelectParameters>
         </asp:SqlDataSource>
         <%}%>
-    </div>
-
-    <div class="All_session_Total Pay_Show text-right">
-        Grand Total: <span id="All_Session_Total">0</span> Tk
-    </div>
-
-    <label id="Error_Others" class="EroorSummer"></label>
-    <label id="Error" class="EroorSummer"></label>
-    <div class="form-inline">
-        <div class="Pay_Show">
-            <div class="form-group">
-                <asp:DropDownList ID="AccountDropDownList" runat="server" CssClass="form-control" DataSourceID="AccountSQL" DataTextField="AccountName" DataValueField="AccountID">
-                </asp:DropDownList>
-                <asp:SqlDataSource ID="AccountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT [AccountID], [AccountName] FROM [Account] WHERE ([SchoolID] = @SchoolID)">
-                    <SelectParameters>
-                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-                    </SelectParameters>
-                </asp:SqlDataSource>
-            </div>
-        </div>
-        <div class="Pay_Show">
-            <div class="form-group">
-                <asp:TextBox ID="Paid_Date_TextBox" placeholder="Paid Date" runat="server" autocomplete="off" CssClass="form-control Datetime" onDrop="blur();return false;" onkeypress="return isNumberKey(event)" onpaste="return false"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="dRfv" runat="server" ControlToValidate="Paid_Date_TextBox" CssClass="EroorStar" ErrorMessage="*" ValidationGroup="PaY"></asp:RequiredFieldValidator>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <button type="button" id="Add_P" data-toggle="modal" data-target="#Others_Modal" class="btn btn-success">Add More Payment</button>
-        </div>
-
-        <div class="Pay_Show">
-            <div class="form-group">
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="AccountDropDownList" CssClass="EroorStar" ErrorMessage="*" ValidationGroup="PaY"></asp:RequiredFieldValidator>
-                <asp:Button ID="PayButton" runat="server" Text="Pay" OnClick="PayButton_Click" OnClientClick="return RFV();" ValidationGroup="PaY" CssClass="btn btn-primary" />
-            </div>
-        </div>
     </div>
 
 
@@ -372,347 +333,171 @@ ORDER BY Income_PayOrder.EndDate">
         </div>
     </div>
 
-    <script type="text/javascript">
-        $(function () {
-            if ($(".Student-Status").text() == "Active") {
-                $(".Student-Status").addClass("Status-on");
-            } else {
-                $(".Student-Status").addClass("Status-off").removeClass("Status-on");
-            }
+    <!--submit button-->
+    <div id="payment-submit" class="mt-4">
+        <h4 id="total-pay-amount"></h4>
 
+        <div class="form-inline">
+            <div class="form-group">
+                <asp:DropDownList ID="AccountDropDownList" runat="server" CssClass="form-control" DataSourceID="AccountSQL" DataTextField="AccountName" DataValueField="AccountID">
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="AccountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT [AccountID], [AccountName] FROM [Account] WHERE ([SchoolID] = @SchoolID)">
+                    <SelectParameters>
+                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
+            </div>
+
+            <div class="form-group">
+                <asp:TextBox ID="Paid_Date_TextBox" placeholder="Paid Date" runat="server" autocomplete="off" CssClass="form-control Datetime" onDrop="blur();return false;" onkeypress="return isNumberKey(event)" onpaste="return false"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="dRfv" runat="server" ControlToValidate="Paid_Date_TextBox" CssClass="EroorStar" ErrorMessage="*" ValidationGroup="PaY"></asp:RequiredFieldValidator>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="Add_P" data-toggle="modal" data-target="#Others_Modal" class="btn btn-outline-success btn-md">Add More Payment</button>
+            </div>
+
+            <div class="form-group">
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="AccountDropDownList" CssClass="EroorStar" ErrorMessage="*" ValidationGroup="PaY"></asp:RequiredFieldValidator>
+                <asp:Button ID="PayButton" runat="server" Text="Pay" OnClick="PayButton_Click" OnClientClick="return validateForm()" ValidationGroup="PaY" CssClass="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+
+    <!--bottom sticky total amount-->
+    <div id="grand-total-fixed"></div>
+
+    <script>
+        $(function () {
             $(".Datetime").datepicker({
                 format: 'dd M yyyy',
                 todayBtn: "linked",
                 todayHighlight: true,
                 autoclose: true
             }).datepicker("setDate", "0");
+        });
 
-            $('[id*=SearchIDTextBox]').typeahead({
-                minLength: 1,
-                source: function (request, result) {
-                    $.ajax({
-                        url: "/Handeler/Student_IDs.asmx/GetStudentID",
-                        data: JSON.stringify({ 'ids': request }),
-                        dataType: "json",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
-                            result($.map(JSON.parse(response.d), function (item) {
-                                return item;
-                            }));
-                        }
-                    });
-                }
-            });
+        const inputFindId = document.getElementById("<%=SearchIDTextBox.ClientID%>");
+        const searchButton = document.getElementById("<%=SearchButton.ClientID%>");
 
-            //press enter on ID_textbox
-            $("[id*=SearchIDTextBox]").on("keypress", function (e) {
-                var key = e.which;
-                if (key == 13)  // the enter key code
-                {
-                    $("[id*=SearchButton]").click();
-                    return false;
-                }
-            });
-
-            //Reset checkbox after Search clicking
-            $("[id*=SearchButton]").click(function () {
-                $(':checkbox').each(function () {
-                    this.checked = false;
-                    var td = $("td", $(this).closest("tr"));
-                    parseFloat($("[id*=DueAmountTextBox]", td).val($("[id*=DueLabel]", td).text()));
+        //find student ids
+        $(`#${inputFindId.id}`).typeahead({
+            source: function (request, result) {
+                $.ajax({
+                    url: "/Handeler/Student_IDs.asmx/GetStudentID",
+                    data: JSON.stringify({ 'ids': request }),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) { result(JSON.parse(response.d)); },
+                    error: function (err) { console.log(err) }
                 });
-            });
-
-            //Student Info FormView
-            if ($('#IDLabel').text() != "") {
-                $("#Add_P").show();
-            } else {
-                $("#Add_P").hide();
-            }
-
-            //All GridView is empty
-            if ($('[id*=DueGridView] tr').length || $('[id*=OtherSessionGridView] tr').length) {
-                $(".Pay_Show").show();
-            }
-
-            //others session GridView is empty
-            if ($('[id*=OtherSessionGridView] tr').length && $('[id*=DueGridView] tr').length) {
-                $(".All_session_Total").show();
-            }
-            else {
-                $(".All_session_Total").hide();
-            }
-
-
-            //Current Session
-            $("[id*=DueCheckBox]").prop('checked', false);
-
-            var total = 0;
-            var GV_Total1 = 0;
-            var GV_Total2 = 0;
-
-            $("[id*=DueCheckBox]").on("click", function () {
-                if ($(this).is(":checked")) {
-                    $("td", $(this).closest("tr")).addClass("selected"); //Selected Color
-                    var td = $("td", $(this).closest("tr"));
-                    $("[id*=DueAmountTextBox]", td).removeAttr("disabled");
-
-                    total += parseFloat($("[id*=DueAmountTextBox]", td).val());
-                    $("#GrandTotal").text(total);
-
-                    //Final Total
-                    GV_Total1 = parseFloat($("#GrandTotal").text());
-                    GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                    $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-
-                }
-                else {
-                    $("td", $(this).closest("tr")).removeClass("selected"); //Selected Color
-
-                    var td = $("td", $(this).closest("tr"));
-                    $("[id*=DueAmountTextBox]", td).attr("disabled", "disabled");
-
-                    if (isNaN(parseFloat($("[id*=DueAmountTextBox]", td).val()))) {
-                        parseFloat($("[id*=DueAmountTextBox]", td).val(0));
-                    }
-
-                    total -= parseFloat($("[id*=DueAmountTextBox]", td).val());
-                    $("#GrandTotal").text(total);
-
-                    //Final Total
-                    GV_Total1 = parseFloat($("#GrandTotal").text());
-                    GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                    $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-
-                    parseFloat($("[id*=DueAmountTextBox]", td).val($("[id*=DueLabel]", td).text()));
-
-                    $("#Error").text("");
-                    $("[id*=DueAmountTextBox]", td).removeClass("ErrorTextbox");
-                    $(".GTotal").css("color", "#5d6772");
-                    $("[id*=DueLabel]", td).css("color", "#333");
-                }
-            });
-
-            var KeyDown = true;
-            var KeyUP = true;
-            $("[id*=DueAmountTextBox]").on("keypress", function () {
-                if (!KeyDown) return;
-                var Focustotal = 0;
-                if (!isNaN(parseFloat($(this).val()))) {
-                    Focustotal = parseFloat($(this).val());
-                }
-
-                var gTotal = (total - Focustotal);
-                $("#GrandTotal").text(gTotal);
-                total = gTotal;
-
-                KeyUP = true;
-                KeyDown = false;
-
-                //Final Total
-                GV_Total1 = parseFloat($("#GrandTotal").text());
-                GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-            });
-
-            $("[id*=DueAmountTextBox]").on("keyup", function () {
-                if (!KeyUP) return;
-
-                //rex
-                var reg = /^([1-9]\d*)$/;
-                if (!reg.test($(this).val())) {
-                    $(this).val("");
-                    return;
-                }
-
-                var Change = 0;
-                if (!isNaN(parseFloat($(this).val()))) {
-                    Change = parseFloat($(this).val());
-                }
-
-                var gTotal = (total + Change);
-                $("#GrandTotal").text(gTotal);
-                total = gTotal;
-
-                KeyDown = true;
-                KeyUP = false;
-
-                var td = $("td", $(this).closest("tr"));
-                var DueAmount = parseFloat($("[id*=DueLabel]", td).text());
-                var PaidAmount = parseFloat($("[id*=DueAmountTextBox]", td).val());
-
-                if (PaidAmount > DueAmount) {
-                    $("#Error").text("Paid Amount Greater than due amount");
-                    $("[id*=DueAmountTextBox]", td).addClass("ErrorTextbox");
-                    $("[id*=PayButton]").prop("disabled", !0).removeClass("btn btn-primary");
-                    $(".GTotal").css("color", "red");
-                    $("[id*=DueLabel]", td).css("color", "red");
-                }
-                else {
-                    $("#Error").text("");
-                    $("[id*=DueAmountTextBox]", td).removeClass("ErrorTextbox");
-                    $("[id*=PayButton]").prop("disabled", !1).addClass("btn btn-primary");
-                    $(".GTotal").css("color", "#5d6772");
-                    $("[id*=DueLabel]", td).css("color", "#333");
-                }
-
-                //Final Total
-                GV_Total1 = parseFloat($("#GrandTotal").text());
-                GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-            });
-
-            //Others Session
-            $("[id*=Other_Session_CheckBox]").prop('checked', false);
-
-            var Others_total = 0;
-            var GV_Total1 = 0;
-            var GV_Total2 = 0;
-
-            $("[id*=Other_Session_CheckBox]").on("click", function () {
-                if ($(this).is(":checked")) {
-                    $("td", $(this).closest("tr")).addClass("selected"); //Selected Color
-                    var td = $("td", $(this).closest("tr"));
-                    $("[id*=Other_Session_AmountTextBox]", td).removeAttr("disabled");
-
-                    Others_total += parseFloat($("[id*=Other_Session_AmountTextBox]", td).val());
-                    $("#Others_GrandTotal").text(Others_total);
-
-                    //Final Total
-                    GV_Total1 = parseFloat($("#GrandTotal").text());
-                    GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                    $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-                }
-                else {
-                    $("td", $(this).closest("tr")).removeClass("selected"); //Selected Color
-
-                    var td = $("td", $(this).closest("tr"));
-                    $("[id*=Other_Session_AmountTextBox]", td).attr("disabled", "disabled");
-
-                    if (isNaN(parseFloat($("[id*=Other_Session_AmountTextBox]", td).val()))) {
-                        parseFloat($("[id*=Other_Session_AmountTextBox]", td).val(0));
-                    }
-
-                    Others_total -= parseFloat($("[id*=Other_Session_AmountTextBox]", td).val());
-                    $("#Others_GrandTotal").text(Others_total)
-
-                    parseFloat($("[id*=Other_Session_AmountTextBox]", td).val($("[id*=DueLabel]", td).text()));
-
-                    $("#Error_Others").text("");
-                    $("[id*=Other_Session_AmountTextBox]", td).removeClass("ErrorTextbox");
-                    $(".GTotal_Others").css("color", "#5d6772");
-                    $("[id*=DueLabel]", td).css("color", "#333");
-
-                    //Final Total
-                    GV_Total1 = parseFloat($("#GrandTotal").text());
-                    GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                    $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-                }
-            });
-
-            var KeyDown = true;
-            var KeyUP = true;
-            $("[id*=Other_Session_AmountTextBox]").on("keypress", function () {
-                if (!KeyDown) return;
-                var Focustotal = 0;
-                if (!isNaN(parseFloat($(this).val()))) {
-                    Focustotal = parseFloat($(this).val());
-                }
-
-                var gTotal = (Others_total - Focustotal);
-                $("#Others_GrandTotal").text(gTotal);
-                Others_total = gTotal;
-
-                KeyUP = true;
-                KeyDown = false;
-
-                //Final Total
-                GV_Total1 = parseFloat($("#GrandTotal").text());
-                GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-            });
-
-            $("[id*=Other_Session_AmountTextBox]").on("keyup", function () {
-                if (!KeyUP) return;
-
-                //rex
-                var reg = /^([1-9]\d*)$/;
-                if (!reg.test($(this).val())) {
-                    $(this).val("");
-                    return;
-                }
-
-                var Change = 0;
-                if (!isNaN(parseFloat($(this).val()))) {
-                    Change = parseFloat($(this).val());
-                }
-
-                var gTotal = (Others_total + Change);
-                $("#Others_GrandTotal").text(gTotal);
-                Others_total = gTotal;
-
-                KeyDown = true;
-                KeyUP = false;
-
-                var td = $("td", $(this).closest("tr"));
-                var DueAmount = parseFloat($("[id*=Other_Session_DueLabel]", td).text());
-                var PaidAmount = parseFloat($("[id*=Other_Session_AmountTextBox]", td).val());
-
-                if (PaidAmount > DueAmount) {
-                    $("#Error_Others").text("Paid Amount Greater than due amount");
-                    $("[id*=Other_Session_AmountTextBox]", td).addClass("ErrorTextbox");
-                    $("[id*=PayButton]").prop("disabled", !0).removeClass("btn btn-primary");
-                    $(".GTotal_Others").css("color", "red");
-                    $("[id*=Other_Session_DueLabel]", td).css("color", "red");
-                }
-                else {
-                    $("#Error_Others").text("");
-                    $("[id*=Other_Session_AmountTextBox]", td).removeClass("ErrorTextbox");
-                    $("[id*=PayButton]").prop("disabled", !1).addClass("btn btn-primary");
-                    $(".GTotal_Others").css("color", "#5d6772");
-                    $("[id*=Other_Session_DueLabel]", td).css("color", "#333");
-                }
-
-                //Final Total
-                GV_Total1 = parseFloat($("#GrandTotal").text());
-                GV_Total2 = parseFloat($("#Others_GrandTotal").text());
-                $("#All_Session_Total").text(GV_Total1 + GV_Total2);
-            });
+            },
         });
 
-        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function (a, b) {
-            //Paid Grand Total
-            var PaidTotal = 0;
-            $("[id*=PaidAmountLabel]").each(function () { PaidTotal = PaidTotal + parseFloat($(this).text()) });
-            $("#PGTLabel").text(PaidTotal + " Tk");
+        //student id press enter to submit
+        inputFindId.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                searchButton.click();
+                return false;
+            }
         });
 
-        function isNumberKey(a) { a = a.which ? a.which : event.keyCode; return 46 != a && 31 < a && (48 > a || 57 < a) ? !1 : !0 };
+        //show payment submit area if dues
+        const currentSessionDue = document.getElementById("<%=DueGridView.ClientID%>");
+        const othersSessionDue = document.getElementById("<%=OtherSessionGridView.ClientID%>");
+        const paymentSubmit = document.getElementById("payment-submit");
 
-        function DisableButton() { document.getElementById("<%=PayButton.ClientID %>").disabled = true; }
+        if (currentSessionDue && currentSessionDue.rows.length || othersSessionDue && othersSessionDue.rows.length) {
+            paymentSubmit.style.display = "block";
+        }
 
-        window.onbeforeunload = DisableButton;
+        //Uncheck due select checkbox if page reload
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        for (const checkbox of checkboxes) {
+            checkbox.checked = false;
+        }
 
+        //due checkbox and input due amount
+        (function () {
+            //calculate total dues
+            function calculateTotal() {
+                const inputedDues = document.querySelectorAll(".due-input:not([disabled])");
+                let total = 0;
+                inputedDues.forEach((item => {
+                    total += Number(item.value);
+                }));
+
+                return total;
+            }
+
+            //click checkbox and input dues
+            const totalPayAmount = document.getElementById("total-pay-amount");
+            const totalPayAmountFixed = document.getElementById("grand-total-fixed");
+            const paymentTable = document.getElementById("payment-container");
+
+            paymentTable.addEventListener("input", function (evt) {
+                const element = evt.target;
+
+                if (element.type === "checkbox") {
+                    element.closest("tr").classList.toggle("row-selected");
+
+                    const input = element.closest("tr").querySelector('.due-input');
+                    input.disabled = !element.checked;
+                }
+
+                const total = `Total Amount: <span id="total-amount-pay">${calculateTotal()}</span> Tk`;
+
+                totalPayAmount.innerHTML = total;
+                totalPayAmountFixed.innerHTML = total;
+            });
+        })();
+
+        //paid-record-modal
         function openModal() {
-            $('#myModal').modal('show');
+            $('#paid-record-modal').modal('show');
+
+            //calculate total rows paid amount
+            const paids = document.querySelectorAll(".paid-record-paid-amount");
+            const paidGrandTotal = document.getElementById("paid-record-grand-total");
+
+            let total = 0;
+            paids.forEach((item => {
+                total += Number(item.textContent);
+            }));
+
+            if (paidGrandTotal)
+                paidGrandTotal.textContent = `Total: ${total} tk`;
         }
 
-        function Success() {
-            var e = $('#Msg');
-            e.text("Payment Added Successfully!!");
-            e.fadeIn();
-            e.queue(function () { setTimeout(function () { e.dequeue(); }, 3000); });
-            e.fadeOut('slow');
-        }
 
-        //Working Reuired validator
-        function RFV() {
-            if (Page_ClientValidate('PaY')) {
+        //validate form before submit pay
+        function validateForm() {
+            const isChecked = [...checkboxes].some(item => item.checked);
+
+            if (isChecked) {
                 return true;
             }
+
+            $("#payment-submit").notify("Select payment to pay!", { position: "top left" });
             return false;
         }
 
+        //show sticky bottom grand total
+        $(window).scroll(function () {
+            const totalPayAmount = +document.getElementById("total-amount-pay").textContent;
+            if (totalPayAmount === 0) {
+                $('#grand-total-fixed').fadeOut();
+                return;
+            }
+
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
+                $('#grand-total-fixed').fadeOut();
+            }
+            else {
+                $('#grand-total-fixed').fadeIn();
+            }
+        });
     </script>
 </asp:Content>
