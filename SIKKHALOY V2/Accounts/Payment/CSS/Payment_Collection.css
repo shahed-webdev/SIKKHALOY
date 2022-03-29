@@ -22,6 +22,7 @@
 .curremt-due td { color: #dc0000 }
 .others-payment { background-color: #5fc42a; color: #fff }
 
+.mGrid td { padding: 0.2rem 0.5rem; font-weight: 400; }
 .mGrid tr:nth-child(even) {background: #f6f6f6}
 .mGrid tr:nth-child(odd) {background: #fff}
 
@@ -29,7 +30,6 @@
 #payment-submit { display: none }
 
 .row-selected td { background-color: #1CAA56; color: #fff; font-weight: bold; }
-
 
 #grand-total-fixed {display:none; opacity: 0.95; position: fixed; width: 87%; background: #fff; bottom: 0; box-shadow: 0 0 16px -1px rgba(40, 40, 40, 0.75); margin-left: -15px; text-align: center; font-size: 1.5rem; font-weight: bold; padding: 1.5rem 0; z-index: 999; }
 
