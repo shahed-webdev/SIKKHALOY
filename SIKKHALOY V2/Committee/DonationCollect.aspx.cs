@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Committee
@@ -92,6 +88,13 @@ namespace EDUCATION.COM.Committee
                     Response.Redirect($"./DonationReceipt.aspx?id={ViewState["CommitteeMoneyReceiptId"]}");
                 }
             }
+        }
+
+        protected void Print_LinkButton_Command(object sender, CommandEventArgs e)
+        {
+            string MRid = Convert.ToString(e.CommandArgument);
+            //string Sid = HttpUtility.UrlEncode(Encrypt(StudentInfoFormView.DataKey["ID"].ToString()));
+            //Response.Redirect(string.Format("Money_Receipt.aspx?mN_R={0}&s_icD={1}", MRid, Sid));
         }
     }
 }
