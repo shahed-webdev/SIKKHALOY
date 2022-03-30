@@ -42,6 +42,42 @@ namespace EDUCATION.COM.Committee
         protected global::System.Web.UI.WebControls.Button FindButton;
 
         /// <summary>
+        /// MemberInfoFormView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FormView MemberInfoFormView;
+
+        /// <summary>
+        /// MemberInfoSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource MemberInfoSQL;
+
+        /// <summary>
+        /// PaidRecordGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView PaidRecordGridView;
+
+        /// <summary>
+        /// PRecordSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource PRecordSQL;
+
+        /// <summary>
         /// DonationGridView control.
         /// </summary>
         /// <remarks>
