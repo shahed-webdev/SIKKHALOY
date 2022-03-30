@@ -313,6 +313,7 @@
     <Content Include="Committee\DonationReceipt.aspx" />
     <Content Include="Committee\Donations.aspx" />
     <Content Include="Committee\MemberAdd.aspx" />
+    <Content Include="Committee\PaymentRecord.aspx" />
     <Content Include="CSS\bootstrap-multiselect.css" />
     <Content Include="CSS\bootstrap\bootstrap.css" />
     <Content Include="CSS\Default.css" />
@@ -476,6 +477,7 @@
     <Content Include="API\Attendance_DataSet.xsc">
       <DependentUpon>Attendance_DataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="Student\Notice.aspx" />
     <Content Include="W_Test.aspx" />
     <None Include="API\Attendance_DataSet.xsd">
       <SubType>Designer</SubType>
@@ -1477,6 +1479,13 @@
     <Compile Include="Committee\MemberAdd.aspx.designer.cs">
       <DependentUpon>MemberAdd.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Committee\PaymentRecord.aspx.cs">
+      <DependentUpon>PaymentRecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\PaymentRecord.aspx.designer.cs">
+      <DependentUpon>PaymentRecord.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Cumulativie.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2117,6 +2126,13 @@
     </Compile>
     <Compile Include="Student\Exam\Weekly_Exam.aspx.designer.cs">
       <DependentUpon>Weekly_Exam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Student\Notice.aspx.cs">
+      <DependentUpon>Notice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Student\Notice.aspx.designer.cs">
+      <DependentUpon>Notice.aspx</DependentUpon>
     </Compile>
     <Compile Include="Student\SMS_Inbox.aspx.cs">
       <DependentUpon>SMS_Inbox.aspx</DependentUpon>

@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3 class="d-flex justify-content-between align-items-center py-0">Donations
-        <a class="btn btn-dark" href="DonationAdd.aspx">Add Donation</a>
+        <a class="btn btn-dark d-print-none" href="DonationAdd.aspx">Add Donation</a>
     </h3>
 
     <div class="d-flex align-items-center">
@@ -20,74 +20,54 @@
                 </SelectParameters>
             </asp:SqlDataSource>
         </div>
-        <div class="form-group ml-4">
+        <div class="form-group mx-4">
             <label>Donation Category</label>
             <asp:DropDownList ID="DonationCategoryDownList" required="" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId">
                 <asp:ListItem Value="">[ All ]</asp:ListItem>
             </asp:DropDownList>
         </div>
         <div class="form-group">
+            <label>Payment Status</label>
             <asp:RadioButtonList ID="PDRadioButtonList" CssClass="form-control" runat="server" RepeatDirection="Horizontal" AutoPostBack="True">
                 <asp:ListItem Selected="True" Value="%">All</asp:ListItem>
                 <asp:ListItem Value="1">Paid</asp:ListItem>
                 <asp:ListItem Value="0">Due</asp:ListItem>
             </asp:RadioButtonList>
         </div>
-        
-                    <asp:FormView ID="TotalFormView" runat="server" DataSourceID="TotalSQL" Width="100%">
-                        <EditItemTemplate>
-                            Total:
-                            <asp:TextBox ID="TotalTextBox" runat="server" Text='<%# Bind("Total") %>' />
-                            <br />
-                            Paid:
-                            <asp:TextBox ID="PaidTextBox" runat="server" Text='<%# Bind("Paid") %>' />
-                            <br />
-                            Due:
-                            <asp:TextBox ID="DueTextBox" runat="server" Text='<%# Bind("Due") %>' />
-                            <br />
-                            <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
-                            &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
-                        </EditItemTemplate>
-                        <InsertItemTemplate>
-                            Total:
-                            <asp:TextBox ID="TotalTextBox" runat="server" Text='<%# Bind("Total") %>' />
-                            <br />
-                            Paid:
-                            <asp:TextBox ID="PaidTextBox" runat="server" Text='<%# Bind("Paid") %>' />
-                            <br />
-                            Due:
-                            <asp:TextBox ID="DueTextBox" runat="server" Text='<%# Bind("Due") %>' />
-                            <br />
-                            <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" CommandName="Insert" Text="Insert" />
-                            &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
-                        </InsertItemTemplate>
-                <ItemTemplate>
-                    Total:
-                    <asp:Label ID="TotalLabel" runat="server" Text='<%# Bind("Total") %>' />
-                    <br />
-                    Paid:
-                    <asp:Label ID="PaidLabel" runat="server" Text='<%# Bind("Paid") %>' />
-                    <br />
-                    Due:
-                    <asp:Label ID="DueLabel" runat="server" Text='<%# Bind("Due") %>' />
-                    <br />
-                </ItemTemplate>
-            </asp:FormView>
-            <asp:SqlDataSource ID="TotalSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT SUM(ISNULL(Amount, 0)) AS Total, SUM(ISNULL(PaidAmount, 0)) AS Paid, SUM(ISNULL(Due, 0)) AS Due FROM CommitteeDonation WHERE (SchoolID = @SchoolID) AND (IsPaid LIKE @IsPaid)"
-                CancelSelectOnNullParameter="False">
-                <SelectParameters>
-                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-                    <asp:ControlParameter ControlID="PDRadioButtonList" Name="IsPaid" PropertyName="SelectedValue" />
-                </SelectParameters>
-            </asp:SqlDataSource>
     </div>
+
+    <asp:FormView ID="TotalFormView" runat="server" DataSourceID="TotalSQL" RenderOuterTable="false">
+        <ItemTemplate>
+            <div class="d-flex align-items-center font-weight-bold">
+                <div>
+                    Total: ৳<%# Eval("Total") %></div>
+                <div class="mx-3">
+                    Paid: ৳<%# Eval("Paid") %></div>
+                <div>
+                    Due: ৳<%# Eval("Due") %></div>
+            </div>
+        </ItemTemplate>
+    </asp:FormView>
+    <asp:SqlDataSource ID="TotalSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT SUM(ISNULL(Amount, 0)) AS Total, SUM(ISNULL(PaidAmount, 0)) AS Paid, SUM(ISNULL(Due, 0)) AS Due FROM CommitteeDonation WHERE (SchoolID = @SchoolID) AND (IsPaid LIKE @IsPaid)"
+        CancelSelectOnNullParameter="False">
+        <SelectParameters>
+            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+            <asp:ControlParameter ControlID="PDRadioButtonList" Name="IsPaid" PropertyName="SelectedValue" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
 
     <div class="table-responsive mt-2">
         <asp:GridView ID="DonationGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeDonationId" DataSourceID="AddDonationSQL">
             <Columns>
-                <asp:BoundField DataField="MemberName" HeaderText="MemberName" ReadOnly="True" SortExpression="MemberName" />
-                <asp:BoundField DataField="CommitteeMemberType" HeaderText="CommitteeMemberType" ReadOnly="True" SortExpression="CommitteeMemberType" />
-                <asp:BoundField DataField="SmsNumber" HeaderText="SmsNumber" ReadOnly="True" SortExpression="SmsNumber" />
+                <asp:TemplateField HeaderText="Name" SortExpression="MemberName">
+                    <ItemTemplate>
+                        <strong class="d-block"><%# Eval("MemberName") %></strong>
+                        <small><%# Eval("CommitteeMemberType") %></small>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:BoundField DataField="SmsNumber" HeaderText="Sms Number" ReadOnly="True" SortExpression="SmsNumber" />
                 <asp:TemplateField HeaderText="Donation Category" SortExpression="Amount">
                     <EditItemTemplate>
                         <asp:DropDownList ID="EditCategoryDownList" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId" SelectedValue='<%# Bind("CommitteeDonationCategoryId") %>'>
@@ -136,8 +116,16 @@
                     <ItemTemplate>
                         <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
                     </ItemTemplate>
+                    <HeaderStyle CssClass="d-print-none" />
+                    <ItemStyle CssClass="d-print-none" />
                 </asp:TemplateField>
-                <asp:CommandField HeaderText="Delete" ShowDeleteButton="True" />
+                <asp:TemplateField HeaderText="Delete" ShowHeader="False">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"></asp:LinkButton>
+                    </ItemTemplate>
+                    <HeaderStyle CssClass="d-print-none" />
+                    <ItemStyle CssClass="d-print-none" />
+                </asp:TemplateField>
             </Columns>
         </asp:GridView>
     </div>

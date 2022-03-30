@@ -92,7 +92,7 @@ WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (Class
         </asp:SqlDataSource>
     </div>
 
-        <script>
+    <script>
         $(function () {
             $("#_6").addClass("active");
         });

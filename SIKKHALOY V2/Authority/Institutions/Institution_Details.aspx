@@ -402,8 +402,6 @@ DELETE FROM Income_MoneyReceipt WHERE (SchoolID = @SchoolID) AND (MoneyReceipt_S
 
     <script>
         $(function () {
-            $(".Datetime").datepick();
-
             if ($("[id*=NewInvoiceGridView] tr").length) {
                 $(".Show").show();
             }

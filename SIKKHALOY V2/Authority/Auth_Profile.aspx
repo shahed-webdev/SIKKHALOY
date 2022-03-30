@@ -8,7 +8,6 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-
     <div class="form-inline">
         <div class="md-form">
             <asp:TextBox ID="SearchTextBox" placeholder="Institution, Username" CssClass="form-control" runat="server"></asp:TextBox>

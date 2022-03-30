@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Student {
-    
-    
-    public partial class Student_Profile {
-        
+namespace EDUCATION.COM.Student
+{
+
+
+    public partial class Student_Profile
+    {
+
         /// <summary>
         /// GuardianFormView control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView GuardianFormView;
-        
+
         /// <summary>
         /// GuardianSQL control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource GuardianSQL;
-        
+
         /// <summary>
         /// BestSubFormView control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView BestSubFormView;
-        
+
         /// <summary>
         /// BestSubSQL control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource BestSubSQL;
-        
+
         /// <summary>
         /// WeakFormView control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView WeakFormView;
-        
+
         /// <summary>
         /// WeakSQL control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource WeakSQL;
-        
+
         /// <summary>
         /// SubjectAvgRepeater control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater SubjectAvgRepeater;
-        
+
         /// <summary>
         /// SubjectAvgSQL control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SubjectAvgSQL;
-        
+
         /// <summary>
         /// LastStatusFormView control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView LastStatusFormView;
-        
+
         /// <summary>
         /// LastStatusSQL control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource LastStatusSQL;
-        
+
         /// <summary>
         /// Acc_SummeryFormView control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView Acc_SummeryFormView;
-        
+
         /// <summary>
         /// Acc_SummerySQL control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Acc_SummerySQL;
-        
+
         /// <summary>
         /// StdentAvgFormView control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView StdentAvgFormView;
-        
+
         /// <summary>
         /// StudentAvgSQL control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource StudentAvgSQL;
-        
+
         /// <summary>
         /// SessionSuccessRepeater control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater SessionSuccessRepeater;
-        
+
         /// <summary>
         /// SessionSuccessSQL control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SessionSuccessSQL;
-        
+
         /// <summary>
         /// EduYearDropDownList control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList EduYearDropDownList;
-        
+
         /// <summary>
         /// EduYearSQL control.
         /// </summary>

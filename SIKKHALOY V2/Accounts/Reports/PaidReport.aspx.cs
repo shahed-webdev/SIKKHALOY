@@ -11,7 +11,7 @@ namespace EDUCATION.COM.Accounts.Reports
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (!IsPostBack)
             {
                 FormDateTextBox.Text = DateTime.Now.ToString("d MMM yyyy");
                 ToDateTextBox.Text = DateTime.Now.ToString("d MMM yyyy");
