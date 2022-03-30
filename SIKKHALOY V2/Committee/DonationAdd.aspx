@@ -18,8 +18,7 @@
                     <asp:TextBox ID="FindDonarTextBox" autocomplete="off" runat="server" CssClass="form-control" required=""></asp:TextBox>
                     <asp:HiddenField ID="HiddenCommitteeMemberId" runat="server" />
                     <div id="donar-info"></div>
-                </div>
-                
+                </div>             
                 <div class="form-group">
                     <label>
                         Donation Category
@@ -35,35 +34,28 @@
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
-
                 <div class="form-group">
                     <label>Donation Amount</label>
                     <asp:TextBox ID="DonationAmountTextBox" onchange="setMaxPaidAmount()" min="0.01" step="0.01" type="number" runat="server" CssClass="form-control" required=""></asp:TextBox>
                 </div>
-
                 <div class="form-group">
                     <label>Descriptions</label>
                     <asp:TextBox ID="DescriptionsTextBox" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
-
                 <div class="form-group">
                     <label>Promised Date</label>
                     <asp:TextBox ID="PromisedDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker"></asp:TextBox>
                 </div>
-
                 <div class="form-group">
                     <label>Paid Amount</label>
                     <asp:TextBox ID="PaidAmountTextBox" autocomplete="off" min="1" step="0.01" oninput="onChangePaidAmount(this)" type="number" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
-
                 <div class="form-group">
                     <label>Paid Date</label>
                     <asp:TextBox ID="PaidDateTextBox" autocomplete="off" runat="server" CssClass="form-control date-picker" disabled=""></asp:TextBox>
                 </div>
-
                 <div class="form-group">
                     <label>Account</label>
-
                     <asp:DropDownList ID="AccountDropDownList" runat="server" CssClass="form-control" DataSourceID="AccountSQL" DataTextField="AccountName" DataValueField="AccountID">
                     </asp:DropDownList>
 
@@ -73,7 +65,6 @@
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
-
                 <div class="mt-4">
                     <asp:Button ID="SubmitButton" OnClientClick="return isValidForm()" OnClick="SubmitButton_Click" runat="server" CssClass="btn btn-primary m-0" Text="Submit" />
 

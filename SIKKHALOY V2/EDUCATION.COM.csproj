@@ -314,6 +314,7 @@
     <Content Include="Committee\Donations.aspx" />
     <Content Include="Committee\MemberAdd.aspx" />
     <Content Include="Committee\PaymentRecord.aspx" />
+    <Content Include="Committee\SendSMS.aspx" />
     <Content Include="CSS\bootstrap-multiselect.css" />
     <Content Include="CSS\bootstrap\bootstrap.css" />
     <Content Include="CSS\Default.css" />
@@ -1486,6 +1487,13 @@
     </Compile>
     <Compile Include="Committee\PaymentRecord.aspx.designer.cs">
       <DependentUpon>PaymentRecord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Committee\SendSMS.aspx.cs">
+      <DependentUpon>SendSMS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Committee\SendSMS.aspx.designer.cs">
+      <DependentUpon>SendSMS.aspx</DependentUpon>
     </Compile>
     <Compile Include="Cumulativie.Designer.cs">
       <AutoGen>True</AutoGen>
