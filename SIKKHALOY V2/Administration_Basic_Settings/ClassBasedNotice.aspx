@@ -34,7 +34,8 @@
                         VALUES (@RegistrationId, @SchoolId, @EducationYearId, @NoticeTitle, @Notice);
                         SELECT @StudentNoticeId = SCOPE_IDENTITY();"
                         SelectCommand="SELECT StudentNoticeId, NoticeTitle, Notice FROM StudentNotice WHERE (SchoolId = @SchoolId)"
-                        DeleteCommand="DELETE FROM [StudentNotice] WHERE [StudentNoticeId] = @StudentNoticeId" OnInserted="StudentNoticeSQL_Inserted">
+                        DeleteCommand="DELETE  FROM  StudentNoticeClass WHERE (StudentNoticeId = @StudentNoticeId)
+DELETE FROM [StudentNotice] WHERE [StudentNoticeId] = @StudentNoticeId" OnInserted="StudentNoticeSQL_Inserted">
                         <DeleteParameters>
                             <asp:Parameter Name="StudentNoticeId" Type="Int32" />
                         </DeleteParameters>
@@ -44,7 +45,7 @@
                             <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" Type="Int32" />
                             <asp:ControlParameter ControlID="NoticeTitleTextBox" Name="NoticeTitle" PropertyName="Text" Type="String" />
                             <asp:ControlParameter ControlID="NoticeTextBox" Name="Notice" PropertyName="Text" Type="String" />
-                            <asp:Parameter Direction="Output" Name="StudentNoticeId" Size="50" />
+                            <asp:Parameter Name="StudentNoticeId" />
                         </InsertParameters>
                         <SelectParameters>
                             <asp:SessionParameter Name="SchoolId" SessionField="SchoolId" />
@@ -65,6 +66,24 @@
                     <Columns>
                         <asp:BoundField DataField="NoticeTitle" HeaderText="Notice Title" SortExpression="NoticeTitle" />
                         <asp:BoundField DataField="Notice" HeaderText="Notice" SortExpression="Notice" />
+                        <asp:TemplateField HeaderText="Classes">
+                            <ItemTemplate>
+                                <asp:HiddenField ID="IdHiddenField" runat="server" Value='<%# Eval("StudentNoticeId") %>' />
+                                <asp:DataList ID="ClassDataList" runat="server" DataSourceID="ClassSQL">
+                                    <ItemTemplate>
+                                        Class:
+                                        <asp:Label ID="ClassLabel" runat="server" Text='<%# Eval("Class") %>' />
+                                        <br />
+                                        <br />
+                                    </ItemTemplate>
+                                </asp:DataList>
+                                <asp:SqlDataSource ID="ClassSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CreateClass.Class FROM StudentNoticeClass INNER JOIN CreateClass ON StudentNoticeClass.ClassId = CreateClass.ClassID WHERE (StudentNoticeClass.StudentNoticeId = @StudentNoticeId) ORDER BY CreateClass.SN">
+                                    <SelectParameters>
+                                        <asp:ControlParameter ControlID="IdHiddenField" Name="StudentNoticeId" PropertyName="Value" />
+                                    </SelectParameters>
+                                </asp:SqlDataSource>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:CommandField HeaderText="Delete" ShowDeleteButton="True" />
                     </Columns>
                 </asp:GridView>
