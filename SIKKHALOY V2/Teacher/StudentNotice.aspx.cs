@@ -5,15 +5,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace EDUCATION.COM.Administration_Basic_Settings
+namespace EDUCATION.COM.Teacher
 {
-    public partial class ClassBasedNotice : System.Web.UI.Page
+    public partial class StudentNotice : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
-
         protected void NoticeButton_Click(object sender, EventArgs e)
         {
             //cehck

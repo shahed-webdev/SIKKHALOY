@@ -1,5 +1,4 @@
-﻿<%@ Page Title="Class Based Notice" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="ClassBasedNotice.aspx.cs" Inherits="EDUCATION.COM.Administration_Basic_Settings.ClassBasedNotice" %>
-
+﻿<%@ Page Title="Student Notice" Language="C#" MasterPageFile="~/Basic_Teacher.Master" AutoEventWireup="true" CodeBehind="StudentNotice.aspx.cs" Inherits="EDUCATION.COM.Teacher.StudentNotice" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -33,9 +32,9 @@
                         InsertCommand="INSERT INTO [StudentNotice] ([RegistrationId], [SchoolId], [EducationYearId], [NoticeTitle], [Notice]) 
                         VALUES (@RegistrationId, @SchoolId, @EducationYearId, @NoticeTitle, @Notice);
                         SELECT @StudentNoticeId = SCOPE_IDENTITY();"
-                        SelectCommand="SELECT StudentNoticeId, NoticeTitle, Notice FROM StudentNotice WHERE (SchoolId = @SchoolId) AND (EducationYearId = @EducationYearId)"
-                        DeleteCommand="DELETE  FROM  StudentNoticeClass WHERE (StudentNoticeId = @StudentNoticeId)
-                        DELETE FROM [StudentNotice] WHERE [StudentNoticeId] = @StudentNoticeId"
+                        SelectCommand="SELECT StudentNoticeId, NoticeTitle, Notice, EducationYearId FROM StudentNotice WHERE (SchoolId = @SchoolId) AND (RegistrationId = @RegistrationId) AND (EducationYearId = @EducationYearId)"
+                        DeleteCommand="DELETE FROM StudentNoticeClass WHERE (StudentNoticeId = @StudentNoticeId) 
+                        DELETE FROM [StudentNotice] WHERE [StudentNoticeId] = @StudentNoticeId" 
                         OnInserted="StudentNoticeSQL_Inserted">
                         <DeleteParameters>
                             <asp:Parameter Name="StudentNoticeId" Type="Int32" />
@@ -50,6 +49,7 @@
                         </InsertParameters>
                         <SelectParameters>
                             <asp:SessionParameter Name="SchoolId" SessionField="SchoolId" />
+                            <asp:SessionParameter Name="RegistrationId" SessionField="RegistrationID" />
                             <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
                         </SelectParameters>
                     </asp:SqlDataSource>
@@ -89,4 +89,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(function () {
+            $("#_7").addClass("active");
+        });
+    </script>
 </asp:Content>

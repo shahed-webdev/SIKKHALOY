@@ -8,8 +8,8 @@
     <div class="d-flex align-items-center">
         <div class="form-group">
             <label>Committee Member</label>
-            <asp:DropDownList ID="CommitteeMemberDropDownList" required="" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CommitteeMemberSQL" DataTextField="MemberName" DataValueField="CommitteeMemberId">
-                <asp:ListItem Value="">[ All ]</asp:ListItem>
+            <asp:DropDownList ID="CommitteeMemberDropDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CommitteeMemberSQL" DataTextField="MemberName" DataValueField="CommitteeMemberId">
+                <asp:ListItem Value="%">[ All ]</asp:ListItem>
             </asp:DropDownList>
             <asp:SqlDataSource ID="CommitteeMemberSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                 SelectCommand="SELECT CommitteeMemberId, MemberName FROM CommitteeMember WHERE (SchoolID = @SchoolID)">
