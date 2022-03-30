@@ -33,12 +33,13 @@
             <div class="alert alert-success">
                 <asp:Label ID="AmountLabel" runat="server" Font-Bold="True" Font-Size="Large"></asp:Label>
                 <asp:SqlDataSource ID="ViewIncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                    SelectCommand="SELECT ISNULL(SUM(Extra_IncomeAmount), 0) AS Amount FROM [Extra_Income] WHERE (SchoolID = @SchoolID) AND ((Extra_IncomeCategoryID = @Extra_IncomeCategoryID) or ( @Extra_IncomeCategoryID = 0))  AND ((Extra_IncomeDate BETWEEN @Fdate AND @TDate) OR ((@Fdate = '1-1-1760') AND (@TDate = '1-1-1760')))" ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>">
+                    SelectCommand="SELECT ISNULL(SUM(Extra_IncomeAmount), 0) AS Amount FROM Extra_Income WHERE (SchoolID = @SchoolID) AND (Extra_IncomeCategoryID = @Extra_IncomeCategoryID) AND (Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (EducationYearID = @EducationYearID) OR (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (EducationYearID = @EducationYearID) AND (@Extra_IncomeCategoryID = 0)" ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>" CancelSelectOnNullParameter="False">
                     <SelectParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                         <asp:ControlParameter ControlID="FindCategoryDropDownList" Name="Extra_IncomeCategoryID" PropertyName="SelectedValue" />
-                        <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="1-1-1760" Name="Fdate" PropertyName="Text" />
-                        <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="1-1-1760" Name="TDate" PropertyName="Text" />
+                        <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="" Name="Fdate" PropertyName="Text" />
+                        <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="" Name="TDate" PropertyName="Text" />
+                        <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                     </SelectParameters>
                 </asp:SqlDataSource>
             </div>
@@ -98,34 +99,34 @@
                 <asp:SqlDataSource ID="ExtraIncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                     DeleteCommand="SET context_info @RegistrationID DELETE FROM [Extra_Income] WHERE [Extra_IncomeID] = @Extra_IncomeID"
                     InsertCommand="INSERT INTO Extra_Income(SchoolID, RegistrationID, Extra_IncomeCategoryID, Extra_IncomeAmount, Extra_IncomeFor, AccountID, EducationYearID, Extra_IncomeDate) VALUES (@SchoolID, @RegistrationID, @Extra_IncomeCategoryID, @Extra_IncomeAmount, @Extra_IncomeFor, @AccountID, @EducationYearID, @Extra_IncomeDate)"
-                    SelectCommand="SELECT Extra_Income.Extra_IncomeAmount, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeDate, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeID FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID = @Extra_IncomeCategoryID OR @Extra_IncomeCategoryID = 0) AND (Extra_Income.Extra_IncomeDate BETWEEN @Fdate AND @TDate) OR (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID = @Extra_IncomeCategoryID OR @Extra_IncomeCategoryID = 0) AND (@Fdate = '1-1-1760') AND (@TDate = '1-1-1760') ORDER BY Extra_Income.Insert_Date DESC"
-                    UpdateCommand="SET context_info @RegistrationID UPDATE Extra_Income SET Extra_IncomeAmount = @Extra_IncomeAmount, Extra_IncomeFor = @Extra_IncomeFor WHERE (Extra_IncomeID = @Extra_IncomeID)"
-                    ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>">
+                    SelectCommand="SELECT Extra_Income.Extra_IncomeAmount, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeDate, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeID, Extra_Income.EducationYearID FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID = @Extra_IncomeCategoryID) AND (Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (Extra_Income.EducationYearID = @EducationYearID) OR (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (Extra_Income.EducationYearID = @EducationYearID) AND (@Extra_IncomeCategoryID = 0) ORDER BY Extra_Income.Insert_Date DESC"
+                    UpdateCommand="SET context_info @RegistrationID UPDATE Extra_Income SET Extra_IncomeAmount = @Extra_IncomeAmount, Extra_IncomeFor = @Extra_IncomeFor WHERE (Extra_IncomeID = @Extra_IncomeID)" CancelSelectOnNullParameter="False">
                     <DeleteParameters>
-                        <asp:Parameter Name="Extra_IncomeID" Type="Int32" />
                         <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
+                        <asp:Parameter Name="Extra_IncomeID" Type="Int32" />
                     </DeleteParameters>
                     <InsertParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
                         <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
                         <asp:ControlParameter ControlID="CategoryDropDownList" Name="Extra_IncomeCategoryID" PropertyName="SelectedValue" Type="Int32" />
-                        <asp:ControlParameter ControlID="AccountDropDownList" Name="AccountID" PropertyName="SelectedValue" />
                         <asp:ControlParameter ControlID="AmountTextBox" Name="Extra_IncomeAmount" PropertyName="Text" Type="Double" />
                         <asp:ControlParameter ControlID="IncomeForTextBox" Name="Extra_IncomeFor" PropertyName="Text" Type="String" />
+                        <asp:ControlParameter ControlID="AccountDropDownList" Name="AccountID" PropertyName="SelectedValue" />
                         <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                         <asp:ControlParameter ControlID="Payment_Date_TextBox" Name="Extra_IncomeDate" PropertyName="Text" />
                     </InsertParameters>
                     <SelectParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                         <asp:ControlParameter ControlID="FindCategoryDropDownList" Name="Extra_IncomeCategoryID" PropertyName="SelectedValue" DefaultValue="" />
-                        <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="1-1-1760" Name="Fdate" PropertyName="Text" />
-                        <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="1-1-1760" Name="TDate" PropertyName="Text" />
+                        <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="" Name="Fdate" PropertyName="Text" />
+                        <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="" Name="TDate" PropertyName="Text" />
+                        <asp:SessionParameter DefaultValue="" Name="EducationYearID" SessionField="Edu_Year" />
                     </SelectParameters>
                     <UpdateParameters>
+                        <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
                         <asp:Parameter Name="Extra_IncomeAmount" Type="Double" />
                         <asp:Parameter Name="Extra_IncomeFor" Type="String" />
                         <asp:Parameter Name="Extra_IncomeID" Type="Int32" />
-                        <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
                     </UpdateParameters>
                 </asp:SqlDataSource>
             </div>

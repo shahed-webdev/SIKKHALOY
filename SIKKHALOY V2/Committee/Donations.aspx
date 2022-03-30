@@ -26,6 +26,60 @@
                 <asp:ListItem Value="">[ All ]</asp:ListItem>
             </asp:DropDownList>
         </div>
+        <div class="form-group">
+            <asp:RadioButtonList ID="PDRadioButtonList" CssClass="form-control" runat="server" RepeatDirection="Horizontal" AutoPostBack="True">
+                <asp:ListItem Selected="True" Value="%">All</asp:ListItem>
+                <asp:ListItem Value="1">Paid</asp:ListItem>
+                <asp:ListItem Value="0">Due</asp:ListItem>
+            </asp:RadioButtonList>
+        </div>
+        
+                    <asp:FormView ID="TotalFormView" runat="server" DataSourceID="TotalSQL" Width="100%">
+                        <EditItemTemplate>
+                            Total:
+                            <asp:TextBox ID="TotalTextBox" runat="server" Text='<%# Bind("Total") %>' />
+                            <br />
+                            Paid:
+                            <asp:TextBox ID="PaidTextBox" runat="server" Text='<%# Bind("Paid") %>' />
+                            <br />
+                            Due:
+                            <asp:TextBox ID="DueTextBox" runat="server" Text='<%# Bind("Due") %>' />
+                            <br />
+                            <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
+                            &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                            Total:
+                            <asp:TextBox ID="TotalTextBox" runat="server" Text='<%# Bind("Total") %>' />
+                            <br />
+                            Paid:
+                            <asp:TextBox ID="PaidTextBox" runat="server" Text='<%# Bind("Paid") %>' />
+                            <br />
+                            Due:
+                            <asp:TextBox ID="DueTextBox" runat="server" Text='<%# Bind("Due") %>' />
+                            <br />
+                            <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" CommandName="Insert" Text="Insert" />
+                            &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
+                        </InsertItemTemplate>
+                <ItemTemplate>
+                    Total:
+                    <asp:Label ID="TotalLabel" runat="server" Text='<%# Bind("Total") %>' />
+                    <br />
+                    Paid:
+                    <asp:Label ID="PaidLabel" runat="server" Text='<%# Bind("Paid") %>' />
+                    <br />
+                    Due:
+                    <asp:Label ID="DueLabel" runat="server" Text='<%# Bind("Due") %>' />
+                    <br />
+                </ItemTemplate>
+            </asp:FormView>
+            <asp:SqlDataSource ID="TotalSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT SUM(ISNULL(Amount, 0)) AS Total, SUM(ISNULL(PaidAmount, 0)) AS Paid, SUM(ISNULL(Due, 0)) AS Due FROM CommitteeDonation WHERE (SchoolID = @SchoolID) AND (IsPaid LIKE @IsPaid)"
+                CancelSelectOnNullParameter="False">
+                <SelectParameters>
+                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                    <asp:ControlParameter ControlID="PDRadioButtonList" Name="IsPaid" PropertyName="SelectedValue" />
+                </SelectParameters>
+            </asp:SqlDataSource>
     </div>
 
     <div class="table-responsive mt-2">
@@ -89,7 +143,7 @@
     </div>
 
     <asp:SqlDataSource ID="AddDonationSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMemberType.CommitteeMemberType FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId INNER JOIN CommitteeMember ON CommitteeDonation.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId LIKE @CommitteeMemberId) AND (CommitteeDonation.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)"
+        SelectCommand="SELECT CommitteeDonation.CommitteeDonationId, CommitteeDonation.CommitteeDonationCategoryId, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Amount, CommitteeDonation.PaidAmount, CommitteeDonation.Due, CommitteeDonation.IsPaid, CommitteeDonation.Description, CommitteeDonation.InsertDate, CommitteeDonation.PromiseDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMemberType.CommitteeMemberType FROM CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId INNER JOIN CommitteeMember ON CommitteeDonation.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId WHERE (CommitteeDonation.SchoolID = @SchoolID) AND (CommitteeDonation.CommitteeMemberId LIKE @CommitteeMemberId) AND (CommitteeDonation.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId) AND (CommitteeDonation.IsPaid LIKE @IsPaid)"
         DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)"
         UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
         <DeleteParameters>
@@ -99,6 +153,7 @@
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
             <asp:ControlParameter ControlID="CommitteeMemberDropDownList" DefaultValue="%" Name="CommitteeMemberId" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="DonationCategoryDownList" DefaultValue="%" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="PDRadioButtonList" Name="IsPaid" PropertyName="SelectedValue" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter Name="CommitteeDonationCategoryId" />
