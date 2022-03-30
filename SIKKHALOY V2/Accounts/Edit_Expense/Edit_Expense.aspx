@@ -97,16 +97,22 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:CommandField ShowEditButton="True" HeaderText="Edit">
-                                <HeaderStyle CssClass="NoPrint" />
-                                <ItemStyle HorizontalAlign="Center" Width="50" CssClass="NoPrint" />
+                                <HeaderStyle CssClass="d-print-none" />
+                                <ItemStyle HorizontalAlign="Center" Width="50" CssClass="d-print-none" />
                             </asp:CommandField>
-
                             <asp:TemplateField HeaderText="Delete" ShowHeader="False">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="ImageButton1" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure want to delete permanently?')" />
                                 </ItemTemplate>
-                                <HeaderStyle CssClass="NoPrint" />
-                                <ItemStyle HorizontalAlign="Center" Width="50px" CssClass="NoPrint" />
+                                <HeaderStyle CssClass="d-print-none" />
+                                <ItemStyle HorizontalAlign="Center" Width="50px" CssClass="d-print-none" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Receipt">
+                                <ItemTemplate>
+                                    <a href="../Expense/ExpenseReceipt.aspx?id=<%# Eval("ExpenseID") %>">Receipt</a>
+                                </ItemTemplate>
+                                <HeaderStyle CssClass="d-print-none" />
+                                <ItemStyle CssClass="d-print-none" />
                             </asp:TemplateField>
                         </Columns>
                         <FooterStyle CssClass="GridFooter" />

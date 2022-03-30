@@ -64,7 +64,7 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="Extra_IncomeDate" HeaderText="Date" SortExpression="Extra_IncomeDate" DataFormatString="{0:d MMM yyyy}" ReadOnly="True" />
-                        <asp:TemplateField>
+                        <asp:TemplateField HeaderText="Edit">
                             <EditItemTemplate>
                                 <asp:LinkButton ID="UpdateLinkButton" runat="server" CausesValidation="True" CommandName="Update" Text="Updete"></asp:LinkButton>
                                 &nbsp;<asp:LinkButton ID="CancelLinkButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
@@ -72,15 +72,22 @@
                             <ItemTemplate>
                                 <asp:LinkButton ID="EditLinkButton" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
                             </ItemTemplate>
-                            <HeaderStyle CssClass="No_Print" />
-                            <ItemStyle Width="70px" CssClass="No_Print" />
+                            <HeaderStyle CssClass="d-print-none" />
+                            <ItemStyle Width="70px" CssClass="d-print-none" />
                         </asp:TemplateField>
-                        <asp:TemplateField>
+                        <asp:TemplateField HeaderText="Delete">
                             <ItemTemplate>
                                 <asp:LinkButton ID="DeleteLinkButton" runat="server" CausesValidation="False" OnClientClick="return confirm('Are You Sure Want To Delete?')" CommandName="Delete" Text="Delete"></asp:LinkButton>
                             </ItemTemplate>
-                            <HeaderStyle CssClass="No_Print" />
-                            <ItemStyle Width="40px" CssClass="No_Print" />
+                            <HeaderStyle CssClass="d-print-none" />
+                            <ItemStyle Width="40px" CssClass="d-print-none" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Receipt">
+                            <ItemTemplate>
+                                <a href="./Others_Payment_Receipt.aspx?id=<%# Eval("Extra_IncomeID") %>">Receipt</a>
+                            </ItemTemplate>
+                             <HeaderStyle CssClass="d-print-none" />
+                            <ItemStyle CssClass="d-print-none" />
                         </asp:TemplateField>
                     </Columns>
                     <EmptyDataTemplate>
@@ -89,12 +96,10 @@
                     <PagerStyle CssClass="pgr" />
                 </asp:GridView>
                 <asp:SqlDataSource ID="ExtraIncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                    DeleteCommand="set context_info @RegistrationID
-DELETE FROM [Extra_Income] WHERE [Extra_IncomeID] = @Extra_IncomeID"
+                    DeleteCommand="SET context_info @RegistrationID DELETE FROM [Extra_Income] WHERE [Extra_IncomeID] = @Extra_IncomeID"
                     InsertCommand="INSERT INTO Extra_Income(SchoolID, RegistrationID, Extra_IncomeCategoryID, Extra_IncomeAmount, Extra_IncomeFor, AccountID, EducationYearID, Extra_IncomeDate) VALUES (@SchoolID, @RegistrationID, @Extra_IncomeCategoryID, @Extra_IncomeAmount, @Extra_IncomeFor, @AccountID, @EducationYearID, @Extra_IncomeDate)"
                     SelectCommand="SELECT Extra_Income.Extra_IncomeAmount, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeDate, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeID FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID = @Extra_IncomeCategoryID OR @Extra_IncomeCategoryID = 0) AND (Extra_Income.Extra_IncomeDate BETWEEN @Fdate AND @TDate) OR (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID = @Extra_IncomeCategoryID OR @Extra_IncomeCategoryID = 0) AND (@Fdate = '1-1-1760') AND (@TDate = '1-1-1760') ORDER BY Extra_Income.Insert_Date DESC"
-                    UpdateCommand="set context_info @RegistrationID
-UPDATE Extra_Income SET Extra_IncomeAmount = @Extra_IncomeAmount, Extra_IncomeFor = @Extra_IncomeFor WHERE (Extra_IncomeID = @Extra_IncomeID)"
+                    UpdateCommand="SET context_info @RegistrationID UPDATE Extra_Income SET Extra_IncomeAmount = @Extra_IncomeAmount, Extra_IncomeFor = @Extra_IncomeFor WHERE (Extra_IncomeID = @Extra_IncomeID)"
                     ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>">
                     <DeleteParameters>
                         <asp:Parameter Name="Extra_IncomeID" Type="Int32" />
@@ -132,7 +137,7 @@ UPDATE Extra_Income SET Extra_IncomeAmount = @Extra_IncomeAmount, Extra_IncomeFo
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                 <div class="modal-header">
+                <div class="modal-header">
                     <div class="title">Add Category</div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>

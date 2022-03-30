@@ -72,6 +72,13 @@
                             <asp:BoundField DataField="Amount" HeaderText="Amount" SortExpression="Amount" />
                             <asp:BoundField DataField="ExpenseFor" HeaderText="Expense Reason" SortExpression="ExpenseFor" />
                             <asp:BoundField DataField="ExpenseDate" HeaderText="Expense Date" SortExpression="ExpenseDate" ReadOnly="True" DataFormatString="{0:d MMM yyyy}" />
+                            <asp:TemplateField HeaderText="Receipt">
+                                <ItemTemplate>
+                                    <a href="ExpenseReceipt.aspx?id=<%# Eval("ExpenseID") %>">Receipt</a>
+                                </ItemTemplate>
+                                 <HeaderStyle CssClass="d-print-none" />
+                            <ItemStyle CssClass="d-print-none" />
+                            </asp:TemplateField>
                         </Columns>
                         <FooterStyle CssClass="GridFooter" />
                     </asp:GridView>

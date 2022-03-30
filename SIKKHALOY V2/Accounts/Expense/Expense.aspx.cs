@@ -10,18 +10,20 @@ namespace EDUCATION.COM.ACCOUNTS.Expense
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (!IsPostBack)
             {
                 SelectedAccount();
             }
         }
 
+        //add category
         protected void AddCategoryButton_Click(object sender, EventArgs e)
         {
             CategorySQL.Insert();
             ExCategoryGridView.DataBind();
             CategoryNameTextBox.Text = string.Empty;
         }
+
         protected void ExCategoryGridView_RowDeleted(object sender, GridViewDeletedEventArgs e)
         {
             if (e.Exception != null)
@@ -31,7 +33,7 @@ namespace EDUCATION.COM.ACCOUNTS.Expense
             }
         }
 
-
+        //add expense
         protected void SubmitButton_Click(object sender, EventArgs e)
         {
             try
@@ -52,6 +54,7 @@ namespace EDUCATION.COM.ACCOUNTS.Expense
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Paid Amount Greater than Account Balance')", true);
             }
         }
+        
         protected void SelectedAccount()
         {
             try

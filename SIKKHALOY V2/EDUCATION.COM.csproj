@@ -157,6 +157,7 @@
     <Content Include="Accounts\Edit_Expense\Edit_Expense.aspx" />
     <Content Include="Accounts\Expense\Expense.aspx" />
     <Content Include="Accounts\Expense\Expense.css" />
+    <Content Include="Accounts\Expense\ExpenseReceipt.aspx" />
     <Content Include="Accounts\Payment\All_Discount_Details.aspx" />
     <Content Include="Accounts\Payment\Assign_Payment_Roles.aspx" />
     <Content Include="Accounts\Payment\Assign_Pay_Role_Multi_Class.aspx" />
@@ -173,6 +174,7 @@
     <Content Include="Accounts\Payment\Money_Receipt.aspx" />
     <Content Include="Accounts\Payment\Money_Receipt_By_Date.aspx" />
     <Content Include="Accounts\Payment\Others_Payment.aspx" />
+    <Content Include="Accounts\Payment\Others_Payment_Receipt.aspx" />
     <Content Include="Accounts\Payment\Payment_Collection.aspx" />
     <Content Include="Accounts\Payment\Payment_Collection_By_Date.aspx" />
     <Content Include="Accounts\Payment\Payment_Concession_All.aspx" />
@@ -612,6 +614,13 @@
     <Compile Include="Accounts\Expense\Expense.aspx.designer.cs">
       <DependentUpon>Expense.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Accounts\Expense\ExpenseReceipt.aspx.cs">
+      <DependentUpon>ExpenseReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Accounts\Expense\ExpenseReceipt.aspx.designer.cs">
+      <DependentUpon>ExpenseReceipt.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Accounts\Payment\All_Discount_Details.aspx.cs">
       <DependentUpon>All_Discount_Details.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -667,6 +676,13 @@
     </Compile>
     <Compile Include="Accounts\Payment\Others_Payment.aspx.designer.cs">
       <DependentUpon>Others_Payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\Payment\Others_Payment_Receipt.aspx.cs">
+      <DependentUpon>Others_Payment_Receipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Accounts\Payment\Others_Payment_Receipt.aspx.designer.cs">
+      <DependentUpon>Others_Payment_Receipt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Accounts\Payment\Payment_Collection.aspx.cs">
       <DependentUpon>Payment_Collection.aspx</DependentUpon>
