@@ -7,6 +7,17 @@
 
     <div class="d-flex align-items-center">
         <div class="form-group">
+            <label>Session</label>
+            <asp:DropDownList ID="SessionDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="True" CssClass="form-control" DataSourceID="SessionSQL" DataTextField="EducationYear" DataValueField="EducationYearID">
+                <asp:ListItem Value="%">[ ALL Session ]</asp:ListItem>
+            </asp:DropDownList>
+            <asp:SqlDataSource ID="SessionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT DISTINCT Education_Year.EducationYearID, Education_Year.EducationYear FROM Education_Year INNER JOIN Income_MoneyReceipt ON Education_Year.EducationYearID = Income_MoneyReceipt.EducationYearID WHERE (Income_MoneyReceipt.SchoolID = @SchoolID) ORDER BY Education_Year.EducationYearID">
+                <SelectParameters>
+                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+        </div>
+        <div class="form-group ml-3">
             <label>Committee Member</label>
             <asp:DropDownList ID="CommitteeMemberDropDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CommitteeMemberSQL" DataTextField="MemberName" DataValueField="CommitteeMemberId">
                 <asp:ListItem Value="%">[ All ]</asp:ListItem>
@@ -42,7 +53,7 @@
         SelectCommand="SELECT SUM(ISNULL(TotalAmount, 0)) AS TOTAL FROM CommitteeMoneyReceipt WHERE (SchoolId = @SchoolId) AND (EducationYearId LIKE @EducationYearId) AND (CAST(PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) AND  (CommitteeMemberId LIKE @CommitteeMemberId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" />
-            <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
+            <asp:ControlParameter ControlID="SessionDownList" Name="EducationYearId" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="FormDateTextBox" Name="From_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="CommitteeMemberDropDownList" Name="CommitteeMemberId" PropertyName="SelectedValue" />
@@ -50,7 +61,7 @@
     </asp:SqlDataSource>
 
     <div class="table-responsive mt-2">
-        <asp:GridView ID="PaymentRecordGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeMoneyReceiptId" DataSourceID="PaymentRecordSQL">
+        <asp:GridView ID="PaymentRecordGridView" AllowSorting="true" AllowPaging="true" PageSize="50" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeMoneyReceiptId" DataSourceID="PaymentRecordSQL">
             <Columns>
                 <asp:BoundField DataField="CommitteeMoneyReceiptSn" HeaderText="Receipt" SortExpression="CommitteeMoneyReceiptSn" />
                 <asp:BoundField DataField="MemberName" HeaderText="Member Name" SortExpression="MemberName" />
@@ -84,7 +95,7 @@
         CancelSelectOnNullParameter="False">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" />
-            <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
+            <asp:ControlParameter ControlID="SessionDownList" Name="EducationYearId" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="FormDateTextBox" Name="From_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="CommitteeMemberDropDownList" Name="CommitteeMemberId" PropertyName="SelectedValue" />

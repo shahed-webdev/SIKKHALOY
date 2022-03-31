@@ -26,7 +26,8 @@ namespace EDUCATION.COM.Committee
 
         protected void FindButton_Click(object sender, EventArgs e)
         {
-
+            MemberInfoFormView.DataBind();
+            PaidRecordGridView.DataBind();
         }
 
         protected void ReceiptSQL_Inserted(object sender, SqlDataSourceStatusEventArgs e)
@@ -88,13 +89,6 @@ namespace EDUCATION.COM.Committee
                     Response.Redirect($"./DonationReceipt.aspx?id={ViewState["CommitteeMoneyReceiptId"]}");
                 }
             }
-        }
-
-        protected void Print_LinkButton_Command(object sender, CommandEventArgs e)
-        {
-            string MRid = Convert.ToString(e.CommandArgument);
-            //string Sid = HttpUtility.UrlEncode(Encrypt(StudentInfoFormView.DataKey["ID"].ToString()));
-            //Response.Redirect(string.Format("Money_Receipt.aspx?mN_R={0}&s_icD={1}", MRid, Sid));
         }
     }
 }
