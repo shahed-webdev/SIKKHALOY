@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Accounts.Reports {
-    
-    
-    public partial class Net {
-        
+namespace EDUCATION.COM.Accounts.Reports
+{
+
+
+    public partial class Net
+    {
+
         /// <summary>
         /// From_Date_TextBox control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox From_Date_TextBox;
-        
+
         /// <summary>
         /// To_Date_TextBox control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox To_Date_TextBox;
-        
+
         /// <summary>
         /// Find_Button control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Find_Button;
-        
+
         /// <summary>
         /// IncomeFormView control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView IncomeFormView;
-        
+
         /// <summary>
         /// NetSQL control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource NetSQL;
-        
+
         /// <summary>
         /// IncomeCategoryGridView control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView IncomeCategoryGridView;
-        
+
         /// <summary>
         /// IncomeCategorySQL control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource IncomeCategorySQL;
-        
+
         /// <summary>
         /// ClassGridView control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView ClassGridView;
-        
+
         /// <summary>
         /// ClassIncomeSQL control.
         /// </summary>
@@ -92,7 +94,25 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassIncomeSQL;
-        
+
+        /// <summary>
+        /// CommitteeGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView CommitteeGridView;
+
+        /// <summary>
+        /// CommitteeGridViewSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource CommitteeGridViewSQL;
+
         /// <summary>
         /// Ex_CategoryGridView control.
         /// </summary>
@@ -101,7 +121,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView Ex_CategoryGridView;
-        
+
         /// <summary>
         /// Ex_CategorySQL control.
         /// </summary>
@@ -110,7 +130,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Ex_CategorySQL;
-        
+
         /// <summary>
         /// IncomeRepeater control.
         /// </summary>
@@ -119,7 +139,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater IncomeRepeater;
-        
+
         /// <summary>
         /// IncomeDetailsSQL control.
         /// </summary>
@@ -128,7 +148,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource IncomeDetailsSQL;
-        
+
         /// <summary>
         /// ExpenseRepeater control.
         /// </summary>
@@ -137,7 +157,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater ExpenseRepeater;
-        
+
         /// <summary>
         /// ExpenseCategorySQL control.
         /// </summary>
