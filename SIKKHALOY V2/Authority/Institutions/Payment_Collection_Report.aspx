@@ -4,7 +4,7 @@
     <style>
         .Count { text-align: center; margin-bottom: 15px; color: #fff; }
         .Count .Box { background: -webkit-gradient(linear,left top,right top,from(#0288d1),to(#002fd1)); background: linear-gradient(to right,#0288d1,#002fd1); padding: 1rem 0; }
-        .Count .Box1 { background: -webkit-gradient(linear,left top,right top,from(#00796b),to(#00897bb3)); background: linear-gradient(to right,#00796b,#00897bb3); padding: 1rem 0; }
+        .Count .Box1 { background: -webkit-gradient(linear,left top,right top,from(#00796b),to(#00897b)); background: linear-gradient(to right,#00796b,#00897b); padding: 1rem 0; }
         .Count .Box1 a{color:#ffd800}
         .Count h5 { margin: 0; }
         .Count p { margin: 0; }

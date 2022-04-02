@@ -285,7 +285,7 @@ WHERE (CommitteePaymentRecord.SchoolID = @SchoolID) and cast(CommitteeMoneyRecei
         </div>
 
         <div id="tab3" class="tab-pane fade" role="tabpanel" aria-expanded="false">
-            <div class="box Expense-box"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>&nbsp Expensen="true"></i>&nbsp Expense</div>
+            <div class="box Expense-box"><i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp Expense</i></div>
             <asp:Repeater ID="ExpenseRepeater" runat="server" DataSourceID="ExpenseCategorySQL">
                 <ItemTemplate>
                     <div class="table-responsive mb-3">

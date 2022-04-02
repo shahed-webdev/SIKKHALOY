@@ -38,7 +38,8 @@
                 </asp:SqlDataSource>
 
                 <asp:Button ID="SMSButton" runat="server" Text="Send SMS" CssClass="btn btn-primary ml-0" OnClick="SMSButton_Click" />
-                <asp:SqlDataSource ID="SMS_OtherInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO SMS_OtherInfo(SMS_Send_ID, SchoolID, StudentID, TeacherID, EducationYearID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @TeacherID, @EducationYearID)" SelectCommand="SELECT * FROM [SMS_OtherInfo]">
+                <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
+                <asp:SqlDataSource ID="SMS_OtherInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO SMS_OtherInfo(SMS_Send_ID, SchoolID, EducationYearID, CommitteeMemberId) VALUES (@SMS_Send_ID, @SchoolID, @EducationYearID, @CommitteeMemberId)" SelectCommand="SELECT * FROM [SMS_OtherInfo]">
                     <InsertParameters>
                         <asp:Parameter Name="SMS_Send_ID" DbType="Guid" />
                         <asp:Parameter Name="SchoolID" />

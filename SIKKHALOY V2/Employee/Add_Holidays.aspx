@@ -167,7 +167,7 @@ END">
                         <asp:TextBox ID="HolidayNameTextBox" TextMode="MultiLine" CssClass="form-control" runat="server" Text='<%# Bind("HolidayName") %>' />
 
                         <asp:LinkButton ID="UpdateButton" CssClass="btn btn-primary" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
-                        <asp:LinkButton ID="DeleteButton" runat="server" CssClass="btn btn-primary" CausesValidation="False" CommandName="Delete" OnClientClick="return confirm(Holiday Will be deleted Permanently)" Text="Delete" />
+                        <asp:LinkButton ID="DeleteButton" runat="server" CssClass="btn btn-primary" CausesValidation="False" CommandName="Delete" OnClientClick="return confirm('Holiday Will be deleted Permanently')" Text="Delete" />
                     </EditItemTemplate>
                 </asp:FormView>
                 <asp:SqlDataSource ID="EditHolidaySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT HolidayID, SchoolID, RegistrationID, EducationYearID, HolidayName, HolidayDate, CreateDate FROM Employee_Holiday WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (HolidayDate = @HolidayDate)" DeleteCommand="DELETE FROM [Employee_Holiday] WHERE [HolidayID] = @HolidayID" UpdateCommand="UPDATE Employee_Holiday SET HolidayName = @HolidayName, HolidayDate = @HolidayDate WHERE (HolidayID = @HolidayID)">

@@ -11,79 +11,106 @@ namespace EDUCATION.COM.Committee
 {
 
 
-    public partial class SendSMS
+    public partial class UnpaidReceipt
     {
 
         /// <summary>
-        /// TypeDropDownList control.
+        /// ReceiptTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList TypeDropDownList;
+        protected global::System.Web.UI.WebControls.TextBox ReceiptTextBox;
 
         /// <summary>
-        /// MemberTypeSQL control.
+        /// FindButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource MemberTypeSQL;
+        protected global::System.Web.UI.WebControls.Button FindButton;
 
         /// <summary>
-        /// SMSTextBox control.
+        /// StudentInfoFormView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SMSTextBox;
+        protected global::System.Web.UI.WebControls.FormView StudentInfoFormView;
 
         /// <summary>
-        /// SMSFormView control.
+        /// StudentInfoSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView SMSFormView;
+        protected global::System.Web.UI.WebControls.SqlDataSource StudentInfoSQL;
 
         /// <summary>
-        /// SMSSQL control.
+        /// PaymentGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SMSSQL;
+        protected global::System.Web.UI.WebControls.GridView PaymentGridView;
 
         /// <summary>
-        /// SMSButton control.
+        /// PaymentSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button SMSButton;
+        protected global::System.Web.UI.WebControls.SqlDataSource PaymentSQL;
 
         /// <summary>
-        /// ErrorLabel control.
+        /// ReceiptFormView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ErrorLabel;
+        protected global::System.Web.UI.WebControls.FormView ReceiptFormView;
 
         /// <summary>
-        /// SMS_OtherInfoSQL control.
+        /// MoneyRSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SMS_OtherInfoSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource MoneyRSQL;
+
+        /// <summary>
+        /// RByFormView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FormView RByFormView;
+
+        /// <summary>
+        /// ReceivedBySQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource ReceivedBySQL;
+
+        /// <summary>
+        /// DeleteReceiptButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteReceiptButton;
     }
 }
