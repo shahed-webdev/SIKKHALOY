@@ -7,7 +7,9 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Add Member</h3>
+    <h3 class="d-flex justify-content-between align-items-center py-0">Add Member
+        <a class="btn btn-dark d-print-none" href="MemberType.aspx">Add Member Type</a>
+    </h3>
 
     <div class="custom-form-row">
         <div class="form-group">

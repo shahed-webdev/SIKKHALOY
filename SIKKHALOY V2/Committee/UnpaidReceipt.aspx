@@ -1,20 +1,43 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="UnpaidReceipt.aspx.cs" Inherits="EDUCATION.COM.Committee.UnpaidReceipt" %>
+﻿<%@ Page Title="Unpaid Money Receipt" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="UnpaidReceipt.aspx.cs" Inherits="EDUCATION.COM.Committee.UnpaidReceipt" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="/Admission/CSS/Student_List.css" rel="stylesheet" />
+    <style>
+        .user-photo { flex-shrink: 0; padding-right: 1rem }
+        .user-photo img { height: 160px; width: 160px; }
+
+        /*user active status*/
+        .user-activation { text-align: center; font-size: 0.9rem; font-weight: bold; }
+        .active-status { color: #00C851 }
+        .active-status:before { margin-right: 3px; content: '\f058'; font-family: 'fontawesome'; color: #00C851 }
+
+        .in-active-status { color: #ff4444 }
+        .in-active-status:before { margin-right: 3px; content: '\f057'; font-family: 'fontawesome'; color: #ff4444 }
+
+        .info { width: 100%; }
+        .info ul { margin: 0; padding: 0 }
+        .info ul li { border-bottom: 1px solid #d6e0eb; color: #5d6772; font-size: 15px; line-height: 23px; list-style: outside none none; margin: 6px 0 0; padding-bottom: 5px; padding-left: 2px; }
+        .info ul li:last-child { border-bottom: none; }
+
+
+        #total-pay-amount { font-weight: bold }
+        #payment-submit { display: none }
+        .row-selected td { background-color: #1CAA56; color: #fff; font-weight: bold; }
+        .mGrid td { padding: 0.2rem 0.5rem; font-weight: 400; }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Unpaid Money Receipt</h3>
+    <h3>Unpaid Donation Receipt</h3>
 
     <div class="form-inline">
         <div class="form-group">
             <asp:TextBox ID="ReceiptTextBox" placeholder="Enter Receipt No" CssClass="form-control" runat="server"></asp:TextBox>
         </div>
         <div class="form-group">
-            <asp:Button ID="FindButton" runat="server" Text="Find" CssClass="btn btn-primary" />
+            <asp:Button ID="FindButton" runat="server" Text="Find" CssClass="btn btn-outline-primary" />
         </div>
     </div>
 
-    <asp:FormView ID="StudentInfoFormView" runat="server" DataSourceID="StudentInfoSQL" DataKeyNames="CommitteeMoneyReceiptId" Width="100%">
+    <asp:FormView ID="StudentInfoFormView" runat="server" DataSourceID="StudentInfoSQL" DataKeyNames="CommitteeMoneyReceiptId" RenderOuterTable="false">
         <ItemTemplate>
             <div class="z-depth-1 p-3 mb-4">
                 <div class="d-flex flex-sm-row flex-column text-center text-sm-left">
@@ -44,31 +67,27 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:GridView ID="PaymentGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PaymentSQL" CssClass="mGrid" ShowFooter="True" Font-Bold="False" RowStyle-CssClass="Rows">
+    <asp:GridView ID="PaymentGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PaymentSQL" CssClass="mGrid" Font-Bold="False" RowStyle-CssClass="Rows">
         <Columns>
             <asp:BoundField DataField="DonationCategory" HeaderText="Category" SortExpression="DonationCategory" />
             <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
             <asp:TemplateField HeaderText="Paid Amount" SortExpression="PaidAmount">
                 <ItemTemplate>
-                    <label class="paid-amount"><%# Eval("PaidAmount") %></label>
+                    <%# Eval("PaidAmount") %>
                 </ItemTemplate>
-                <FooterTemplate>
-                    <strong id="total-paid"></strong>
-                </FooterTemplate>
             </asp:TemplateField>
         </Columns>
-        <FooterStyle CssClass="grid-footer" />
         <RowStyle CssClass="Rows" />
     </asp:GridView>
     <asp:SqlDataSource ID="PaymentSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                       SelectCommand="SELECT CommitteePaymentRecord.SchoolId, CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description FROM CommitteePaymentRecord INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId INNER JOIN CommitteeMoneyReceipt ON CommitteePaymentRecord.CommitteeMoneyReceiptId = CommitteeMoneyReceipt.CommitteeMoneyReceiptId WHERE (CommitteePaymentRecord.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptSn = @MoneyReceipt_SN)">
+        SelectCommand="SELECT CommitteePaymentRecord.SchoolId, CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description FROM CommitteePaymentRecord INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId INNER JOIN CommitteeMoneyReceipt ON CommitteePaymentRecord.CommitteeMoneyReceiptId = CommitteeMoneyReceipt.CommitteeMoneyReceiptId WHERE (CommitteePaymentRecord.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptSn = @MoneyReceipt_SN)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
             <asp:ControlParameter ControlID="ReceiptTextBox" Name="MoneyReceipt_SN" PropertyName="Text" />
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:FormView ID="ReceiptFormView" runat="server" DataSourceID="MoneyRSQL" Width="100%" DataKeyNames="TotalAmount">
+    <asp:FormView ID="ReceiptFormView" runat="server" DataSourceID="MoneyRSQL" DataKeyNames="TotalAmount" RenderOuterTable="false">
         <ItemTemplate>
             <div class="mt-3">
                 <h4>
@@ -82,17 +101,11 @@
     </asp:FormView>
     <asp:SqlDataSource ID="MoneyRSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
         SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, Account.AccountName FROM CommitteeMoneyReceipt INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID WHERE (CommitteeMoneyReceipt.CommitteeMoneyReceiptSn = @MoneyReceipt_SN) AND (CommitteeMoneyReceipt.SchoolId = @SchoolID)"
-        DeleteCommand="BEGIN TRY
-    BEGIN TRANSACTION
+        DeleteCommand="BEGIN TRY BEGIN TRANSACTION
         DELETE FROM CommitteePaymentRecord FROM CommitteeMoneyReceipt INNER JOIN CommitteePaymentRecord ON CommitteeMoneyReceipt.CommitteeMoneyReceiptId = CommitteePaymentRecord.CommitteeMoneyReceiptId 
         WHERE (CommitteeMoneyReceipt.SchoolID = @SchoolID) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptSn = @MoneyReceipt_SN)
-
         DELETE FROM CommitteeMoneyReceipt WHERE (SchoolID = @SchoolID) AND (CommitteeMoneyReceiptSn = @MoneyReceipt_SN)
-        COMMIT
-END TRY
-BEGIN CATCH
-    ROLLBACK
-END CATCH">
+        COMMIT END TRY BEGIN CATCH ROLLBACK END CATCH">
         <DeleteParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:ControlParameter ControlID="ReceiptTextBox" Name="MoneyReceipt_SN" PropertyName="Text" />
@@ -103,7 +116,7 @@ END CATCH">
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:FormView ID="RByFormView" runat="server" DataSourceID="ReceivedBySQL" Width="100%">
+    <asp:FormView ID="RByFormView" runat="server" DataSourceID="ReceivedBySQL" RenderOuterTable="false">
         <ItemTemplate>
             <div class="RecvBy">
                 Received By:

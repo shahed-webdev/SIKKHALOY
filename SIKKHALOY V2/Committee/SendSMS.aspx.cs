@@ -30,15 +30,13 @@ namespace EDUCATION.COM.Committee
 
             #region Send SMS to All member
             con.Open();
-            var smsCommand = new SqlCommand(
-                "SELECT CommitteeMemberId, SmsNumber FROM CommitteeMember WHERE (SchoolID = @SchoolID) AND (CommitteeMemberTypeId = @CommitteeMemberTypeId)",
-                con);
+            var smsCommand = new SqlCommand("SELECT CommitteeMemberId, SmsNumber FROM CommitteeMember WHERE (SchoolID = @SchoolID) AND (CommitteeMemberTypeId = @CommitteeMemberTypeId)",con);
             smsCommand.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
             smsCommand.Parameters.AddWithValue("@CommitteeMemberTypeId", TypeDropDownList.SelectedValue);
 
             var smsDr = smsCommand.ExecuteReader();
 
-            var phoneNo = "";
+            string phoneNo;
             while (smsDr.Read())
             {
                 phoneNo = smsDr["SmsNumber"].ToString();
@@ -69,14 +67,10 @@ namespace EDUCATION.COM.Committee
                             var smsSendId = sms.SMS_Send(phoneNo, msg, "SMS Service");
                             if (smsSendId != Guid.Empty)
                             {
-                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue =
-                                    smsSendId.ToString();
-                                SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue =
-                                    Session["SchoolID"].ToString();
-                                SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue =
-                                    Session["Edu_Year"].ToString();
-                                SMS_OtherInfoSQL.InsertParameters["CommitteeMemberId"].DefaultValue =
-                                    smsDr["CommitteeMemberId"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
+                                SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["CommitteeMemberId"].DefaultValue = smsDr["CommitteeMemberId"].ToString();
 
                                 SMS_OtherInfoSQL.Insert();
                                 sentMsgCont++;
@@ -90,8 +84,7 @@ namespace EDUCATION.COM.Committee
                     if (sentMgsConfirm)
                     {
                         SMSTextBox.Text = string.Empty;
-                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage",
-                            "alert('You Have Successfully Sent " + sentMsgCont.ToString() + " SMS.')", true);
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('You Have Successfully Sent " + sentMsgCont.ToString() + " SMS.')", true);
                     }
                 }
                 else
