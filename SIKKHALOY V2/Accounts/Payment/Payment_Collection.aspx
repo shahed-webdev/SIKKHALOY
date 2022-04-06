@@ -44,6 +44,8 @@
                                     <li><b>Phone: </b><%# Eval("SMSPhoneNo") %></li>
                                     <li><b>Session: </b><%# Eval("EducationYear") %> <i class="fa fa-hand-o-right"></i><a target="_blank" href="/Admission/Student_Report/Report.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>">Full Details</a></li>
                                 </ul>
+
+                                <button type="button" data-toggle="modal" data-target="#Others_Modal" class="btn btn-outline-success btn-md m-0">Add More Payment</button>
                             </div>
                         </div>
                     </div>
@@ -62,7 +64,7 @@
             <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                 <ContentTemplate>
                     <div class="mb-4">
-                        <asp:GridView ID="PaidRecordGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="PRecordSQL" AllowPaging="True" PageSize="3">
+                        <asp:GridView ID="PaidRecordGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="PRecordSQL" AllowPaging="True" PageSize="4">
                             <Columns>
                                 <asp:TemplateField HeaderText="Receipt">
                                     <ItemTemplate>

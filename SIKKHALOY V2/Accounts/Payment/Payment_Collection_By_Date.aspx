@@ -44,6 +44,7 @@
                                     <li><b>Phone: </b><%# Eval("SMSPhoneNo") %></li>
                                     <li><b>Session: </b><%# Eval("EducationYear") %> <i class="fa fa-hand-o-right"></i><a target="_blank" href="/Admission/Student_Report/Report.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>">Full Details</a></li>
                                 </ul>
+                                <button type="button" data-toggle="modal" data-target="#Others_Modal" class="btn btn-outline-success btn-md m-0">Add More Payment</button>
                             </div>
                         </div>
                     </div>
@@ -62,7 +63,7 @@
             <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                 <ContentTemplate>
                     <div class="mb-4">
-                        <asp:GridView ID="PaidRecordGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="PRecordSQL" AllowPaging="True" PageSize="3">
+                        <asp:GridView ID="PaidRecordGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="PRecordSQL" AllowPaging="True" PageSize="4">
                             <Columns>
                                 <asp:TemplateField HeaderText="Receipt">
                                     <ItemTemplate>
@@ -76,7 +77,8 @@
                                     <ItemTemplate>
                                         <%# Eval("TotalAmount") %> Tk
                                      <small class="d-block">
-                                         <asp:LinkButton ID="Print_LinkButton" runat="server" CommandArgument='<%# Eval("MoneyReceiptID") %>' ToolTip="Click To Print" OnCommand="Print_LinkButton_Command"><i class="fa fa-print"></i> Print</asp:LinkButton></small>
+                                         <asp:LinkButton ID="Print_LinkButton" runat="server" CommandArgument='<%# Eval("MoneyReceiptID") %>' ToolTip="Click To Print" OnCommand="Print_LinkButton_Command"><i class="fa fa-print"></i> Print</asp:LinkButton>
+                                     </small>
                                     </ItemTemplate>
                                     <HeaderStyle HorizontalAlign="Right" />
                                     <ItemStyle HorizontalAlign="Right" />
@@ -85,8 +87,7 @@
                             <PagerStyle CssClass="pgr" />
                         </asp:GridView>
                         <asp:SqlDataSource ID="PRecordSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                            SelectCommand="SELECT Income_MoneyReceipt.MoneyReceipt_SN, Income_MoneyReceipt.TotalAmount, Income_MoneyReceipt.PaidDate, Income_MoneyReceipt.MoneyReceiptID FROM Income_MoneyReceipt INNER JOIN Student ON Income_MoneyReceipt.StudentID = Student.StudentID WHERE (Income_MoneyReceipt.EducationYearID = @EducationYearID) AND (Student.ID = @ID) AND (Income_MoneyReceipt.SchoolID = @SchoolID)
-ORDER BY Income_MoneyReceipt.PaidDate DESC">
+                            SelectCommand="SELECT Income_MoneyReceipt.MoneyReceipt_SN, Income_MoneyReceipt.TotalAmount, Income_MoneyReceipt.PaidDate, Income_MoneyReceipt.MoneyReceiptID FROM Income_MoneyReceipt INNER JOIN Student ON Income_MoneyReceipt.StudentID = Student.StudentID WHERE (Income_MoneyReceipt.EducationYearID = @EducationYearID) AND (Student.ID = @ID) AND (Income_MoneyReceipt.SchoolID = @SchoolID) ORDER BY Income_MoneyReceipt.PaidDate DESC">
                             <SelectParameters>
                                 <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                                 <asp:ControlParameter ControlID="SearchIDTextBox" Name="ID" PropertyName="Text" />

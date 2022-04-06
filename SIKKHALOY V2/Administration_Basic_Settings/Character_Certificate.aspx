@@ -31,8 +31,10 @@
                 <div class="C-title2">TO WHOM IT MAY CONCERN</div>
 
                 <div class="c-body">
-                    This is to certify that, <strong><%# Eval("StudentsName") %></strong> <%#(string)Eval("Gender") == "Male" ? "son of" : "daughter of" %> <strong><%# Eval("FathersName") %></strong> & <strong><%# Eval("MothersName") %></strong>, residence of 
-            <strong><%# Eval("StudentPermanentAddress")%></strong>, is known to me. He is a citizen of Bangladesh by birth. To the best of my knowledge,
+                    This is to certify that, <strong><%# Eval("StudentsName") %></strong>
+                    <%#(string)Eval("Gender") == "Male" ? "son of" : "daughter of" %> <strong><%# Eval("FathersName") %></strong> & <strong><%# Eval("MothersName") %></strong>, 
+                     Date Of Birth, <strong><%# Eval("DateofBirth","{0:d MMM, yyyy}") %></strong>,
+                    residence of <strong><%# Eval("StudentPermanentAddress")%></strong>, is known to me. He is a citizen of Bangladesh by birth. To the best of my knowledge,
              he bears a good moral character and is not involved in such activities which are against the state freedom and peace.
                 </div>
 
@@ -48,7 +50,7 @@
                 </div>
         </ItemTemplate>
     </asp:FormView>
-    <asp:SqlDataSource ID="Reject_StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Student.StudentsName, Student.Gender, Student.FathersName, Student.MothersName, Student.StudentPermanentAddress, StudentsClass.StudentClassID, Student.StudentID FROM Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID WHERE (Student.ID = @ID) AND (Student.SchoolID = @SchoolID)">
+    <asp:SqlDataSource ID="Reject_StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Student.StudentsName, Student.Gender, Student.FathersName, Student.MothersName, Student.StudentPermanentAddress, StudentsClass.StudentClassID, Student.StudentID, Student.DateofBirth FROM Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID WHERE (Student.ID = @ID) AND (Student.SchoolID = @SchoolID)">
         <SelectParameters>
             <asp:ControlParameter ControlID="IDTextBox" Name="ID" PropertyName="Text" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
