@@ -39,10 +39,10 @@ namespace AttendanceDevice
                 //Data Show context pass to the device class
                 device.EnrollUserCard = UserDataGrid;
                 device.EnrollUserDialogHost = EnrollUserDialog;
-                device.LogViewListBox = StudentImageListBox;
+                //device.LogViewListBox = StudentImageListBox;
             }
 
-            StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
+            //StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 0, 10);
@@ -236,7 +236,7 @@ namespace AttendanceDevice
                 }
                 #endregion Employee Put
 
-                StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
+                //StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
                 #region SMS_Send
 
                 var smsRequest = new RestRequest("api/Attendance/{id}/SendSms", Method.POST);

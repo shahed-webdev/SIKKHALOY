@@ -49,7 +49,7 @@
         <asp:SqlDataSource ID="EmployeeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Attendance_Record.EmployeeID, VW_Emp_Info.FirstName+' '+VW_Emp_Info.LastName as Name, VW_Emp_Info.Designation, VW_Emp_Info.ID, VW_Emp_Info.EmployeeType, 
         CONVERT(varchar(15),Employee_Attendance_Record.EntryTime, 100) AS EntryTime, Employee_Attendance_Record.AttendanceStatus FROM Employee_Attendance_Record INNER JOIN
         VW_Emp_Info ON Employee_Attendance_Record.EmployeeID = VW_Emp_Info.EmployeeID
-WHERE (Employee_Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Employee_Attendance_Record.ExitConfirmed_Status = N'No') AND (Employee_Attendance_Record.SchoolID = @SchoolID)
+WHERE (Employee_Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Employee_Attendance_Record.SchoolID = @SchoolID)
 ORDER BY Employee_Attendance_Record.EntryTime DESC">
             <SelectParameters>
                 <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />

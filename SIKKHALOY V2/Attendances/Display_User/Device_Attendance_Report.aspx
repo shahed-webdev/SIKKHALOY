@@ -65,10 +65,10 @@
 WHERE (Student.Status = N'Active') AND (Education_Year.Status = N'True') AND (Student.SchoolID = @SchoolID))AS Total_Student,
 
 (SELECT COUNT(StudentID)  FROM Attendance_Record
-WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (ExitConfirmed_Status = N'No') AND (SchoolID = @SchoolID))AS Current_IN_Student,
+WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID))AS Current_IN_Student,
 
 (SELECT COUNT(StudentID)  FROM Attendance_Record
-WHERE(AttendanceDate = CONVERT(date, GETDATE())) AND (ExitConfirmed_Status = N'Yes') AND (SchoolID = @SchoolID))AS Total_Out_Student,
+WHERE(AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID))AS Total_Out_Student,
 
 (SELECT COUNT(StudentID) FROM Attendance_Record
 WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Pre'))AS Total_Student_Prasent,

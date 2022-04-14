@@ -59,7 +59,7 @@ FROM Attendance_Record INNER JOIN
                          Student ON Attendance_Record.StudentID = Student.StudentID INNER JOIN
                          StudentsClass ON Attendance_Record.StudentClassID = StudentsClass.StudentClassID INNER JOIN
                          CreateClass ON StudentsClass.ClassID = CreateClass.ClassID
-WHERE (Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Attendance_Record.ExitConfirmed_Status = N'Yes') AND (Attendance_Record.SchoolID = @SchoolID)
+WHERE (Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Attendance_Record.SchoolID = @SchoolID)
 ORDER BY Attendance_Record.ExitTime DESC">
             <SelectParameters>
                 <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />

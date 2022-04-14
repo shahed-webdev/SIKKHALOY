@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        #donar-info { display: flex; align-items: center; margin-top:15px; }
+        #donar-info { display: flex; align-items: center; margin-top: 15px; }
         #donar-info span { border: 1px solid #a5f3b7; margin-right: 8px; padding: 3px 11px; border-radius: 5px; background-color: #e0ffe6; color: #22c147; font-weight: 500; }
         #donar-info span:last-child { cursor: pointer; border: none; border-radius: 5px; background-color: #fff; color: #ff3547; padding: 0 }
     </style>
@@ -14,11 +14,14 @@
                 <h2 class="font-weight-bold mb-3">Add Donation</h2>
 
                 <div class="form-group">
-                    <label>Find Donar</label>
+                    <label>
+                        Find Donar
+                        <a class="ml-1 blue-text" data-toggle="modal" data-target="#modalDonarForm">Add New</a>
+                    </label>
                     <asp:TextBox ID="FindDonarTextBox" autocomplete="off" runat="server" CssClass="form-control" required=""></asp:TextBox>
                     <asp:HiddenField ID="HiddenCommitteeMemberId" runat="server" />
                     <div id="donar-info"></div>
-                </div>             
+                </div>
                 <div class="form-group">
                     <label>
                         Donation Category
@@ -73,7 +76,7 @@
                         VALUES(@SchoolID,@RegistrationID,@CommitteeMemberId,@CommitteeDonationCategoryId,@Amount,@Description,@PromiseDate); 
                         SELECT @CommitteeDonationId = SCOPE_IDENTITY();"
                         OnInserted="AddDonationSQL_Inserted"
-                        DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)" 
+                        DeleteCommand="DELETE FROM CommitteeDonation WHERE (CommitteeDonationId = @CommitteeDonationId) AND (PaidAmount = 0)"
                         UpdateCommand="UPDATE CommitteeDonation SET CommitteeDonationCategoryId = @CommitteeDonationCategoryId, Amount = CASE WHEN PaidAmount &gt; @Amount THEN Amount ELSE @Amount END, Description = @Description WHERE (CommitteeDonationId = @CommitteeDonationId)">
 
                         <DeleteParameters>
@@ -131,6 +134,53 @@
         </div>
     </div>
 
+    <%--add donar--%>
+    <div class="modal fade" id="modalDonarForm" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Add New Member</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body mx-3">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <asp:TextBox ID="MemberNameTextBox" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Member Type<a class="ml-1" href="MemberType.aspx">Add New</a>
+                        </label>
+                        <asp:DropDownList ID="TypeDropDownList" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="MemberTypeSQL" DataTextField="CommitteeMemberType" DataValueField="CommitteeMemberTypeId">
+                            <asp:ListItem Value="">[ All Type ]</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+                            SelectCommand="SELECT CommitteeMemberTypeId, CommitteeMemberType FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)">
+                            <SelectParameters>
+                                <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <asp:TextBox ID="PhoneTextBox" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <asp:TextBox ID="AddressTextBox" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button id="btnMemberAdd" type="button" class="btn btn-default">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script type="text/javascript">
         $(function () {
@@ -171,6 +221,48 @@
             });
         });
 
+        //add new donar
+        const btnMemberAdd = document.getElementById("btnMemberAdd");
+        btnMemberAdd.addEventListener("click", function (evt) {
+            evt.preventDefault();
+
+            const CommitteeMemberTypeId = document.getElementById("<%= TypeDropDownList.ClientID %>");
+            const MemberName = document.getElementById("<%= MemberNameTextBox.ClientID %>");
+            const SmsNumber = document.getElementById("<%= PhoneTextBox.ClientID %>");
+            const Address = document.getElementById("<%= AddressTextBox.ClientID %>");
+
+            if (!CommitteeMemberTypeId.value || !MemberName.value || !SmsNumber.value) {
+                $.notify("Member name, type, phone required", "error");
+                return;
+            }
+
+            const model = {
+                CommitteeMemberTypeId: CommitteeMemberTypeId.value,
+                MemberName: MemberName.value,
+                SmsNumber: SmsNumber.value,
+                Address: Address.value
+            }
+
+            $.ajax({
+                url: "DonationAdd.aspx/DonerAddApi",
+                data: JSON.stringify({ model }),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    sessionStorage.setItem("_committee_", response.d);
+                    showDonarInfo();
+                    $("#modalDonarForm").modal("hide");
+
+                    MemberName.value = "";
+                    SmsNumber.value = "";
+                    Address.value = "";
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        });
 
         //get donar info from local store
         function getDonarInfo() {
