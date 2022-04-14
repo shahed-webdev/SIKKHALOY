@@ -530,6 +530,7 @@
     <Content Include="Handeler\Authority_Photo.ashx" />
     <Content Include="Handeler\Sign_Principal.ashx" />
     <Content Include="Handeler\Sign_Teacher.ashx" />
+    <Content Include="Handeler\DonerAdd.ashx" />
     <None Include="Properties\PublishProfiles\Demo Edu.pubxml" />
     <Content Include="Routines\CSS\Routine.css" />
     <Content Include="Routines\Modify_Routine.aspx" />
@@ -1873,6 +1874,10 @@
     </Compile>
     <Compile Include="Handeler\Authority_Photo.ashx.cs">
       <DependentUpon>Authority_Photo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handeler\DonerAdd.ashx.cs">
+      <DependentUpon>DonerAdd.ashx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Handeler\Employee_IDs.asmx.cs">
       <DependentUpon>Employee_IDs.asmx</DependentUpon>
