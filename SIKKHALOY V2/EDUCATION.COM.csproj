@@ -267,8 +267,28 @@
     <Content Include="Attendances\Display_User\Student_Exit_Log_Display.aspx" />
     <Content Include="Attendances\Leave_for_Student.aspx" />
     <Content Include="Attendances\Online_Display\Attendance_Slider.aspx" />
+    <Content Include="Attendances\Online_Display\CSS\0068.jpg" />
+    <Content Include="Attendances\Online_Display\CSS\device-display.css" />
     <Content Include="Attendances\Online_Display\CSS\Display.css" />
+    <Content Include="Attendances\Online_Display\DeviceDisplay.aspx" />
     <Content Include="Attendances\Online_Display\js\jquery.liMarquee.js" />
+    <Content Include="Attendances\Online_Display\mdb\css\mdb-admin.min.css" />
+    <Content Include="Attendances\Online_Display\mdb\css\mdb-core.css" />
+    <Content Include="Attendances\Online_Display\mdb\css\steppers.min.css" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\01.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\02.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\03.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\04.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\05.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\06.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\07.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\08.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\overlays\09.png" />
+    <Content Include="Attendances\Online_Display\mdb\img\svg\arrow_left.svg" />
+    <Content Include="Attendances\Online_Display\mdb\img\svg\arrow_right.svg" />
+    <Content Include="Attendances\Online_Display\mdb\js\mdb-admin.min.js" />
+    <Content Include="Attendances\Online_Display\mdb\js\mdb-core.js" />
+    <Content Include="Attendances\Online_Display\mdb\js\steppers.min.js" />
     <Content Include="Attendances\Schedule_AssignStudent.aspx" />
     <Content Include="Attendances\Students_Attendance.aspx" />
     <Content Include="Attendances\TimePicker\jquery.timepicker.css" />
@@ -493,6 +513,26 @@
     <Content Include="Basic_Student.Master" />
     <Content Include="Basic_Teacher.Master" />
     <Content Include="Basic_Authority.Master" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Bold.eot" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Bold.ttf" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Bold.woff" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Bold.woff2" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Light.eot" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Light.ttf" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Light.woff" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Light.woff2" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Medium.eot" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Medium.ttf" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Medium.woff" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Medium.woff2" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Regular.eot" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Regular.ttf" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Regular.woff" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Regular.woff2" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Thin.eot" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Thin.ttf" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Thin.woff" />
+    <Content Include="Attendances\Online_Display\mdb\font\roboto\Roboto-Thin.woff2" />
     <None Include="Cumulativie.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1180,6 +1220,13 @@
     </Compile>
     <Compile Include="Attendances\Online_Display\Attendance_Slider.aspx.designer.cs">
       <DependentUpon>Attendance_Slider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Attendances\Online_Display\DeviceDisplay.aspx.cs">
+      <DependentUpon>DeviceDisplay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Attendances\Online_Display\DeviceDisplay.aspx.designer.cs">
+      <DependentUpon>DeviceDisplay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Attendances\Schedule_AssignStudent.aspx.cs">
       <DependentUpon>Schedule_AssignStudent.aspx</DependentUpon>

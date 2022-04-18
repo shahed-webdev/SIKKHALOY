@@ -115,8 +115,7 @@
                         if (strMove.width() > strWrap.width()) {
                             leftPos = -strMove.width();
 
-                            if (p.circular) {
-								
+                            if (p.circular) {			
 								if (!p.xml) {
 									circCloneHor()
 									leftPos = -(strMove.width() + (strMove.width() - strWrap.width()));
