@@ -230,7 +230,7 @@ namespace AttendanceDevice.Settings.Pages
                 db.Users.Clear();
                 db.SaveChanges();
                 LocalData.Instance.UserViews.Clear();
-
+                LocalData.Instance.Users = db.Users.ToList();
                 UserList.ItemsSource = null;
                 TotalRecord.Text = "";
             }

@@ -151,14 +151,7 @@ ORDER BY StudentsClass.ClassID">
                             </asp:BoundField>
                         </Columns>
                     </asp:GridView>
-                    <asp:SqlDataSource ID="CommitteeGridViewSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeDonationCategory.DonationCategory, SUM(CommitteePaymentRecord.PaidAmount) AS Donation
-FROM            CommitteeMoneyReceipt INNER JOIN
-                         CommitteePaymentRecord ON CommitteeMoneyReceipt.CommitteeMoneyReceiptId = CommitteePaymentRecord.CommitteeMoneyReceiptId INNER JOIN
-                         CommitteeDonation INNER JOIN
-                         CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId ON 
-                         CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId
-WHERE        (CommitteeMoneyReceipt.SchoolId = @SchoolID) AND (CAST(CommitteeMoneyReceipt.PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
-GROUP BY CommitteeDonationCategory.DonationCategory"
+                    <asp:SqlDataSource ID="CommitteeGridViewSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeDonationCategory.DonationCategory, SUM(CommitteePaymentRecord.PaidAmount) AS Donation FROM CommitteeMoneyReceipt INNER JOIN CommitteePaymentRecord ON CommitteeMoneyReceipt.CommitteeMoneyReceiptId = CommitteePaymentRecord.CommitteeMoneyReceiptId INNER JOIN CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolID) AND (CAST(CommitteeMoneyReceipt.PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY CommitteeDonationCategory.DonationCategory"
                         CancelSelectOnNullParameter="False">
                         <SelectParameters>
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
