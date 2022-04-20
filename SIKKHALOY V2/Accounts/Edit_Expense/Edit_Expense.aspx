@@ -44,13 +44,14 @@
                                 Total <%# Eval("TotalExp","{0:N0}") %> Tk.</h4>
                         </ItemTemplate>
                     </asp:FormView>
-                    <asp:SqlDataSource ID="ViewExpanseSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT ISNULL(SUM(Amount), 0) AS TotalExp FROM Expenditure WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (ExpenseCategoryID Like @ExpenseCategoryID) AND (ExpenseDate BETWEEN ISNULL(@Fdate,'1-1-1760') AND ISNULL(@TDate,'1-1-3760'))" CancelSelectOnNullParameter="False">
+                    <asp:SqlDataSource ID="ViewExpanseSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT ISNULL(SUM(Amount), 0) AS TotalExp FROM Expenditure WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (ExpenseCategoryID Like @ExpenseCategoryID) AND (ExpenseDate BETWEEN ISNULL(@Fdate,'1-1-1760') AND ISNULL(@TDate,'1-1-3760')) AND (ExpenseID LIKE @ExpenseID)" CancelSelectOnNullParameter="False">
                         <SelectParameters>
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                             <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                             <asp:ControlParameter ControlID="FindCategoryDropDownList" Name="ExpenseCategoryID" PropertyName="SelectedValue" DefaultValue="" />
                             <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="" Name="Fdate" PropertyName="Text" />
                             <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="" Name="TDate" PropertyName="Text" />
+                            <asp:ControlParameter ControlID="ReceiptTextBox" DefaultValue="%" Name="ExpenseID" PropertyName="Text" />
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
@@ -123,7 +124,7 @@
                         DeleteCommand="set context_info @RegistrationID
 DELETE FROM [Expenditure] WHERE [ExpenseID] = @ExpenseID"
                         InsertCommand="INSERT INTO Expenditure(RegistrationID, ExpenseCategoryID, Amount, ExpenseFor, ExpenseDate, SchoolID, EducationYearID, AccountID) VALUES (@RegistrationID, @ExpenseCategoryID, @Amount, @ExpenseFor, @ExpenseDate, @SchoolID, @EducationYearID, @AccountID)"
-                        SelectCommand="SELECT Expense_CategoryName.CategoryName, Expenditure.ExpenseID, Expenditure.SchoolID, Expenditure.EducationYearID, Expenditure.RegistrationID, Expenditure.ExpenseCategoryID, Expenditure.Amount, Expenditure.ExpenseFor, Expenditure.ExpenseDate FROM Expenditure INNER JOIN Expense_CategoryName ON Expenditure.ExpenseCategoryID = Expense_CategoryName.ExpenseCategoryID WHERE (Expenditure.SchoolID = @SchoolID) AND (Expenditure.EducationYearID = @EducationYearID) AND (Expenditure.ExpenseCategoryID Like @ExpenseCategoryID) AND(Expenditure.ExpenseDate BETWEEN ISNULL(@Fdate,'1-1-1760') AND ISNULL(@TDate,'1-1-3760')) ORDER BY Expenditure.ExpenseID DESC"
+                        SelectCommand="SELECT Expense_CategoryName.CategoryName, Expenditure.ExpenseID, Expenditure.SchoolID, Expenditure.EducationYearID, Expenditure.RegistrationID, Expenditure.ExpenseCategoryID, Expenditure.Amount, Expenditure.ExpenseFor, Expenditure.ExpenseDate FROM Expenditure INNER JOIN Expense_CategoryName ON Expenditure.ExpenseCategoryID = Expense_CategoryName.ExpenseCategoryID WHERE (Expenditure.SchoolID = @SchoolID) AND (Expenditure.EducationYearID = @EducationYearID) AND (Expenditure.ExpenseCategoryID LIKE @ExpenseCategoryID) AND (Expenditure.ExpenseDate BETWEEN ISNULL(@Fdate, '1-1-1760') AND ISNULL(@TDate, '1-1-3760')) AND (Expenditure.ExpenseID LIKE @ExpenseID) ORDER BY Expenditure.ExpenseID DESC"
                         UpdateCommand="set context_info @RegistrationID
 UPDATE Expenditure SET Amount = @Amount, ExpenseFor = @ExpenseFor, ExpenseCategoryID = @ExpenseCategoryID WHERE (ExpenseID = @ExpenseID)"
                         CancelSelectOnNullParameter="False">
@@ -147,6 +148,7 @@ UPDATE Expenditure SET Amount = @Amount, ExpenseFor = @ExpenseFor, ExpenseCatego
                             <asp:ControlParameter ControlID="FindCategoryDropDownList" DefaultValue="" Name="ExpenseCategoryID" PropertyName="SelectedValue" />
                             <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="" Name="Fdate" PropertyName="Text" />
                             <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="" Name="TDate" PropertyName="Text" />
+                            <asp:ControlParameter ControlID="ReceiptTextBox" DefaultValue="%" Name="ExpenseID" PropertyName="Text" />
                         </SelectParameters>
                         <UpdateParameters>
                             <asp:Parameter Name="Amount" Type="Double" />

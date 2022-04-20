@@ -11,7 +11,7 @@
             <div class="form-inline NoPrint">
                 <div class="form-group">
                     <asp:DropDownList ID="FindCategoryDropDownList" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="CategorySQL" DataTextField="Extra_Income_CategoryName" DataValueField="Extra_IncomeCategoryID">
-                        <asp:ListItem Value="0">[ SELECT CATEGORY ]</asp:ListItem>
+                        <asp:ListItem Value="%">[ SELECT CATEGORY ]</asp:ListItem>
                     </asp:DropDownList>
                 </div>
                 <div class="form-group">
@@ -19,6 +19,9 @@
                 </div>
                 <div class="form-group">
                     <asp:TextBox ID="ToDateTextBox" placeholder="To Date" runat="server" CssClass="form-control Datetime" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false"></asp:TextBox>
+                </div>
+                <div class="form-group">
+                    <asp:TextBox ID="ReceiptTextBox" placeholder="Receipt No." autocomplete="off" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <asp:Button ID="FindButton" runat="server" Text="Find" CssClass="btn btn-brown" OnClick="FindButton_Click" />
@@ -33,13 +36,14 @@
             <div class="alert alert-success">
                 <asp:Label ID="AmountLabel" runat="server" Font-Bold="True" Font-Size="Large"></asp:Label>
                 <asp:SqlDataSource ID="ViewIncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                    SelectCommand="SELECT ISNULL(SUM(Extra_IncomeAmount), 0) AS Amount FROM Extra_Income WHERE (SchoolID = @SchoolID) AND (Extra_IncomeCategoryID = @Extra_IncomeCategoryID) AND (Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (EducationYearID = @EducationYearID) OR (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (EducationYearID = @EducationYearID) AND (@Extra_IncomeCategoryID = 0)" ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>" CancelSelectOnNullParameter="False">
+                    SelectCommand="SELECT ISNULL(SUM(Extra_IncomeAmount), 0) AS Amount FROM Extra_Income WHERE (SchoolID = @SchoolID) AND (Extra_IncomeCategoryID LIKE @Extra_IncomeCategoryID) AND (Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (EducationYearID = @EducationYearID) AND (Extra_IncomeID LIKE @Extra_IncomeID)" ProviderName="<%$ ConnectionStrings:EducationConnectionString.ProviderName %>" CancelSelectOnNullParameter="False">
                     <SelectParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-                        <asp:ControlParameter ControlID="FindCategoryDropDownList" Name="Extra_IncomeCategoryID" PropertyName="SelectedValue" />
+                        <asp:ControlParameter ControlID="FindCategoryDropDownList" Name="Extra_IncomeCategoryID" PropertyName="SelectedValue" DefaultValue="" />
                         <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="" Name="Fdate" PropertyName="Text" />
                         <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="" Name="TDate" PropertyName="Text" />
                         <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
+                        <asp:ControlParameter ControlID="ReceiptTextBox" DefaultValue="%" Name="Extra_IncomeID" PropertyName="Text" />
                     </SelectParameters>
                 </asp:SqlDataSource>
             </div>
@@ -85,7 +89,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Receipt">
                             <ItemTemplate>
-                                <a href="./Others_Payment_Receipt.aspx?id=<%# Eval("Extra_IncomeID") %>">Receipt</a>
+                                <a href="./Others_Payment_Receipt.aspx?id=<%# Eval("Extra_IncomeID") %>"><%# Eval("Extra_IncomeID") %></a>
                             </ItemTemplate>
                              <HeaderStyle CssClass="d-print-none" />
                             <ItemStyle CssClass="d-print-none" />
@@ -99,7 +103,7 @@
                 <asp:SqlDataSource ID="ExtraIncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                     DeleteCommand="SET context_info @RegistrationID DELETE FROM [Extra_Income] WHERE [Extra_IncomeID] = @Extra_IncomeID"
                     InsertCommand="INSERT INTO Extra_Income(SchoolID, RegistrationID, Extra_IncomeCategoryID, Extra_IncomeAmount, Extra_IncomeFor, AccountID, EducationYearID, Extra_IncomeDate) VALUES (@SchoolID, @RegistrationID, @Extra_IncomeCategoryID, @Extra_IncomeAmount, @Extra_IncomeFor, @AccountID, @EducationYearID, @Extra_IncomeDate)"
-                    SelectCommand="SELECT Extra_Income.Extra_IncomeAmount, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeDate, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeID, Extra_Income.EducationYearID FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID = @Extra_IncomeCategoryID) AND (Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (Extra_Income.EducationYearID = @EducationYearID) OR (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (Extra_Income.EducationYearID = @EducationYearID) AND (@Extra_IncomeCategoryID = 0) ORDER BY Extra_Income.Insert_Date DESC"
+                    SelectCommand="SELECT Extra_Income.Extra_IncomeAmount, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeDate, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeID, Extra_Income.EducationYearID FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.Extra_IncomeCategoryID LIKE @Extra_IncomeCategoryID) AND (Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@Fdate, '1-1-1000') AND ISNULL(@TDate, '1-1-3000')) AND (Extra_Income.EducationYearID = @EducationYearID) AND (Extra_Income.Extra_IncomeID LIKE @Extra_IncomeID) ORDER BY Extra_Income.Insert_Date DESC"
                     UpdateCommand="SET context_info @RegistrationID UPDATE Extra_Income SET Extra_IncomeAmount = @Extra_IncomeAmount, Extra_IncomeFor = @Extra_IncomeFor WHERE (Extra_IncomeID = @Extra_IncomeID)" CancelSelectOnNullParameter="False">
                     <DeleteParameters>
                         <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
@@ -121,6 +125,7 @@
                         <asp:ControlParameter ControlID="FormDateTextBox" DefaultValue="" Name="Fdate" PropertyName="Text" />
                         <asp:ControlParameter ControlID="ToDateTextBox" DefaultValue="" Name="TDate" PropertyName="Text" />
                         <asp:SessionParameter DefaultValue="" Name="EducationYearID" SessionField="Edu_Year" />
+                        <asp:ControlParameter ControlID="ReceiptTextBox" DefaultValue="%" Name="Extra_IncomeID" PropertyName="Text" />
                     </SelectParameters>
                     <UpdateParameters>
                         <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />

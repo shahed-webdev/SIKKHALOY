@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Accounts.Payment {
-    
-    
-    public partial class Others_Payment {
-        
+namespace EDUCATION.COM.Accounts.Payment
+{
+
+
+    public partial class Others_Payment
+    {
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// FindCategoryDropDownList control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList FindCategoryDropDownList;
-        
+
         /// <summary>
         /// FormDateTextBox control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FormDateTextBox;
-        
+
         /// <summary>
         /// ToDateTextBox control.
         /// </summary>
@@ -47,7 +49,16 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox ToDateTextBox;
-        
+
+        /// <summary>
+        /// ReceiptTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ReceiptTextBox;
+
         /// <summary>
         /// FindButton control.
         /// </summary>
@@ -56,7 +67,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button FindButton;
-        
+
         /// <summary>
         /// AmountLabel control.
         /// </summary>
@@ -65,7 +76,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label AmountLabel;
-        
+
         /// <summary>
         /// ViewIncomeSQL control.
         /// </summary>
@@ -74,7 +85,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ViewIncomeSQL;
-        
+
         /// <summary>
         /// ExtraIncomeGridView control.
         /// </summary>
@@ -83,7 +94,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView ExtraIncomeGridView;
-        
+
         /// <summary>
         /// ExtraIncomeSQL control.
         /// </summary>
@@ -92,7 +103,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ExtraIncomeSQL;
-        
+
         /// <summary>
         /// upnlUsers control.
         /// </summary>
@@ -101,7 +112,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upnlUsers;
-        
+
         /// <summary>
         /// NewCategoryNameTextBox control.
         /// </summary>
@@ -110,7 +121,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox NewCategoryNameTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator4 control.
         /// </summary>
@@ -119,7 +130,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
-        
+
         /// <summary>
         /// SaveButton control.
         /// </summary>
@@ -128,7 +139,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SaveButton;
-        
+
         /// <summary>
         /// AllCategory control.
         /// </summary>
@@ -137,7 +148,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView AllCategory;
-        
+
         /// <summary>
         /// NewCategorySQL control.
         /// </summary>
@@ -146,7 +157,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource NewCategorySQL;
-        
+
         /// <summary>
         /// UpdatePanel2 control.
         /// </summary>
@@ -155,7 +166,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel2;
-        
+
         /// <summary>
         /// RequiredFieldValidator6 control.
         /// </summary>
@@ -164,7 +175,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-        
+
         /// <summary>
         /// CategoryDropDownList control.
         /// </summary>
@@ -173,7 +184,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList CategoryDropDownList;
-        
+
         /// <summary>
         /// CategorySQL control.
         /// </summary>
@@ -182,7 +193,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource CategorySQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -191,7 +202,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// AmountTextBox control.
         /// </summary>
@@ -200,7 +211,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox AmountTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -209,7 +220,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// Payment_Date_TextBox control.
         /// </summary>
@@ -218,7 +229,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Payment_Date_TextBox;
-        
+
         /// <summary>
         /// IncomeForTextBox control.
         /// </summary>
@@ -227,7 +238,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox IncomeForTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -236,7 +247,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// AccountDropDownList control.
         /// </summary>
@@ -245,7 +256,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList AccountDropDownList;
-        
+
         /// <summary>
         /// AccountSQL control.
         /// </summary>
@@ -254,7 +265,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AccountSQL;
-        
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -263,7 +274,7 @@ namespace EDUCATION.COM.Accounts.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>
