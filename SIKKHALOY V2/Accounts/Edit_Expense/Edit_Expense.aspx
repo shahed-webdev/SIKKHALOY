@@ -22,7 +22,9 @@
                     <div class="form-group">
                         <asp:TextBox ID="ToDateTextBox" placeholder="To Date" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" runat="server" CssClass="form-control Datetime"></asp:TextBox>
                     </div>
-
+                     <div class="form-group">
+                        <asp:TextBox ID="ReceiptTextBox" placeholder="Receipt No." autocomplete="off" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
                     <div class="form-group">
                         <asp:Button ID="FindButton" runat="server" CssClass="btn btn-blue-grey" Text="Find" />
                     </div>
@@ -109,7 +111,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Receipt">
                                 <ItemTemplate>
-                                    <a href="../Expense/ExpenseReceipt.aspx?id=<%# Eval("ExpenseID") %>">Receipt</a>
+                                    <a href="../Expense/ExpenseReceipt.aspx?id=<%# Eval("ExpenseID") %>"><%# Eval("ExpenseID") %></a>
                                 </ItemTemplate>
                                 <HeaderStyle CssClass="d-print-none" />
                                 <ItemStyle CssClass="d-print-none" />
