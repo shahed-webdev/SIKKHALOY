@@ -2,7 +2,9 @@
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Text;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Committee
 {
@@ -15,86 +17,116 @@ namespace EDUCATION.COM.Committee
         protected void SMSButton_Click(object sender, EventArgs e)
         {
             ErrorLabel.Text = "";
-
-            var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
-
-            var msg = SMSTextBox.Text;
-
-            var sms = new SMS_Class(Session["SchoolID"].ToString());
-
-            var totalSms = 0;
-            var sentMgsConfirm = false;
-            var sentMsgCont = 0;
-
-            var smsBalance = sms.SMSBalance;
-
-            #region Send SMS to All member
-            con.Open();
-            var smsCommand = new SqlCommand("SELECT CommitteeMemberId, SmsNumber FROM CommitteeMember WHERE (SchoolID = @SchoolID) AND (CommitteeMemberTypeId = @CommitteeMemberTypeId)",con);
-            smsCommand.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
-            smsCommand.Parameters.AddWithValue("@CommitteeMemberTypeId", TypeDropDownList.SelectedValue);
-
-            var smsDr = smsCommand.ExecuteReader();
-
-            string phoneNo;
-            while (smsDr.Read())
+            var committeeMemberTypeIds = new StringBuilder();
+            var isTypeSelected = false;
+            foreach (GridViewRow row in AllStudentsGridView.Rows)
             {
-                phoneNo = smsDr["SmsNumber"].ToString();
+                var selectCheckBox = row.FindControl("SelectCheckBox") as CheckBox;
 
-                var isValid = sms.SMS_Validation(phoneNo, msg);
-                if (isValid.Validation)
+                if (selectCheckBox.Checked)
                 {
-                    totalSms += sms.SMS_Conut(msg);
+                    committeeMemberTypeIds.Append(AllStudentsGridView.DataKeys[row.DataItemIndex]["CommitteeMemberTypeId"].ToString());
+                    committeeMemberTypeIds.Append(',');
+                    isTypeSelected = true;
                 }
             }
 
-            con.Close();
-
-            if (smsBalance >= totalSms)
+            if (isTypeSelected)
             {
-                if (sms.SMS_GetBalance() >= totalSms)
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"]
+                    .ToString());
+
+                var msg = SMSTextBox.Text;
+
+                var sms = new SMS_Class(Session["SchoolID"].ToString());
+
+                var totalSms = 0;
+                var sentMgsConfirm = false;
+                var sentMsgCont = 0;
+
+                var smsBalance = sms.SMSBalance;
+
+                #region Send SMS to All member
+
+                con.Open();
+                var smsCommand =
+                    new SqlCommand(
+                        "SELECT CommitteeMemberId, SmsNumber FROM CommitteeMember WHERE (SchoolID = @SchoolID) AND (CommitteeMemberTypeId IN (select id from [dbo].[In_Function_Parameter](@CommitteeMemberTypeIds)))",
+                        con);
+                smsCommand.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
+                smsCommand.Parameters.AddWithValue("@CommitteeMemberTypeIds", committeeMemberTypeIds.ToString());
+
+                var smsDr = smsCommand.ExecuteReader();
+
+                string phoneNo;
+                while (smsDr.Read())
                 {
-                    con.Open();
-                    smsDr = smsCommand.ExecuteReader();
+                    phoneNo = smsDr["SmsNumber"].ToString();
 
-                    while (smsDr.Read())
+                    var isValid = sms.SMS_Validation(phoneNo, msg);
+                    if (isValid.Validation)
                     {
-                        phoneNo = smsDr["SmsNumber"].ToString();
-                        var isValid = sms.SMS_Validation(phoneNo, msg);
+                        totalSms += sms.SMS_Conut(msg);
+                    }
+                }
 
-                        if (isValid.Validation)
+                con.Close();
+
+                if (smsBalance >= totalSms)
+                {
+                    if (sms.SMS_GetBalance() >= totalSms)
+                    {
+                        con.Open();
+                        smsDr = smsCommand.ExecuteReader();
+
+                        while (smsDr.Read())
                         {
-                            var smsSendId = sms.SMS_Send(phoneNo, msg, "SMS Service");
-                            if (smsSendId != Guid.Empty)
-                            {
-                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
-                                SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
-                                SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
-                                SMS_OtherInfoSQL.InsertParameters["CommitteeMemberId"].DefaultValue = smsDr["CommitteeMemberId"].ToString();
+                            phoneNo = smsDr["SmsNumber"].ToString();
+                            var isValid = sms.SMS_Validation(phoneNo, msg);
 
-                                SMS_OtherInfoSQL.Insert();
-                                sentMsgCont++;
-                                sentMgsConfirm = true;
+                            if (isValid.Validation)
+                            {
+                                var smsSendId = sms.SMS_Send(phoneNo, msg, "SMS Service");
+                                if (smsSendId != Guid.Empty)
+                                {
+                                    SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue =
+                                        smsSendId.ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue =
+                                        Session["SchoolID"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue =
+                                        Session["Edu_Year"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["CommitteeMemberId"].DefaultValue =
+                                        smsDr["CommitteeMemberId"].ToString();
+
+                                    SMS_OtherInfoSQL.Insert();
+                                    sentMsgCont++;
+                                    sentMgsConfirm = true;
+                                }
                             }
                         }
+
+                        con.Close();
+
+                        if (sentMgsConfirm)
+                        {
+                            SMSTextBox.Text = string.Empty;
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage",
+                                "alert('You Have Successfully Sent " + sentMsgCont.ToString() + " SMS.')", true);
+                        }
                     }
-
-                    con.Close();
-
-                    if (sentMgsConfirm)
+                    else
                     {
-                        SMSTextBox.Text = string.Empty;
-                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('You Have Successfully Sent " + sentMsgCont.ToString() + " SMS.')", true);
+                        ErrorLabel.Text = "SMS Service Updating. Try again later or contact to authority";
                     }
                 }
                 else
                 {
-                    ErrorLabel.Text = "SMS Service Updating. Try again later or contact to authority";
+                    ErrorLabel.Text = "You don't have sufficient SMS balance, Your Current Balance is " + smsBalance;
                 }
             }
             else
             {
-                ErrorLabel.Text = "You don't have sufficient SMS balance, Your Current Balance is " + smsBalance;
+                ErrorLabel.Text = "Please Select any member type";
             }
 
             #endregion

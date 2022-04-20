@@ -10,9 +10,26 @@
 
                 <div class="form-group">
                     <label>Member Type</label>
-                    <asp:DropDownList ID="TypeDropDownList" required="" runat="server" AppendDataBoundItems="True" CssClass="form-control" DataSourceID="MemberTypeSQL" DataTextField="CommitteeMemberType" DataValueField="CommitteeMemberTypeId">
-                        <asp:ListItem Value="">[ SELECT ]</asp:ListItem>
-                    </asp:DropDownList>
+
+                <asp:GridView ID="AllStudentsGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="CommitteeMemberTypeId" CssClass="mGrid" DataSourceID="MemberTypeSQL">
+                    <Columns>
+                        <asp:TemplateField HeaderText="Select">
+                            <HeaderTemplate>
+                                <asp:CheckBox ID="SelectAllCheckBox" runat="server" Text=" " />
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="SelectCheckBox" runat="server" Text=" " />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="CommitteeMemberType" HeaderText="Type" SortExpression="CommitteeMemberType" />
+                    </Columns>
+                    <EmptyDataTemplate>
+                        Empty
+                    </EmptyDataTemplate>
+                    <PagerStyle CssClass="pgr"></PagerStyle>
+                    <RowStyle CssClass="RowStyle" />
+                </asp:GridView>
+
                     <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                         SelectCommand="SELECT CommitteeMemberTypeId, CommitteeMemberType FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)">
                         <SelectParameters>
