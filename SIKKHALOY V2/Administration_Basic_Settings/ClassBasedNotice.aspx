@@ -17,6 +17,14 @@
                 </asp:SqlDataSource>
 
                 <div class="form-group mt-3">
+                    <label>Notice Type</label>
+                    <asp:RadioButtonList ID="NoticeTypeRadioButton" runat="server" RepeatDirection="Horizontal">
+                        <asp:ListItem Value="0" Selected="True">General</asp:ListItem>
+                        <asp:ListItem Value="1">Home Work</asp:ListItem>
+                    </asp:RadioButtonList>
+                </div>
+
+                <div class="form-group mt-3">
                     <label>Notice Title</label>
                     <asp:TextBox ID="NoticeTitleTextBox" runat="server" CssClass="form-control" placeholder="Notice Title" required=""></asp:TextBox>
                 </div>
@@ -30,8 +38,8 @@
                     <asp:Button ID="NoticeButton" OnClick="NoticeButton_Click" runat="server" Text="Submit" ValidationGroup="1" CssClass="btn btn-primary ml-0 mt-3" />
 
                     <asp:SqlDataSource ID="StudentNoticeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                        InsertCommand="INSERT INTO [StudentNotice] ([RegistrationId], [SchoolId], [EducationYearId], [NoticeTitle], [Notice]) 
-                        VALUES (@RegistrationId, @SchoolId, @EducationYearId, @NoticeTitle, @Notice);
+                        InsertCommand="INSERT INTO [StudentNotice] ([RegistrationId], [SchoolId], [EducationYearId], [NoticeTitle], [Notice], IsHomeWork) 
+                        VALUES (@RegistrationId, @SchoolId, @EducationYearId, @NoticeTitle, @Notice,@IsHomeWork);
                         SELECT @StudentNoticeId = SCOPE_IDENTITY();"
                         SelectCommand="SELECT StudentNoticeId, NoticeTitle, Notice FROM StudentNotice WHERE (SchoolId = @SchoolId) AND (EducationYearId = @EducationYearId)"
                         DeleteCommand="DELETE  FROM  StudentNoticeClass WHERE (StudentNoticeId = @StudentNoticeId)
@@ -46,6 +54,7 @@
                             <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" Type="Int32" />
                             <asp:ControlParameter ControlID="NoticeTitleTextBox" Name="NoticeTitle" PropertyName="Text" Type="String" />
                             <asp:ControlParameter ControlID="NoticeTextBox" Name="Notice" PropertyName="Text" Type="String" />
+                            <asp:ControlParameter ControlID="NoticeTypeRadioButton" Name="IsHomeWork" PropertyName="SelectedValue" />
                             <asp:Parameter Name="StudentNoticeId" Direction="Output" Size="50" />
                         </InsertParameters>
                         <SelectParameters>

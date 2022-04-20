@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Committee
 {
-    public partial class SendSMS : System.Web.UI.Page
+    public partial class SendSMS : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,13 +19,14 @@ namespace EDUCATION.COM.Committee
             ErrorLabel.Text = "";
             var committeeMemberTypeIds = new StringBuilder();
             var isTypeSelected = false;
-            foreach (GridViewRow row in AllStudentsGridView.Rows)
+
+            foreach (GridViewRow row in MemberTypeGridView.Rows)
             {
                 var selectCheckBox = row.FindControl("SelectCheckBox") as CheckBox;
 
                 if (selectCheckBox.Checked)
                 {
-                    committeeMemberTypeIds.Append(AllStudentsGridView.DataKeys[row.DataItemIndex]["CommitteeMemberTypeId"].ToString());
+                    committeeMemberTypeIds.Append(MemberTypeGridView.DataKeys[row.DataItemIndex]["CommitteeMemberTypeId"].ToString());
                     committeeMemberTypeIds.Append(',');
                     isTypeSelected = true;
                 }
@@ -33,26 +34,19 @@ namespace EDUCATION.COM.Committee
 
             if (isTypeSelected)
             {
-                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"]
-                    .ToString());
-
-                var msg = SMSTextBox.Text;
-
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
                 var sms = new SMS_Class(Session["SchoolID"].ToString());
 
+                var msg = SMSTextBox.Text;     
                 var totalSms = 0;
                 var sentMgsConfirm = false;
                 var sentMsgCont = 0;
-
                 var smsBalance = sms.SMSBalance;
 
                 #region Send SMS to All member
 
                 con.Open();
-                var smsCommand =
-                    new SqlCommand(
-                        "SELECT CommitteeMemberId, SmsNumber FROM CommitteeMember WHERE (SchoolID = @SchoolID) AND (CommitteeMemberTypeId IN (select id from [dbo].[In_Function_Parameter](@CommitteeMemberTypeIds)))",
-                        con);
+                var smsCommand = new SqlCommand("SELECT CommitteeMemberId, SmsNumber FROM CommitteeMember WHERE (SchoolID = @SchoolID) AND (CommitteeMemberTypeId IN (select id from [dbo].[In_Function_Parameter](@CommitteeMemberTypeIds)))",con);
                 smsCommand.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
                 smsCommand.Parameters.AddWithValue("@CommitteeMemberTypeIds", committeeMemberTypeIds.ToString());
 
@@ -89,14 +83,10 @@ namespace EDUCATION.COM.Committee
                                 var smsSendId = sms.SMS_Send(phoneNo, msg, "SMS Service");
                                 if (smsSendId != Guid.Empty)
                                 {
-                                    SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue =
-                                        smsSendId.ToString();
-                                    SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue =
-                                        Session["SchoolID"].ToString();
-                                    SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue =
-                                        Session["Edu_Year"].ToString();
-                                    SMS_OtherInfoSQL.InsertParameters["CommitteeMemberId"].DefaultValue =
-                                        smsDr["CommitteeMemberId"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["CommitteeMemberId"].DefaultValue = smsDr["CommitteeMemberId"].ToString();
 
                                     SMS_OtherInfoSQL.Insert();
                                     sentMsgCont++;
@@ -110,8 +100,7 @@ namespace EDUCATION.COM.Committee
                         if (sentMgsConfirm)
                         {
                             SMSTextBox.Text = string.Empty;
-                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage",
-                                "alert('You Have Successfully Sent " + sentMsgCont.ToString() + " SMS.')", true);
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage","alert('You Have Successfully Sent " + sentMsgCont.ToString() + " SMS.')", true);
                         }
                     }
                     else

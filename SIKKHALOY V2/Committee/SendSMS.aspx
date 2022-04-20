@@ -8,17 +8,14 @@
             <div class="card card-body">
                 <h2 class="font-weight-bold mb-3">Send SMS To Committee</h2>
 
-                <div class="form-group">
-                    <label>Member Type</label>
-
-                <asp:GridView ID="AllStudentsGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="CommitteeMemberTypeId" CssClass="mGrid" DataSourceID="MemberTypeSQL">
+                <asp:GridView ID="MemberTypeGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="CommitteeMemberTypeId" CssClass="mGrid" DataSourceID="MemberTypeSQL">
                     <Columns>
                         <asp:TemplateField HeaderText="Select">
                             <HeaderTemplate>
-                                <asp:CheckBox ID="SelectAllCheckBox" runat="server" Text=" " />
+                                <asp:CheckBox ID="SelectAllCheckBox" onclick="allCheckBox(this)"  runat="server" Text=" " />
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <asp:CheckBox ID="SelectCheckBox" runat="server" Text=" " />
+                                <asp:CheckBox ID="SelectCheckBox"  runat="server" Text=" " />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="CommitteeMemberType" HeaderText="Type" SortExpression="CommitteeMemberType" />
@@ -29,16 +26,15 @@
                     <PagerStyle CssClass="pgr"></PagerStyle>
                     <RowStyle CssClass="RowStyle" />
                 </asp:GridView>
+                <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+                    SelectCommand="SELECT CommitteeMemberTypeId, CommitteeMemberType FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)">
+                    <SelectParameters>
+                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
 
-                    <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                        SelectCommand="SELECT CommitteeMemberTypeId, CommitteeMemberType FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)">
-                        <SelectParameters>
-                            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>
-                </div>
 
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label>SMS Text</label>
                     <asp:TextBox ID="SMSTextBox" runat="server" CssClass="form-control" TextMode="MultiLine" required=""></asp:TextBox>
                 </div>
@@ -68,4 +64,24 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        function allCheckBox(objRef) {
+            const GridView = objRef.parentNode.parentNode.parentNode;
+            const inputList = GridView.getElementsByTagName("input");
+
+            for (let i = 0; i < inputList.length; i++) {
+                if (inputList[i].type == "checkbox" && objRef !== inputList[i]) {
+
+                    if (objRef.checked) {
+                        inputList[i].checked = true;
+                    }
+                    else {
+                        inputList[i].checked = false;
+                    }
+                }
+            }
+        }
+    </script>
 </asp:Content>

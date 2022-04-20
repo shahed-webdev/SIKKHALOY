@@ -33,6 +33,15 @@ namespace EDUCATION.COM.Administration_Basic_Settings
         protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
 
         /// <summary>
+        /// NoticeTypeRadioButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList NoticeTypeRadioButton;
+
+        /// <summary>
         /// NoticeTitleTextBox control.
         /// </summary>
         /// <remarks>

@@ -24,12 +24,30 @@ namespace EDUCATION.COM.Student
         protected global::System.Web.UI.WebControls.Repeater NoticeRepeater;
 
         /// <summary>
-        /// NoticeSQL control.
+        /// GeneralNoticeSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource NoticeSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource GeneralNoticeSQL;
+
+        /// <summary>
+        /// HomeWorkRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater HomeWorkRepeater;
+
+        /// <summary>
+        /// HomeWorkSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource HomeWorkSQL;
     }
 }
