@@ -138,7 +138,10 @@ ORDER BY StudentsClass.ClassID">
                             <asp:ControlParameter ControlID="To_Date_TextBox" Name="To_Date" PropertyName="Text" />
                         </SelectParameters>
                     </asp:SqlDataSource>
-                    
+                     <br />
+                </div>
+
+                <div class="Acc-donations">
                     <div class="box Income-box"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp Donation wise Income</div>
                     <asp:GridView ID="CommitteeGridView" runat="server" AutoGenerateColumns="False" DataSourceID="CommitteeGridViewSQL" CssClass="mGrid" AllowSorting="True" OnRowDataBound="IncomeCategoryGridView_RowDataBound">
                         <Columns>
@@ -163,9 +166,9 @@ GROUP BY CommitteeDonationCategory.DonationCategory"
                             <asp:ControlParameter ControlID="To_Date_TextBox" Name="To_Date" PropertyName="Text" />
                         </SelectParameters>
                     </asp:SqlDataSource>
-
                     <br />
                 </div>
+
                 <div class="Acc-expense">
                     <div class="box Expense-box"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>&nbsp Expense</div>
                     <asp:GridView ID="Ex_CategoryGridView" runat="server" AutoGenerateColumns="False" DataSourceID="Ex_CategorySQL" CssClass="mGrid" AllowSorting="True" OnRowDataBound="Ex_CategoryGridView_RowDataBound">
@@ -209,7 +212,8 @@ GROUP BY Expense_CategoryName.CategoryName)as t  GROUP  BY Category"
                             <asp:Label ID="CategoryLabel" runat="server" Text='<%# Eval("Category") %>' />
                         </div>
                         <div class="pull-right">
-                            ৳<%# Eval("Income","{0:N0}") %></div>
+                            ৳<%# Eval("Income","{0:N0}") %>
+                        </div>
 
                         <asp:GridView ID="DetailsGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="DetailsSQL" AllowSorting="True" AllowPaging="True" PageSize="150" OnRowDataBound="DetailsGridView_RowDataBound">
                             <Columns>
@@ -374,6 +378,12 @@ GROUP BY Expense_CategoryName.CategoryName)as t  GROUP  BY Category"
                 $('.Acc-income').hide();
                 $('.Acc-expense').addClass("w-100");
             }
+
+            if (!$("[id*=CommitteeGridView] tr").length) {
+                $('.Acc-donations').hide();
+                $('.Acc-expense').addClass("w-100");
+            }
+
             if (!$("[id*=Ex_CategoryGridView] tr").length) {
                 $('.Acc-expense').hide();
                 $('.Acc-income').addClass("w-100");
