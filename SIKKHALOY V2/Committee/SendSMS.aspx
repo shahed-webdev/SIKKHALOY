@@ -18,7 +18,11 @@
                                 <asp:CheckBox ID="SelectCheckBox"  runat="server" Text=" " />
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="CommitteeMemberType" HeaderText="Type" SortExpression="CommitteeMemberType" />
+                        <asp:TemplateField HeaderText="Type" SortExpression="CommitteeMemberType">
+                            <ItemTemplate>
+                                <%# Eval("CommitteeMemberType") %> (<%# Eval("TotalMember") %>)
+                            </ItemTemplate>
+                        </asp:TemplateField>
                     </Columns>
                     <EmptyDataTemplate>
                         Empty
@@ -27,7 +31,7 @@
                     <RowStyle CssClass="RowStyle" />
                 </asp:GridView>
                 <asp:SqlDataSource ID="MemberTypeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                    SelectCommand="SELECT CommitteeMemberTypeId, CommitteeMemberType FROM CommitteeMemberType WHERE (SchoolID = @SchoolID)">
+                    SelectCommand="SELECT CommitteeMember.CommitteeMemberTypeId, CommitteeMemberType.CommitteeMemberType, COUNT(CommitteeMember.CommitteeMemberTypeId) AS TotalMember FROM CommitteeMember INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId WHERE (CommitteeMember.SchoolID = @SchoolID) GROUP BY CommitteeMember.CommitteeMemberTypeId, CommitteeMemberType.CommitteeMemberType">
                     <SelectParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                     </SelectParameters>

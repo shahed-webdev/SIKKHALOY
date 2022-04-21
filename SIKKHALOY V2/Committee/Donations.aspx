@@ -121,7 +121,7 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Delete" ShowHeader="False">
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"></asp:LinkButton>
+                        <asp:LinkButton ID="DeleteLinkButton" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"></asp:LinkButton>
                     </ItemTemplate>
                     <HeaderStyle CssClass="d-print-none" />
                     <ItemStyle CssClass="d-print-none" />

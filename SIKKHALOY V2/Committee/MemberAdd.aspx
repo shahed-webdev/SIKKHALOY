@@ -53,7 +53,7 @@
             <Columns>
                 <asp:TemplateField HeaderText="Photo">
                     <ItemTemplate>
-                        <img src="data:image/jpg;base64, <%# Convert.ToBase64String((byte[])Eval("Photo")) %>" onerror="this.src='/Handeler/Default/Male.png'" class="photo" alt="<%#Eval("MemberName") %>" />
+                        <img src="data:image/jpg;base64, <%# Convert.ToBase64String(Eval("Photo") == null? (byte[]) Eval("Photo") : new byte[]{}) %>" onerror="this.src='/Handeler/Default/Male.png'" class="photo" alt="<%#Eval("MemberName") %>" />
                     </ItemTemplate>                  
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Name" SortExpression="MemberName">
