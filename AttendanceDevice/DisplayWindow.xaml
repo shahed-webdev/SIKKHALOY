@@ -37,47 +37,6 @@
     </Window.Resources>
 
     <Grid>      
-        <!--enroll user info-->
-        <materialDesign:DialogHost Panel.ZIndex="999" Name="EnrollUserDialog" CloseOnClickAway="False" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
-            <materialDesign:DialogHost.DialogContent>
-                <materialDesign:Card
-                        Name="UserDataGrid"
-                        Margin="20"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-
-                        <Image MaxWidth="500" Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"/>
-
-                        <StackPanel Grid.Row="1" Margin="0 15">
-                            <TextBlock
-                                FontSize="30"
-                                FontWeight="Black"
-                                Foreground="#000"
-                                Text="{Binding Name}"
-                                TextAlignment="Center" />
-                            <TextBlock
-                                FontSize="22"
-                                Margin="0 5"
-                                FontWeight="Bold"
-                                Foreground="#333"
-                                Text="{Binding ID}"
-                                TextAlignment="Center" />
-                            <TextBlock
-                                FontSize="25"
-                                FontWeight="Bold"
-                                Foreground="#4285F4"
-                                Text="{Binding Enroll_Time, StringFormat=dd MMM yyyy (hh:mm tt)}"
-                                TextAlignment="Center" />
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
-            </materialDesign:DialogHost.DialogContent>
-        </materialDesign:DialogHost>
-
         <Grid Panel.ZIndex="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -227,7 +186,7 @@
             </materialDesign:ColorZone>
 
             <!--  Main  -->
-            <Grid Panel.ZIndex="1" Grid.Row="1" Margin="0 20">
+            <Grid Panel.ZIndex="1" Grid.Row="1" Margin="20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="*"/>
@@ -235,7 +194,7 @@
                 
                 <StackPanel Margin="0 0 15 0">
                     <materialDesign:Card
-                        Name="UserDataGrid1"
+                        Name="UserDataGrid"
                         materialDesign:ShadowAssist.ShadowDepth="Depth2">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -269,83 +228,10 @@
                         </Grid>
                     </materialDesign:Card>
                 </StackPanel>
-                
+
                 <DockPanel Grid.Column="1">
-                    <browser:WebView2 Name="webView" Source="http://localhost:3326/Attendances/Online_Display/DeviceDisplay.aspx"/>
+                    <browser:WebView2 Name="webView" />
                 </DockPanel>
-
-                <!--<ListBox x:Name="StudentImageListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <Image
-                                        SnapsToDevicePixels="True"
-                                        MaxWidth="300"
-                                        MaxHeight="320"
-                                        Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"
-                                        Stretch="UniformToFill" />
-
-                                    <StackPanel Grid.Row="1">
-                                        <TextBlock
-                                            Margin="10"
-                                            FontSize="20"
-                                            FontWeight="Bold"
-                                            Text="{Binding ID}"
-                                            TextAlignment="Center" />
-
-                                        <Border
-                                            Margin="5,0"
-                                            BorderBrush="#ddd"
-                                            BorderThickness="0,0,0,1" />
-                                        <StackPanel Margin="0 0 0 10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBlock Grid.Column="0" Text="{Binding EntryTime}" TextAlignment="Center" FontSize="17"/>
-                                                <TextBlock Grid.Column="1" Text="{Binding ExitTime}" TextAlignment="Center" FontSize="17"/>
-                                            </Grid>
-
-                                            <TextBlock Text="{Binding AttendanceStatus}" TextAlignment="Center" FontSize="17">
-                                                <TextBlock.Style>
-                                                    <Style>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Abs">
-                                                                <Setter Property="TextBlock.Foreground" Value="Red"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Late Abs">
-                                                                <Setter Property="TextBlock.Foreground" Value="#ff4444"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Late">
-                                                                <Setter Property="TextBlock.Foreground" Value="#FF8800"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="Pre">
-                                                                <Setter Property="TextBlock.Foreground" Value="#00C851"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </materialDesign:Card>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>-->
             </Grid> 
         </Grid>
 

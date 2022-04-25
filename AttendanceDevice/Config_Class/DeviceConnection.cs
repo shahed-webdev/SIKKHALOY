@@ -32,7 +32,6 @@ namespace AttendanceDevice.Config_Class
         private const int PrevDayLogCountable = 7;
         private int _fingerIndex = 0;
         public Card EnrollUserCard { get; set; }
-        public DialogHost EnrollUserDialogHost { get; set; }
         public bool IsSdkFullSupported { get; set; }
         public TextBlock FingerprintMessage { get; set; }
         public ListBox LogViewListBox { get; set; }
@@ -41,32 +40,8 @@ namespace AttendanceDevice.Config_Class
         public CZKEM axCZKEM1 { get; private set; }
 
         private DispatcherTimer _dialogTimer = new DispatcherTimer();
-        private void _dialogTimer_Tick(object sender, EventArgs e)
-        {
-            EnrollUserDialogHost.IsOpen = false;
-        }
-        private void EnrollUserDialog_OnDialogOpened(object sender, DialogOpenedEventArgs eventargs)
-        {
-            //Timer-setup
-            if (_dialogTimer == null)
-            {
-                _dialogTimer = new DispatcherTimer();
-            }
-
-            _dialogTimer.Interval = TimeSpan.FromSeconds(5);
-            _dialogTimer.Tick += _dialogTimer_Tick;
-            _dialogTimer.Start();
-        }
-
-        private void EnrollUserDialog_OnDialogClosing(object sender, DialogClosingEventArgs eventargs)
-        {
-            if (_dialogTimer != null)
-            {
-                _dialogTimer.Stop();
-                _dialogTimer = null;
-            }
-        }
-
+  
+   
         public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
         {
             var deviceId = Convert.ToInt32(enrollNumber);
@@ -75,18 +50,6 @@ namespace AttendanceDevice.Config_Class
             var userView = LocalData.Instance.GetUserView(deviceId);
             var DuplicatePunchCountableMin = 10;
 
-
-            //popup for Show the user 
-            if (EnrollUserDialogHost != null)
-            {
-                EnrollUserDialogHost.DialogOpened += EnrollUserDialog_OnDialogOpened;
-                EnrollUserDialogHost.DialogClosing += EnrollUserDialog_OnDialogClosing;
-
-                if (EnrollUserDialogHost.CurrentSession == null)
-                    EnrollUserDialogHost.IsOpen = true;
-
-                _dialogTimer.Interval = TimeSpan.FromSeconds(30);
-            }
 
             if (userView == null)
             {
