@@ -42,7 +42,7 @@
             <div class="z-depth-1 p-3 mb-4">
                 <div class="d-flex flex-sm-row flex-column text-center text-sm-left">
                     <div class="user-photo">
-                        <img alt="photo" src="data:image/jpg;base64, <%# Convert.ToBase64String((byte[])Eval("Photo")) %>" onerror="this.src='/Handeler/Default/Male.png'" class="img-thumbnail rounded-circle img-fluid z-depth-1" />
+                        <img alt="photo" src="data:image/jpg;base64, <%# Convert.ToBase64String(Eval("Photo") == null? (byte[]) Eval("Photo") : new byte[]{}) %>" onerror="this.src='/Handeler/Default/Male.png'" class="img-thumbnail rounded-circle img-fluid z-depth-1" />
                         <div class="user-activation">
                             <%# Eval("CommitteeMemberType") %>
                         </div>
