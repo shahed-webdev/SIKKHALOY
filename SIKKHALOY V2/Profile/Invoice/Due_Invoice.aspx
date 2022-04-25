@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="Due Invoice" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Due_Invoice.aspx.cs" Inherits="EDUCATION.COM.Profile.Invoice.Due_Invoice" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="../css/Invoice.css" rel="stylesheet" />
+    <link href="../css/Invoice.css?v=1.0.2" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="d-print-none">
         <a onclick="window.print();" class="btn btn-sm btn-green">Print</a>
     </div>
 
-    <asp:FormView CssClass="Main-table" ID="PrintFormView" runat="server" DataSourceID="InvoiceSQL" Width="100%">
+    <asp:FormView ID="PrintFormView" runat="server" DataSourceID="InvoiceSQL" RenderOuterTable="false">
         <ItemTemplate>
             <div class="invoice-wraper">
                 <div class="Inst_Name">
@@ -25,7 +25,7 @@
                     <b>INVOICE</b>
                 </div>
 
-                <div class="invoice-to">
+                <div class="invoice-to my-3">
                     <h2>INVOICE TO:</h2>
                     <h5><i class="fa fa-user" aria-hidden="true"></i>
                         <%#Eval("SchoolName") %></h5>
@@ -77,10 +77,10 @@
                     </asp:SqlDataSource>
                 </div>
 
-                <div class="row no-gutters">
+                <div class="row no-gutters my-4">
                     <div class="col">
                         <div class="conclusion">
-                            <h4>Thank you for your business, Loops IT Ltd.</h4>
+                            <h4>Thank you, Loops IT Ltd.</h4>
                             <h5>Payment Method:</h5>
 
                             <table>
@@ -132,6 +132,7 @@
                 <div class="auto-sign">
                     Authorised sign
                 </div>
+
                 <div class="invc-footer">
                     <div class="footer_title"></div>
                     <div class="row text-center">

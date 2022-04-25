@@ -31,24 +31,24 @@ namespace AttendanceDevice
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.DataContext = LocalData.Instance.institution;
+            DataContext = LocalData.Instance.institution;
+            var schoolId = LocalData.Instance.institution.SchoolID;
+
+            var url =$"http://localhost:3326/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
+            webView.Source = new Uri(url);
 
             countDevice.Badge = _deviceDisplay.Total_Devices();
             foreach (var device in _deviceDisplay.Devices)
             {
                 //Data Show context pass to the device class
                 device.EnrollUserCard = UserDataGrid;
-                device.EnrollUserDialogHost = EnrollUserDialog;
-                //device.LogViewListBox = StudentImageListBox;
             }
-
-            //StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
 
             //Timer-setup
             _tmr.Interval = new TimeSpan(0, 0, 10);
             _tmr.Tick += Timer_Tick;
             _tmr.Start();
-            this.Closing += Window_Closing;
+            Closing += Window_Closing;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -148,9 +148,10 @@ namespace AttendanceDevice
                             db.Entry(log).State = EntityState.Modified;
                             await db.SaveChangesAsync();
                         }
-                    }
 
-                    // MessageBox.Show("Student post: " + response.StatusCode);
+                        //reload webview after send data success
+                        webView.Reload();
+                    }
                 }
 
                 #endregion Student Post
@@ -176,6 +177,9 @@ namespace AttendanceDevice
                             db.Entry(log).State = EntityState.Modified;
                             await db.SaveChangesAsync();
                         }
+
+                        //reload webview after send data success
+                        webView.Reload();
                     }
 
                     //MessageBox.Show("Student put " + response.StatusCode.ToString());
@@ -208,6 +212,9 @@ namespace AttendanceDevice
                             db.Entry(log).State = EntityState.Modified;
                             await db.SaveChangesAsync();
                         }
+
+                        //reload webview after send data success
+                        webView.Reload();
                     }
                 }
                 #endregion Employee Post
@@ -233,10 +240,12 @@ namespace AttendanceDevice
                         db.Entry(log).State = EntityState.Modified;
                         await db.SaveChangesAsync();
                     }
+
+                    //reload webview after send data success
+                    webView.Reload();
                 }
                 #endregion Employee Put
 
-                //StudentImageListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
                 #region SMS_Send
 
                 var smsRequest = new RestRequest("api/Attendance/{id}/SendSms", Method.POST);
@@ -373,9 +382,5 @@ namespace AttendanceDevice
         {
             Process.Start("http://loopsit.com/");
         }
-
-
-
-
     }
 }
