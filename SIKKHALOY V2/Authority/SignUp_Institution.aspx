@@ -186,7 +186,7 @@
                                         
                                         <asp:SqlDataSource ID="Edu_YearSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO Education_Year(SchoolID, RegistrationID, EducationYear, Status, StartDate, EndDate) VALUES (@SchoolID, @RegistrationID, YEAR(GETDATE()), @Status, '01-01-' + CONVERT (varchar(4), YEAR(GETDATE())), '12-31-' + CONVERT (varchar(4), YEAR(GETDATE())))
 
-INSERT INTO Education_Year_User (EducationYearID, SchoolID, RegistrationID) VALUES (SCOPE_IDENTITY(),@SchoolID, @RegistrationID)"
+INSERT INTO Education_Year_User (EducationYearID, SchoolID, RegistrationID, SN) VALUES (SCOPE_IDENTITY(),@SchoolID, @RegistrationID,[dbo].[F_EducationYear_SN](@SchoolID))"
                                             SelectCommand="SELECT * FROM [Education_Year]">
                                             <InsertParameters>
                                                 <asp:Parameter Name="SchoolID" Type="Int32" />
