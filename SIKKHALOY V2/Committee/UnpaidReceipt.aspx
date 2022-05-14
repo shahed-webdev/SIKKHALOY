@@ -2,27 +2,88 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        .user-photo { flex-shrink: 0; padding-right: 1rem }
-        .user-photo img { height: 160px; width: 160px; }
+        .user-photo {
+            flex-shrink: 0;
+            padding-right: 1rem
+        }
+
+            .user-photo img {
+                height: 160px;
+                width: 160px;
+            }
 
         /*user active status*/
-        .user-activation { text-align: center; font-size: 0.9rem; font-weight: bold; }
-        .active-status { color: #00C851 }
-        .active-status:before { margin-right: 3px; content: '\f058'; font-family: 'fontawesome'; color: #00C851 }
+        .user-activation {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
 
-        .in-active-status { color: #ff4444 }
-        .in-active-status:before { margin-right: 3px; content: '\f057'; font-family: 'fontawesome'; color: #ff4444 }
+        .active-status {
+            color: #00C851
+        }
 
-        .info { width: 100%; }
-        .info ul { margin: 0; padding: 0 }
-        .info ul li { border-bottom: 1px solid #d6e0eb; color: #5d6772; font-size: 15px; line-height: 23px; list-style: outside none none; margin: 6px 0 0; padding-bottom: 5px; padding-left: 2px; }
-        .info ul li:last-child { border-bottom: none; }
+            .active-status:before {
+                margin-right: 3px;
+                content: '\f058';
+                font-family: 'fontawesome';
+                color: #00C851
+            }
+
+        .in-active-status {
+            color: #ff4444
+        }
+
+            .in-active-status:before {
+                margin-right: 3px;
+                content: '\f057';
+                font-family: 'fontawesome';
+                color: #ff4444
+            }
+
+        .info {
+            width: 100%;
+        }
+
+            .info ul {
+                margin: 0;
+                padding: 0
+            }
+
+                .info ul li {
+                    border-bottom: 1px solid #d6e0eb;
+                    color: #5d6772;
+                    font-size: 15px;
+                    line-height: 23px;
+                    list-style: outside none none;
+                    margin: 6px 0 0;
+                    padding-bottom: 5px;
+                    padding-left: 2px;
+                }
+
+                    .info ul li:last-child {
+                        border-bottom: none;
+                    }
 
 
-        #total-pay-amount { font-weight: bold }
-        #payment-submit { display: none }
-        .row-selected td { background-color: #1CAA56; color: #fff; font-weight: bold; }
-        .mGrid td { padding: 0.2rem 0.5rem; font-weight: 400; }
+        #total-pay-amount {
+            font-weight: bold
+        }
+
+        #payment-submit {
+            display: none
+        }
+
+        .row-selected td {
+            background-color: #1CAA56;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .mGrid td {
+            padding: 0.2rem 0.5rem;
+            font-weight: 400;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -42,7 +103,7 @@
             <div class="z-depth-1 p-3 mb-4">
                 <div class="d-flex flex-sm-row flex-column text-center text-sm-left">
                     <div class="user-photo">
-                        <img alt="photo" src="data:image/jpg;base64, <%# Convert.ToBase64String(Eval("Photo") == null? (byte[]) Eval("Photo") : new byte[]{}) %>" onerror="this.src='/Handeler/Default/Male.png'" class="img-thumbnail rounded-circle img-fluid z-depth-1" />
+                        <img alt="photo" src="data:image/jpg;base64, <%# Convert.ToBase64String(string.IsNullOrEmpty(Eval("Photo").ToString())? new byte[]{}: (byte[]) Eval("Photo")) %>" onerror="this.src='/Handeler/Default/Male.png'" class="img-thumbnail rounded-circle img-fluid z-depth-1" />
                         <div class="user-activation">
                             <%# Eval("CommitteeMemberType") %>
                         </div>
