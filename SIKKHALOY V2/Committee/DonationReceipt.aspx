@@ -22,7 +22,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <a class="d-print-none" href="DonationAdd.aspx"><< Back To</a>
+    <a class="d-print-none" href="DonationCollect.aspx"><< Back To</a>
 
     <asp:FormView ID="InfoFormView" runat="server" DataKeyNames="MemberName,TotalAmount,SmsNumber,CommitteeMoneyReceiptSn" DataSourceID="InfoSQL" RenderOuterTable="False">
         <ItemTemplate>
