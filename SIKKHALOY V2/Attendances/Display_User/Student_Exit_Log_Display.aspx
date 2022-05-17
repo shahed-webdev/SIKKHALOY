@@ -4,56 +4,24 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-   <title></title>
+    <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link href="CSS/Style.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
-        <marquee behavior="scroll" direction="right" width="890" scrollamount="3" behavior="scroll">
-         <asp:DataList ID="StudentDataList" runat="server" DataSourceID="Student_Exit_LogSQL" RepeatDirection="Horizontal">
+        <asp:Repeater ID="StudentExitLog" runat="server" DataSourceID="Student_Exit_LogSQL">
             <ItemTemplate>
-               <fieldset>
-                  <legend>
-                     <asp:Label ID="StudentsNameLabel" runat="server" Text='<%# Eval("StudentsName") %>' />
-                     (<asp:Label ID="ExitTimeLabel" runat="server" Text='<%# Eval("ExitTime") %>' />)</legend>
-
-                  <div class="Student_img">
-                     <img src="/Handeler/Student_Id_Based_Photo.ashx?StudentID=<%#Eval("StudentID") %>"/>
-                  </div>
-
-                  <div class="Student_info">
-                     <table>
-                        <tr>
-                           <td class="TD_Size">ID</td>
-                           <td>
-                              <asp:Label ID="IDLabel" runat="server" Text='<%# Eval("ID") %>'/>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>Class</td>
-                           <td>
-                              <asp:Label ID="ClassLabel" runat="server" Text='<%# Eval("Class") %>' />
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>Roll No.</td>
-                           <td>
-                              <asp:Label ID="RollNoLabel" runat="server" Text='<%# Eval("RollNo") %>' />
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>Entry</td>
-                           <td>
-                              <asp:Label ID="EntryTimeLabel" runat="server" Text='<%# Eval("EntryTime") %>' />
-                              (<asp:Label ID="AttendanceLabel" runat="server" Text='<%# Eval("Attendance") %>' />)</td>
-                        </tr>
-                     </table>
-                  </div>
-               </fieldset>
+                <%# Eval("StudentsName") %>
+                <%# Eval("ExitTime") %>
+                <img src="/Handeler/Student_Id_Based_Photo.ashx?StudentID=<%#Eval("StudentID") %>" />
+                <%# Eval("ID") %>
+                <%# Eval("Class") %>
+                <%# Eval("RollNo") %>
+                <%# Eval("EntryTime") %>
+                <%# Eval("Attendance") %>
             </ItemTemplate>
-         </asp:DataList>
-     </marquee>
+        </asp:Repeater>
         <asp:SqlDataSource ID="Student_Exit_LogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_Record.StudentID, Student.StudentsName, Student.ID, CreateClass.Class, StudentsClass.RollNo, Attendance_Record.Attendance,CONVERT(varchar(15), Attendance_Record.EntryTime, 100) AS EntryTime, CONVERT(varchar(15), Attendance_Record.ExitTime, 100) AS ExitTime
 FROM Attendance_Record INNER JOIN
                          Student ON Attendance_Record.StudentID = Student.StudentID INNER JOIN

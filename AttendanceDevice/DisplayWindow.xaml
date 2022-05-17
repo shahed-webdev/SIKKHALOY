@@ -203,28 +203,42 @@
                             </Grid.RowDefinitions>
 
                             <Image MaxWidth="500" Source="{Binding ImgLink, FallbackValue={StaticResource DefaultImage}}"/>
-
-                            <StackPanel Grid.Row="1" Margin="0 15">
-                                <TextBlock
-                                FontSize="30"
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock
                                 FontWeight="Black"
+                                Margin="5"
                                 Foreground="#000"
                                 Text="{Binding Name}"
                                 TextAlignment="Center" />
-                                <TextBlock
-                                FontSize="22"
-                                Margin="0 5"
-                                FontWeight="Bold"
-                                Foreground="#333"
-                                Text="{Binding ID}"
-                                TextAlignment="Center" />
-                                <TextBlock
-                                FontSize="25"
+                                </Viewbox>
+
+                                <Viewbox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock
+                                        Margin="5"
                                 FontWeight="Bold"
                                 Foreground="#4285F4"
                                 Text="{Binding Enroll_Time, StringFormat=dd MMM yyyy (hh:mm tt)}"
                                 TextAlignment="Center" />
-                            </StackPanel>
+                                </Viewbox>
+                                
+                                <Viewbox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock
+                                Margin="5"
+                                FontWeight="Bold"
+                                Foreground="#333"
+                                Text="{Binding ID}"
+                                TextAlignment="Center" />
+                          
+                                </Viewbox>
+
+                               
+                            </Grid>
                         </Grid>
                     </materialDesign:Card>
                 </StackPanel>

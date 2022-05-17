@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Attendances.Display_User {
-    
-    
-    public partial class Employee_Entry_Log_Display {
-        
+namespace EDUCATION.COM.Attendances.Display_User
+{
+
+
+    public partial class Employee_Entry_Log_Display
+    {
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -20,23 +22,23 @@ namespace EDUCATION.COM.Attendances.Display_User {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
-        /// EmployeeDataList control.
+        /// EmployeeEntryLog control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList EmployeeDataList;
-        
+        protected global::System.Web.UI.WebControls.Repeater EmployeeEntryLog;
+
         /// <summary>
-        /// EmployeeSQL control.
+        /// EmployeeEntryLogSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource EmployeeSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource EmployeeEntryLogSQL;
     }
 }

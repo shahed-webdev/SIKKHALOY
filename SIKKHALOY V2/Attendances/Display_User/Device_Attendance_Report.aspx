@@ -9,58 +9,18 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <asp:FormView ID="FormView1" runat="server" DataSourceID="Stu_Att_Report_SQL">
+        <asp:FormView ID="StudentSummaryFV" runat="server" DataSourceID="StudentSummarySQL" RenderOuterTable="false">
             <ItemTemplate>
-                <div class="info">
-                    <h3>Student Attendance</h3>
-                    <table>
-                        <tr>
-                            <td class="TD_Size">Total Student</td>
-                            <td>
-                                <asp:Label ID="Total_StudentLabel" runat="server" Text='<%# Bind("Total_Student") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Current IN</td>
-                            <td>
-                                <asp:Label ID="Current_IN_StudentLabel" runat="server" Text='<%# Bind("Current_IN_Student") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total OUT</td>
-                            <td>
-                                <asp:Label ID="Total_Out_StudentLabel" runat="server" Text='<%# Bind("Total_Out_Student") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Present</td>
-                            <td>
-                                <asp:Label ID="Total_Student_PrasentLabel" runat="server" Text='<%# Bind("Total_Student_Prasent") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Late</td>
-                            <td>
-                                <asp:Label ID="Total_Student_LateLabel" runat="server" Text='<%# Bind("Total_Student_Late") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Absent</td>
-                            <td>
-                                <asp:Label ID="Total_Student_AbsentLabel" runat="server" Text='<%# Bind("Total_Student_Absent") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Late Absent</td>
-                            <td>
-                                <asp:Label ID="Total_Student_Late_AbsentLabel" runat="server" Text='<%# Bind("Total_Student_Late_Absent") %>' />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <%# Eval("Total_Student") %>
+                <%# Eval("Current_IN_Student") %>
+                <%# Eval("Total_Out_Student") %>
+                <%# Eval("Total_Student_Prasent") %>
+                <%# Eval("Total_Student_Late") %>
+                <%# Eval("Total_Student_Absent") %>
+                <%# Eval("Total_Student_Late_Absent") %> 
             </ItemTemplate>
         </asp:FormView>
-        <asp:SqlDataSource ID="Stu_Att_Report_SQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select (SELECT  COUNT(Student.StudentID) FROM  Student INNER JOIN
+        <asp:SqlDataSource ID="StudentSummarySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select (SELECT  COUNT(Student.StudentID) FROM  Student INNER JOIN
            StudentsClass ON Student.StudentID = StudentsClass.StudentID INNER JOIN Education_Year ON StudentsClass.EducationYearID = Education_Year.EducationYearID
 WHERE (Student.Status = N'Active') AND (Education_Year.Status = N'True') AND (Student.SchoolID = @SchoolID))AS Total_Student,
 
@@ -82,60 +42,20 @@ WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND
                 <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
             </SelectParameters>
         </asp:SqlDataSource>
-        <br />
-        <br />
-        <asp:FormView ID="FormView2" runat="server" DataSourceID="Emp_Att_Report_SQL">
+    
+
+        <asp:FormView ID="EmployeeSummaryFormView" runat="server" DataSourceID="EmployeeSummarySQL" RenderOuterTable="false">
             <ItemTemplate>
-                <div class="info">
-                    <h3>Employee Attendance</h3>
-                    <table>
-                        <tr>
-                            <td class="TD_Size">Total Employee</td>
-                            <td>
-                                <asp:Label ID="Total_EmployeeLabel" runat="server" Text='<%# Bind("Total_Employee") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Current IN</td>
-                            <td>
-                                <asp:Label ID="Current_IN_EmployeeLabel" runat="server" Text='<%# Bind("Current_IN_Employee") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total OUT</td>
-                            <td>
-                                <asp:Label ID="Total_Out_EmployeeLabel" runat="server" Text='<%# Bind("Total_Out_Employee") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Present</td>
-                            <td>
-                                <asp:Label ID="Total_Employee_PrasentLabel" runat="server" Text='<%# Bind("Total_Employee_Prasent") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Late</td>
-                            <td>
-                                <asp:Label ID="Total_Employee_LateLabel" runat="server" Text='<%# Bind("Total_Employee_Late") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Absent</td>
-                            <td>
-                                <asp:Label ID="Total_Employee_AbsentLabel" runat="server" Text='<%# Bind("Total_Employee_Absent") %>' />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Late Absent</td>
-                            <td>
-                                <asp:Label ID="Total_Employee_Late_AbsentLabel" runat="server" Text='<%# Bind("Total_Employee_Late_Absent") %>' />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <%# Eval("Total_Employee") %>
+                <%# Eval("Current_IN_Employee") %>
+                <%# Eval("Total_Out_Employee") %>
+                <%# Eval("Total_Employee_Prasent") %>
+                <%# Eval("Total_Employee_Late") %>
+                <%# Eval("Total_Employee_Absent") %>
+                <%# Eval("Total_Employee_Late_Absent") %>  
             </ItemTemplate>
         </asp:FormView>
-        <asp:SqlDataSource ID="Emp_Att_Report_SQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select 
+        <asp:SqlDataSource ID="EmployeeSummarySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select 
 
 (SELECT  Count(EmployeeID)  FROM Employee_Info WHERE (Job_Status = N'Active') AND (SchoolID = @SchoolID))AS Total_Employee,
 
