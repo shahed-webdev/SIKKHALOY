@@ -34,7 +34,7 @@ namespace AttendanceDevice
             DataContext = LocalData.Instance.institution;
             var schoolId = LocalData.Instance.institution.SchoolID;
 
-            var url =$"http://localhost:3326/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
+            var url = $"http://localhost:3326/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
             webView.Source = new Uri(url);
 
             countDevice.Badge = _deviceDisplay.Total_Devices();
@@ -268,7 +268,7 @@ namespace AttendanceDevice
             var deviceList = _deviceDisplay.Devices;
             deviceList.Clear();
 
-            var devices = LocalData.Instance.Devices;
+            var devices = await LocalData.Instance.DeviceListAsync();
             var ins = LocalData.Instance.institution;
 
             //Device Check

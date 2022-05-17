@@ -111,20 +111,6 @@ namespace AttendanceDevice
                     return;
                 }
 
-                //set api date in local pc
-                var serverDatetime = schoolInfo.Current_Datetime;
-                //check pc date time
-                if (!(serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now))
-                {
-                    var errorObj = new Error("Invalid", "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
-                    var errorWindow = new Error_Window(errorObj);
-                    errorWindow.Show();
-                    this.Close();
-                    return;
-                }
-
-
-
                 var ins = LocalData.Instance.institution;
 
 
@@ -255,6 +241,17 @@ namespace AttendanceDevice
                     return;
                 }
 
+                //set api date in local pc
+                var serverDatetime = schoolInfo.Current_Datetime;
+                //check pc date time
+                if (!(serverDatetime.AddMinutes(1) > DateTime.Now && serverDatetime.AddMinutes(-1) < DateTime.Now))
+                {
+                    var errorObj = new Error("Invalid", "Invalid PC Date Time. \n Server Time: " + serverDatetime.ToString("d MMM yy (hh:mm tt)"));
+                    var errorWindow = new Error_Window(errorObj);
+                    errorWindow.Show();
+                    this.Close();
+                    return;
+                }
 
                 //try connection to device successfully
                 #region Device data send to server

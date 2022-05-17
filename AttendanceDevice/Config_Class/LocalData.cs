@@ -17,7 +17,6 @@ namespace AttendanceDevice.Config_Class
             {
                 Users = db.Users.ToList();
                 institution = db.Institutions.FirstOrDefault();
-                Devices = db.Devices.ToList();
                 //if (Users.Count() > 0)
                 //{
                 //    UserViews = Users.Select(u => new UserView
@@ -41,7 +40,6 @@ namespace AttendanceDevice.Config_Class
         public static LocalData Instance { get { return lazy.Value; } }
         public static Setting_Error Current_Error { get; set; } = new Setting_Error();
         public Institution institution { get; set; }
-        public List<Device> Devices { get; set; } = new List<Device>();
         public List<User> Users { get; set; } = new List<User>();
         public List<UserView> UserViews
         {
