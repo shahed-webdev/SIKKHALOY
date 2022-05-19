@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <asp:FormView ID="IncomeFormView" runat="server" DataSourceID="NetSQL" Width="100%">
+    <asp:FormView ID="IncomeFormView" runat="server" DataSourceID="NetSQL" RenderOuterTable="false">
         <ItemTemplate>
             <div class="row">
                 <div class="col-md-4 col-sm-4">
@@ -91,6 +91,8 @@ FROM            (SELECT        (SELECT        ISNULL(SUM(Extra_IncomeAmount), 0)
         <div id="tab1" class="tab-pane fade in active show" role="tabpanel" aria-expanded="true">
             <div class="w-100">
                 <div class="Acc-income">
+                    <%if (IncomeCategoryGridView.Rows.Count > 0)
+                        {%>
                     <div class="box Income-box"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp Category wise Income</div>
                     <asp:GridView ID="IncomeCategoryGridView" runat="server" AutoGenerateColumns="False" DataSourceID="IncomeCategorySQL" CssClass="mGrid" AllowSorting="True" OnRowDataBound="IncomeCategoryGridView_RowDataBound">
                         <Columns>
@@ -113,8 +115,11 @@ WHERE (Extra_Income.SchoolID = @SchoolID) and Extra_Income.Extra_IncomeDate BETW
                             <asp:ControlParameter ControlID="To_Date_TextBox" Name="To_Date" PropertyName="Text" />
                         </SelectParameters>
                     </asp:SqlDataSource>
-
                     <br />
+                    <%} %>
+
+                    <%if (ClassGridView.Rows.Count > 0)
+                        {%>
                     <div class="box Income-box"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp Class wise Income</div>
                     <asp:GridView ID="ClassGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataSourceID="ClassIncomeSQL" OnRowDataBound="ClassGridView_RowDataBound">
                         <Columns>
@@ -138,10 +143,11 @@ ORDER BY StudentsClass.ClassID">
                             <asp:ControlParameter ControlID="To_Date_TextBox" Name="To_Date" PropertyName="Text" />
                         </SelectParameters>
                     </asp:SqlDataSource>
-                     <br />
-                </div>
+                    <br />
+                    <%} %>
 
-                <div class="Acc-donations">
+                    <%if (CommitteeGridView.Rows.Count > 0)
+                        {%>
                     <div class="box Income-box"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp Donation wise Income</div>
                     <asp:GridView ID="CommitteeGridView" runat="server" AutoGenerateColumns="False" DataSourceID="CommitteeGridViewSQL" CssClass="mGrid" AllowSorting="True" OnRowDataBound="IncomeCategoryGridView_RowDataBound">
                         <Columns>
@@ -160,9 +166,12 @@ ORDER BY StudentsClass.ClassID">
                         </SelectParameters>
                     </asp:SqlDataSource>
                     <br />
+                    <%} %>
                 </div>
 
                 <div class="Acc-expense">
+                    <%if (Ex_CategoryGridView.Rows.Count > 0)
+                        {%>
                     <div class="box Expense-box"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>&nbsp Expense</div>
                     <asp:GridView ID="Ex_CategoryGridView" runat="server" AutoGenerateColumns="False" DataSourceID="Ex_CategorySQL" CssClass="mGrid" AllowSorting="True" OnRowDataBound="Ex_CategoryGridView_RowDataBound">
                         <Columns>
@@ -191,6 +200,7 @@ GROUP BY Expense_CategoryName.CategoryName)as t  GROUP  BY Category"
                             <asp:ControlParameter ControlID="To_Date_TextBox" Name="To_Date" PropertyName="Text" />
                         </SelectParameters>
                     </asp:SqlDataSource>
+                    <%} %>
                 </div>
             </div>
         </div>
@@ -368,17 +378,17 @@ GROUP BY Expense_CategoryName.CategoryName)as t  GROUP  BY Category"
             });
 
             if (!$("[id*=IncomeCategoryGridView] tr").length) {
-                $('.Acc-income').hide();
+                //$('.Acc-income').hide();
                 $('.Acc-expense').addClass("w-100");
             }
 
             if (!$("[id*=CommitteeGridView] tr").length) {
-                $('.Acc-donations').hide();
+                //$('.Acc-donations').hide();
                 $('.Acc-expense').addClass("w-100");
             }
 
             if (!$("[id*=Ex_CategoryGridView] tr").length) {
-                $('.Acc-expense').hide();
+                //$('.Acc-expense').hide();
                 $('.Acc-income').addClass("w-100");
             }
 
