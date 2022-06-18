@@ -91,23 +91,24 @@ namespace Attendance_API
                 request.Proxy = null;
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = data.Length;
+                ////******************************Comment for testing with out SMS*********************************
+                //using (var requestStream = request.GetRequestStream())
+                //{
+                //    requestStream.Write(data, 0, data.Length);
+                //}
 
-                using (var requestStream = request.GetRequestStream())
-                {
-                    requestStream.Write(data, 0, data.Length);
-                }
+                //HttpWebResponse response = request.GetResponse() as HttpWebResponse;
 
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                //// Get the response stream
+                //StreamReader reader = new StreamReader(response.GetResponseStream());
 
-                // Get the response stream
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-                if (Json_Obj.isError == "False")
-                {
-                    //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
-                    response_Message = Json_Obj.message;
-                }
+                //dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                //if (Json_Obj.isError == "False")
+                //{
+                //    //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
+                //    response_Message = Json_Obj.message;
+                //}
+                ////******************************Comment for testing with out SMS********************************
             }
             catch
             {

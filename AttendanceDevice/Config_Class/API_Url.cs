@@ -6,8 +6,10 @@ namespace AttendanceDevice.Config_Class
 {
     public static class ApiUrl
     {
-        public static readonly string EndPoint = "https://api.sikkhaloy.com/";
-      
+        //public static readonly string EndPoint = "https://api.sikkhaloy.com/";
+        public static readonly string EndPoint = "http://192.168.0.128:45455/";
+
+        public static readonly string WebUrl = "http://localhost:3326";
         public static async Task<bool> IsServerUnavailable()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())

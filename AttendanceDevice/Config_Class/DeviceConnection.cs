@@ -40,8 +40,8 @@ namespace AttendanceDevice.Config_Class
         public CZKEM axCZKEM1 { get; private set; }
 
         private DispatcherTimer _dialogTimer = new DispatcherTimer();
-  
-   
+
+
         public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
         {
             var deviceId = Convert.ToInt32(enrollNumber);
@@ -1000,6 +1000,8 @@ namespace AttendanceDevice.Config_Class
             if (!users.Any()) return;
 
             axCZKEM1.EnableDevice(Machine.Number, false);
+
+            axCZKEM1.ReadAllTemplate(Machine.Number);//read all the users' fingerprint templates to the memory
             try
             {
                 using (var db = new ModelContext())
@@ -1061,13 +1063,13 @@ namespace AttendanceDevice.Config_Class
                     fps = db.user_FingerPrints.ToList();
                 }
 
-                var batchUpdate = axCZKEM1.BeginBatchUpdate(Machine.Number, 1);
+                var batchUpdate = axCZKEM1.BeginBatchUpdate(Machine.Number, 1 /*data 1: Forcibly overwrite, 0: Not overwrite*/); //create memory space for batching.  
                 foreach (var fp in fps)
                 {
 
                     if (fp.Temp_Data != "")
                     {
-                        axCZKEM1.SetUserTmpExStr(Machine.Number, fp.DeviceID.ToString(), fp.Finger_Index, fp.Flag, fp.Temp_Data);
+                        var outPut = axCZKEM1.SetUserTmpExStr(Machine.Number, fp.DeviceID.ToString(), fp.Finger_Index, fp.Flag, fp.Temp_Data);
                     }
                 }
             }
@@ -1077,6 +1079,8 @@ namespace AttendanceDevice.Config_Class
             }
             finally
             {
+                axCZKEM1.BatchUpdate(Machine.Number);//upload all the information in the memory
+                axCZKEM1.RefreshData(Machine.Number);//the data in the device should be refreshed
                 axCZKEM1.EnableDevice(Machine.Number, true);
             }
         }

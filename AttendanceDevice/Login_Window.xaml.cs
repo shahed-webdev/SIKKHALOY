@@ -77,7 +77,7 @@ namespace AttendanceDevice
                 //API call for token
                 if (loginResponse.StatusCode != HttpStatusCode.OK)
                 {
-                    queue.Enqueue(loginResponse.Data.error_description);
+                    queue.Enqueue(loginResponse.Data?.error_description ?? "Response not found");
                     LoadingPb.IsIndeterminate = false;
                     LoginButton.IsEnabled = true;
                     return;

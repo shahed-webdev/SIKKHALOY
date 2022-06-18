@@ -30,24 +30,13 @@
                         </ul>
                     </ItemTemplate>
                 </asp:FormView>
-                <asp:SqlDataSource ID="StudentSummarySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select (SELECT  COUNT(Student.StudentID) FROM  Student INNER JOIN
-           StudentsClass ON Student.StudentID = StudentsClass.StudentID INNER JOIN Education_Year ON StudentsClass.EducationYearID = Education_Year.EducationYearID
-WHERE (Student.Status = N'Active') AND (Education_Year.Status = N'True') AND (Student.SchoolID = @SchoolID))AS Total_Student,
-
-(SELECT COUNT(StudentID)  FROM Attendance_Record
-WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID))AS Current_IN_Student,
-
-(SELECT COUNT(StudentID)  FROM Attendance_Record
-WHERE(AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID))AS Total_Out_Student,
-
-(SELECT COUNT(StudentID) FROM Attendance_Record
-WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Pre'))AS Total_Student_Prasent,
-(SELECT COUNT(StudentID) FROM Attendance_Record
-WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Late')) AS Total_Student_Late,
-(SELECT COUNT(StudentID) FROM Attendance_Record
-WHERE(AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Abs'))AS Total_Student_Absent,
-(SELECT COUNT(StudentID) FROM Attendance_Record
-WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Late Abs'))AS Total_Student_Late_Absent">
+                <asp:SqlDataSource ID="StudentSummarySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT (SELECT  COUNT(Student.StudentID) FROM  Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID INNER JOIN Education_Year ON StudentsClass.EducationYearID = Education_Year.EducationYearID WHERE (Student.Status = N'Active') AND (Education_Year.Status = N'True') AND (Student.SchoolID = @SchoolID))AS Total_Student,
+(SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (EntryTime IS NOT NULL) AND (Is_OUT = 0) AND (SchoolID = @SchoolID))AS Current_IN_Student,
+(SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (ExitTime IS NOT NULL) AND (Is_OUT = 1) AND (SchoolID = @SchoolID))AS Total_Out_Student,
+(SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Pre'))AS Total_Student_Prasent,
+(SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Late')) AS Total_Student_Late,
+(SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Abs'))AS Total_Student_Absent,
+(SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Late Abs'))AS Total_Student_Late_Absent">
                     <SelectParameters>
                         <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                     </SelectParameters>
@@ -75,12 +64,7 @@ WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
-                    <asp:SqlDataSource ID="Student_Entry_LogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_Record.StudentID, Student.StudentsName, Student.ID, CreateClass.Class, StudentsClass.RollNo, Attendance_Record.Attendance, CONVERT(varchar(15), Attendance_Record.EntryTime, 100) AS EntryTime
-FROM Attendance_Record INNER JOIN Student ON Attendance_Record.StudentID = Student.StudentID INNER JOIN
-StudentsClass ON Attendance_Record.StudentClassID = StudentsClass.StudentClassID INNER JOIN
-CreateClass ON StudentsClass.ClassID = CreateClass.ClassID
-WHERE (Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Attendance_Record.SchoolID = @SchoolID)
-ORDER BY Attendance_Record.EntryTime DESC">
+                    <asp:SqlDataSource ID="Student_Entry_LogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_Record.StudentID, Student.StudentsName, Student.ID, CreateClass.Class, StudentsClass.RollNo, Attendance_Record.Attendance, CONVERT (varchar(15), Attendance_Record.EntryTime, 100) AS EntryTime FROM Attendance_Record INNER JOIN Student ON Attendance_Record.StudentID = Student.StudentID INNER JOIN StudentsClass ON Attendance_Record.StudentClassID = StudentsClass.StudentClassID INNER JOIN CreateClass ON StudentsClass.ClassID = CreateClass.ClassID WHERE (Attendance_Record.AttendanceDate = CONVERT (date, GETDATE())) AND (Attendance_Record.EntryTime IS NOT NULL) AND (Attendance_Record.Is_OUT = 0) AND (Attendance_Record.SchoolID = @SchoolID) ORDER BY EntryTime DESC">
                         <SelectParameters>
                             <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                         </SelectParameters>
@@ -107,12 +91,7 @@ ORDER BY Attendance_Record.EntryTime DESC">
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
-                    <asp:SqlDataSource ID="Student_Exit_LogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_Record.StudentID, Student.StudentsName, Student.ID, CreateClass.Class, StudentsClass.RollNo, Attendance_Record.Attendance,CONVERT(varchar(15), Attendance_Record.EntryTime, 100) AS EntryTime, CONVERT(varchar(15), Attendance_Record.ExitTime, 100) AS ExitTime FROM Attendance_Record INNER JOIN
-                         Student ON Attendance_Record.StudentID = Student.StudentID INNER JOIN
-                         StudentsClass ON Attendance_Record.StudentClassID = StudentsClass.StudentClassID INNER JOIN
-                         CreateClass ON StudentsClass.ClassID = CreateClass.ClassID
-WHERE (Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Attendance_Record.SchoolID = @SchoolID)
-ORDER BY Attendance_Record.ExitTime DESC">
+                    <asp:SqlDataSource ID="Student_Exit_LogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_Record.StudentID, Student.StudentsName, Student.ID, CreateClass.Class, StudentsClass.RollNo, Attendance_Record.Attendance, CONVERT (varchar(15), Attendance_Record.EntryTime, 100) AS EntryTime, CONVERT (varchar(15), Attendance_Record.ExitTime, 100) AS ExitTime FROM Attendance_Record INNER JOIN Student ON Attendance_Record.StudentID = Student.StudentID INNER JOIN StudentsClass ON Attendance_Record.StudentClassID = StudentsClass.StudentClassID INNER JOIN CreateClass ON StudentsClass.ClassID = CreateClass.ClassID WHERE (Attendance_Record.AttendanceDate = CONVERT (date, GETDATE())) AND (Attendance_Record.Is_OUT = 1 or Attendance_Record.Attendance ='Abs') AND (Attendance_Record.SchoolID = @SchoolID) ORDER BY ExitTime DESC">
                         <SelectParameters>
                             <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                         </SelectParameters>
@@ -136,30 +115,13 @@ ORDER BY Attendance_Record.ExitTime DESC">
                         </ul>
                     </ItemTemplate>
                 </asp:FormView>
-                <asp:SqlDataSource ID="EmployeeSummarySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select 
-
-(SELECT  Count(EmployeeID)  FROM Employee_Info WHERE (Job_Status = N'Active') AND (SchoolID = @SchoolID))AS Total_Employee,
-
-(SELECT COUNT(*)  FROM Employee_Attendance_Record
-WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID))AS Current_IN_Employee,
-
-(SELECT COUNT(*)  FROM Employee_Attendance_Record
-WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID))AS Total_Out_Employee,
-
-(SELECT        COUNT(*) 
-FROM            Employee_Attendance_Record
-WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Pre'))AS Total_Employee_Prasent,
-
-(SELECT        COUNT(*)
-FROM            Employee_Attendance_Record
-WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Late')) AS Total_Employee_Late,
-
-(SELECT        COUNT(*) 
-FROM            Employee_Attendance_Record
-WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Abs'))AS Total_Employee_Absent,
-(SELECT        COUNT(*) 
-FROM            Employee_Attendance_Record
-WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Late Abs'))AS Total_Employee_Late_Absent">
+                <asp:SqlDataSource ID="EmployeeSummarySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT (SELECT  Count(EmployeeID)  FROM Employee_Info WHERE (Job_Status = N'Active') AND (SchoolID = @SchoolID))AS Total_Employee,
+(SELECT COUNT(*) FROM Employee_Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (EntryTime IS NOT NULL) AND (Is_OUT = 0) AND (SchoolID = @SchoolID))AS Current_IN_Employee,
+(SELECT COUNT(*) FROM Employee_Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (ExitTime IS NOT NULL) AND (Is_OUT = 1) AND (SchoolID = @SchoolID))AS Total_Out_Employee,
+(SELECT COUNT(*) FROM Employee_Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Pre'))AS Total_Employee_Prasent,
+(SELECT COUNT(*) FROM Employee_Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Late')) AS Total_Employee_Late,
+(SELECT COUNT(*) FROM Employee_Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Abs'))AS Total_Employee_Absent,
+(SELECT COUNT(*) FROM Employee_Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (AttendanceStatus = 'Late Abs'))AS Total_Employee_Late_Absent">
                     <SelectParameters>
                         <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                     </SelectParameters>
@@ -189,11 +151,7 @@ WHERE        (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @School
                         </ItemTemplate>
                     </asp:Repeater>
 
-                    <asp:SqlDataSource ID="EmployeeEntryLogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Attendance_Record.EmployeeID, VW_Emp_Info.FirstName+' '+VW_Emp_Info.LastName as Name, VW_Emp_Info.Designation, VW_Emp_Info.ID, VW_Emp_Info.EmployeeType, 
-        CONVERT(varchar(15),Employee_Attendance_Record.EntryTime, 100) AS EntryTime, Employee_Attendance_Record.AttendanceStatus FROM Employee_Attendance_Record INNER JOIN
-        VW_Emp_Info ON Employee_Attendance_Record.EmployeeID = VW_Emp_Info.EmployeeID
-WHERE (Employee_Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Employee_Attendance_Record.SchoolID = @SchoolID)
-ORDER BY Employee_Attendance_Record.EntryTime DESC">
+                    <asp:SqlDataSource ID="EmployeeEntryLogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Attendance_Record.EmployeeID, VW_Emp_Info.FirstName + ' ' + VW_Emp_Info.LastName AS Name, VW_Emp_Info.Designation, VW_Emp_Info.ID, VW_Emp_Info.EmployeeType, CONVERT (varchar(15), Employee_Attendance_Record.EntryTime, 100) AS EntryTime, Employee_Attendance_Record.AttendanceStatus FROM Employee_Attendance_Record INNER JOIN VW_Emp_Info ON Employee_Attendance_Record.EmployeeID = VW_Emp_Info.EmployeeID WHERE (Employee_Attendance_Record.AttendanceDate = CONVERT (date, GETDATE())) AND (Employee_Attendance_Record.EntryTime IS NOT NULL) AND (Employee_Attendance_Record.Is_OUT = 0) AND (Employee_Attendance_Record.SchoolID = @SchoolID)  ORDER BY EntryTime DESC">
                         <SelectParameters>
                             <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                         </SelectParameters>
@@ -221,10 +179,7 @@ ORDER BY Employee_Attendance_Record.EntryTime DESC">
                         </ItemTemplate>
                     </asp:Repeater>
 
-                    <asp:SqlDataSource ID="EmployeeExitLogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Attendance_Record.EmployeeID, VW_Emp_Info.FirstName+' '+VW_Emp_Info.LastName as Name, VW_Emp_Info.Designation, VW_Emp_Info.ID, VW_Emp_Info.EmployeeType, 
-        CONVERT(varchar(15), Employee_Attendance_Record.EntryTime, 100) AS EntryTime, CONVERT(varchar(15), Employee_Attendance_Record.ExitTime, 100) AS ExitTime, Employee_Attendance_Record.AttendanceStatus FROM Employee_Attendance_Record INNER JOIN
-        VW_Emp_Info ON Employee_Attendance_Record.EmployeeID = VW_Emp_Info.EmployeeID
-WHERE (Employee_Attendance_Record.AttendanceDate = CONVERT(date, GETDATE())) AND (Employee_Attendance_Record.SchoolID = @SchoolID) ORDER BY Employee_Attendance_Record.ExitTime DESC">
+                    <asp:SqlDataSource ID="EmployeeExitLogSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Attendance_Record.EmployeeID, VW_Emp_Info.FirstName + ' ' + VW_Emp_Info.LastName AS Name, VW_Emp_Info.Designation, VW_Emp_Info.ID, VW_Emp_Info.EmployeeType, CONVERT (varchar(15), Employee_Attendance_Record.EntryTime, 100) AS EntryTime, CONVERT (varchar(15), Employee_Attendance_Record.ExitTime, 100) AS ExitTime, Employee_Attendance_Record.AttendanceStatus FROM Employee_Attendance_Record INNER JOIN VW_Emp_Info ON Employee_Attendance_Record.EmployeeID = VW_Emp_Info.EmployeeID WHERE (Employee_Attendance_Record.AttendanceDate = CONVERT (date, GETDATE())) AND (Employee_Attendance_Record.Is_OUT = 1 or Employee_Attendance_Record.AttendanceStatus='Abs') AND (Employee_Attendance_Record.SchoolID = @SchoolID) ORDER BY ExitTime DESC">
                         <SelectParameters>
                             <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                         </SelectParameters>

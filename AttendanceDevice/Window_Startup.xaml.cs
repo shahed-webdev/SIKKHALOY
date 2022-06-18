@@ -156,7 +156,7 @@ namespace AttendanceDevice
                 if (loginResponse.StatusCode != HttpStatusCode.OK)
                 {
                     //Invalid username and password
-                    LocalData.Current_Error.Message = loginResponse.Data.error_description;
+                    LocalData.Current_Error.Message = loginResponse.Data?.error_description ?? "Response not found";
                     var login = new Login_Window();
                     login.Show();
                     this.Close();

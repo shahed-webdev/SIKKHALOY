@@ -34,7 +34,7 @@ namespace AttendanceDevice
             DataContext = LocalData.Instance.institution;
             var schoolId = LocalData.Instance.institution.SchoolID;
 
-            var url = $"http://localhost:3326/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
+            var url = $"{ApiUrl.WebUrl}/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
             webView.Source = new Uri(url);
 
             countDevice.Badge = _deviceDisplay.Total_Devices();
@@ -336,12 +336,12 @@ namespace AttendanceDevice
         //Setting Dialog
         private void Setting_Button_Click(object sender, RoutedEventArgs e)
         {
-            SettingLoginDialog.IsOpen = true;
+            //SettingLoginDialog.IsOpen = true;
 
-            //LocalData.Current_Error = new Setting_Error();
-            //var settings = new Setting();
-            //settings.Show();
-            //Close();
+            LocalData.Current_Error = new Setting_Error();
+            var settings = new Setting();
+            settings.Show();
+            Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
