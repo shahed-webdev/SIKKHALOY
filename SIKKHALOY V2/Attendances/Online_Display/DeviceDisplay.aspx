@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="/CSS/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="mdb/css/mdb-core.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+   
     <link href="CSS/device-display.css" rel="stylesheet" />
 </head>
 <body>
@@ -45,10 +44,10 @@
 
             <div class="card card-body ml-3 flex-1">
                 <!--student in-->
-                <div class="owl-carousel owl-theme">
+                 <div class="slide-in str_wrap">
                     <asp:Repeater ID="StudentEntryLog" runat="server" DataSourceID="Student_Entry_LogSQL">
                         <ItemTemplate>
-                            <div class="info-block item">
+                            <div class="info-block">
                                 <div class="card">
                                     <div class="name-title">
                                         <i class="fa fa-user-o" aria-hidden="true"></i>
@@ -72,10 +71,10 @@
                 </div>
 
                 <!--student out-->
-                <div class="owl-carousel owl-theme mt-3">
+               <div class="slide-out str_wrap mt-3">
                     <asp:Repeater ID="StudentExitLog" runat="server" DataSourceID="Student_Exit_LogSQL">
                         <ItemTemplate>
-                            <div class="info-block item">
+                            <div class="info-block">
                                 <div class="card">
                                     <div class="name-title">
                                         <i class="fa fa-user-o" aria-hidden="true"></i>
@@ -131,7 +130,7 @@
 
             <div class="card card-body ml-3 flex-1">
                 <!--employee in-->
-                <div class="owl-carousel owl-theme">
+               <div class="slide-in str_wrap">
                     <asp:Repeater ID="EmployeeEntryLog" runat="server" DataSourceID="EmployeeEntryLogSQL">
                         <ItemTemplate>
                             <div class="info-block item">
@@ -159,7 +158,7 @@
                 </div>
 
                 <!--employee out-->
-                <div class="owl-carousel owl-theme mt-3">
+                 <div class="slide-out str_wrap mt-3">
                     <asp:Repeater ID="EmployeeExitLog" runat="server" DataSourceID="EmployeeExitLogSQL">
                         <ItemTemplate>
                             <div class="info-block item">
@@ -192,27 +191,26 @@
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="mdb/js/mdb-core.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="js/jquery.liMarquee.js"></script>
     <script>
         $(function () {
-            $('.owl-carousel').owlCarousel({
-                loop: true,
-                nav: false,
-                dots: false,
-                autoplay: true,
+            $('.slide-in').liMarquee({
+                direction: 'left',
+                loop: -1,
+                scrolldelay: 0,
+                scrollamount: 50,
+                circular: true,
+                drag: true
+            });
 
-                responsive: {
-                    1000: {
-                        items: 5
-                    },
-                    1400: {
-                        items: 8
-                    },
-                    2000: {
-                        items: 10
-                    }
-                }
-            })
+            $('.slide-out').liMarquee({
+                direction: 'right',
+                loop: -1,
+                scrolldelay: 0,
+                scrollamount: 20,
+                circular: true,
+                drag: true
+            });
         });
     </script>
 </body>

@@ -1,11 +1,25 @@
-﻿
+﻿/*Plugin CSS*/
+.str_wrap { overflow: hidden; width: 100%; line-height: 16px; position: relative; -moz-user-select: none; -khtml-user-select: none; user-select: none; white-space: nowrap; }
+/*.str_wrap.str_active { background: #f1f1f1; }*/
+.str_move { white-space: nowrap; position: absolute; top: 0; left: 0; cursor: move; }
+.str_move_clone { display: inline-block; vertical-align: top; position: absolute; left: 100%; top: 0; }
+.str_vertical .str_move_clone { left: 0; top: 100%; }
+.str_down .str_move_clone { left: 0; bottom: 100%; }
+.str_vertical .str_move,
+.str_down .str_move { white-space: normal; width: 100%; }
+.str_static .str_move,
+.no_drag .str_move,
+.noStop .str_move { cursor: inherit; }
+.str_wrap img { max-width: none !important; }
+/***End***/
 
 .student { display: flex; }
 .student .summary { max-width: 250px; font-size: 1.4rem; font-weight: bold; }
 .student .summary ul li { display: flex; justify-content: space-between; padding: .35rem 1rem; }
 
 
-.info-block { margin-right: 2rem; background-color: #fff; text-align: center; }
+.info-block { width:150px; display:inline-block; margin-right: 2rem; background-color: #fff; text-align: center; }
+.info-block img { height: 150px; }
 .center-block { display: block; margin-right: auto; margin-left: auto; }
 .info-block h4 { overflow: hidden; text-overflow: ellipsis; }
 
@@ -25,12 +39,16 @@
 .ExitDate { right: 0; font-size: 14px; font-weight: bold; background-color: rgba(1, 87, 155, .8); color: #fff; text-shadow: 3px 3px 10px #01579b; position: absolute; bottom: 32px; padding: 4px 6px; }
 
 
-/*.slide-in:before { background-color: rgba(3, 169, 244, 0.8); text-shadow: 3px 3px 10px #777; position: absolute; content: "IN"; height: 100%; z-index: 99; padding: 6% 12px; color: rgb(255, 255, 255); font-size: 25px; }
+.slide-in:before { background-color: rgba(3, 169, 244, 0.8); text-shadow: 3px 3px 10px #777; position: absolute; content: "IN"; height: 100%; z-index: 99; padding: 6% 12px; color: rgb(255, 255, 255); font-size: 25px; }
 .slide-out:before { background-color: rgba(255, 152, 0, 0.8); text-shadow: 3px 3px 10px #777; position: absolute; content: "OUT"; height: 100%; z-index: 99; padding: 6% 2px; color: rgb(255, 255, 255); font-size: 23px; }
-*/
+
+
 .btn_reload { color:#fff;text-decoration:none;}
 
 @media  (max-width: 1280px) {
+    .info-block { width: 100px; }
+    .info-block img { height: 100px; }
+
     .name-title { font-size: 12px; padding: 3px 3px; }
     .student .summary { max-width: 180px; }
     .list-group-item { font-size: 0.9rem; padding: .35rem 1rem; }
