@@ -194,6 +194,16 @@
     <script src="js/jquery.liMarquee.js"></script>
     <script>
         $(function () {
+            initMarquee();
+        });
+
+        //listen for window resize event
+        window.addEventListener('resize', ()=> {
+            initMarquee();
+        });
+
+
+        function initMarquee() {
             $('.slide-in').liMarquee({
                 direction: 'left',
                 loop: -1,
@@ -211,7 +221,7 @@
                 circular: true,
                 drag: true
             });
-        });
+        }
     </script>
 </body>
 </html>
