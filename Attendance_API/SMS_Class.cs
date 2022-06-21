@@ -72,14 +72,14 @@ namespace Attendance_API
 
         public Guid SMS_Send(string Number, string Text, string SMSPurpose)
         {
-            Guid SMS_Send_ID = Guid.NewGuid();
-            string response_Message = "";
-            bool Is_Error = false;
+            var smsSendId = Guid.NewGuid();
+            var responseMessage = "";
+            var isError = false;
 
             try
             {
-                var url_Action = "sendsms"; // your powersms site url; register the ip first
-                var request = HttpWebRequest.Create(url + url_Action);
+                var urlAction = "sendsms"; // your powersms site url; register the ip first
+                var request = HttpWebRequest.Create(url + urlAction);
 
                 var smsText = Uri.EscapeDataString(Text);
                 var receiversParam = Number;
@@ -91,47 +91,47 @@ namespace Attendance_API
                 request.Proxy = null;
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = data.Length;
-                ////******************************Comment for testing with out SMS*********************************
-                //using (var requestStream = request.GetRequestStream())
-                //{
-                //    requestStream.Write(data, 0, data.Length);
-                //}
+                //******************************Comment for testing with out SMS*********************************
+                using (var requestStream = request.GetRequestStream())
+                {
+                    requestStream.Write(data, 0, data.Length);
+                }
 
-                //HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                var response = request.GetResponse() as HttpWebResponse;
 
-                //// Get the response stream
-                //StreamReader reader = new StreamReader(response.GetResponseStream());
+                // Get the response stream
+                var reader = new StreamReader(response.GetResponseStream());
 
-                //dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-                //if (Json_Obj.isError == "False")
-                //{
-                //    //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
-                //    response_Message = Json_Obj.message;
-                //}
-                ////******************************Comment for testing with out SMS********************************
+                dynamic jsonObj = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                if (jsonObj.isError == "False")
+                {
+                    //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
+                    responseMessage = jsonObj.message;
+                }
+                //******************************Comment for testing with out SMS********************************
             }
             catch
             {
-                Is_Error = true;
+                isError = true;
             }
 
-            if (!Is_Error)
+            if (!isError)
             {
-                SqlCommand SendRecordcmd = new SqlCommand("INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)", con);
-                SendRecordcmd.Parameters.AddWithValue("@SMS_Send_ID", SMS_Send_ID);
-                SendRecordcmd.Parameters.AddWithValue("@PhoneNumber", Number);
-                SendRecordcmd.Parameters.AddWithValue("@TextSMS", Text);
-                SendRecordcmd.Parameters.AddWithValue("@TextCount", Text.Length);
-                SendRecordcmd.Parameters.AddWithValue("@SMSCount", SMS_Conut(Text));
-                SendRecordcmd.Parameters.AddWithValue("@PurposeOfSMS", SMSPurpose);
-                SendRecordcmd.Parameters.AddWithValue("@Status", "Sent");
-                SendRecordcmd.Parameters.AddWithValue("@SMS_Response", response_Message);
+                var sendRecordcmd = new SqlCommand("INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)", con);
+                sendRecordcmd.Parameters.AddWithValue("@SMS_Send_ID", smsSendId);
+                sendRecordcmd.Parameters.AddWithValue("@PhoneNumber", Number);
+                sendRecordcmd.Parameters.AddWithValue("@TextSMS", Text);
+                sendRecordcmd.Parameters.AddWithValue("@TextCount", Text.Length);
+                sendRecordcmd.Parameters.AddWithValue("@SMSCount", SMS_Conut(Text));
+                sendRecordcmd.Parameters.AddWithValue("@PurposeOfSMS", SMSPurpose);
+                sendRecordcmd.Parameters.AddWithValue("@Status", "Sent");
+                sendRecordcmd.Parameters.AddWithValue("@SMS_Response", responseMessage);
 
                 con.Open();
-                SendRecordcmd.ExecuteNonQuery();
+                sendRecordcmd.ExecuteNonQuery();
                 con.Close();
 
-                return SMS_Send_ID;
+                return smsSendId;
             }
             else
             {

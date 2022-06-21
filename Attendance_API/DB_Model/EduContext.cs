@@ -27,5 +27,7 @@ namespace Attendance_API.DB_Model
         public virtual DbSet<VW_Emp_Info> VW_Emp_Infos { get; set; }
         public virtual DbSet<Attendance_Device_DataUpdateList> Attendance_Device_DataUpdateLists { get; set; }
         public virtual DbSet<Device_Finger_Print_Record> Device_Finger_Print_Records { get; set; }
+        public virtual DbSet<SMS_Send_Record> SMS_Send_Record { get; set; }
+        public virtual DbSet<SMS_OtherInfo> SMS_OtherInfo { get; set; }
     }
 }

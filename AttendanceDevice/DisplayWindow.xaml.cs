@@ -45,7 +45,7 @@ namespace AttendanceDevice
             }
 
             //Timer-setup
-            _tmr.Interval = new TimeSpan(0, 0, 10);
+            _tmr.Interval = new TimeSpan(0, 0, 30);
             _tmr.Tick += Timer_Tick;
             _tmr.Start();
             Closing += Window_Closing;
@@ -125,6 +125,9 @@ namespace AttendanceDevice
                 //check internet
                 var internet = await ApiUrl.IsNoNetConnection();
                 if (internet) return;
+                //check server ok
+                var server = await ApiUrl.IsServerUnavailable();
+                if (server) return;
 
                 #region Student Post
                 var studentLog = await LocalData.Instance.StudentLog_Post();

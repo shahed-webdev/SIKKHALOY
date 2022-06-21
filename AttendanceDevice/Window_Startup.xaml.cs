@@ -285,6 +285,20 @@ namespace AttendanceDevice
                 ins.LastUpdateDate = schoolInfo.LastUpdateDate;
                 await LocalData.Instance.InstitutionUpdate(ins);
 
+                //Get Today attendance data form server
+                var todayAttendanceRequest = new RestRequest("api/Attendance/{id}/GetTodayAttendance", Method.GET);
+                todayAttendanceRequest.AddUrlSegment("id", ins.SchoolID);
+                todayAttendanceRequest.AddHeader("Authorization", "Bearer " + token);
+
+                var todayAttendanceResponse =
+                    await client.ExecuteTaskAsync<List<Attendance_Record>>(todayAttendanceRequest);
+
+                if (todayAttendanceResponse.StatusCode == HttpStatusCode.OK && todayAttendanceResponse.Data != null &&
+                    todayAttendanceResponse.Data.Any())
+                {
+                    await LocalData.Instance.GetTodayAttendanceRecords(todayAttendanceResponse.Data);
+                }
+
 
                 //Device data send to server
                 #region Device data send to server

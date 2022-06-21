@@ -147,7 +147,7 @@ namespace AttendanceDevice.Settings
 
             var ins = LocalData.Instance.institution;
             //Update Local PC information if date not same
-            if (Convert.ToDateTime(ins.LastUpdateDate) != DateTime.Today)
+            //if (Convert.ToDateTime(ins.LastUpdateDate) != DateTime.Today)
             {
                 var client = new RestClient(ApiUrl.EndPoint);
                 //get institution info
@@ -238,12 +238,14 @@ namespace AttendanceDevice.Settings
                 var scheduleDayResponse =
                     await client.ExecuteTaskAsync<List<Attendance_Schedule_Day>>(scheduleDayRequest);
 
-                if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null && scheduleDayResponse.Data.Any())
+                if (scheduleDayResponse.StatusCode == HttpStatusCode.OK && scheduleDayResponse.Data != null &&
+                    scheduleDayResponse.Data.Any())
                 {
                     var isNoScheduleUserExist = await LocalData.Instance.ScheduleDataHandling(scheduleDayResponse.Data);
                     if (isNoScheduleUserExist)
                     {
-                        LocalData.Current_Error.Message = "Not all User assigned in the schedule on PC, Update User from server!";
+                        LocalData.Current_Error.Message =
+                            "Not all User assigned in the schedule on PC, Update User from server!";
                         LocalData.Current_Error.Type = Error_Type.UserInfoPage;
 
                         var setting = new Setting();
@@ -262,8 +264,22 @@ namespace AttendanceDevice.Settings
                 //Update Local PC information update time
                 ins.LastUpdateDate = schoolInfo.LastUpdateDate;
                 await LocalData.Instance.InstitutionUpdate(ins);
-            }
 
+
+                //Get Today attendance data form server
+                var todayAttendanceRequest = new RestRequest("api/Attendance/{id}/GetTodayAttendance", Method.GET);
+                todayAttendanceRequest.AddUrlSegment("id", ins.SchoolID);
+                todayAttendanceRequest.AddHeader("Authorization", "Bearer " + ins.Token);
+
+                var todayAttendanceResponse =
+                    await client.ExecuteTaskAsync<List<Attendance_Record>>(todayAttendanceRequest);
+
+                if (todayAttendanceResponse.StatusCode == HttpStatusCode.OK && todayAttendanceResponse.Data != null &&
+                    todayAttendanceResponse.Data.Any())
+                {
+                    await LocalData.Instance.GetTodayAttendanceRecords(todayAttendanceResponse.Data);
+                }
+            }
 
             //try connection to device successfully
             var isDeviceConnected = false;
