@@ -45,7 +45,7 @@ namespace AttendanceDevice
             }
 
             //Timer-setup
-            _tmr.Interval = new TimeSpan(0, 1, 0);
+            _tmr.Interval = new TimeSpan(0, 0, 30);
             _tmr.Tick += Timer_Tick;
             _tmr.Start();
             Closing += Window_Closing;
