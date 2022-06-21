@@ -271,6 +271,7 @@
     <Content Include="Attendances\Online_Display\CSS\device-display.css" />
     <Content Include="Attendances\Online_Display\CSS\Display.css" />
     <Content Include="Attendances\Online_Display\DeviceDisplay.aspx" />
+    <Content Include="Attendances\Online_Display\js\grouploop-1.0.3.min.js" />
     <Content Include="Attendances\Online_Display\js\jquery.liMarquee.js" />
     <Content Include="Attendances\Online_Display\mdb\css\mdb-admin.min.css" />
     <Content Include="Attendances\Online_Display\mdb\css\mdb-core.css" />

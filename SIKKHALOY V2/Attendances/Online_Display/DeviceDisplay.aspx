@@ -6,14 +6,16 @@
 <head runat="server">
     <title>Sikkhaloy - device display</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="/CSS/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="mdb/css/mdb-core.css" rel="stylesheet" />
-   
-    <link href="CSS/device-display.css" rel="stylesheet" />
+
+    <link href="CSS/device-display.css?v=2.0.0" rel="stylesheet" />
 </head>
 <body>
     <form runat="server">
+         <!--student-->
         <div class="student">
             <div class="summary z-depth-1 flex-1">
                 <asp:FormView ID="StudentSummaryFV" runat="server" DataSourceID="StudentSummarySQL" RenderOuterTable="false">
@@ -44,7 +46,7 @@
 
             <div class="card card-body ml-3 flex-1">
                 <!--student in-->
-                 <div class="slide-in str_wrap">
+                <div class="slide-in str_wrap">
                     <asp:Repeater ID="StudentEntryLog" runat="server" DataSourceID="Student_Entry_LogSQL">
                         <ItemTemplate>
                             <div class="info-block">
@@ -55,9 +57,9 @@
                                     </div>
                                     <img class="card-img-top" src="/Handeler/Student_Id_Based_Photo.ashx?StudentID=<%#Eval("StudentID") %>" alt="" />
                                     <span class="notify-badge z-depth-2 <%# Eval("Attendance") %>"><%# Eval("Attendance") %></span>
-                                    <div class="EntryDate">
+                                    <div class="entry-date">
                                         <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <span class="Etime"><%# Eval("EntryTime") %></span>
+                                        <%# Eval("EntryTime") %>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +73,7 @@
                 </div>
 
                 <!--student out-->
-               <div class="slide-out str_wrap mt-3">
+                <div class="slide-out str_wrap mt-3">
                     <asp:Repeater ID="StudentExitLog" runat="server" DataSourceID="Student_Exit_LogSQL">
                         <ItemTemplate>
                             <div class="info-block">
@@ -82,9 +84,13 @@
                                     </div>
                                     <img class="card-img-top" src="/Handeler/Student_Id_Based_Photo.ashx?StudentID=<%#Eval("StudentID") %>" alt="" />
                                     <span class="notify-badge z-depth-2 <%# Eval("Attendance") %>"><%# Eval("Attendance") %></span>
-                                    <div class="EntryDate">
+                                    <div class="entry-date">
                                         <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <span class="Etime"><%# Eval("ExitTime") %></span>
+                                        <%# Eval("EntryTime") %>
+                                    </div>
+                                    <div class="exit-date">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <%# Eval("ExitTime") %>
                                     </div>
                                 </div>
                             </div>
@@ -99,6 +105,7 @@
             </div>
         </div>
 
+        <!--employee-->
         <div class="student mt-2">
             <div class="summary z-depth-1 flex-1">
                 <asp:FormView ID="EmployeeSummaryFormView" runat="server" DataSourceID="EmployeeSummarySQL" RenderOuterTable="false">
@@ -125,15 +132,14 @@
                         <asp:QueryStringParameter Name="SchoolID" QueryStringField="SchoolID" />
                     </SelectParameters>
                 </asp:SqlDataSource>
-
             </div>
 
             <div class="card card-body ml-3 flex-1">
                 <!--employee in-->
-               <div class="slide-in str_wrap">
+                <div class="slide-in str_wrap">
                     <asp:Repeater ID="EmployeeEntryLog" runat="server" DataSourceID="EmployeeEntryLogSQL">
                         <ItemTemplate>
-                            <div class="info-block item">
+                            <div class="info-block">
                                 <div class="card">
                                     <div class="name-title">
                                         <i class="fa fa-user-o" aria-hidden="true"></i>
@@ -141,10 +147,11 @@
                                     </div>
                                     <img class="card-img-top" src="/Handeler/Employee_Image.ashx?Img=<%#Eval("EmployeeID") %>" alt="" />
                                     <span class="notify-badge z-depth-2 <%# Eval("AttendanceStatus") %>"><%# Eval("AttendanceStatus") %></span>
-                                    <div class="EntryDate">
+                                    <div class="entry-date">
                                         <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <span class="Etime"><%# Eval("EntryTime") %></span>
+                                        <%# Eval("EntryTime") %>
                                     </div>
+
                                 </div>
                             </div>
                         </ItemTemplate>
@@ -158,10 +165,10 @@
                 </div>
 
                 <!--employee out-->
-                 <div class="slide-out str_wrap mt-3">
+                <div class="slide-out str_wrap mt-3">
                     <asp:Repeater ID="EmployeeExitLog" runat="server" DataSourceID="EmployeeExitLogSQL">
                         <ItemTemplate>
-                            <div class="info-block item">
+                            <div class="info-block">
                                 <div class="card">
                                     <div class="name-title">
                                         <i class="fa fa-user-o" aria-hidden="true"></i>
@@ -169,9 +176,13 @@
                                     </div>
                                     <img class="card-img-top" src="/Handeler/Employee_Image.ashx?Img=<%#Eval("EmployeeID") %>" alt="" />
                                     <span class="notify-badge z-depth-2 <%# Eval("AttendanceStatus") %>"><%# Eval("AttendanceStatus") %></span>
-                                    <div class="EntryDate">
+                                    <div class="entry-date">
                                         <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <span class="Etime"><%# Eval("ExitTime") %></span>
+                                        <%# Eval("EntryTime") %>
+                                    </div>
+                                    <div class="exit-date">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <%# Eval("ExitTime") %>
                                     </div>
                                 </div>
                             </div>
@@ -198,28 +209,30 @@
         });
 
         //listen for window resize event
-        window.addEventListener('resize', ()=> {
+        window.addEventListener('resize', () => {
+            $('.slide-in').liMarquee('destroy');
+            $('.slide-out').liMarquee('destroy');
+
             initMarquee();
         });
-
 
         function initMarquee() {
             $('.slide-in').liMarquee({
                 direction: 'left',
                 loop: -1,
                 scrolldelay: 0,
-                scrollamount: 50,
+                scrollamount: 35,
                 circular: true,
-                drag: true
+                drag: false
             });
 
             $('.slide-out').liMarquee({
                 direction: 'right',
                 loop: -1,
                 scrolldelay: 0,
-                scrollamount: 20,
+                scrollamount: 35,
                 circular: true,
-                drag: true
+                drag: false
             });
         }
     </script>

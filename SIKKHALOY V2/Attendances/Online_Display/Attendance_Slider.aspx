@@ -5,9 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-        <ContentTemplate>
-            <%if (EmployeeIN_Repeater.Items.Count > 0)
-            {%>
+        <ContentTemplate>      
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <ul class="list-group list-group-flush z-depth-1">
@@ -122,10 +120,7 @@
                     </div>
                 </div>
             </div>
-            <%}%>
-
-            <%if (StudentINRepeater.Items.Count > 0)
-            {%>
+         
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <ul class="list-group list-group-flush z-depth-1">
@@ -236,8 +231,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <%}%>
+            </div>   
         </ContentTemplate>
     </asp:UpdatePanel>
     <asp:UpdateProgress ID="UpdateProgress" runat="server">
