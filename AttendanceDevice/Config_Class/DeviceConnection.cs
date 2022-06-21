@@ -46,7 +46,7 @@ namespace AttendanceDevice.Config_Class
         {
             var deviceId = Convert.ToInt32(enrollNumber);
             var dt = new DateTime(year, month, day, hour, minute, second);
-            var time = new TimeSpan(hour, minute, second);
+            var time = new TimeSpan(hour, minute, 0);
             var userView = LocalData.Instance.GetUserView(deviceId);
             var DuplicatePunchCountableMin = 10;
 
@@ -179,11 +179,7 @@ namespace AttendanceDevice.Config_Class
                         {
                             if (attRecord.AttendanceStatus == "Abs")
                             {
-                                if (time < sEndTime)
-                                {
-                                    attRecord.AttendanceStatus = "Late Abs";
-                                }
-
+                                attRecord.AttendanceStatus = "Late Abs";
                                 attRecord.EntryTime = time.ToString();
                                 attRecord.Is_Updated = false;
                             }

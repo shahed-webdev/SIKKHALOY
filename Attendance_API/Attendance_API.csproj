@@ -166,6 +166,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -235,6 +236,8 @@
     <Compile Include="DB_Model\Attendance_Record.cs" />
     <Compile Include="DB_Model\Device_Finger_Print_Record.cs" />
     <Compile Include="DB_Model\Employee_Attendance_Record.cs" />
+    <Compile Include="DB_Model\SMS_OtherInfo.cs" />
+    <Compile Include="DB_Model\SMS_Send_Record.cs" />
     <Compile Include="DB_Model\VW_Attendance_Emp_Setting.cs" />
     <Compile Include="DB_Model\VW_Attendance_Stu_Setting.cs" />
     <Compile Include="DB_Model\Attendance_Schedule_Day.cs" />

@@ -10,8 +10,8 @@ namespace Attendance_API.Models
         public string AttendanceStatus { get; set; }
         public string ExitStatus { get; set; }
         public bool Is_OUT { get; set; }
-        public TimeSpan EntryTime { get; set; }
-        public TimeSpan ExitTime { get; set; }
+        public TimeSpan? EntryTime { get; set; }
+        public TimeSpan? ExitTime { get; set; }
         public bool Is_Sent { get; set; }
         public bool Is_Updated { get; set; }
     }

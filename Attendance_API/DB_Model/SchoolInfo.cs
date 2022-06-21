@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Attendance_API.DB_Model
@@ -14,6 +13,6 @@ namespace Attendance_API.DB_Model
         public string Phone { get; set; }
         public string UserName { get; set; }
         public string Validation { get; set; }
-        public Nullable<int> School_SN { get; set; }
+        public int? School_SN { get; set; }
     }
 }

@@ -109,6 +109,29 @@ namespace AttendanceDevice.Config_Class
             }
         }
 
+        public async Task GetTodayAttendanceRecords(List<Attendance_Record> records)
+        {
+            var today = DateTime.Now.ToShortDateString();
+            using (var db = new ModelContext())
+            {
+                var TodayPcAttendanceDeviceIDs = await db.attendance_Records.Where(a => a.AttendanceDate == today).Select(a => a.DeviceID).ToListAsync();
+
+                var additionalServerAttendance = records.Where(u => !TodayPcAttendanceDeviceIDs.Contains(u.DeviceID)).ToList();
+
+                var attendanceData = additionalServerAttendance.Select(a =>
+                {
+                    a.AttendanceDate = Convert.ToDateTime(a.AttendanceDate).ToShortDateString();
+                    return a;
+                }).ToList();
+
+                if (attendanceData.Any())
+                {
+                    db.attendance_Records.AddRange(attendanceData);
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
+
         public async Task<List<Attendance_Record>> StudentLog_Post()
         {
             using (var db = new ModelContext())
