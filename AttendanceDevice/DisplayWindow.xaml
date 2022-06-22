@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:AttendanceDevice"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:browser="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    xmlns:browser="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Title="Display"
     MinWidth="600"
     MinHeight="600"
@@ -251,61 +251,6 @@
         </Grid>
 
     
-        <!--setting login-->
-        <materialDesign:DialogHost Name="SettingLoginDialog" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
-            <materialDesign:DialogHost.DialogContent>
-                <Grid Width="320">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
 
-                    <StackPanel Margin="10">
-                        <TextBlock
-                            Margin="0,10,0,10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="15"
-                            FontWeight="Bold"
-                            Foreground="#333"
-                            Text="Setting Key" />
-                        <PasswordBox
-                            x:Name="SettingPasswordBox"
-                            HorizontalAlignment="Stretch"
-                            materialDesign:HintAssist.Hint="Insert Setting Key"
-                            FontSize="16"
-                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Row="1"
-                        Margin="0,10,0,10"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Button
-                            Name="LoginButton"
-                            Margin="0,0,10,0"
-                            Click="LoginButton_Click"
-                            Content="Setting"
-                            IsDefault="True" />
-                        <Button
-                            Name="CancelButton"
-                            Background="red"
-                            BorderBrush="{x:Null}"
-                            Click="CancelButton_Click"
-                            Content="Cancel"
-                            IsCancel="True" />
-                    </StackPanel>
-
-                    <Grid
-                        Grid.Row="2"
-                        Margin="0,0,0,10"
-                        HorizontalAlignment="Center">
-                        <TextBlock Name="Error" Foreground="Red" />
-                    </Grid>
-                </Grid>
-            </materialDesign:DialogHost.DialogContent>
-        </materialDesign:DialogHost>
     </Grid>
 </Window>

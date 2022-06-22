@@ -339,42 +339,11 @@ namespace AttendanceDevice
         //Setting Dialog
         private void Setting_Button_Click(object sender, RoutedEventArgs e)
         {
-            //SettingLoginDialog.IsOpen = true;
-
-            LocalData.Current_Error = new Setting_Error();
-            var settings = new Setting();
-            settings.Show();
+            var settingLogin = new SettingLogin();
+            settingLogin.Show();
             Close();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            SettingLoginDialog.IsOpen = false;
-            Error.Text = "";
-        }
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SettingPasswordBox.Password.Trim() == "") return;
-
-            using (var db = new ModelContext())
-            {
-                var institution = db.Institutions.FirstOrDefault();
-
-                if (institution == null) return;
-
-                if (institution.SettingKey != SettingPasswordBox.Password)
-                {
-                    Error.Text = "Setting key is incorrect!";
-                    SettingPasswordBox.Password = "";
-                    return;
-                }
-
-                var settings = new Setting();
-                SettingLoginDialog.IsOpen = false;
-                settings.Show();
-                this.Close();
-            }
-        }
 
         //external page link
         private void Sikkhaloy_Click(object sender, RoutedEventArgs e)

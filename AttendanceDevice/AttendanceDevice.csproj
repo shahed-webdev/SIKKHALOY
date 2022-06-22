@@ -214,6 +214,9 @@
     <Compile Include="Settings\Pages\SchedulePage.xaml.cs">
       <DependentUpon>SchedulePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\SettingLogin.xaml.cs">
+      <DependentUpon>SettingLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TESTWindow.xaml.cs">
       <DependentUpon>TESTWindow.xaml</DependentUpon>
     </Compile>
@@ -309,6 +312,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\SettingLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

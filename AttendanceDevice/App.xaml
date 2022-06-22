@@ -6,8 +6,7 @@
     xmlns:local="clr-namespace:AttendanceDevice"
     DispatcherUnhandledException="Application_DispatcherUnhandledException"
     StartupUri="Window_Startup.xaml">
-
-
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
