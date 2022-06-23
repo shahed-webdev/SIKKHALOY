@@ -37,7 +37,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid>      
+    <Grid>
         <Grid Panel.ZIndex="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -192,7 +192,7 @@
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <StackPanel Margin="0 0 15 0">
                     <materialDesign:Card
                         Name="UserDataGrid"
@@ -227,7 +227,7 @@
                                 Text="{Binding Enroll_Time, StringFormat=dd MMM yyyy (hh:mm tt)}"
                                 TextAlignment="Center" />
                                 </Viewbox>
-                                
+
                                 <Viewbox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <TextBlock
                                 Margin="5"
@@ -235,22 +235,16 @@
                                 Foreground="#333"
                                 Text="{Binding ID}"
                                 TextAlignment="Center" />
-                          
                                 </Viewbox>
-
-                               
                             </Grid>
-                        </Grid>
+                      </Grid>  
                     </materialDesign:Card>
                 </StackPanel>
 
                 <DockPanel Grid.Column="1">
                     <browser:WebView2 Name="webView" />
                 </DockPanel>
-            </Grid> 
+            </Grid>
         </Grid>
-
-    
-
     </Grid>
 </Window>

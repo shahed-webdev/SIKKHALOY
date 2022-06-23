@@ -26,7 +26,7 @@ namespace AttendanceDevice
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("An unhandled exception just occurred: " + e.Exception.Message, "App Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             e.Handled = true;
         }
     }
