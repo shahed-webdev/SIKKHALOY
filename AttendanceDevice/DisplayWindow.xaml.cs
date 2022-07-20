@@ -29,13 +29,20 @@ namespace AttendanceDevice
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        async Task InitializeAsync()
+        {
+            await webView.EnsureCoreWebView2Async(null);
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = LocalData.Instance.institution;
             var schoolId = LocalData.Instance.institution.SchoolID;
 
+            await InitializeAsync();
+        
             var url = $"{ApiUrl.WebUrl}/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
-            webView.Source = new Uri(url);
+            webView.CoreWebView2.Navigate(url);
 
             countDevice.Badge = _deviceDisplay.Total_Devices();
             foreach (var device in _deviceDisplay.Devices)
@@ -125,6 +132,7 @@ namespace AttendanceDevice
                 //check internet
                 var internet = await ApiUrl.IsNoNetConnection();
                 if (internet) return;
+              
                 //check server ok
                 var server = await ApiUrl.IsServerUnavailable();
                 if (server) return;

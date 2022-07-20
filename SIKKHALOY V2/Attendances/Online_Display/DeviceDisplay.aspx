@@ -208,14 +208,6 @@
             initMarquee();
         });
 
-        //listen for window resize event
-        window.addEventListener('resize', () => {
-            $('.slide-in').liMarquee('destroy');
-            $('.slide-out').liMarquee('destroy');
-
-            initMarquee();
-        });
-
         function initMarquee() {
             $('.slide-in').liMarquee({
                 direction: 'left',
