@@ -157,7 +157,7 @@
                                 </li>
                             </ItemTemplate>
                         </asp:FormView>
-                        <asp:SqlDataSource ID="Stu_Att_Report_SQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT (SELECT  COUNT(Student.StudentID) FROM  Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID INNER JOIN Education_Year ON StudentsClass.EducationYearID = Education_Year.EducationYearID WHERE (Student.Status = N'Active') AND (Education_Year.Status = N'True') AND (Student.SchoolID = @SchoolID))AS Total_Student,
+                        <asp:SqlDataSource ID="Stu_Att_Report_SQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT (SELECT COUNT(*) FROM VW_Attendance_Users WHERE (SchoolID = @SchoolID) and (Is_Student = 1))AS Total_Student,
 (SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (EntryTime IS NOT NULL) AND (Is_OUT = 0) AND (SchoolID = @SchoolID))AS Current_IN_Student,
 (SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (ExitTime IS NOT NULL) AND (Is_OUT = 1) AND (SchoolID = @SchoolID))AS Total_Out_Student,
 (SELECT COUNT(StudentID) FROM Attendance_Record WHERE (AttendanceDate = CONVERT(date, GETDATE())) AND (SchoolID = @SchoolID) AND (Attendance = 'Pre'))AS Total_Student_Prasent,
