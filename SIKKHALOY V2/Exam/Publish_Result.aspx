@@ -247,7 +247,7 @@ WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (ExamI
 EXEC [dbo].[SP_Exam_Student] @SchoolID,@EducationYearID,@ClassID,@ExamID
 EXEC [dbo].[SP_Exam_Attendance] @SchoolID,@EducationYearID,@ClassID,@ExamID,@RegistrationID,@From_Date,@To_Date
 EXEC [dbo].[HighestMark_Position] @SchoolID,@EducationYearID,@ClassID,@ExamID,@Exam_Position_Format"
-                                SelectCommand="SELECT * FROM [Exam_Result_of_Student]">
+                                SelectCommand="SELECT * FROM [Exam_Result_of_Student]" OnInserting="Student_ResultSQL_Inserting">
                                 <InsertParameters>
                                     <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                                     <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
