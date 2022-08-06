@@ -328,5 +328,10 @@ namespace EDUCATION.COM.Exam
             SubjectList();
 
         }
+
+        protected void Student_ResultSQL_Inserting(object sender, SqlDataSourceCommandEventArgs e)
+        {
+            e.Command.CommandTimeout = 0;
+        }
     }
 }
