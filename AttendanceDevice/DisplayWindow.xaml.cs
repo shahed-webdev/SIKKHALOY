@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -40,7 +41,7 @@ namespace AttendanceDevice
             var schoolId = LocalData.Instance.institution.SchoolID;
 
             await InitializeAsync();
-        
+
             var url = $"{ApiUrl.WebUrl}/Attendances/Online_Display/DeviceDisplay.aspx?schoolId={schoolId}";
             webView.CoreWebView2.Navigate(url);
 
@@ -52,7 +53,8 @@ namespace AttendanceDevice
             }
 
             //Timer-setup
-            _tmr.Interval = new TimeSpan(0, 0, 30);
+            _tmr.Interval = new TimeSpan(0, 1, 0);
+            RemoveClickEvent(_tmr);
             _tmr.Tick += Timer_Tick;
             _tmr.Start();
             Closing += Window_Closing;
@@ -63,6 +65,23 @@ namespace AttendanceDevice
             //Clean up.
             _tmr.Stop();
             _tmr = null;
+        }
+
+        private void RemoveClickEvent(DispatcherTimer b)
+        {
+            var fieldInfo = b.GetType().GetField(
+                "Tick", BindingFlags.Instance | BindingFlags.NonPublic);
+            var eventDelegate = fieldInfo.GetValue(b) as MulticastDelegate;
+            if (eventDelegate != null) // will be null if no subscribed event consumers
+            {
+                var delegates = eventDelegate.GetInvocationList();
+                foreach (Delegate d in delegates)
+                {
+                    _tmr.Tick -= (EventHandler)d;
+                }
+            }
+
+
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -132,7 +151,7 @@ namespace AttendanceDevice
                 //check internet
                 var internet = await ApiUrl.IsNoNetConnection();
                 if (internet) return;
-              
+
                 //check server ok
                 var server = await ApiUrl.IsServerUnavailable();
                 if (server) return;
