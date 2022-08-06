@@ -215,6 +215,7 @@
                 scrolldelay: 0,
                 scrollamount: 35,
                 circular: true,
+                hoverStop: false,
                 drag: false
             });
 
@@ -224,6 +225,7 @@
                 scrolldelay: 0,
                 scrollamount: 35,
                 circular: true,
+                hoverStop:false,
                 drag: false
             });
         }

@@ -237,7 +237,7 @@
                                 TextAlignment="Center" />
                                 </Viewbox>
                             </Grid>
-                      </Grid>  
+                        </Grid>
                     </materialDesign:Card>
                 </StackPanel>
 
