@@ -21,13 +21,13 @@
     <!-- Bootstrap Date-Picker Plugin -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
     <!-- Custom -->
-    <link href="/CSS/Internal_Master.css?v=15.4" rel="stylesheet" />
+    <link href="/CSS/Internal_Master.css?v=3.0.0" rel="stylesheet" />
     <!-- Sidebar -->
-    <link href="/CSS/SideNavbar.css?v=21.1" rel="stylesheet" />
+    <link href="/CSS/SideNavbar.css?v=2.3.0" rel="stylesheet" />
     <!-- grid view -->
-    <link href="/CSS/Gridview.css?v=18.1" rel="stylesheet" />
+    <link href="/CSS/Gridview.css?v=5.1.0" rel="stylesheet" />
     <!-- Print -->
-    <link href="/CSS/Print.css?v=2.2" media="print" rel="stylesheet" />
+    <link href="/CSS/Print.css?v=2.0.1" media="print" rel="stylesheet" />
 
     <!--[if lt IE 9]>
      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
