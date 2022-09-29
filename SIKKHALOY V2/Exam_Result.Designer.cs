@@ -755,6 +755,10 @@ namespace EDUCATION.COM {
             
             private global::System.Data.DataColumn columnIS_Add_InExam;
             
+            private global::System.Data.DataColumn columnLast_Published_Date;
+            
+            private global::System.Data.DataColumn columnSubjectSN;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public RTableDataTable() {
@@ -1294,6 +1298,22 @@ namespace EDUCATION.COM {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Last_Published_DateColumn {
+                get {
+                    return this.columnLast_Published_Date;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SubjectSNColumn {
+                get {
+                    return this.columnSubjectSN;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1392,7 +1412,9 @@ namespace EDUCATION.COM {
                         bool IS_Hide_FullMark, 
                         bool IS_Hide_PassMark, 
                         string SubjectAbsenceStatus, 
-                        bool IS_Add_InExam) {
+                        bool IS_Add_InExam, 
+                        System.DateTime Last_Published_Date, 
+                        int SubjectSN) {
                 RTableRow rowRTableRow = ((RTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -1457,7 +1479,9 @@ namespace EDUCATION.COM {
                         IS_Hide_FullMark,
                         IS_Hide_PassMark,
                         SubjectAbsenceStatus,
-                        IS_Add_InExam};
+                        IS_Add_InExam,
+                        Last_Published_Date,
+                        SubjectSN};
                 rowRTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRTableRow);
                 return rowRTableRow;
@@ -1543,6 +1567,8 @@ namespace EDUCATION.COM {
                 this.columnIS_Hide_PassMark = base.Columns["IS_Hide_PassMark"];
                 this.columnSubjectAbsenceStatus = base.Columns["SubjectAbsenceStatus"];
                 this.columnIS_Add_InExam = base.Columns["IS_Add_InExam"];
+                this.columnLast_Published_Date = base.Columns["Last_Published_Date"];
+                this.columnSubjectSN = base.Columns["SubjectSN"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1674,6 +1700,10 @@ namespace EDUCATION.COM {
                 base.Columns.Add(this.columnSubjectAbsenceStatus);
                 this.columnIS_Add_InExam = new global::System.Data.DataColumn("IS_Add_InExam", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIS_Add_InExam);
+                this.columnLast_Published_Date = new global::System.Data.DataColumn("Last_Published_Date", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLast_Published_Date);
+                this.columnSubjectSN = new global::System.Data.DataColumn("SubjectSN", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSubjectSN);
                 this.columnID.AllowDBNull = false;
                 this.columnID.MaxLength = 50;
                 this.columnStudentsName.AllowDBNull = false;
@@ -8090,6 +8120,38 @@ namespace EDUCATION.COM {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public System.DateTime Last_Published_Date {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableRTable.Last_Published_DateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Last_Published_Date\' in table \'RTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRTable.Last_Published_DateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int SubjectSN {
+                get {
+                    try {
+                        return ((int)(this[this.tableRTable.SubjectSNColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SubjectSN\' in table \'RTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRTable.SubjectSNColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsClassNull() {
                 return this.IsNull(this.tableRTable.ClassColumn);
             }
@@ -8818,6 +8880,30 @@ namespace EDUCATION.COM {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetIS_Add_InExamNull() {
                 this[this.tableRTable.IS_Add_InExamColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsLast_Published_DateNull() {
+                return this.IsNull(this.tableRTable.Last_Published_DateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetLast_Published_DateNull() {
+                this[this.tableRTable.Last_Published_DateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSubjectSNNull() {
+                return this.IsNull(this.tableRTable.SubjectSNColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSubjectSNNull() {
+                this[this.tableRTable.SubjectSNColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -14675,6 +14761,8 @@ namespace EDUCATION.COM.Exam_ResultTableAdapters {
             tableMapping.ColumnMappings.Add("IS_Hide_PassMark", "IS_Hide_PassMark");
             tableMapping.ColumnMappings.Add("SubjectAbsenceStatus", "SubjectAbsenceStatus");
             tableMapping.ColumnMappings.Add("IS_Add_InExam", "IS_Add_InExam");
+            tableMapping.ColumnMappings.Add("Last_Published_Date", "Last_Published_Date");
+            tableMapping.ColumnMappings.Add("SubjectSN", "SubjectSN");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -14691,69 +14779,81 @@ namespace EDUCATION.COM.Exam_ResultTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT SchoolInfo.SchoolName, SchoolInfo.SchoolLogo, SchoolInfo.Address, Student." +
-                "ID, Student.StudentsName, Student_Image.Image, CreateClass.Class, StudentsClass." +
-                "RollNo, CreateShift.Shift, CreateSection.Section, CreateSubjectGroup.SubjectGrou" +
-                "p, Subject.SubjectName, Exam_Name.ExamName, Exam_SubExam_Name.SubExamName, Exam_" +
-                "Obtain_Marks.FullMark, Exam_Obtain_Marks.PassMark, Exam_Obtain_Marks.MarksObtain" +
-                "ed, Exam_Obtain_Marks.ObtainedGrades, Exam_Obtain_Marks.ObtainedPoint, Exam_Resu" +
-                "lt_of_Subject.TotalMark_ofSubject, Exam_Result_of_Subject.ObtainedMark_ofSubject" +
-                ", Exam_Result_of_Subject.SubjectGrades, Exam_Result_of_Subject.SubjectPoint, Exa" +
-                "m_Result_of_Student.TotalMark_ofStudent, Exam_Result_of_Student.ObtainedMark_ofS" +
-                "tudent, Exam_Result_of_Student.ObtainedPercentage_ofStudent, Exam_Result_of_Stud" +
-                "ent.Student_Point, Exam_Result_of_Student.Student_Grade, Exam_Result_of_Student." +
-                "PassMark_Student, Exam_Result_of_Student.PassStatus_Student, Exam_Result_of_Stud" +
-                "ent.PassStatus_InSubject, Exam_Result_of_Subject.PassStatus_InSubExam, Exam_Resu" +
-                "lt_of_Student.StudentAbsenceStatus, Exam_Result_of_Subject.PassStatus_Subject, E" +
-                "xam_Obtain_Marks.AbsenceStatus, Exam_Result_of_Subject.SubjectType, Exam_Publish" +
-                "_Setting.Attendance_FromDate, Exam_Publish_Setting.Attendance_ToDate, Attendance" +
-                "_Student.TotalPresent, Attendance_Student.TotalAbsent, Attendance_Student.TotalL" +
-                "ate, Attendance_Student.TotalLeave, Attendance_Student.TotalBunk, Attendance_Stu" +
-                "dent.WorkingDays, Exam_Result_of_Subject.HighestMark_InSubject_Class, Exam_Resul" +
-                "t_of_Subject.HighestMark_InSubject_Subsection, Exam_Result_of_Subject.Position_I" +
-                "nSubject_Class + CASE Exam_Result_of_Subject.Position_InSubject_Class % 10 WHEN " +
-                "1 THEN \'st\' WHEN 2 THEN \'nd\' WHEN 3 THEN \'rd\' ELSE \'th\' END AS Position_InSubjec" +
-                "t_Class, Exam_Result_of_Subject.Position_InSubject_Subsection + CASE Exam_Result" +
-                "_of_Subject.Position_InSubject_Subsection % 10 WHEN 1 THEN \'st\' WHEN 2 THEN \'nd\'" +
-                " WHEN 3 THEN \'rd\' ELSE \'th\' END AS Position_InSubject_Subsection, Exam_Result_of" +
-                "_Student.HighestMark_InExam_Class, Exam_Result_of_Student.HighestMark_InExam_Sub" +
-                "section, Exam_Result_of_Student.Position_InExam_Class + CASE Exam_Result_of_Stud" +
-                "ent.Position_InExam_Class % 10 WHEN 1 THEN \'st\' WHEN 2 THEN \'nd\' WHEN 3 THEN \'rd" +
-                "\' ELSE \'th\' END AS Position_InExam_Class, Exam_Result_of_Student.Position_InExam" +
-                "_Subsection + CASE Exam_Result_of_Student.Position_InExam_Subsection % 10 WHEN 1" +
-                " THEN \'st\' WHEN 2 THEN \'nd\' WHEN 3 THEN \'rd\' ELSE \'th\' END AS Position_InExam_Su" +
-                "bsection, Exam_Publish_Setting.IS_Hide_Sec_Position, Exam_Publish_Setting.IS_Hid" +
-                "e_FullMark, Exam_Publish_Setting.IS_Hide_PassMark,\r\nExam_Result_of_Student.Avera" +
-                "ge, Exam_Result_of_Student.NotGolden, Exam_Result_of_Student.Student_Comments, S" +
-                "choolInfo.Phone, Attendance_Student.TotalLateAbs, ISNULL(Exam_SubExam_Name.Sub_E" +
-                "xamSN,0) AS Sub_ExamSN, Exam_Result_of_Subject.SubjectAbsenceStatus, Exam_Result" +
-                "_of_Subject.IS_Add_InExam FROM CreateClass INNER JOIN Subject INNER JOIN Exam_Ob" +
-                "tain_Marks ON Subject.SubjectID = Exam_Obtain_Marks.SubjectID ON CreateClass.Cla" +
-                "ssID = Exam_Obtain_Marks.ClassID INNER JOIN Exam_Name ON Exam_Obtain_Marks.ExamI" +
-                "D = Exam_Name.ExamID INNER JOIN Student ON Exam_Obtain_Marks.StudentID = Student" +
-                ".StudentID INNER JOIN Exam_Result_of_Student INNER JOIN Exam_Result_of_Subject O" +
-                "N Exam_Result_of_Student.StudentResultID = Exam_Result_of_Subject.StudentResultI" +
-                "D ON Exam_Obtain_Marks.StudentResultID = Exam_Result_of_Subject.StudentResultID " +
-                "AND Exam_Obtain_Marks.SubjectID = Exam_Result_of_Subject.SubjectID INNER JOIN St" +
-                "udentsClass ON Exam_Result_of_Student.StudentClassID = StudentsClass.StudentClas" +
-                "sID INNER JOIN Exam_Publish_Setting ON Exam_Result_of_Student.Publish_SettingID " +
-                "= Exam_Publish_Setting.Publish_SettingID INNER JOIN SchoolInfo ON Exam_Publish_S" +
-                "etting.SchoolID = SchoolInfo.SchoolID LEFT OUTER JOIN Attendance_Student ON Exam" +
-                "_Result_of_Student.StudentClassID = Attendance_Student.StudentClassID AND Exam_R" +
-                "esult_of_Student.ExamID = Attendance_Student.ExamID LEFT OUTER JOIN Student_Imag" +
-                "e ON Student.StudentImageID = Student_Image.StudentImageID LEFT OUTER JOIN Creat" +
-                "eSubjectGroup ON StudentsClass.SubjectGroupID = CreateSubjectGroup.SubjectGroupI" +
-                "D LEFT OUTER JOIN CreateShift ON StudentsClass.ShiftID = CreateShift.ShiftID LEF" +
-                "T OUTER JOIN CreateSection ON StudentsClass.SectionID = CreateSection.SectionID " +
-                "LEFT OUTER JOIN Exam_SubExam_Name ON Exam_Obtain_Marks.SubExamID = Exam_SubExam_" +
-                "Name.SubExamID WHERE (Student.Status = N\'Active\') AND (StudentsClass.SectionID L" +
-                "IKE @SectionID) AND (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND (Stu" +
-                "dentsClass.ShiftID LIKE @ShiftID) AND (Exam_Publish_Setting.SchoolID = @SchoolID" +
-                ") AND (Exam_Publish_Setting.EducationYearID = @EducationYearID) AND (Exam_Publis" +
-                "h_Setting.ExamID = @ExamID) AND (Exam_Publish_Setting.ClassID = @ClassID)  ORDER" +
-                " BY CreateSection.Section, CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CA" +
-                "ST(REPLACE(REPLACE(StudentsClass.RollNo, \'$\', \'\'), \',\', \'\') AS INT) ELSE 0 END, " +
-                "ISNULL(Subject.SN, 9999)";
+            this._commandCollection[0].CommandText = "SELECT        SchoolInfo.SchoolName, SchoolInfo.SchoolLogo, SchoolInfo.Address, S" +
+                "tudent.ID, Student.StudentsName, Student_Image.Image, CreateClass.Class, Student" +
+                "sClass.RollNo, CreateShift.Shift, CreateSection.Section, \r\n                     " +
+                "    CreateSubjectGroup.SubjectGroup, Subject.SubjectName, Exam_Name.ExamName, Ex" +
+                "am_SubExam_Name.SubExamName, Exam_Obtain_Marks.FullMark, Exam_Obtain_Marks.PassM" +
+                "ark, Exam_Obtain_Marks.MarksObtained, \r\n                         Exam_Obtain_Mar" +
+                "ks.ObtainedGrades, Exam_Obtain_Marks.ObtainedPoint, Exam_Result_of_Subject.Total" +
+                "Mark_ofSubject, Exam_Result_of_Subject.ObtainedMark_ofSubject, Exam_Result_of_Su" +
+                "bject.SubjectGrades, \r\n                         Exam_Result_of_Subject.SubjectPo" +
+                "int, Exam_Result_of_Student.TotalMark_ofStudent, Exam_Result_of_Student.Obtained" +
+                "Mark_ofStudent, Exam_Result_of_Student.ObtainedPercentage_ofStudent, \r\n         " +
+                "                Exam_Result_of_Student.Student_Point, Exam_Result_of_Student.Stu" +
+                "dent_Grade, Exam_Result_of_Student.PassMark_Student, Exam_Result_of_Student.Pass" +
+                "Status_Student, Exam_Result_of_Student.PassStatus_InSubject, \r\n                 " +
+                "        Exam_Result_of_Subject.PassStatus_InSubExam, Exam_Result_of_Student.Stud" +
+                "entAbsenceStatus, Exam_Result_of_Subject.PassStatus_Subject, Exam_Obtain_Marks.A" +
+                "bsenceStatus, Exam_Result_of_Subject.SubjectType, \r\n                         Exa" +
+                "m_Publish_Setting.Attendance_FromDate, Exam_Publish_Setting.Attendance_ToDate, A" +
+                "ttendance_Student.TotalPresent, Attendance_Student.TotalAbsent, Attendance_Stude" +
+                "nt.TotalLate, Attendance_Student.TotalLeave, \r\n                         Attendan" +
+                "ce_Student.TotalBunk, Attendance_Student.WorkingDays, Exam_Result_of_Subject.Hig" +
+                "hestMark_InSubject_Class, Exam_Result_of_Subject.HighestMark_InSubject_Subsectio" +
+                "n, \r\n                         Exam_Result_of_Subject.Position_InSubject_Class + " +
+                "CASE Exam_Result_of_Subject.Position_InSubject_Class % 10 WHEN 1 THEN \'st\' WHEN " +
+                "2 THEN \'nd\' WHEN 3 THEN \'rd\' ELSE \'th\' END AS Position_InSubject_Class, \r\n      " +
+                "                   Exam_Result_of_Subject.Position_InSubject_Subsection + CASE E" +
+                "xam_Result_of_Subject.Position_InSubject_Subsection % 10 WHEN 1 THEN \'st\' WHEN 2" +
+                " THEN \'nd\' WHEN 3 THEN \'rd\' ELSE \'th\' END AS Position_InSubject_Subsection,\r\n   " +
+                "                       Exam_Result_of_Student.HighestMark_InExam_Class, Exam_Res" +
+                "ult_of_Student.HighestMark_InExam_Subsection, \r\n                         Exam_Re" +
+                "sult_of_Student.Position_InExam_Class + CASE Exam_Result_of_Student.Position_InE" +
+                "xam_Class % 10 WHEN 1 THEN \'st\' WHEN 2 THEN \'nd\' WHEN 3 THEN \'rd\' ELSE \'th\' END " +
+                "AS Position_InExam_Class, \r\n                         Exam_Result_of_Student.Posi" +
+                "tion_InExam_Subsection + CASE Exam_Result_of_Student.Position_InExam_Subsection " +
+                "% 10 WHEN 1 THEN \'st\' WHEN 2 THEN \'nd\' WHEN 3 THEN \'rd\' ELSE \'th\' END AS Positio" +
+                "n_InExam_Subsection,\r\n                          Exam_Publish_Setting.IS_Hide_Sec" +
+                "_Position, Exam_Publish_Setting.IS_Hide_FullMark, Exam_Publish_Setting.IS_Hide_P" +
+                "assMark, Exam_Result_of_Student.Average, Exam_Result_of_Student.NotGolden, \r\n   " +
+                "                      Exam_Result_of_Student.Student_Comments, SchoolInfo.Phone," +
+                " Attendance_Student.TotalLateAbs, ISNULL(Exam_SubExam_Name.Sub_ExamSN, 0) AS Sub" +
+                "_ExamSN, Exam_Result_of_Subject.SubjectAbsenceStatus, \r\n                        " +
+                " Exam_Result_of_Subject.IS_Add_InExam, Exam_Publish_Setting.Last_Published_Date," +
+                " Subject.SN AS SubjectSN\r\nFROM            CreateClass INNER JOIN\r\n              " +
+                "           Subject INNER JOIN\r\n                         Exam_Obtain_Marks ON Sub" +
+                "ject.SubjectID = Exam_Obtain_Marks.SubjectID ON CreateClass.ClassID = Exam_Obtai" +
+                "n_Marks.ClassID INNER JOIN\r\n                         Exam_Name ON Exam_Obtain_Ma" +
+                "rks.ExamID = Exam_Name.ExamID INNER JOIN\r\n                         Student ON Ex" +
+                "am_Obtain_Marks.StudentID = Student.StudentID INNER JOIN\r\n                      " +
+                "   Exam_Result_of_Student INNER JOIN\r\n                         Exam_Result_of_Su" +
+                "bject ON Exam_Result_of_Student.StudentResultID = Exam_Result_of_Subject.Student" +
+                "ResultID ON Exam_Obtain_Marks.StudentResultID = Exam_Result_of_Subject.StudentRe" +
+                "sultID AND \r\n                         Exam_Obtain_Marks.SubjectID = Exam_Result_" +
+                "of_Subject.SubjectID INNER JOIN\r\n                         StudentsClass ON Exam_" +
+                "Result_of_Student.StudentClassID = StudentsClass.StudentClassID INNER JOIN\r\n    " +
+                "                     Exam_Publish_Setting ON Exam_Result_of_Student.Publish_Sett" +
+                "ingID = Exam_Publish_Setting.Publish_SettingID INNER JOIN\r\n                     " +
+                "    SchoolInfo ON Exam_Publish_Setting.SchoolID = SchoolInfo.SchoolID LEFT OUTER" +
+                " JOIN\r\n                         Attendance_Student ON Exam_Result_of_Student.Stu" +
+                "dentClassID = Attendance_Student.StudentClassID AND Exam_Result_of_Student.ExamI" +
+                "D = Attendance_Student.ExamID LEFT OUTER JOIN\r\n                         Student_" +
+                "Image ON Student.StudentImageID = Student_Image.StudentImageID LEFT OUTER JOIN\r\n" +
+                "                         CreateSubjectGroup ON StudentsClass.SubjectGroupID = Cr" +
+                "eateSubjectGroup.SubjectGroupID LEFT OUTER JOIN\r\n                         Create" +
+                "Shift ON StudentsClass.ShiftID = CreateShift.ShiftID LEFT OUTER JOIN\r\n          " +
+                "               CreateSection ON StudentsClass.SectionID = CreateSection.SectionI" +
+                "D LEFT OUTER JOIN\r\n                         Exam_SubExam_Name ON Exam_Obtain_Mar" +
+                "ks.SubExamID = Exam_SubExam_Name.SubExamID\r\nWHERE        (Student.Status = N\'Act" +
+                "ive\') AND (StudentsClass.SectionID LIKE @SectionID) AND (StudentsClass.SubjectGr" +
+                "oupID LIKE @SubjectGroupID) AND (StudentsClass.ShiftID LIKE @ShiftID) AND \r\n    " +
+                "                     (Exam_Publish_Setting.SchoolID = @SchoolID) AND (Exam_Publi" +
+                "sh_Setting.EducationYearID = @EducationYearID) AND (Exam_Publish_Setting.ExamID " +
+                "= @ExamID) AND (Exam_Publish_Setting.ClassID = @ClassID)\r\nORDER BY CreateSection" +
+                ".Section, CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLAC" +
+                "E(StudentsClass.RollNo, \'$\', \'\'), \',\', \'\') AS INT) ELSE 0 END, ISNULL(Subject.SN" +
+                ", 9999)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SectionID", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "SectionID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SubjectGroupID", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "SubjectGroupID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));

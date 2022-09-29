@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Individual Result(Board)" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Board_Result.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.Board_Result" %>
+﻿<%@ Page Title="Individual Result(Board)" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Board_ResultV2.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.Board_ResultV2" %>
 
 <%@ Register assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
 <%@ Register TagPrefix="rsweb" Namespace="Microsoft.Reporting.WebForms" Assembly="Microsoft.ReportViewer.WebForms" %>
@@ -108,14 +108,14 @@
 
     <%if (ExamDropDownList.SelectedIndex != 0)
         {%>
-    <rsweb:ReportViewer ID="ResultReportViewer" runat="server" Font-Names="Arial" Font-Size="8pt" WaitMessageFont-Names="Verdana" ShowRefreshButton="False" WaitMessageFont-Size="14pt" AsyncRendering="False" SizeToReportContent="True" SplitterBackColor="White">
-        <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Individual_Result.rdlc" ReportPath="Exam\Result\rdlc\Report_Board_Result.rdlc">
+    <rsweb:ReportViewer ID="ResultReportViewer" runat="server" Font-Names="Arial" Font-Size="8pt" WaitMessageFont-Names="Verdana" ShowRefreshButton="False" WaitMessageFont-Size="14pt" AsyncRendering="False" SizeToReportContent="True" SplitterBackColor="White" BackColor="" ClientIDMode="AutoID" HighlightBackgroundColor="" InternalBorderColor="204, 204, 204" InternalBorderStyle="Solid" InternalBorderWidth="1px" LinkActiveColor="" LinkActiveHoverColor="" LinkDisabledColor="" PrimaryButtonBackgroundColor="" PrimaryButtonForegroundColor="" PrimaryButtonHoverBackgroundColor="" PrimaryButtonHoverForegroundColor="" SecondaryButtonBackgroundColor="" SecondaryButtonForegroundColor="" SecondaryButtonHoverBackgroundColor="" SecondaryButtonHoverForegroundColor="" ToolbarDividerColor="" ToolbarForegroundColor="" ToolbarForegroundDisabledColor="" ToolbarHoverBackgroundColor="" ToolbarHoverForegroundColor="" ToolBarItemBorderColor="" ToolBarItemBorderStyle="Solid" ToolBarItemBorderWidth="1px" ToolBarItemHoverBackColor="" ToolBarItemPressedBorderColor="51, 102, 153" ToolBarItemPressedBorderStyle="Solid" ToolBarItemPressedBorderWidth="1px" ToolBarItemPressedHoverBackColor="153, 187, 226">
+        <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Individual_Result.rdlc" ReportPath="Exam\Result\rdlc\Report_Result_V2.rdlc">
             <DataSources>
                 <rsweb:ReportDataSource DataSourceId="ExamResultODS" Name="DataSet1" />
             </DataSources>
         </LocalReport>
     </rsweb:ReportViewer>
-    <asp:ObjectDataSource ID="ExamResultODS" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="GetData" TypeName="EDUCATION.COM.Exam_ResultTableAdapters.BoardResultTableAdapter">
+    <asp:ObjectDataSource ID="ExamResultODS" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="GetData" TypeName="EDUCATION.COM.Exam_ResultTableAdapters.RTableTableAdapter">
         <SelectParameters>
             <asp:ControlParameter ControlID="SectionDropDownList" Name="SectionID" PropertyName="SelectedValue" Type="String" />
             <asp:ControlParameter ControlID="GroupDropDownList" Name="SubjectGroupID" PropertyName="SelectedValue" Type="String" />
