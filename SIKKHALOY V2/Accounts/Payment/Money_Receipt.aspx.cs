@@ -64,11 +64,12 @@ namespace EDUCATION.COM.Accounts.Payment
             if (StudentInfoFormView.CurrentMode == FormViewMode.ReadOnly)
             {
                 var phoneNo = StudentInfoFormView.DataKey["SMSPhoneNo"].ToString();
+                var studentId = StudentInfoFormView.DataKey["ID"].ToString();
                 var paid = ReceiptFormView.DataKey["TotalAmount"].ToString();
+                var studentName = (StudentInfoFormView.Row.FindControl("StudentsNameLabel") as Label)?.Text;
+                var receiptNo = (ReceiptFormView.Row.FindControl("MoneyReceiptIDLabel") as Label)?.Text;
 
-                msg += (StudentInfoFormView.Row.FindControl("StudentsNameLabel") as Label)?.Text;
-                msg += ". You've Paid: " + paid;
-                msg += " Tk. Receipt No: " + (ReceiptFormView.Row.FindControl("MoneyReceiptIDLabel") as Label)?.Text;
+                msg += $"(ID: {studentId}) {studentName}. You've Paid: {paid} Tk. Receipt No: {receiptNo}";
 
                 if (RoleCheckBox.Checked)
                 {

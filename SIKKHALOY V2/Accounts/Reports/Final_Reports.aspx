@@ -27,16 +27,19 @@
                             Empty
                         </EmptyDataTemplate>
                     </asp:GridView>
-                    <asp:SqlDataSource ID="UserSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * from(SELECT User_T.RegistrationID,User_T.AdminID, User_T.Name,ISNULL(EX_In_T.Other_Income,0) + ISNULL(Stu_P_T.Student_Income,0) AS Income,ISNULL(Ex_T.Expenditure,0) + ISNULL(Emp_P_T.Employee_Paid,0) AS Expense from (SELECT DISTINCT Registration.RegistrationID,Admin.AdminID, ISNULL(Admin.FirstName, '') + ' ' + ISNULL(Admin.LastName, '') + '(' + Registration.UserName + ')' AS Name
+                    <asp:SqlDataSource ID="UserSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * from(SELECT User_T.RegistrationID,User_T.AdminID, User_T.Name,ISNULL(EX_In_T.Other_Income,0) +ISNULL(Com_In_T.CommitteeDonation,0)+ ISNULL(Stu_P_T.Student_Income,0) AS Income,ISNULL(Ex_T.Expenditure,0) + ISNULL(Emp_P_T.Employee_Paid,0) AS Expense from (SELECT DISTINCT Registration.RegistrationID,Admin.AdminID, ISNULL(Admin.FirstName, '') + ' ' + ISNULL(Admin.LastName, '') + '(' + Registration.UserName + ')' AS Name
 FROM            Registration INNER JOIN
 							Admin ON Registration.RegistrationID = Admin.RegistrationID LEFT OUTER JOIN
 							Extra_Income ON Registration.RegistrationID = Extra_Income.RegistrationID LEFT OUTER JOIN
 							Income_PaymentRecord ON Registration.RegistrationID = Income_PaymentRecord.RegistrationID LEFT OUTER JOIN
 							Expenditure ON Registration.RegistrationID = Expenditure.RegistrationID LEFT OUTER JOIN
+							CommitteeMoneyReceipt ON Registration.RegistrationID = CommitteeMoneyReceipt.RegistrationID LEFT OUTER JOIN
 							Employee_Payorder_Records ON Registration.RegistrationID = Employee_Payorder_Records.RegistrationID
 WHERE        (Registration.SchoolID = @SchoolID)) as User_T
 LEFT OUTER JOIN
 (SELECT RegistrationID , ISNULL(SUM(Extra_IncomeAmount), 0) AS Other_Income FROM Extra_Income WHERE (SchoolID = @SchoolID) GROUP BY RegistrationID) AS EX_In_T on User_T.RegistrationID = EX_In_T.RegistrationID
+LEFT OUTER JOIN
+(SELECT RegistrationID , ISNULL(SUM(TotalAmount), 0) AS CommitteeDonation FROM CommitteeMoneyReceipt WHERE (SchoolID = @SchoolID) GROUP BY RegistrationID) AS Com_In_T on User_T.RegistrationID = Com_In_T.RegistrationID
 LEFT OUTER JOIN
 (SELECT RegistrationID,ISNULL(SUM(PaidAmount), 0) AS Student_Income FROM Income_PaymentRecord WHERE (SchoolID = @SchoolID) GROUP BY RegistrationID) AS Stu_P_T on User_T.RegistrationID = Stu_P_T.RegistrationID
 LEFT OUTER JOIN
@@ -104,16 +107,19 @@ FROM Account WHERE (SchoolID = @SchoolID)">
                         Empty
                     </EmptyDataTemplate>
                 </asp:GridView>
-                <asp:SqlDataSource ID="IncomeCategorySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Category, SUM(Total) AS Income from(SELECT        Income_Roles.Role AS Category, SUM(Income_PaymentRecord.PaidAmount) AS Total
-FROM            Income_PaymentRecord INNER JOIN
-							Income_Roles ON Income_PaymentRecord.RoleID = Income_Roles.RoleID
-WHERE        (Income_PaymentRecord.SchoolID = @SchoolID)
+                <asp:SqlDataSource ID="IncomeCategorySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Category, SUM(Total) AS Income from(SELECT Income_Roles.Role AS Category, SUM(Income_PaymentRecord.PaidAmount) AS Total
+FROM Income_PaymentRecord INNER JOIN Income_Roles ON Income_PaymentRecord.RoleID = Income_Roles.RoleID
+WHERE (Income_PaymentRecord.SchoolID = @SchoolID)
 GROUP BY Income_Roles.Role
+Union
+SELECT CommitteeDonationCategory.DonationCategory AS Category, SUM(CommitteePaymentRecord.PaidAmount) AS Total 
+FROM CommitteePaymentRecord INNER JOIN CommitteeDonation INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId 
+WHERE (CommitteePaymentRecord.SchoolId = @SchoolID) 
+GROUP BY CommitteeDonationCategory.DonationCategory
 Union 
-SELECT      Extra_IncomeCategory.Extra_Income_CategoryName AS Category , SUM(Extra_Income.Extra_IncomeAmount) AS Total
-FROM            Extra_Income INNER JOIN
-							Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID
-WHERE        (Extra_Income.SchoolID = @SchoolID)
+SELECT Extra_IncomeCategory.Extra_Income_CategoryName AS Category , SUM(Extra_Income.Extra_IncomeAmount) AS Total
+FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID
+WHERE(Extra_Income.SchoolID = @SchoolID)
 GROUP BY Extra_IncomeCategory.Extra_Income_CategoryName)as t GROUP  BY Category">
                     <SelectParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -227,8 +233,9 @@ WHERE (Expenditure.SchoolID = @SchoolID) GROUP BY Expense_CategoryName.CategoryN
                             </div>
                         </ItemTemplate>
                     </asp:FormView>
-                    <asp:SqlDataSource ID="IncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select Other_Income + Studnet_Paid as Total_Revenue,Expenditure + Employee_Paid as Total_Expense , Other_Income + Studnet_Paid - Expenditure - Employee_Paid as Net from ( SELECT 
+                    <asp:SqlDataSource ID="IncomeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="select Other_Income + Studnet_Paid + CommitteeDonation as Total_Revenue,Expenditure + Employee_Paid as Total_Expense , Other_Income + Studnet_Paid +CommitteeDonation - Expenditure - Employee_Paid as Net from ( SELECT 
 (SELECT ISNULL(SUM(Extra_IncomeAmount),0)  FROM Extra_Income WHERE (SchoolID = @SchoolID))AS Other_Income,
+(SELECT ISNULL(SUM(TotalAmount), 0) FROM CommitteeMoneyReceipt WHERE        (SchoolId = @SchoolID)) AS CommitteeDonation,
 (SELECT ISNULL(SUM(PaidAmount),0) FROM Income_PaymentRecord WHERE (SchoolID = @SchoolID))AS Studnet_Paid,
 (SELECT ISNULL(SUM(Amount),0)  FROM Expenditure WHERE (SchoolID = @SchoolID))AS Expenditure,
 (SELECT ISNULL(SUM(Amount),0) FROM Employee_Payorder_Records WHERE (SchoolID = @SchoolID))AS Employee_Paid) as t">
@@ -538,17 +545,22 @@ GROUP BY EducationYearID">
                                             <asp:BoundField DataField="NET" HeaderText="NET" ReadOnly="True" SortExpression="NET" DataFormatString="{0:N0}" />
                                         </Columns>
                                     </asp:GridView>
-                                    <asp:SqlDataSource ID="MonthsSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT M_T.Months, ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0) AS Income,ISNULL(Ex_T.Ex,0) + ISNULL(Emp_Ex_T.Emp_Ex,0) AS Expense,  ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0) - ISNULL(Ex_T.Ex,0) - ISNULL(Emp_Ex_T.Emp_Ex,0) AS NET FROM 
+                                    <asp:SqlDataSource ID="MonthsSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT M_T.Months, ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0)+ ISNULL(Com_In_T.Com_In,0) AS Income,ISNULL(Ex_T.Ex,0) + ISNULL(Emp_Ex_T.Emp_Ex,0) AS Expense,  ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0)+ ISNULL(Com_In_T.Com_In,0) - ISNULL(Ex_T.Ex,0) - ISNULL(Emp_Ex_T.Emp_Ex,0) AS NET FROM 
 (SELECT FORMAT(Extra_IncomeDate, 'MMM yyyy') AS Months FROM Extra_Income WHERE (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(Extra_IncomeDate, 'MMM yyyy')
 union
 SELECT FORMAT(PaidDate, 'MMM yyyy') AS Months FROM Income_PaymentRecord WHERE (SchoolID = @SchoolID) AND (CAST(PaidDate AS DATE) BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(PaidDate, 'MMM yyyy')
 union
 SELECT FORMAT(ExpenseDate, 'MMM yyyy') AS Months FROM Expenditure WHERE (SchoolID = @SchoolID) AND (ExpenseDate BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(ExpenseDate, 'MMM yyyy')
 union
-SELECT FORMAT(Paid_date, 'MMM yyyy') AS Months FROM Employee_Payorder_Records WHERE (SchoolID = @SchoolID) AND (Paid_Date BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(Paid_date, 'MMM yyyy')) M_T 
+SELECT FORMAT(Paid_date, 'MMM yyyy') AS Months FROM Employee_Payorder_Records WHERE (SchoolID = @SchoolID) AND (Paid_Date BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(Paid_date, 'MMM yyyy')
+union
+SELECT FORMAT(PaidDate, 'MMM yyyy') AS Months FROM CommitteeMoneyReceipt WHERE (SchoolID = @SchoolID) AND (PaidDate BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(PaidDate, 'MMM yyyy')
+) M_T 
 
 Left OUTER JOIN 
 (SELECT ISNULL(SUM(Extra_IncomeAmount), 0) AS Ex_In, FORMAT(Extra_IncomeDate, 'MMM yyyy') AS Months FROM Extra_Income WHERE (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(Extra_IncomeDate, 'MMM yyyy')) Ex_In_T on M_T.Months = Ex_In_T.Months
+Left OUTER JOIN 
+(SELECT ISNULL(SUM(TotalAmount), 0) AS Com_In, FORMAT(PaidDate, 'MMM yyyy') AS Months FROM CommitteeMoneyReceipt WHERE (SchoolID = @SchoolID) AND (CAST(PaidDate AS DATE) BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(PaidDate, 'MMM yyyy')) Com_In_T  on M_T.Months = Com_In_T.Months
 Left OUTER JOIN 
 (SELECT ISNULL(SUM(PaidAmount), 0) AS Stu_In, FORMAT(PaidDate, 'MMM yyyy') AS Months FROM Income_PaymentRecord WHERE (SchoolID = @SchoolID) AND (CAST(PaidDate AS DATE) BETWEEN @StartDate AND @EndDate) GROUP BY FORMAT(PaidDate, 'MMM yyyy')) Stu_In_T  on M_T.Months = Stu_In_T.Months
 Left OUTER JOIN
@@ -567,7 +579,7 @@ order by  CONVERT(Date, M_T.Months)">
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
-                <asp:SqlDataSource ID="SessionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Edu_Year.EducationYearID,Education_Year.EducationYear, Education_Year.StartDate, Education_Year.EndDate, ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0) AS Income,ISNULL(Ex_T.Ex,0) + ISNULL(Emp_Ex_T.Emp_Ex,0) AS Expense,ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0)- ISNULL(Ex_T.Ex,0) - ISNULL(Emp_Ex_T.Emp_Ex,0) AS NET FROM 
+                <asp:SqlDataSource ID="SessionSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Edu_Year.EducationYearID,Education_Year.EducationYear, Education_Year.StartDate, Education_Year.EndDate, ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0)+ ISNULL(Com_In_T.Com_In,0) AS Income,ISNULL(Ex_T.Ex,0) + ISNULL(Emp_Ex_T.Emp_Ex,0) AS Expense,ISNULL(Ex_In_T.Ex_In,0) + ISNULL(Stu_In_T.Stu_In,0) + ISNULL(Com_In_T.Com_In,0)- ISNULL(Ex_T.Ex,0) - ISNULL(Emp_Ex_T.Emp_Ex,0) AS NET FROM 
 
 (SELECT DISTINCT EducationYearID FROM Extra_Income WHERE (SchoolID = @SchoolID)
 union
@@ -575,7 +587,10 @@ SELECT DISTINCT EducationYearID FROM Income_PaymentRecord WHERE (SchoolID = @Sch
 union
 SELECT DISTINCT EducationYearID FROM Expenditure WHERE (SchoolID = @SchoolID)
 union
-SELECT DISTINCT EducationYearID FROM Employee_Payorder_Records WHERE (SchoolID = @SchoolID)) AS Edu_Year
+SELECT DISTINCT EducationYearID FROM Employee_Payorder_Records WHERE (SchoolID = @SchoolID)
+union
+SELECT DISTINCT EducationYearId FROM CommitteeMoneyReceipt WHERE (SchoolID = @SchoolID)
+) AS Edu_Year
 inner join
 Education_Year on Edu_Year.EducationYearID = Education_Year.EducationYearID
 Left OUTER JOIN 
@@ -584,19 +599,21 @@ FROM Education_Year INNER JOIN Expenditure AS A_T ON Education_Year.SchoolID = A
 WHERE (Education_Year.SchoolID = @SchoolID) AND (A_T.ExpenseDate BETWEEN Education_Year.StartDate AND Education_Year.EndDate)
 GROUP BY Education_Year.EducationYearID, Education_Year.EducationYear) as Ex_T on  Edu_Year.EducationYearID = Ex_T.EducationYearID 
 Left OUTER JOIN
-
+(SELECT Education_Year.EducationYearID, Education_Year.EducationYear, ISNULL(SUM(C_T.TotalAmount), 0) AS Com_In
+FROM Education_Year INNER JOIN CommitteeMoneyReceipt AS C_T ON Education_Year.SchoolID = C_T.SchoolID
+WHERE (Education_Year.SchoolID = @SchoolID) AND (C_T.PaidDate BETWEEN Education_Year.StartDate AND Education_Year.EndDate)
+GROUP BY Education_Year.EducationYearID, Education_Year.EducationYear) as  Com_In_T on Edu_Year.EducationYearID = Com_In_T.EducationYearID
+Left OUTER JOIN
 (SELECT Education_Year.EducationYearID, Education_Year.EducationYear, ISNULL(SUM(A_T.Extra_IncomeAmount), 0) AS Ex_In
 FROM Education_Year INNER JOIN Extra_Income AS A_T ON Education_Year.SchoolID = A_T.SchoolID
 WHERE (Education_Year.SchoolID = @SchoolID) AND (A_T.Extra_IncomeDate BETWEEN Education_Year.StartDate AND Education_Year.EndDate)
 GROUP BY Education_Year.EducationYearID, Education_Year.EducationYear) as  Ex_In_T on Edu_Year.EducationYearID = Ex_In_T.EducationYearID
 Left OUTER JOIN
-
 (SELECT Education_Year.EducationYearID, Education_Year.EducationYear, ISNULL(SUM(A_T.PaidAmount), 0) AS Stu_In
 FROM Education_Year INNER JOIN Income_PaymentRecord AS A_T ON Education_Year.SchoolID = A_T.SchoolID
 WHERE (Education_Year.SchoolID = @SchoolID) AND (A_T.PaidDate BETWEEN Education_Year.StartDate AND Education_Year.EndDate)
 GROUP BY Education_Year.EducationYearID, Education_Year.EducationYear) AS Stu_In_T on Edu_Year.EducationYearID = Stu_In_T.EducationYearID
 Left OUTER JOIN
-
 (SELECT Education_Year.EducationYearID, Education_Year.EducationYear, ISNULL(SUM(A_T.Amount), 0) AS Emp_Ex
 FROM Education_Year INNER JOIN Employee_Payorder_Records AS A_T ON Education_Year.SchoolID = A_T.SchoolID
 WHERE (Education_Year.SchoolID = @SchoolID) AND (A_T.Paid_date BETWEEN Education_Year.StartDate AND Education_Year.EndDate)

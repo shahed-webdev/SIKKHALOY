@@ -52,11 +52,22 @@ namespace Attendance_API.Controllers
                                     Is_OUT = a.Is_OUT
                                 };
 
-                var newAttendanceRecords = newRecord.Where(na => !db.Attendance_Records.Any(sa => na.SchoolID == sa.SchoolID & na.StudentID == sa.StudentID & na.AttendanceDate == sa.AttendanceDate)).ToList();
-                if (newAttendanceRecords.Count <= 0) return Ok();
+                //var newAttendanceRecords = newRecord.Where(na => !db.Attendance_Records.Any(sa => na.SchoolID == sa.SchoolID & na.StudentID == sa.StudentID & na.AttendanceDate == sa.AttendanceDate)).ToList();
+                //if (newAttendanceRecords.Count <= 0) return Ok();
 
-                db.Attendance_Records.AddRange(newAttendanceRecords);
-                db.SaveChanges();
+                ////-----------New code start ----------------------
+                var newAttendanceRecords = new List<Attendance_Record>();
+
+                foreach (var attendanceRecord in newRecord)
+                {
+                    var added = db.Attendance_Records.Any(sa => attendanceRecord.SchoolID == sa.SchoolID & attendanceRecord.StudentID == sa.StudentID & attendanceRecord.AttendanceDate == sa.AttendanceDate);
+                    if (added) continue;
+                    db.Attendance_Records.Add(attendanceRecord);
+                    newAttendanceRecords.Add(attendanceRecord);
+                    db.SaveChanges();
+                }
+                if (newAttendanceRecords.Count <= 0) return Ok();
+                ////-----------New code end----------------------
 
                 var smsList = new List<Attendance_SMS>();
 

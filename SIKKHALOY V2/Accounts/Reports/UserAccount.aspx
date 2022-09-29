@@ -55,7 +55,7 @@
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="UserInExSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT RegistrationID, AdminID,Designation, Name, Income, Expense FROM (SELECT User_T.RegistrationID, User_T.AdminID,User_T.Designation, User_T.Name, ISNULL(EX_In_T.Other_Income, 0) + ISNULL(Stu_P_T.Student_Income, 0) AS Income, ISNULL(Ex_T.Expenditure, 0) + ISNULL(Emp_P_T.Employee_Paid, 0) AS Expense FROM (SELECT DISTINCT Registration.RegistrationID, Admin.Designation,Admin.AdminID, ISNULL(Admin.FirstName, '') + ' ' + ISNULL(Admin.LastName, '') + '(' + Registration.UserName + ')' AS Name FROM Registration INNER JOIN Admin ON Registration.RegistrationID = Admin.RegistrationID LEFT OUTER JOIN Extra_Income ON Registration.RegistrationID = Extra_Income.RegistrationID LEFT OUTER JOIN Income_PaymentRecord ON Registration.RegistrationID = Income_PaymentRecord.RegistrationID LEFT OUTER JOIN Expenditure ON Registration.RegistrationID = Expenditure.RegistrationID LEFT OUTER JOIN Employee_Payorder_Records ON Registration.RegistrationID = Employee_Payorder_Records.RegistrationID WHERE (Registration.SchoolID = @SchoolID) AND (Registration.RegistrationID = @RegistrationID)) AS User_T LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(Extra_IncomeAmount), 0) AS Other_Income FROM Extra_Income AS Extra_Income_1 WHERE (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS EX_In_T ON User_T.RegistrationID = EX_In_T.RegistrationID LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(PaidAmount), 0) AS Student_Income FROM Income_PaymentRecord AS Income_PaymentRecord_1 WHERE (SchoolID = @SchoolID) AND (CAST(PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS Stu_P_T ON User_T.RegistrationID = Stu_P_T.RegistrationID LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(Amount), 0) AS Expenditure FROM Expenditure AS Expenditure_1 WHERE (SchoolID = @SchoolID) AND (ExpenseDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS Ex_T ON User_T.RegistrationID = Ex_T.RegistrationID LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(Amount), 0) AS Employee_Paid FROM Employee_Payorder_Records AS Employee_Payorder_Records_1 WHERE (SchoolID = @SchoolID) AND (Paid_date BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS Emp_P_T ON User_T.RegistrationID = Emp_P_T.RegistrationID) AS T"
+        SelectCommand="SELECT RegistrationID, AdminID, Designation, Name, Income, Expense FROM (SELECT User_T.RegistrationID, User_T.AdminID, User_T.Designation, User_T.Name, ISNULL(EX_In_T.Other_Income, 0) + ISNULL(Stu_P_T.Student_Income, 0) + ISNULL(Com_In_T.CommitteeDonation, 0) AS Income, ISNULL(Ex_T.Expenditure, 0) + ISNULL(Emp_P_T.Employee_Paid, 0) AS Expense FROM (SELECT Registration.RegistrationID, Admin.Designation, Admin.AdminID, ISNULL(Admin.FirstName, '') + ' ' + ISNULL(Admin.LastName, '') + '(' + Registration.UserName + ')' AS Name FROM Registration LEFT OUTER JOIN Admin ON Registration.RegistrationID = Admin.RegistrationID WHERE (Registration.SchoolID = @SchoolID) AND (Registration.RegistrationID = @RegistrationID)) AS User_T LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(Extra_IncomeAmount), 0) AS Other_Income FROM Extra_Income WHERE (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS EX_In_T ON User_T.RegistrationID = EX_In_T.RegistrationID LEFT OUTER JOIN (SELECT RegistrationId, ISNULL(SUM(TotalAmount), 0) AS CommitteeDonation FROM CommitteeMoneyReceipt WHERE (SchoolId = @SchoolID) AND (CAST(PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationId) AS Com_In_T ON User_T.RegistrationID = Com_In_T.RegistrationId LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(PaidAmount), 0) AS Student_Income FROM Income_PaymentRecord WHERE (SchoolID = @SchoolID) AND (CAST(PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS Stu_P_T ON User_T.RegistrationID = Stu_P_T.RegistrationID LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(Amount), 0) AS Expenditure FROM Expenditure WHERE (SchoolID = @SchoolID) AND (ExpenseDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS Ex_T ON User_T.RegistrationID = Ex_T.RegistrationID LEFT OUTER JOIN (SELECT RegistrationID, ISNULL(SUM(Amount), 0) AS Employee_Paid FROM Employee_Payorder_Records WHERE (SchoolID = @SchoolID) AND (Paid_date BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY RegistrationID) AS Emp_P_T ON User_T.RegistrationID = Emp_P_T.RegistrationID) AS T"
         CancelSelectOnNullParameter="False">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -87,17 +87,45 @@
                             </Columns>
                             <PagerStyle CssClass="pgr" />
                         </asp:GridView>
-                        <asp:SqlDataSource ID="DetailsSQL" runat="server" CancelSelectOnNullParameter="False" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT       ISNULL(Account.AccountName, 'N/A') AS AccountName,Income_Roles.Role as Category, 
-                         'Class : ' + CreateClass.Class + ' (ID: ' + Student.ID + ') ' + ' ' + Income_PaymentRecord.PayFor AS Details, Income_PaymentRecord.PaidAmount AS Amount, cast(Income_PaymentRecord.PaidDate as Date) as [Date] FROM  Income_PaymentRecord INNER JOIN
+                        <asp:SqlDataSource ID="DetailsSQL" runat="server" CancelSelectOnNullParameter="False" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT       
+ISNULL(Account.AccountName, 'N/A') AS AccountName,
+Income_Roles.Role as Category, 
+'Class : ' + CreateClass.Class + ' (ID: ' + Student.ID + ') ' + ' ' + Income_PaymentRecord.PayFor AS Details, 
+Income_PaymentRecord.PaidAmount AS Amount, 
+cast(Income_PaymentRecord.PaidDate as Date) as [Date]
+FROM  Income_PaymentRecord INNER JOIN
                          Income_Roles ON Income_PaymentRecord.RoleID = Income_Roles.RoleID INNER JOIN
                          Student ON Income_PaymentRecord.StudentID = Student.StudentID INNER JOIN
                          StudentsClass  ON Income_PaymentRecord.StudentClassID = StudentsClass.StudentClassID INNER JOIN 
                          CreateClass ON StudentsClass.ClassID = CreateClass.ClassID LEFT OUTER JOIN
                          Account ON Income_PaymentRecord.AccountID = Account.AccountID
 WHERE (Income_PaymentRecord.SchoolID = @SchoolID) AND Income_PaymentRecord.RegistrationID = @RegistrationID  and cast(Income_PaymentRecord.PaidDate as Date)   BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') AND Income_Roles.Role = @Category
-Union SELECT  ISNULL(Account.AccountName, 'N/A') AS AccountName,  Extra_IncomeCategory.Extra_Income_CategoryName AS Category, Extra_Income.Extra_IncomeFor AS Details, Extra_Income.Extra_IncomeAmount AS Amount, Extra_Income.Extra_IncomeDate AS [Date] FROM Extra_Income INNER JOIN
+Union 
+SELECT  
+ISNULL(Account.AccountName, 'N/A') AS AccountName,  
+Extra_IncomeCategory.Extra_Income_CategoryName AS Category, 
+Extra_Income.Extra_IncomeFor AS Details, 
+Extra_Income.Extra_IncomeAmount AS Amount, 
+Extra_Income.Extra_IncomeDate AS [Date] 
+FROM Extra_Income INNER JOIN
                          Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID LEFT OUTER JOIN
-                         Account ON Extra_Income.AccountID = Account.AccountID WHERE(Extra_Income.SchoolID = @SchoolID) AND Extra_Income.RegistrationID = @RegistrationID  and Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') AND Extra_IncomeCategory.Extra_Income_CategoryName = @Category order by [Date]">
+                         Account ON Extra_Income.AccountID = Account.AccountID 
+WHERE(Extra_Income.SchoolID = @SchoolID) AND Extra_Income.RegistrationID = @RegistrationID  and Extra_Income.Extra_IncomeDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') AND Extra_IncomeCategory.Extra_Income_CategoryName = @Category 
+
+Union 
+SELECT 
+ISNULL(Account.AccountName, 'N/A') AS AccountName, 
+CommitteeDonationCategory.DonationCategory  AS Category, 
+CommitteeDonation.Description AS Details, 
+CommitteePaymentRecord.PaidAmount AS Amount, 
+CommitteeMoneyReceipt.PaidDate AS [Date] 
+FROM            CommitteeMoneyReceipt INNER JOIN
+                         CommitteePaymentRecord ON CommitteeMoneyReceipt.CommitteeMoneyReceiptId = CommitteePaymentRecord.CommitteeMoneyReceiptId INNER JOIN
+                         CommitteeDonation INNER JOIN
+                         CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId ON 
+                         CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId LEFT OUTER JOIN 
+                         Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID WHERE(CommitteeMoneyReceipt.SchoolID = @SchoolID) AND CommitteeMoneyReceipt.RegistrationID = @RegistrationID AND cast(CommitteeMoneyReceipt.PaidDate as Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') AND CommitteeDonationCategory.DonationCategory = @Category
+						 order by [Date]">
                             <SelectParameters>
                                 <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                                 <asp:QueryStringParameter Name="RegistrationID" QueryStringField="RegID" />
@@ -109,8 +137,17 @@ Union SELECT  ISNULL(Account.AccountName, 'N/A') AS AccountName,  Extra_IncomeCa
                     </div>
                 </ItemTemplate>
             </asp:Repeater>
-            <asp:SqlDataSource ID="IncomeDetailsSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Category, SUM(Income) AS Income from(SELECT Income_Roles.Role AS Category, SUM(Income_PaymentRecord.PaidAmount) AS Income FROM Income_PaymentRecord INNER JOIN Income_Roles ON Income_PaymentRecord.RoleID = Income_Roles.RoleID
+            <asp:SqlDataSource ID="IncomeDetailsSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Category, SUM(Income) AS Income from
+(SELECT Income_Roles.Role AS Category, SUM(Income_PaymentRecord.PaidAmount) AS Income FROM Income_PaymentRecord INNER JOIN Income_Roles ON Income_PaymentRecord.RoleID = Income_Roles.RoleID
 WHERE (Income_PaymentRecord.SchoolID = @SchoolID) AND Income_PaymentRecord.RegistrationID = @RegistrationID and cast(Income_PaymentRecord.PaidDate as Date)   BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') GROUP BY Income_Roles.Role
+Union
+SELECT CommitteeDonationCategory.DonationCategory AS Category, SUM(CommitteePaymentRecord.PaidAmount) AS Income FROM CommitteeMoneyReceipt 
+INNER JOIN CommitteePaymentRecord ON CommitteeMoneyReceipt.CommitteeMoneyReceiptId = CommitteePaymentRecord.CommitteeMoneyReceiptId 
+INNER JOIN CommitteeDonation 
+INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId 
+ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId 
+WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolID) AND CommitteeMoneyReceipt.RegistrationID = @RegistrationID  AND (CAST(CommitteeMoneyReceipt.PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) GROUP BY CommitteeDonationCategory.DonationCategory
+
 Union 
 SELECT Extra_IncomeCategory.Extra_Income_CategoryName AS Category , SUM(Extra_Income.Extra_IncomeAmount) AS Income
 FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID

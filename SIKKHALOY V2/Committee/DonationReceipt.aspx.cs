@@ -1,5 +1,5 @@
-﻿using System;
-using Education;
+﻿using Education;
+using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -30,7 +30,7 @@ namespace EDUCATION.COM.Committee
                 var paidAmount = InfoFormView.DataKey["TotalAmount"].ToString();
                 var receiptNo = InfoFormView.DataKey["CommitteeMoneyReceiptSn"].ToString();
 
-                var message = $"Congrats! ${memberName}. You've paid: ${paidAmount} tk, receipt No: ${receiptNo}. Regards, ${Session["School_Name"]}";
+                var message = $"Congrats! {memberName}. You've paid: {paidAmount} tk, receipt No: {receiptNo}. Regards, {Session["School_Name"]}";
 
                 var sms = new SMS_Class(Session["SchoolID"].ToString());
                 var smsBalance = sms.SMSBalance;
@@ -74,7 +74,7 @@ namespace EDUCATION.COM.Committee
                 }
             }
 
-           
+
         }
     }
 }
