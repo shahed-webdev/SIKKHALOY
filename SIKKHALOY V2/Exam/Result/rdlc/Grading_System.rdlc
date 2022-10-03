@@ -6,13 +6,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.77083in</Width>
+              <Width>0.63541in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.48265in</Width>
+              <Width>0.3889in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.55557in</Width>
+              <Width>0.3889in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -30,8 +30,8 @@
                             <TextRun>
                               <Value>Marks</Value>
                               <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -62,8 +62,8 @@
                             <TextRun>
                               <Value>Grade</Value>
                               <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -94,8 +94,8 @@
                             <TextRun>
                               <Value> Point</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>SemiBold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -130,7 +130,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!MARKS.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -159,7 +161,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Grades.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -188,7 +192,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Point.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -230,7 +236,7 @@
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
         <Height>0.33126in</Height>
-        <Width>1.80905in</Width>
+        <Width>1.41322in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -241,7 +247,7 @@
     <Height>0.33126in</Height>
     <Style />
   </Body>
-  <Width>1.80905in</Width>
+  <Width>1.41322in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>
