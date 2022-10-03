@@ -1,13 +1,14 @@
 ﻿<%@ Page Title="Individual Result(Board)" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Board_ResultV2.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.Board_ResultV2" %>
-
 <%@ Register assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
 <%@ Register TagPrefix="rsweb" Namespace="Microsoft.Reporting.WebForms" Assembly="Microsoft.ReportViewer.WebForms" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="CSS/Result_Print.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3>Individual Exam Result(Board)</h3>
+   
 
     <div class="row NoPrint">
         <div class="col-md-3">
@@ -108,7 +109,7 @@
 
     <%if (ExamDropDownList.SelectedIndex != 0)
         {%>
-    <rsweb:ReportViewer ID="ResultReportViewer" runat="server" Font-Names="Arial" Font-Size="8pt" WaitMessageFont-Names="Verdana" ShowRefreshButton="False" WaitMessageFont-Size="14pt" AsyncRendering="False" SizeToReportContent="True" SplitterBackColor="White" BackColor="" ClientIDMode="AutoID" HighlightBackgroundColor="" InternalBorderColor="204, 204, 204" InternalBorderStyle="Solid" InternalBorderWidth="1px" LinkActiveColor="" LinkActiveHoverColor="" LinkDisabledColor="" PrimaryButtonBackgroundColor="" PrimaryButtonForegroundColor="" PrimaryButtonHoverBackgroundColor="" PrimaryButtonHoverForegroundColor="" SecondaryButtonBackgroundColor="" SecondaryButtonForegroundColor="" SecondaryButtonHoverBackgroundColor="" SecondaryButtonHoverForegroundColor="" ToolbarDividerColor="" ToolbarForegroundColor="" ToolbarForegroundDisabledColor="" ToolbarHoverBackgroundColor="" ToolbarHoverForegroundColor="" ToolBarItemBorderColor="" ToolBarItemBorderStyle="Solid" ToolBarItemBorderWidth="1px" ToolBarItemHoverBackColor="" ToolBarItemPressedBorderColor="51, 102, 153" ToolBarItemPressedBorderStyle="Solid" ToolBarItemPressedBorderWidth="1px" ToolBarItemPressedHoverBackColor="153, 187, 226">
+    <rsweb:ReportViewer ID="ResultReportViewer" runat="server" Font-Names="Arial" Font-Size="8pt" WaitMessageFont-Names="Verdana" ShowRefreshButton="False" WaitMessageFont-Size="14pt" AsyncRendering="False" SizeToReportContent="True" SplitterBackColor="White" ClientIDMode="AutoID" InternalBorderColor="204, 204, 204" InternalBorderStyle="Solid" InternalBorderWidth="1px"  ToolBarItemBorderStyle="Solid" ToolBarItemBorderWidth="1px" ToolBarItemPressedBorderColor="51, 102, 153" ToolBarItemPressedBorderStyle="Solid" ToolBarItemPressedBorderWidth="1px" ToolBarItemPressedHoverBackColor="153, 187, 226">
         <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Individual_Result.rdlc" ReportPath="Exam\Result\rdlc\Report_Result_V2.rdlc">
             <DataSources>
                 <rsweb:ReportDataSource DataSourceId="ExamResultODS" Name="DataSet1" />
@@ -135,15 +136,4 @@
         </SelectParameters>
     </asp:ObjectDataSource>
     <%}%>
-
-    <asp:UpdateProgress ID="UpdateProgress" runat="server">
-        <ProgressTemplate>
-            <div id="progress_BG"></div>
-            <div id="progress">
-                <img src="../../CSS/loading.gif" alt="Loading..." />
-                <br />
-                <b>Loading...</b>
-            </div>
-        </ProgressTemplate>
-    </asp:UpdateProgress>
 </asp:Content>

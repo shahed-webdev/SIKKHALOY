@@ -8,6 +8,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3>Individual Exam Result(Board)</h3>
+     <a href="Board_ResultV2.aspx">Board Result V2</a>
 
     <div class="row NoPrint">
         <div class="col-md-3">
