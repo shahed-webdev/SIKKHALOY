@@ -47,7 +47,6 @@
                                           </Border>
                                         </Style>
                                       </Image>
-                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
@@ -2051,6 +2050,9 @@
                                                   </TablixHeader>
                                                 </TablixMember>
                                               </TablixMembers>
+                                              <Visibility>
+                                                <Hidden>=IIf(CountDistinct(Fields!Sub_ExamSN.Value)&gt;1,False,True)</Hidden>
+                                              </Visibility>
                                             </TablixMember>
                                             <TablixMember>
                                               <TablixHeader>
