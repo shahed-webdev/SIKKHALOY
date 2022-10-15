@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Exam.Result
 {
-    public partial class Board_ResultV2 : System.Web.UI.Page
+    public partial class BanglaResult : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,9 +22,7 @@ namespace EDUCATION.COM.Exam.Result
                 if (!IsPostBack)
                 {
                     GroupDropDownList.Visible = false;
-
                     SectionDropDownList.Visible = false;
-
                     ShiftDropDownList.Visible = false;
                 }
             }

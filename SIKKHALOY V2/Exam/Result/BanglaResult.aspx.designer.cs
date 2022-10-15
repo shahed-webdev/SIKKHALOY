@@ -11,7 +11,7 @@ namespace EDUCATION.COM.Exam.Result
 {
 
 
-    public partial class Board_ResultV2
+    public partial class BanglaResult
     {
 
         /// <summary>

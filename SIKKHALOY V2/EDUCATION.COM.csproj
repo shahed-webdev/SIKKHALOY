@@ -394,7 +394,7 @@
     <Content Include="Exam\Admit_Card\css\skin3.css" />
     <Content Include="Exam\Admit_Card\Multiple_Admit_Card.aspx" />
     <Content Include="Exam\Admit_Card\Old_AdmitCard.aspx" />
-    <Content Include="Exam\Result\Board_ResultV2.aspx" />
+    <Content Include="Exam\Result\BanglaResult.aspx" />
     <Content Include="Exam\Result\Board_Result.aspx" />
     <Content Include="Exam\CSS\Input_Marks.css" />
     <Content Include="Exam\CSS\ExamPosition.css" />
@@ -420,7 +420,6 @@
     <Content Include="Exam\Result\Analytical_Smart_Result.aspx" />
     <Content Include="Exam\Result\CSS\Cumulative_Position.css" />
     <Content Include="Exam\Result\CSS\Analytical_Smart_Result.css" />
-    <Content Include="Exam\Result\CSS\Result_Print.css" />
     <Content Include="Exam\Result\Delete_Exam_And_Result.aspx" />
     <Content Include="Exam\Result\Individual_Result_For_Class.aspx" />
     <Content Include="Exam\SeatPlan\SeatPlan.aspx" />
@@ -1732,12 +1731,12 @@
     <Compile Include="Exam\Admit_Card\Old_AdmitCard.aspx.designer.cs">
       <DependentUpon>Old_AdmitCard.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Exam\Result\Board_ResultV2.aspx.cs">
-      <DependentUpon>Board_ResultV2.aspx</DependentUpon>
+    <Compile Include="Exam\Result\BanglaResult.aspx.cs">
+      <DependentUpon>BanglaResult.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Exam\Result\Board_ResultV2.aspx.designer.cs">
-      <DependentUpon>Board_ResultV2.aspx</DependentUpon>
+    <Compile Include="Exam\Result\BanglaResult.aspx.designer.cs">
+      <DependentUpon>BanglaResult.aspx</DependentUpon>
     </Compile>
     <Compile Include="Exam\Result\Board_Result.aspx.cs">
       <DependentUpon>Board_Result.aspx</DependentUpon>
@@ -2362,7 +2361,7 @@
     <Content Include="TestReport.rdlc" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Exam\Result\rdlc\Report_Result_V2.rdlc" />
+    <Content Include="Exam\Result\rdlc\ExamResultBangla.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
