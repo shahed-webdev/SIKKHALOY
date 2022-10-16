@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="BanglaResult.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.BanglaResult" %>
+﻿<%@ Page Title="Exam Result (Bangla)" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="BanglaResult.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.BanglaResult" %>
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <%@ Register TagPrefix="rsweb" Namespace="Microsoft.Reporting.WebForms" Assembly="Microsoft.ReportViewer.WebForms" %>
 
@@ -7,6 +7,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3>Exam Result (Bangla)</h3>
+
+    <div class="alert alert-info">Without Sub exam set 'Normal' margin</div>
+
 
     <div class="row">
         <div class="col-md-3">

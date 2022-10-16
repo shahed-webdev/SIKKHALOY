@@ -11,7 +11,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>2.48215in</Height>
+              <Height>2.26459in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -75,7 +75,7 @@
                                               </Paragraph>
                                             </Paragraphs>
                                             <rd:DefaultName>Textbox118</rd:DefaultName>
-                                            <Left>1.70437in</Left>
+                                            <Left>1.57937in</Left>
                                             <Height>0.33333in</Height>
                                             <Width>5.54994in</Width>
                                             <Style>
@@ -99,7 +99,17 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>ক্লাস: </Value>
+                                                        <Value>ক্লাস:</Value>
+                                                        <Style>
+                                                          <FontStyle>Normal</FontStyle>
+                                                          <FontSize>11pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                          <TextDecoration>None</TextDecoration>
+                                                          <Color>#000000</Color>
+                                                        </Style>
+                                                      </TextRun>
+                                                      <TextRun>
+                                                        <Value xml:space="preserve"> </Value>
                                                         <Style>
                                                           <FontStyle>Normal</FontStyle>
                                                           <FontSize>14pt</FontSize>
@@ -110,27 +120,26 @@
                                                       </TextRun>
                                                       <TextRun>
                                                         <Value>=Fields!Class.Value</Value>
-                                                        <MarkupType>HTML</MarkupType>
                                                         <Style>
-                                                          <FontSize>14pt</FontSize>
+                                                          <FontSize>11pt</FontSize>
                                                           <FontWeight>Bold</FontWeight>
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style>
-                                                      <TextAlign>Left</TextAlign>
-                                                    </Style>
+                                                    <Style />
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox56</rd:DefaultName>
-                                                <Top>0.01388in</Top>
+                                                <Top>0.03838in</Top>
+                                                <Left>0.02805in</Left>
                                                 <Height>0.25in</Height>
-                                                <Width>1.58945in</Width>
+                                                <Width>2.48139in</Width>
                                                 <Style>
                                                   <Border>
                                                     <Style>None</Style>
                                                   </Border>
-                                                  <PaddingLeft>2pt</PaddingLeft>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingLeft>5pt</PaddingLeft>
                                                   <PaddingRight>2pt</PaddingRight>
                                                   <PaddingTop>2pt</PaddingTop>
                                                   <PaddingBottom>2pt</PaddingBottom>
@@ -153,9 +162,8 @@
                                                       </TextRun>
                                                       <TextRun>
                                                         <Value>=Fields!StudentsName.Value</Value>
-                                                        <MarkupType>HTML</MarkupType>
                                                         <Style>
-                                                          <FontSize>14pt</FontSize>
+                                                          <FontSize>11pt</FontSize>
                                                           <FontWeight>Bold</FontWeight>
                                                           <Color>#00c851</Color>
                                                         </Style>
@@ -167,15 +175,16 @@
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox54</rd:DefaultName>
-                                                <Top>0.01388in</Top>
-                                                <Left>1.70327in</Left>
+                                                <Top>0.03838in</Top>
+                                                <Left>2.57888in</Left>
                                                 <Height>0.25in</Height>
-                                                <Width>3.63614in</Width>
+                                                <Width>3.60163in</Width>
                                                 <ZIndex>1</ZIndex>
                                                 <Style>
                                                   <Border>
                                                     <Style>None</Style>
                                                   </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
                                                   <PaddingLeft>2pt</PaddingLeft>
                                                   <PaddingRight>2pt</PaddingRight>
                                                   <PaddingTop>2pt</PaddingTop>
@@ -193,14 +202,22 @@
                                                         <Style>
                                                           <FontStyle>Normal</FontStyle>
                                                           <FontFamily>Times New Roman</FontFamily>
-                                                          <FontSize>14pt</FontSize>
+                                                          <FontSize>11pt</FontSize>
                                                           <FontWeight>Bold</FontWeight>
                                                           <TextDecoration>None</TextDecoration>
                                                           <Color>#000000</Color>
                                                         </Style>
                                                       </TextRun>
                                                       <TextRun>
-                                                        <Value>: </Value>
+                                                        <Value>:</Value>
+                                                        <MarkupType>HTML</MarkupType>
+                                                        <Style>
+                                                          <FontSize>11pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                        </Style>
+                                                      </TextRun>
+                                                      <TextRun>
+                                                        <Value xml:space="preserve"> </Value>
                                                         <MarkupType>HTML</MarkupType>
                                                         <Style>
                                                           <FontSize>14pt</FontSize>
@@ -218,7 +235,7 @@
                                                         <Value>=Fields!RollNo.Value</Value>
                                                         <MarkupType>HTML</MarkupType>
                                                         <Style>
-                                                          <FontSize>14pt</FontSize>
+                                                          <FontSize>11pt</FontSize>
                                                           <FontWeight>Bold</FontWeight>
                                                         </Style>
                                                       </TextRun>
@@ -237,17 +254,18 @@
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox55</rd:DefaultName>
-                                                <Top>0.01388in</Top>
-                                                <Left>5.46207in</Left>
+                                                <Top>0.03838in</Top>
+                                                <Left>6.24996in</Left>
                                                 <Height>0.25in</Height>
-                                                <Width>1.86257in</Width>
+                                                <Width>1.97773in</Width>
                                                 <ZIndex>2</ZIndex>
                                                 <Style>
                                                   <Border>
                                                     <Style>None</Style>
                                                   </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
                                                   <PaddingLeft>2pt</PaddingLeft>
-                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingRight>6pt</PaddingRight>
                                                   <PaddingTop>2pt</PaddingTop>
                                                   <PaddingBottom>2pt</PaddingBottom>
                                                 </Style>
@@ -255,9 +273,9 @@
                                             </ReportItems>
                                             <KeepTogether>true</KeepTogether>
                                             <Top>0.38889in</Top>
-                                            <Left>0.66389in</Left>
-                                            <Height>0.26388in</Height>
-                                            <Width>7.34971in</Width>
+                                            <Left>0.12195in</Left>
+                                            <Height>0.32677in</Height>
+                                            <Width>8.25574in</Width>
                                             <ZIndex>1</ZIndex>
                                             <Style>
                                               <Border>
@@ -333,7 +351,7 @@
                                             <Top>0.7851in</Top>
                                             <Left>0.41389in</Left>
                                             <Height>0.28284in</Height>
-                                            <Width>7.34971in</Width>
+                                            <Width>7.68304in</Width>
                                             <ZIndex>2</ZIndex>
                                             <Style>
                                               <Border>
@@ -2325,7 +2343,6 @@
                             </TablixMembers>
                           </TablixRowHierarchy>
                           <DataSetName>DataSet1</DataSetName>
-                          <Top>0.16667in</Top>
                           <Height>2.23872in</Height>
                           <Width>10.69002in</Width>
                           <Style>
@@ -2365,7 +2382,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Height>2.48215in</Height>
+        <Height>2.26459in</Height>
         <Width>10.69in</Width>
         <Style>
           <Border>
@@ -2374,13 +2391,13 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3in</Height>
+    <Height>3.08571in</Height>
     <Style />
   </Body>
   <Width>10.69in</Width>
   <Page>
     <PageHeader>
-      <Height>0.9539in</Height>
+      <Height>0.78663in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
