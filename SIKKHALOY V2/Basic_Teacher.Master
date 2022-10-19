@@ -86,12 +86,13 @@
             <ul class="my_Manu">
                 <li></li>
                 <li id="_1"><a href="/Teacher/Input_Marks.aspx"><i class="fa fa-keyboard-o"></i>Input Marks</a></li>
-                <li id="_2"><a href="/Teacher/Attendance.aspx"><i class="fa fa-file-text-o"></i>Attendance</a></li>
+                <li id="_2"><a href="/Teacher/Attendance.aspx"><i class="fa fa-file-text-o"></i>My Attendance</a></li>
                 <li id="_3"><a href="/Teacher/Class_Routine.aspx"><i class="fa fa-calendar-check-o"></i>Class Routine</a></li>
                 <li id="_4"><a href="/Teacher/SMS_Inbox.aspx"><i class="fa fa-envelope-open-o"></i>SMS Inbox</a></li>
                 <li id="_5"><a href="/Teacher/CV_Create.aspx"><i class="fa fa-plus-square-o"></i>Create CV</a></li>
                 <li id="_6"><a href="/Teacher/CV_Print.aspx"><i class="fa fa-print"></i>Print CV</a></li>
                 <li id="_7"><a href="/Teacher/StudentNotice.aspx"><i class="fa fa-bullhorn"></i>Student Notice</a></li>
+                <li id="_8"><a href="/Teacher/StudentAttendance.aspx"><i class="fa fa-users"></i>Student Attendance</a></li>
                 <li></li>
             </ul>
         </div>

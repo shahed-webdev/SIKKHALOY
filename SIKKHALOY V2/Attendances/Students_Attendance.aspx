@@ -178,8 +178,11 @@ END"
             </div>
         </ProgressTemplate>
     </asp:UpdateProgress>
+   
     <script>
-        function DisableAllKey() { return false; }
+        function DisableAllKey() {
+            return false;
+        }
 
         //Is Gridview is empty
         if ($('[id*=StudentsAttendanceGridView] tr').length) {

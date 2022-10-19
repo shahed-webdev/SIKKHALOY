@@ -16,7 +16,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Attendance</h3>
+    <h3>My Attendance</h3>
 
     <asp:UpdatePanel ID="UpdatePanel3" runat="server">
         <ContentTemplate>
@@ -43,6 +43,7 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+   
     <script>
         $(function () {
             $("#_2").addClass("active");

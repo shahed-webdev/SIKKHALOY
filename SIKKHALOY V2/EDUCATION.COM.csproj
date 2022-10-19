@@ -501,6 +501,7 @@
       <DependentUpon>Attendance_DataSet.xsd</DependentUpon>
     </Content>
     <Content Include="Student\Notice.aspx" />
+    <Content Include="Teacher\StudentAttendance.aspx" />
     <Content Include="Teacher\StudentNotice.aspx" />
     <Content Include="W_Test.aspx" />
     <None Include="API\Attendance_DataSet.xsd">
@@ -2282,6 +2283,13 @@
     </Compile>
     <Compile Include="Teacher\SMS_Inbox.aspx.designer.cs">
       <DependentUpon>SMS_Inbox.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Teacher\StudentAttendance.aspx.cs">
+      <DependentUpon>StudentAttendance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Teacher\StudentAttendance.aspx.designer.cs">
+      <DependentUpon>StudentAttendance.aspx</DependentUpon>
     </Compile>
     <Compile Include="Teacher\StudentNotice.aspx.cs">
       <DependentUpon>StudentNotice.aspx</DependentUpon>
