@@ -9,7 +9,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <a class="d-print-none" href="Payment_Collection_By_Date.aspx"><< Back To payment Page</a>
 
-    <asp:FormView ID="StudentInfoFormView" runat="server" DataSourceID="StudentInfoSQL" DataKeyNames="SMSPhoneNo,StudentID" Width="100%">
+    <asp:FormView ID="StudentInfoFormView" runat="server" DataSourceID="StudentInfoSQL" DataKeyNames="SMSPhoneNo,StudentID,ID" Width="100%">
         <ItemTemplate>
             <div class="SInfo">
                 (ID:<%# Eval("ID") %>)
