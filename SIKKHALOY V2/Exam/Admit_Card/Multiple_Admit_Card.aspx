@@ -130,8 +130,8 @@
                             <img src='/Handeler/SchoolLogo.ashx?SLogo=<%#Eval("SchoolID") %>' />
                         </div>
                         <div>
-                            <h4><%# Eval("SchoolName") %></h4>
-                            <p><%# Eval("Address") %></p>
+                            <h4 class="font-weight-bold"><%# Eval("SchoolName") %></h4>
+                            <p class="font-weight-bold"><%# Eval("Address") %></p>
                         </div>
                     </div>
 
