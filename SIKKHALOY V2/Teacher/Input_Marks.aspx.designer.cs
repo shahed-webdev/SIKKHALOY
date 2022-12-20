@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Teacher {
-    
-    
-    public partial class Input_Marks {
-        
+namespace EDUCATION.COM.Teacher
+{
+
+
+    public partial class Input_Marks
+    {
+
         /// <summary>
         /// UpdatePanel3 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel3;
-        
+
         /// <summary>
         /// Input_ExamDropDownList control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Input_ExamDropDownList;
-        
+
         /// <summary>
         /// Input_ExamSQL control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Input_ExamSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// Input_Class_DropDownList control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Input_Class_DropDownList;
-        
+
         /// <summary>
         /// ClassNameSQL control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator6 control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-        
+
         /// <summary>
         /// Input_Group_DropDownList control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Input_Group_DropDownList;
-        
+
         /// <summary>
         /// Input_GroupSQL control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Input_GroupSQL;
-        
+
         /// <summary>
         /// Input_Section_DropDownList control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Input_Section_DropDownList;
-        
+
         /// <summary>
         /// Input_SectionSQL control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Input_SectionSQL;
-        
+
         /// <summary>
         /// Input_Shift_DropDownList control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Input_Shift_DropDownList;
-        
+
         /// <summary>
         /// Input_ShiftSQL control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Input_ShiftSQL;
-        
+
         /// <summary>
         /// SubjectDropDownList control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SubjectDropDownList;
-        
+
         /// <summary>
         /// SubjectSQL control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SubjectSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator7 control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
-        
+
         /// <summary>
         /// SubExamDownList control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SubExamDownList;
-        
+
         /// <summary>
         /// SubExamSQL control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SubExamSQL;
-        
+
         /// <summary>
         /// SubExamRequired control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator SubExamRequired;
-        
+
         /// <summary>
         /// PassMarkFullMarkSQL control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PassMarkFullMarkSQL;
-        
+
         /// <summary>
         /// ShowStudentButton control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ShowStudentButton;
-        
+
         /// <summary>
         /// FmPmFormView control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView FmPmFormView;
-        
+
         /// <summary>
         /// StudentsGridView control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView StudentsGridView;
-        
+
         /// <summary>
         /// ShowStudentClassSQL control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ShowStudentClassSQL;
-        
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// ValidationSummary1 control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
-        
+
         /// <summary>
         /// Exam_Result_of_StudentSQL control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace EDUCATION.COM.Teacher {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Exam_Result_of_StudentSQL;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>
