@@ -95,6 +95,7 @@ ORDER BY Ascending" CancelSelectOnNullParameter="False">
                                 <asp:BoundField DataField="AttendanceDate" DataFormatString="{0:d MMM yyyy}" HeaderText="Attendance Date" SortExpression="AttendanceDate" />
                                 <asp:BoundField DataField="EntryTime" HeaderText="Entry Time" SortExpression="EntryTime" />
                                 <asp:BoundField DataField="ExitTime" HeaderText="Exit Time" SortExpression="ExitTime" />
+                                <asp:BoundField DataField="ExitStatus" HeaderText="Exit Status" SortExpression="ExitStatus" />
                             </Columns>
                             <EmptyDataTemplate>
                                 No Record !

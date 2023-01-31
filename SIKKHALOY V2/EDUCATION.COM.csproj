@@ -116,8 +116,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\Microsoft.VisualStudio.TextManager.Interop.8.0.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
@@ -328,6 +328,7 @@
     <Content Include="Authority\Reference\Add_Reference.aspx" />
     <Content Include="Authority\Reference\School_Reference.aspx" />
     <Content Include="Authority\SignUp_Institution.aspx" />
+    <Content Include="Authority\SmsSetting.aspx" />
     <Content Include="Committee\DonationAdd.aspx" />
     <Content Include="Committee\DonationCategory.aspx" />
     <Content Include="Committee\DonationCollect.aspx" />
@@ -1461,6 +1462,13 @@
     <Compile Include="Authority\SignUp_Institution.aspx.designer.cs">
       <DependentUpon>SignUp_Institution.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Authority\SmsSetting.aspx.cs">
+      <DependentUpon>SmsSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Authority\SmsSetting.aspx.designer.cs">
+      <DependentUpon>SmsSetting.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BASIC.Master.cs">
       <DependentUpon>BASIC.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2370,6 +2378,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Exam\Result\rdlc\ExamResultBangla.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmsService\SmsService.csproj">
+      <Project>{f633fa99-3e5b-4911-a515-097a3b2a11c7}</Project>
+      <Name>SmsService</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

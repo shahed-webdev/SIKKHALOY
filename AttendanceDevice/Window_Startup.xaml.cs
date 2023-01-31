@@ -173,11 +173,22 @@ namespace AttendanceDevice
                 schoolRequest.AddUrlSegment("id", ins.UserName);
                 schoolRequest.AddHeader("Authorization", "Bearer " + token);
 
+
                 //School info execute the request
-                var schoolResponse = await client.ExecuteTaskAsync(schoolRequest);
+                var schoolResponse = await client.ExecuteTaskAsync(schoolRequest); //response.data not work because of logo image data
+
+                if (schoolResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    LocalData.Current_Error.Message = schoolResponse.StatusDescription;
+                    var login = new Login_Window();
+                    login.Show();
+                    this.Close();
+                    return;
+                }
+
                 var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
 
-                if (schoolResponse.StatusCode != HttpStatusCode.OK && schoolInfo == null)
+                if (schoolInfo == null)
                 {
                     LocalData.Current_Error.Message = "Institution Information Not Found in Server!";
                     var login = new Login_Window();
@@ -209,9 +220,9 @@ namespace AttendanceDevice
                 }
 
                 //Update Institution Information
-                ins.Token = token;
+                ins.Token = token.Trim();
                 ins.IsValid = schoolInfo.IsValid;
-                ins.SettingKey = schoolInfo.SettingKey;
+                ins.SettingKey = schoolInfo.SettingKey.Trim();
                 ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
                 ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
                 ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;

@@ -17,7 +17,7 @@ namespace AttendanceDevice.Settings.Pages
     /// <summary>
     /// Interaction logic for UserInfoPage.xaml
     /// </summary>
-    public partial class UserInfoPage
+    public partial class UserInfoPage : Page
     {
         public UserInfoPage()
         {
@@ -29,12 +29,10 @@ namespace AttendanceDevice.Settings.Pages
             if (LocalData.Current_Error.Type == Error_Type.UserInfoPage)
             {
                 var message = LocalData.Current_Error.Message;
-                if (string.IsNullOrEmpty(message)) return;
+
 
                 ErrorSnackBar.Message.Content = message;
                 ErrorSnackBar.IsActive = true;
-
-                LocalData.Current_Error.Message = string.Empty;
             }
 
             var users = LocalData.Instance.UserViews;

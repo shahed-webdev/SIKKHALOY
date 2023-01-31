@@ -1,56 +1,51 @@
-﻿
+﻿using SmsService;
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.IO;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
 namespace Education
 {
     public class SMS_Class
     {
-        private static string url = "http://loopsitbd.powersms.net.bd/httpapi/";
-        private static string userId = "Sikkhaloy";
-        private static string password = "Sikkhaloy@SMS_345";
+        // private static string url = "http://loopsitbd.powersms.net.bd/httpapi/";
+        // private static string userId = "Sikkhaloy";
+        // private static string password = "Sikkhaloy@SMS_345";
+        private SmsServiceBuilder SmsService { get; }
 
-        public string Masking { get; set; }
-        public int SMSBalance { get; set; }
+        public int SMSBalance { get; }
 
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+        private readonly SqlConnection _con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
 
-        public SMS_Class(string SchoolID)
+        public SMS_Class(string schoolId)
         {
-            SqlCommand GetMasking_cmd = new SqlCommand("SELECT Masking FROM SMS WHERE (SchoolID = @SchoolID)", con);
-            GetMasking_cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
+            var getSmsBalanceCmd = new SqlCommand("SELECT SMS_Balance FROM SMS WHERE (SchoolID = @SchoolID)", _con);
+            getSmsBalanceCmd.Parameters.AddWithValue("@SchoolID", schoolId);
 
-            SqlCommand Get_SMSBalance_cmd = new SqlCommand("SELECT SMS_Balance FROM SMS WHERE (SchoolID = @SchoolID)", con);
-            Get_SMSBalance_cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
+            var smsProviderCmd = new SqlCommand("SELECT TOP(1) SmsProvider FROM  SikkhaloySetting", _con);
 
-            con.Open();
-            this.Masking = GetMasking_cmd.ExecuteScalar().ToString();
-            this.SMSBalance = Convert.ToInt32(Get_SMSBalance_cmd.ExecuteScalar());
-            con.Close();
+
+            _con.Open();
+            this.SMSBalance = Convert.ToInt32(getSmsBalanceCmd.ExecuteScalar());
+            var smsProvider = smsProviderCmd.ExecuteScalar().ToString();
+            _con.Close();
+
+            var isProviderExist = Enum.TryParse<ProviderEnum>(smsProvider, out var provider);
+
+            SmsService = isProviderExist ? new SmsServiceBuilder(provider) : new SmsServiceBuilder(ProviderEnum.BanglaPhone);
         }
 
-        public Get_Validation SMS_Validation(string Number, string Text)
+        public Get_Validation SMS_Validation(string number, string text)
         {
-            bool IsValid = true;
-            string Validation_Message = "";
+            var isValid = true;
+            var validationMessage = "";
 
-            if (!Regex.IsMatch(Number, @"^(88)?((011)|(015)|(016)|(017)|(018)|(019)|(013)|(014))\d{8,8}$"))
+            if (!SmsValidator.IsValidNumber(number))
             {
-                IsValid = false;
-                Validation_Message += "Invalid Mobile Number";
+                isValid = false;
+                validationMessage += "Invalid Mobile Number";
             }
 
-            if (!Regex.IsMatch(Masking, @"^[A-Za-z0-9. ]{3,11}$"))
-            {
-                IsValid = false;
-                Validation_Message += "Invalid Masking";
-            }
 
             //if (!Enumerable.Range(1, 450).Contains(Text.Length))
             //{
@@ -58,80 +53,83 @@ namespace Education
             //    Validation_Message += "SMS Text Length Out Of Range. Maximum Size Is (450 character) ";
             //}
 
-            if (IsValid)
+            if (isValid)
             {
-                Validation_Message = "Valid";
+                validationMessage = "Valid";
             }
 
-            Get_Validation V = new Get_Validation();
+            var v = new Get_Validation
+            {
+                Validation = isValid,
+                Message = validationMessage
+            };
 
-            V.Validation = IsValid;
-            V.Message = Validation_Message;
-
-            return V;
+            return v;
         }
 
-        public Guid SMS_Send(string Number, string Text, string SMSPurpose)
+        public Guid SMS_Send(string number, string text, string smsPurpose)
         {
-            Guid SMS_Send_ID = Guid.NewGuid();
-            string response_Message = "";
-            bool Is_Error = false;
+            var smsSendId = Guid.NewGuid();
+            var responseMessage = "";
+            var isError = false;
 
-            try
+            // try
+            // {
+            //     var url_Action = "sendsms"; // your powersms site url; register the ip first
+            //     var request = HttpWebRequest.Create(url + url_Action);
+            //
+            //     var smsText = Uri.EscapeDataString(Text);
+            //     var receiversParam = Number;
+            //     var dataFormat = "userId={0}&password={1}&smsText={2}&commaSeperatedReceiverNumbers={3}";
+            //     var urlEncodedData = string.Format(dataFormat, userId, password, smsText, receiversParam);
+            //     var data = Encoding.ASCII.GetBytes(urlEncodedData);
+            //
+            //     request.Method = "post";
+            //     request.Proxy = null;
+            //     request.ContentType = "application/x-www-form-urlencoded";
+            //     request.ContentLength = data.Length;
+            //
+            //     using (var requestStream = request.GetRequestStream())
+            //     {
+            //         requestStream.Write(data, 0, data.Length);
+            //     }
+            //
+            //     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            //
+            //     // Get the response stream
+            //     StreamReader reader = new StreamReader(response.GetResponseStream());
+            //
+            //     dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
+            //     if (Json_Obj.isError == "False")
+            //     {
+            //         //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
+            //         responseMessage = Json_Obj.message;
+            //     }
+            // }
+            // catch
+            // {
+            //     isError = true;
+            // }
+
+            responseMessage = SmsService.SendSms(text, number);
+            isError = !SmsService.IsSuccess;
+            if (!isError)
             {
-                var url_Action = "sendsms"; // your powersms site url; register the ip first
-                var request = HttpWebRequest.Create(url + url_Action);
+                var sendRecordCmd = new SqlCommand("INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)", _con);
+                sendRecordCmd.Parameters.AddWithValue("@SMS_Send_ID", smsSendId);
+                sendRecordCmd.Parameters.AddWithValue("@PhoneNumber", number);
+                sendRecordCmd.Parameters.AddWithValue("@TextSMS", text);
+                sendRecordCmd.Parameters.AddWithValue("@TextCount", text.Length);
+                sendRecordCmd.Parameters.AddWithValue("@SMSCount", SMS_Conut(text));
+                sendRecordCmd.Parameters.AddWithValue("@PurposeOfSMS", smsPurpose);
+                sendRecordCmd.Parameters.AddWithValue("@Status", "Sent");
+                sendRecordCmd.Parameters.AddWithValue("@SMS_Response", responseMessage);
 
-                var smsText = Uri.EscapeDataString(Text);
-                var receiversParam = Number;
-                var dataFormat = "userId={0}&password={1}&smsText={2}&commaSeperatedReceiverNumbers={3}";
-                var urlEncodedData = string.Format(dataFormat, userId, password, smsText, receiversParam);
-                var data = Encoding.ASCII.GetBytes(urlEncodedData);
+                _con.Open();
+                sendRecordCmd.ExecuteNonQuery();
+                _con.Close();
 
-                request.Method = "post";
-                request.Proxy = null;
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = data.Length;
-
-                using (var requestStream = request.GetRequestStream())
-                {
-                    requestStream.Write(data, 0, data.Length);
-                }
-
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-                // Get the response stream
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-                if (Json_Obj.isError == "False")
-                {
-                    //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
-                    response_Message = Json_Obj.message;
-                }
-            }
-            catch
-            {
-                Is_Error = true;
-            }
-
-            if (!Is_Error)
-            {
-                SqlCommand SendRecordcmd = new SqlCommand("INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)", con);
-                SendRecordcmd.Parameters.AddWithValue("@SMS_Send_ID", SMS_Send_ID);
-                SendRecordcmd.Parameters.AddWithValue("@PhoneNumber", Number);
-                SendRecordcmd.Parameters.AddWithValue("@TextSMS", Text);
-                SendRecordcmd.Parameters.AddWithValue("@TextCount", Text.Length);
-                SendRecordcmd.Parameters.AddWithValue("@SMSCount", SMS_Conut(Text));
-                SendRecordcmd.Parameters.AddWithValue("@PurposeOfSMS", SMSPurpose);
-                SendRecordcmd.Parameters.AddWithValue("@Status", "Sent");
-                SendRecordcmd.Parameters.AddWithValue("@SMS_Response", response_Message);
-
-                con.Open();
-                SendRecordcmd.ExecuteNonQuery();
-                con.Close();
-
-                return SMS_Send_ID;
+                return smsSendId;
             }
             else
             {
@@ -139,67 +137,68 @@ namespace Education
             }
         }
 
-        public int SMS_Conut(string Text)
+        public int SMS_Conut(string text)
         {
-            string gsm7bitChars = "@£$¥èéùìòÇ\\nØø\\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\\\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
-            string gsm7bitExChar = "\\^{}\\\\\\[~\\]|€";
+            // string gsm7bitChars = "@£$¥èéùìòÇ\\nØø\\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\\\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
+            // string gsm7bitExChar = "\\^{}\\\\\\[~\\]|€";
+            //
+            // Regex gsm7bitRegExp = new Regex(@"^[" + gsm7bitChars + "]*$");
+            // Regex gsm7bitExRegExp = new Regex(@"^[" + gsm7bitChars + gsm7bitExChar + "]*$");
+            // Regex gsm7bitExOnlyRegExp = new Regex(@"^[\\" + gsm7bitExChar + "]*$");
+            //
+            // string sms = Text.Replace(Environment.NewLine, " ").Trim();
+            // int _results = 0;
+            //
+            // for (int ctr = 0; ctr <= sms.Length - 1; ctr++)
+            // {
+            //     if (gsm7bitExOnlyRegExp.IsMatch(sms[ctr].ToString()))
+            //     {
+            //         _results++;
+            //     }
+            // }
+            //
+            // double SMS_Count = 0;
+            // double SMS_Length = 0;
+            //
+            // if (gsm7bitRegExp.IsMatch(sms))
+            // {
+            //     SMS_Length = sms.Length + _results;
+            //     if (SMS_Length > 160)
+            //     {
+            //         SMS_Count = Math.Ceiling(SMS_Length / 153);
+            //     }
+            //     else
+            //     {
+            //         SMS_Count = 1;
+            //     }
+            // }
+            // else if (gsm7bitExRegExp.IsMatch(sms))
+            // {
+            //     SMS_Length = sms.Length + _results;
+            //     if (SMS_Length > 160)
+            //     {
+            //         SMS_Count = Math.Ceiling(SMS_Length / 153);
+            //     }
+            //     else
+            //     {
+            //         SMS_Count = 1;
+            //     }
+            // }
+            // else
+            // {
+            //     SMS_Length = sms.Length;
+            //     if (SMS_Length > 70)
+            //     {
+            //         SMS_Count = Math.Ceiling(SMS_Length / 67);
+            //     }
+            //     else
+            //     {
+            //         SMS_Count = 1;
+            //     }
+            // }
 
-            Regex gsm7bitRegExp = new Regex(@"^[" + gsm7bitChars + "]*$");
-            Regex gsm7bitExRegExp = new Regex(@"^[" + gsm7bitChars + gsm7bitExChar + "]*$");
-            Regex gsm7bitExOnlyRegExp = new Regex(@"^[\\" + gsm7bitExChar + "]*$");
-
-            string sms = Text.Replace(Environment.NewLine, " ").Trim();
-            int _results = 0;
-
-            for (int ctr = 0; ctr <= sms.Length - 1; ctr++)
-            {
-                if (gsm7bitExOnlyRegExp.IsMatch(sms[ctr].ToString()))
-                {
-                    _results++;
-                }
-            }
-
-            double SMS_Count = 0;
-            double SMS_Length = 0;
-
-            if (gsm7bitRegExp.IsMatch(sms))
-            {
-                SMS_Length = sms.Length + _results;
-                if (SMS_Length > 160)
-                {
-                    SMS_Count = Math.Ceiling(SMS_Length / 153);
-                }
-                else
-                {
-                    SMS_Count = 1;
-                }
-            }
-            else if (gsm7bitExRegExp.IsMatch(sms))
-            {
-                SMS_Length = sms.Length + _results;
-                if (SMS_Length > 160)
-                {
-                    SMS_Count = Math.Ceiling(SMS_Length / 153);
-                }
-                else
-                {
-                    SMS_Count = 1;
-                }
-            }
-            else
-            {
-                SMS_Length = sms.Length;
-                if (SMS_Length > 70)
-                {
-                    SMS_Count = Math.Ceiling(SMS_Length / 67);
-                }
-                else
-                {
-                    SMS_Count = 1;
-                }
-            }
-
-            return (int)SMS_Count;
+            // return (int)SMS_Count;
+            return SmsValidator.TotalSmsCount(text);
         }
 
         public int SMS_Length(string Text)
@@ -241,37 +240,39 @@ namespace Education
 
         public int SMS_GetBalance()
         {
-            var url_Action = "accountinfo";
-            var info = "package";
-            var dataFormat = "?userId={0}&password={1}&info={2}";
-            var url_Data = string.Format(dataFormat, userId, password, info);
-            int Balance = 0;
+            // var url_Action = "accountinfo";
+            // var info = "package";
+            // var dataFormat = "?userId={0}&password={1}&info={2}";
+            // var url_Data = string.Format(dataFormat, userId, password, info);
+            // int Balance = 0;
+            //
+            // try
+            // {
+            //     Uri address = new Uri(url + url_Action + url_Data);
+            //
+            //     // Create the web request
+            //     HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
+            //
+            //     // Set type to POST
+            //     request.Method = "GET";
+            //     request.ContentType = "text/xml";
+            //
+            //     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            //
+            //     // Get the response stream
+            //     StreamReader reader = new StreamReader(response.GetResponseStream());
+            //
+            //     dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
+            //
+            //     Balance += (int)Json_Obj.AvailableExternalSmsCount;
+            // }
+            // catch
+            // {
+            //     Balance = 0;
+            // }
+            // return Balance;
 
-            try
-            {
-                Uri address = new Uri(url + url_Action + url_Data);
-
-                // Create the web request
-                HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
-
-                // Set type to POST
-                request.Method = "GET";
-                request.ContentType = "text/xml";
-
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-                // Get the response stream
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-
-                Balance += (int)Json_Obj.AvailableExternalSmsCount;
-            }
-            catch
-            {
-                Balance = 0;
-            }
-            return Balance;
+            return SmsService.SmsBalance();
         }
     }
 

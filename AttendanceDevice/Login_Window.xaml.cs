@@ -92,15 +92,25 @@ namespace AttendanceDevice
 
                 //School info execute the request
                 var schoolResponse = await client.ExecuteTaskAsync(schoolRequest);
-                var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
 
-                if (schoolResponse.StatusCode != HttpStatusCode.OK && schoolInfo == null)
+                if (schoolResponse.StatusCode != HttpStatusCode.OK)
                 {
                     queue.Enqueue(schoolResponse.StatusDescription);
                     LoadingPb.IsIndeterminate = false;
                     LoginButton.IsEnabled = true;
                     return;
                 }
+
+                var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
+
+                if (schoolInfo == null)
+                {
+                    queue.Enqueue("School information not found");
+                    LoadingPb.IsIndeterminate = false;
+                    LoginButton.IsEnabled = true;
+                    return;
+                }
+
 
                 //Institution Deactivate By Authority
                 if (!schoolInfo.IsValid)
@@ -118,7 +128,8 @@ namespace AttendanceDevice
                 if (ins == null)
                 {
                     ins = schoolInfo;
-                    ins.Token = token;
+                    ins.UserName = schoolInfo.UserName.Trim();
+                    ins.Token = token.Trim();
                     ins.Password = PasswordPasswordBox.Password;
 
                     ins.PingTimeOut = 100; // default Value for device ping 
@@ -126,9 +137,10 @@ namespace AttendanceDevice
                 else
                 {
                     ins.Token = token;
+                    ins.UserName = schoolInfo.UserName.Trim();
                     ins.Password = PasswordPasswordBox.Password;
                     ins.IsValid = schoolInfo.IsValid;
-                    ins.SettingKey = schoolInfo.SettingKey;
+                    ins.SettingKey = schoolInfo.SettingKey.Trim();
                     ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
                     ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
                     ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
