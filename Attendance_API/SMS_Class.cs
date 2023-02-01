@@ -1,55 +1,56 @@
-﻿using Newtonsoft.Json;
+﻿using SmsService;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Attendance_API
 {
     public class SMS_Class
     {
-        private static string url = "http://loopsitbd.powersms.net.bd/httpapi/";
-        private static string userId = "Sikkhaloy";
-        private static string password = "Sikkhaloy@SMS_345";
+        private SmsServiceBuilder SmsService { get; }
 
-        public string Masking { get; set; }
-        public int SMSBalance { get; set; }
+        public int SMSBalance { get; }
 
-        private SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EduConnection"].ToString());
+        private readonly SqlConnection _con =
+            new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
 
-        public SMS_Class(string SchoolID)
+        public SMS_Class(string schoolId)
         {
-            SqlCommand GetMasking_cmd = new SqlCommand("SELECT Masking FROM SMS WHERE (SchoolID = @SchoolID)", con);
-            GetMasking_cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
+            var getSmsBalanceCmd = new SqlCommand("SELECT SMS_Balance FROM SMS WHERE (SchoolID = @SchoolID)", _con);
+            getSmsBalanceCmd.Parameters.AddWithValue("@SchoolID", schoolId);
 
-            SqlCommand Get_SMSBalance_cmd = new SqlCommand("SELECT SMS_Balance FROM SMS WHERE (SchoolID = @SchoolID)", con);
-            Get_SMSBalance_cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
+            var smsProviderCmd = new SqlCommand("SELECT TOP(1) SmsProvider FROM  SikkhaloySetting", _con);
+            var smsProviderMultipleCmd =
+                new SqlCommand("SELECT TOP(1) SmsProviderMultiple FROM  SikkhaloySetting", _con);
 
-            con.Open();
-            this.Masking = GetMasking_cmd.ExecuteScalar().ToString();
-            this.SMSBalance = Convert.ToInt32(Get_SMSBalance_cmd.ExecuteScalar());
-            con.Close();
+
+            _con.Open();
+            this.SMSBalance = Convert.ToInt32(getSmsBalanceCmd.ExecuteScalar());
+            var smsProvider = smsProviderCmd.ExecuteScalar().ToString();
+            var smsProviderMultiple = smsProviderMultipleCmd.ExecuteScalar().ToString();
+            _con.Close();
+
+            var isProviderExist = Enum.TryParse<ProviderEnum>(smsProvider, out var provider);
+            var isProviderMultipleExist = Enum.TryParse<ProviderEnum>(smsProviderMultiple, out var providerMultiple);
+
+            if (!isProviderExist) provider = ProviderEnum.BanglaPhone;
+            if (!isProviderMultipleExist) provider = ProviderEnum.GreenWeb;
+
+            SmsService = new SmsServiceBuilder(provider, providerMultiple);
         }
 
-        public Get_Validation SMS_Validation(string Number, string Text)
+        public Get_Validation SMS_Validation(string number, string text)
         {
-            bool IsValid = true;
-            string Validation_Message = "";
+            var isValid = true;
+            var validationMessage = "";
 
-            if (!Regex.IsMatch(Number, @"^(88)?((011)|(015)|(016)|(017)|(018)|(019)|(013)|(014))\d{8,8}$"))
+            if (!SmsValidator.IsValidNumber(number))
             {
-                IsValid = false;
-                Validation_Message += "Invalid Mobile Number";
+                isValid = false;
+                validationMessage += "Invalid Mobile Number";
             }
 
-            if (!Regex.IsMatch(Masking, @"^[A-Za-z0-9. ]{3,11}$"))
-            {
-                IsValid = false;
-                Validation_Message += "Invalid Masking";
-            }
 
             //if (!Enumerable.Range(1, 450).Contains(Text.Length))
             //{
@@ -57,79 +58,44 @@ namespace Attendance_API
             //    Validation_Message += "SMS Text Length Out Of Range. Maximum Size Is (450 character) ";
             //}
 
-            if (IsValid)
+            if (isValid)
             {
-                Validation_Message = "Valid";
+                validationMessage = "Valid";
             }
 
-            Get_Validation V = new Get_Validation();
+            var v = new Get_Validation
+            {
+                Validation = isValid,
+                Message = validationMessage
+            };
 
-            V.Validation = IsValid;
-            V.Message = Validation_Message;
-
-            return V;
+            return v;
         }
 
-        public Guid SMS_Send(string Number, string Text, string SMSPurpose)
+        public Guid SMS_Send(string number, string text, string smsPurpose)
         {
             var smsSendId = Guid.NewGuid();
-            var responseMessage = "";
-            var isError = false;
 
-            try
-            {
-                var urlAction = "sendsms"; // your powersms site url; register the ip first
-                var request = HttpWebRequest.Create(url + urlAction);
-
-                var smsText = Uri.EscapeDataString(Text);
-                var receiversParam = Number;
-                var dataFormat = "userId={0}&password={1}&smsText={2}&commaSeperatedReceiverNumbers={3}";
-                var urlEncodedData = string.Format(dataFormat, userId, password, smsText, receiversParam);
-                var data = Encoding.ASCII.GetBytes(urlEncodedData);
-
-                request.Method = "post";
-                request.Proxy = null;
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = data.Length;
-                //******************************Comment for testing with out SMS*********************************
-                using (var requestStream = request.GetRequestStream())
-                {
-                    requestStream.Write(data, 0, data.Length);
-                }
-
-                var response = request.GetResponse() as HttpWebResponse;
-
-                // Get the response stream
-                var reader = new StreamReader(response.GetResponseStream());
-
-                dynamic jsonObj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-                if (jsonObj.isError == "False")
-                {
-                    //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
-                    responseMessage = jsonObj.message;
-                }
-                //******************************Comment for testing with out SMS********************************
-            }
-            catch
-            {
-                isError = true;
-            }
+            var responseMessage = SmsService.SendSms(text, number);
+            var isError = !SmsService.IsSuccess;
 
             if (!isError)
             {
-                var sendRecordcmd = new SqlCommand("INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)", con);
-                sendRecordcmd.Parameters.AddWithValue("@SMS_Send_ID", smsSendId);
-                sendRecordcmd.Parameters.AddWithValue("@PhoneNumber", Number);
-                sendRecordcmd.Parameters.AddWithValue("@TextSMS", Text);
-                sendRecordcmd.Parameters.AddWithValue("@TextCount", Text.Length);
-                sendRecordcmd.Parameters.AddWithValue("@SMSCount", SMS_Conut(Text));
-                sendRecordcmd.Parameters.AddWithValue("@PurposeOfSMS", SMSPurpose);
-                sendRecordcmd.Parameters.AddWithValue("@Status", "Sent");
-                sendRecordcmd.Parameters.AddWithValue("@SMS_Response", responseMessage);
+                var sendRecordCmd = new SqlCommand(
+                    "INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)",
+                    _con);
+                sendRecordCmd.Parameters.AddWithValue("@SMS_Send_ID", smsSendId);
+                sendRecordCmd.Parameters.AddWithValue("@PhoneNumber", number);
+                sendRecordCmd.Parameters.AddWithValue("@TextSMS", text);
+                sendRecordCmd.Parameters.AddWithValue("@TextCount", text.Length);
+                sendRecordCmd.Parameters.AddWithValue("@SMSCount", SmsValidator.TotalSmsCount(text));
+                sendRecordCmd.Parameters.AddWithValue("@PurposeOfSMS", smsPurpose);
+                sendRecordCmd.Parameters.AddWithValue("@Status", "Sent");
+                sendRecordCmd.Parameters.AddWithValue("@SMS_Response", responseMessage);
 
-                con.Open();
-                sendRecordcmd.ExecuteNonQuery();
-                con.Close();
+                _con.Open();
+                sendRecordCmd.ExecuteNonQuery();
+                _con.Close();
 
                 return smsSendId;
             }
@@ -139,139 +105,55 @@ namespace Attendance_API
             }
         }
 
-        public int SMS_Conut(string Text)
+        public Get_Validation SmsSendMultiple(List<SendSmsModel> smsList, string smsPurpose = "Purpose Not Define")
         {
-            string gsm7bitChars = "@£$¥èéùìòÇ\\nØø\\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\\\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
-            string gsm7bitExChar = "\\^{}\\\\\\[~\\]|€";
+            SmsService.SendSmsMultiple(smsList);
 
-            Regex gsm7bitRegExp = new Regex(@"^[" + gsm7bitChars + "]*$");
-            Regex gsm7bitExRegExp = new Regex(@"^[" + gsm7bitChars + gsm7bitExChar + "]*$");
-            Regex gsm7bitExOnlyRegExp = new Regex(@"^[\\" + gsm7bitExChar + "]*$");
-
-            string sms = Text.Replace(Environment.NewLine, " ").Trim();
-            int _results = 0;
-
-            for (int ctr = 0; ctr <= sms.Length - 1; ctr++)
+            if (!SmsService.IsSuccess)
             {
-                if (gsm7bitExOnlyRegExp.IsMatch(sms[ctr].ToString()))
+                return new Get_Validation
                 {
-                    _results++;
-                }
+                    Validation = false,
+                    Message = SmsService.Error
+                };
             }
 
-            double SMS_Count = 0;
-            double SMS_Length = 0;
+            foreach (var smsModel in smsList)
+            {
 
-            if (gsm7bitRegExp.IsMatch(sms))
-            {
-                SMS_Length = sms.Length + _results;
-                if (SMS_Length > 160)
-                {
-                    SMS_Count = Math.Ceiling(SMS_Length / 153);
-                }
-                else
-                {
-                    SMS_Count = 1;
-                }
-            }
-            else if (gsm7bitExRegExp.IsMatch(sms))
-            {
-                SMS_Length = sms.Length + _results;
-                if (SMS_Length > 160)
-                {
-                    SMS_Count = Math.Ceiling(SMS_Length / 153);
-                }
-                else
-                {
-                    SMS_Count = 1;
-                }
-            }
-            else
-            {
-                SMS_Length = sms.Length;
-                if (SMS_Length > 70)
-                {
-                    SMS_Count = Math.Ceiling(SMS_Length / 67);
-                }
-                else
-                {
-                    SMS_Count = 1;
-                }
+
+                var sendRecordCmd = new SqlCommand(
+                    "INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)",
+                    _con);
+                sendRecordCmd.Parameters.AddWithValue("@SMS_Send_ID", smsModel.Guid);
+                sendRecordCmd.Parameters.AddWithValue("@PhoneNumber", smsModel.Number);
+                sendRecordCmd.Parameters.AddWithValue("@TextSMS", smsModel.Text);
+                sendRecordCmd.Parameters.AddWithValue("@TextCount", smsModel.Text.Length);
+                sendRecordCmd.Parameters.AddWithValue("@SMSCount", SmsValidator.TotalSmsCount(smsModel.Text));
+                sendRecordCmd.Parameters.AddWithValue("@PurposeOfSMS", smsPurpose);
+                sendRecordCmd.Parameters.AddWithValue("@Status", "Sent");
+                sendRecordCmd.Parameters.AddWithValue("@SMS_Response", "Multiple SMS Send");
+
+                _con.Open();
+                sendRecordCmd.ExecuteNonQuery();
+                _con.Close();
             }
 
-            return (int)SMS_Count;
+            return new Get_Validation
+            {
+                Validation = true,
+                Message = "Success"
+            };
         }
 
-        public int SMS_Length(string Text)
+        public int SMS_Conut(string text)
         {
-            string gsm7bitChars = "@£$¥èéùìòÇ\\nØø\\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\\\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
-            string gsm7bitExChar = "\\^{}\\\\\\[~\\]|€";
-
-            Regex gsm7bitRegExp = new Regex(@"^[" + gsm7bitChars + "]*$");
-            Regex gsm7bitExRegExp = new Regex(@"^[" + gsm7bitChars + gsm7bitExChar + "]*$");
-            Regex gsm7bitExOnlyRegExp = new Regex(@"^[\\" + gsm7bitExChar + "]*$");
-
-            string sms = Text.Replace(Environment.NewLine, " ").Trim();
-            int _results = 0;
-
-            for (int ctr = 0; ctr <= sms.Length - 1; ctr++)
-            {
-                if (gsm7bitExOnlyRegExp.IsMatch(sms[ctr].ToString()))
-                {
-                    _results++;
-                }
-            }
-
-            int sms_count = 0;
-            if (gsm7bitRegExp.IsMatch(sms))
-            {
-                sms_count = sms.Length + _results;
-            }
-            else if (gsm7bitExRegExp.IsMatch(sms))
-            {
-                sms_count = sms.Length + _results;
-            }
-            else
-            {
-                sms_count = sms.Length;
-            }
-
-            return sms_count;
+            return SmsValidator.TotalSmsCount(text);
         }
 
         public int SMS_GetBalance()
         {
-            var url_Action = "accountinfo";
-            var info = "package";
-            var dataFormat = "?userId={0}&password={1}&info={2}";
-            var url_Data = string.Format(dataFormat, userId, password, info);
-            int Balance = 0;
-
-            try
-            {
-                Uri address = new Uri(url + url_Action + url_Data);
-
-                // Create the web request
-                HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
-
-                // Set type to POST
-                request.Method = "GET";
-                request.ContentType = "text/xml";
-
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-                // Get the response stream
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-
-                Balance += (int)Json_Obj.AvailableExternalSmsCount;
-            }
-            catch
-            {
-                Balance = 0;
-            }
-            return Balance;
+            return SmsService.SmsBalance();
         }
     }
 
