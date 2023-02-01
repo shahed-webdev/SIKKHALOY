@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -76,15 +78,13 @@ namespace SmsService
                 {
                     dynamic responseObject = ParseResponse(response);
 
-                    if (responseObject.status != "sent")
+                    if (responseObject.status != "SENT")
                     {
                         throw new Exception(string.Format("Sms Sending was failed. Because: {0}",
                             responseObject.statusmsg));
                     }
-                    else
-                    {
-                        return responseObject.statusmsg;
-                    }
+
+                    return responseObject.statusmsg;
                 }
             }
             catch (WebException e)
@@ -100,6 +100,59 @@ namespace SmsService
             return string.Empty;
         }
 
+        public void SendSmsMultiple(IEnumerable<SendSmsModel> smsList)
+        {
+            const string actionUrl = "api.php?json"; // your powers ms site url; register the ip first
+            var request = HttpWebRequest.Create(HostUrl + actionUrl);
+
+            var smsData = smsList.Select(s =>
+                new
+                {
+                    to = s.Number,
+                    message = Uri.EscapeDataString(s.Text)
+                }).ToList();
+
+            var jsonSmsData = JsonConvert.SerializeObject(smsData);
+            var dataFormat = "token={0}&smsdata={1}";
+
+
+            var urlEncodedData = string.Format(dataFormat, ApiKey, jsonSmsData);
+            var data = Encoding.ASCII.GetBytes(urlEncodedData);
+
+            request.Method = "post";
+            request.Proxy = null;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+
+
+            using (var requestStream = request.GetRequestStream())
+            {
+                requestStream.Write(data, 0, data.Length);
+            }
+
+            try
+            {
+                using (var response = request.GetResponse())
+                {
+                    dynamic responseObject = ParseResponse(response);
+
+                    //if (responseObject[0].status != "SENT")
+                    //{
+                    //    throw new Exception(string.Format("Sms Sending was failed. Because: {0}",
+                    //        responseObject.statusmsg));
+                    //}
+                }
+            }
+            catch (WebException e)
+            {
+                dynamic responseObject = ParseResponse(e.Response);
+
+                if (responseObject.isError == "true")
+                {
+                    throw new Exception("Sms Sending was failed. Because: " + responseObject.message);
+                }
+            }
+        }
         private static object ParseResponse(WebResponse r)
         {
             var response = (HttpWebResponse)r;

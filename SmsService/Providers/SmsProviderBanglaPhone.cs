@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -136,6 +137,14 @@ namespace SmsService
             }
 
             return string.Empty;
+        }
+
+        public void SendSmsMultiple(IEnumerable<SendSmsModel> smsList)
+        {
+            foreach (var smsModel in smsList)
+            {
+                SendSms(smsModel.Text, smsModel.Number);
+            }
         }
     }
 }
