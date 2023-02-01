@@ -15,12 +15,11 @@ namespace SmsService
             {
                 _provider = new SmsProviderBanglaPhone();
             }
-            else if (provider == ProviderEnum.Mram)
+            else if (provider == ProviderEnum.GreenWeb)
             {
+                _provider = new SmsProviderGreenWeb();
             }
-            else if (provider == ProviderEnum.MimSms)
-            {
-            }
+
 
         }
         public int SmsBalance()

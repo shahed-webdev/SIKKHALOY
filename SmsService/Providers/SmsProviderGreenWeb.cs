@@ -6,40 +6,32 @@ using System.Text;
 
 namespace SmsService
 {
-    public class SmsProviderMram : ISmsProvider
+    public class SmsProviderGreenWeb : ISmsProvider
     {
-        private const string HostUrl = "https://api.greenweb.com.bd/api.php?json";
+        private const string HostUrl = "https://api.greenweb.com.bd/";
         private const string ApiKey = "90282210471675095047ee665e3d0ba098844814cab35e133dc4";
         public int GetSmsBalance()
         {
             // Create Url
-            const string actionUrl = "/getBalance";
+            var actionUrl = $"g_api.php?token={ApiKey}&balance&rate&json";
 
-            var address = new Uri(HostUrl + ApiKey + actionUrl);
+            var address = new Uri(HostUrl + actionUrl);
 
             // Create the web request
             var request = WebRequest.Create(address) as HttpWebRequest;
 
             // Set type to POST
             request.Method = "GET";
-            request.ContentType = "text/xml";
+            //request.ContentType = "text/xml";
 
             try
             {
                 using (var response = request.GetResponse())
                 {
                     dynamic responseObject = ParseResponse(response);
-
-                    if (responseObject.isError == "true")
-                    {
-                        throw new Exception(string.Format("Sms Sending was failed. Because: {0}",
-                            responseObject.message));
-                    }
-                    else
-                    {
-                        // Get the response stream
-                        return (int)responseObject.AvailableExternalSmsCount;
-                    }
+                    var amount = (double)responseObject[0].response;
+                    var rate = (double)responseObject[1].response;
+                    return (int)(amount / rate);
                 }
             }
             catch (WebException e)
@@ -58,14 +50,13 @@ namespace SmsService
 
         public string SendSms(string massage, string number)
         {
-            const string actionUrl = ""; // your powers ms site url; register the ip first
+            const string actionUrl = "api.php?json"; // your powers ms site url; register the ip first
             var request = HttpWebRequest.Create(HostUrl + actionUrl);
             var smsText = Uri.EscapeDataString(massage);
-            var receiversParam = number;
-            var dataFormat = "token={0}&smsdata={1}";
+            var dataFormat = "token={0}&to={1}&message={2}";
 
 
-            var urlEncodedData = string.Format(dataFormat, ApiKey, smsText);
+            var urlEncodedData = string.Format(dataFormat, ApiKey, number, smsText);
             var data = Encoding.ASCII.GetBytes(urlEncodedData);
 
             request.Method = "post";
@@ -85,14 +76,14 @@ namespace SmsService
                 {
                     dynamic responseObject = ParseResponse(response);
 
-                    if (responseObject.isError == "true")
+                    if (responseObject.status != "sent")
                     {
                         throw new Exception(string.Format("Sms Sending was failed. Because: {0}",
-                            responseObject.message));
+                            responseObject.statusmsg));
                     }
                     else
                     {
-                        return responseObject.insertedSmsIds;
+                        return responseObject.statusmsg;
                     }
                 }
             }

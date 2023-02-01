@@ -9,19 +9,28 @@ namespace EDUCATION.COM.Authority
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            try
             {
-                var Sms = Enum.GetValues(typeof(ProviderEnum));
-                foreach (var item in Sms)
+
+
+                if (!Page.IsPostBack)
                 {
-                    SmsProviderRadioButtonList.Items.Add(item.ToString());
-                    SmsProviderMultipleRadioButtonList.Items.Add(item.ToString());
+                    var Sms = Enum.GetValues(typeof(ProviderEnum));
+                    foreach (var item in Sms)
+                    {
+                        SmsProviderRadioButtonList.Items.Add(item.ToString());
+                        SmsProviderMultipleRadioButtonList.Items.Add(item.ToString());
+                    }
+
+                    var dv = (DataView)SmsSettingSQL.Select(DataSourceSelectArguments.Empty);
+
+                    SmsProviderRadioButtonList.Items.FindByValue(dv[0]["SmsProvider"].ToString()).Selected = true;
+                    SmsProviderMultipleRadioButtonList.Items.FindByValue(dv[0]["SmsProviderMultiple"].ToString()).Selected = true;
                 }
+            }
+            catch (Exception exception)
+            {
 
-                var dv = (DataView)SmsSettingSQL.Select(DataSourceSelectArguments.Empty);
-
-                SmsProviderRadioButtonList.Items.FindByValue(dv[0]["SmsProvider"].ToString()).Selected = true;
-                SmsProviderMultipleRadioButtonList.Items.FindByValue(dv[0]["SmsProviderMultiple"].ToString()).Selected = true;
             }
         }
 

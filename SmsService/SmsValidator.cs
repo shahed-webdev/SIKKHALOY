@@ -98,7 +98,7 @@ namespace SmsService
 
         public static bool IsValidNumber(string number)
         {
-            return !Regex.IsMatch(number, @"^(88)?((011)|(015)|(016)|(017)|(018)|(019)|(013)|(014))\d{8,8}$");
+            return Regex.IsMatch(number, @"^(88)?((011)|(015)|(016)|(017)|(018)|(019)|(013)|(014))\d{8,8}$");
         }
     }
 }

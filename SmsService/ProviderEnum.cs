@@ -3,7 +3,6 @@
     public enum ProviderEnum
     {
         BanglaPhone,
-        Mram,
-        MimSms
+        GreenWeb
     }
 }

@@ -2,15 +2,11 @@
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Text.RegularExpressions;
 
 namespace Education
 {
     public class SMS_Class
     {
-        // private static string url = "http://loopsitbd.powersms.net.bd/httpapi/";
-        // private static string userId = "Sikkhaloy";
-        // private static string password = "Sikkhaloy@SMS_345";
         private SmsServiceBuilder SmsService { get; }
 
         public int SMSBalance { get; }
@@ -70,49 +66,10 @@ namespace Education
         public Guid SMS_Send(string number, string text, string smsPurpose)
         {
             var smsSendId = Guid.NewGuid();
-            var responseMessage = "";
-            var isError = false;
 
-            // try
-            // {
-            //     var url_Action = "sendsms"; // your powersms site url; register the ip first
-            //     var request = HttpWebRequest.Create(url + url_Action);
-            //
-            //     var smsText = Uri.EscapeDataString(Text);
-            //     var receiversParam = Number;
-            //     var dataFormat = "userId={0}&password={1}&smsText={2}&commaSeperatedReceiverNumbers={3}";
-            //     var urlEncodedData = string.Format(dataFormat, userId, password, smsText, receiversParam);
-            //     var data = Encoding.ASCII.GetBytes(urlEncodedData);
-            //
-            //     request.Method = "post";
-            //     request.Proxy = null;
-            //     request.ContentType = "application/x-www-form-urlencoded";
-            //     request.ContentLength = data.Length;
-            //
-            //     using (var requestStream = request.GetRequestStream())
-            //     {
-            //         requestStream.Write(data, 0, data.Length);
-            //     }
-            //
-            //     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-            //
-            //     // Get the response stream
-            //     StreamReader reader = new StreamReader(response.GetResponseStream());
-            //
-            //     dynamic Json_Obj = JsonConvert.DeserializeObject(reader.ReadToEnd());
-            //     if (Json_Obj.isError == "False")
-            //     {
-            //         //ShowLabel.Text = Json_Obj.message + Json_Obj.isError + Json_Obj.insertedSmsIds;
-            //         responseMessage = Json_Obj.message;
-            //     }
-            // }
-            // catch
-            // {
-            //     isError = true;
-            // }
+            var responseMessage = SmsService.SendSms(text, number);
+            var isError = !SmsService.IsSuccess;
 
-            responseMessage = SmsService.SendSms(text, number);
-            isError = !SmsService.IsSuccess;
             if (!isError)
             {
                 var sendRecordCmd = new SqlCommand("INSERT INTO [SMS_Send_Record] ([SMS_Send_ID], [PhoneNumber], [TextSMS], [TextCount], [SMSCount], [PurposeOfSMS], [Status], [Date], [SMS_Response]) VALUES (@SMS_Send_ID, @PhoneNumber, @TextSMS, @TextCount, @SMSCount, @PurposeOfSMS, @Status, Getdate(), @SMS_Response)", _con);
@@ -199,43 +156,6 @@ namespace Education
 
             // return (int)SMS_Count;
             return SmsValidator.TotalSmsCount(text);
-        }
-
-        public int SMS_Length(string Text)
-        {
-            string gsm7bitChars = "@£$¥èéùìòÇ\\nØø\\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\\\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
-            string gsm7bitExChar = "\\^{}\\\\\\[~\\]|€";
-
-            Regex gsm7bitRegExp = new Regex(@"^[" + gsm7bitChars + "]*$");
-            Regex gsm7bitExRegExp = new Regex(@"^[" + gsm7bitChars + gsm7bitExChar + "]*$");
-            Regex gsm7bitExOnlyRegExp = new Regex(@"^[\\" + gsm7bitExChar + "]*$");
-
-            string sms = Text.Replace(Environment.NewLine, " ").Trim();
-            int _results = 0;
-
-            for (int ctr = 0; ctr <= sms.Length - 1; ctr++)
-            {
-                if (gsm7bitExOnlyRegExp.IsMatch(sms[ctr].ToString()))
-                {
-                    _results++;
-                }
-            }
-
-            int sms_count = 0;
-            if (gsm7bitRegExp.IsMatch(sms))
-            {
-                sms_count = sms.Length + _results;
-            }
-            else if (gsm7bitExRegExp.IsMatch(sms))
-            {
-                sms_count = sms.Length + _results;
-            }
-            else
-            {
-                sms_count = sms.Length;
-            }
-
-            return sms_count;
         }
 
         public int SMS_GetBalance()

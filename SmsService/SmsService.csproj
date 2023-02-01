@@ -48,7 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderEnum.cs" />
     <Compile Include="Providers\SmsProviderBanglaPhone.cs" />
-    <Compile Include="Providers\SmsProviderMram.cs" />
+    <Compile Include="Providers\SmsProviderGreenWeb.cs" />
     <Compile Include="SmsServiceBuilder.cs" />
     <Compile Include="SmsValidator.cs" />
   </ItemGroup>
