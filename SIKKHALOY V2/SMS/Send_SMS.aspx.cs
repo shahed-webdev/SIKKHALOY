@@ -319,13 +319,13 @@ namespace EDUCATION.COM.SMS
                 {
                     if (SMS.SMS_GetBalance() >= TotalSMS)
                     {
-                        Get_Validation IsValid = SMS.SMS_Validation(PhoneNo, Msg);
-                        if (IsValid.Validation)
+                        Get_Validation isValid = SMS.SMS_Validation(PhoneNo, Msg);
+                        if (isValid.Validation)
                         {
-                            Guid SMS_Send_ID = SMS.SMS_Send(PhoneNo, Msg, "SMS Service");
-                            if (SMS_Send_ID != Guid.Empty)
+                            Guid smsSendId = SMS.SMS_Send(PhoneNo, Msg, "SMS Service");
+                            if (smsSendId != Guid.Empty)
                             {
-                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = SMS_Send_ID.ToString();
+                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
                                 SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
                                 SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
                                 SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue = "";
@@ -339,7 +339,7 @@ namespace EDUCATION.COM.SMS
                         }
                         else
                         {
-                            ErrorLabel.Text = IsValid.Message;
+                            ErrorLabel.Text = isValid.Message;
                         }
                     }
                     else

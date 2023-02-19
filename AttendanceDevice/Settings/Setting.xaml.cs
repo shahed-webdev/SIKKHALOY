@@ -29,18 +29,18 @@ namespace AttendanceDevice.Settings
         {
             if (LocalData.Current_Error.Type == Error_Type.DeviceInfoPage)
             {
-                var DeviceInfoPage = new DeviceInfoPage();
-                FrameSetting.Content = DeviceInfoPage;
+                var deviceInfoPage = new DeviceInfoPage();
+                FrameSetting.Content = deviceInfoPage;
             }
             else if (LocalData.Current_Error.Type == Error_Type.UserInfoPage)
             {
-                var User = new UserInfoPage();
-                FrameSetting.Content = User;
+                var user = new UserInfoPage();
+                FrameSetting.Content = user;
             }
             else
             {
-                var DeshboardPage = new Deshboard();
-                FrameSetting.Content = DeshboardPage;
+                var deshboardPage = new Deshboard();
+                FrameSetting.Content = deshboardPage;
             }
         }
         //humburger menu
@@ -94,9 +94,8 @@ namespace AttendanceDevice.Settings
                 LocalData.Current_Error.Message = "No User Found on PC!";
                 LocalData.Current_Error.Type = Error_Type.UserInfoPage;
 
-                var setting = new Setting();
-                setting.Show();
-                this.Close();
+                var user = new UserInfoPage();
+                FrameSetting.Content = user;
                 return;
             }
 
@@ -109,9 +108,8 @@ namespace AttendanceDevice.Settings
                 LocalData.Current_Error.Message = "No Device Added In PC!";
                 LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
 
-                var setting = new Setting();
-                setting.Show();
-                this.Close();
+                var deviceInfoPage = new DeviceInfoPage();
+                FrameSetting.Content = deviceInfoPage;
                 return;
             }
 
@@ -139,9 +137,8 @@ namespace AttendanceDevice.Settings
                 LocalData.Current_Error.Message = "Device IP Not Found";
                 LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
 
-                var setting = new Setting();
-                setting.Show();
-                this.Close();
+                var deviceInfoPage = new DeviceInfoPage();
+                FrameSetting.Content = deviceInfoPage;
                 return;
             }
 
@@ -158,9 +155,19 @@ namespace AttendanceDevice.Settings
 
                 //School info execute the request
                 var schoolResponse = await client.ExecuteTaskAsync(schoolRequest);
+
+                if (schoolResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    LocalData.Current_Error.Message = schoolResponse.StatusDescription;
+                    var login = new Login_Window();
+                    login.Show();
+                    this.Close();
+                    return;
+                }
+
                 var schoolInfo = JsonConvert.DeserializeObject<Institution>(schoolResponse.Content);
 
-                if (schoolResponse.StatusCode != HttpStatusCode.OK && schoolInfo == null)
+                if (schoolInfo == null)
                 {
                     LocalData.Current_Error.Message = "Institution Information Not Found in Server!";
                     var login = new Login_Window();
@@ -193,7 +200,7 @@ namespace AttendanceDevice.Settings
 
                 //Update Institution Information
                 ins.IsValid = schoolInfo.IsValid;
-                ins.SettingKey = schoolInfo.SettingKey;
+                ins.SettingKey = schoolInfo.SettingKey.Trim();
                 ins.Is_Device_Attendance_Enable = schoolInfo.Is_Device_Attendance_Enable;
                 ins.Is_Employee_Attendance_Enable = schoolInfo.Is_Employee_Attendance_Enable;
                 ins.Is_Student_Attendance_Enable = schoolInfo.Is_Student_Attendance_Enable;
@@ -248,9 +255,12 @@ namespace AttendanceDevice.Settings
                             "Not all User assigned in the schedule on PC, Update User from server!";
                         LocalData.Current_Error.Type = Error_Type.UserInfoPage;
 
-                        var setting = new Setting();
-                        setting.Show();
-                        this.Close();
+
+                        PB.IsIndeterminate = false;
+                        btnDisplay.IsEnabled = true;
+
+                        var user = new UserInfoPage();
+                        FrameSetting.Content = user;
                         return;
                     }
                 }
@@ -311,9 +321,8 @@ namespace AttendanceDevice.Settings
                 LocalData.Current_Error.Message = "Device Unable to Connect";
                 LocalData.Current_Error.Type = Error_Type.DeviceInfoPage;
 
-                var setting = new Setting();
-                setting.Show();
-                this.Close();
+                var deviceInfoPage = new DeviceInfoPage();
+                FrameSetting.Content = deviceInfoPage;
                 return;
             }
 
@@ -334,58 +343,58 @@ namespace AttendanceDevice.Settings
 
             //Need to send data to server 
 
-            var DisplayWindow = new DisplayWindow(initDevice);
-            DisplayWindow.Show();
+            var displayWindow = new DisplayWindow(initDevice);
+            displayWindow.Show();
             this.Close();
 
         }
         private void UserButton_Click(object sender, RoutedEventArgs e)
         {
-            var User = new UserInfoPage();
-            FrameSetting.Content = User;
+            var user = new UserInfoPage();
+            FrameSetting.Content = user;
         }
         private void InstitutionInfo_Button_Click(object sender, RoutedEventArgs e)
         {
-            var Institution = new Institution_InfoPage();
-            FrameSetting.Content = Institution;
+            var institution = new Institution_InfoPage();
+            FrameSetting.Content = institution;
         }
         private void Device_Button_Click(object sender, RoutedEventArgs e)
         {
-            var DeviceInfoPage = new DeviceInfoPage();
-            FrameSetting.Content = DeviceInfoPage;
+            var deviceInfoPage = new DeviceInfoPage();
+            FrameSetting.Content = deviceInfoPage;
         }
         private void BtnSchedule_Click(object sender, RoutedEventArgs e)
         {
-            var SchedulePage = new SchedulePage();
-            FrameSetting.Content = SchedulePage;
+            var schedulePage = new SchedulePage();
+            FrameSetting.Content = schedulePage;
         }
         private void AttendanceLog_Button_Click(object sender, RoutedEventArgs e)
         {
-            var Log = new Attendance_LogPage();
-            FrameSetting.Content = Log;
+            var log = new Attendance_LogPage();
+            FrameSetting.Content = log;
         }
         private void BackUpData_Button_Click(object sender, RoutedEventArgs e)
         {
-            var BackUp = new BackUp_LogsPage();
-            FrameSetting.Content = BackUp;
+            var backUp = new BackUp_LogsPage();
+            FrameSetting.Content = backUp;
         }
 
         private void Dashboard_Button_Click(object sender, RoutedEventArgs e)
         {
-            var Dashboard = new Deshboard();
-            FrameSetting.Content = Dashboard;
+            var dashboard = new Deshboard();
+            FrameSetting.Content = dashboard;
         }
 
         private void FingerPrint_Button_Click(object sender, RoutedEventArgs e)
         {
-            var FingerPrint = new FingerPrint_Page();
-            FrameSetting.Content = FingerPrint;
+            var fingerPrint = new FingerPrint_Page();
+            FrameSetting.Content = fingerPrint;
         }
 
         private void LeaveUser_Button_Click(object sender, RoutedEventArgs e)
         {
-            var LeaveUser = new LeaveUser_Page();
-            FrameSetting.Content = LeaveUser;
+            var leaveUser = new LeaveUser_Page();
+            FrameSetting.Content = leaveUser;
         }
     }
 }

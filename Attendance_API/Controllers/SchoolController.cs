@@ -12,44 +12,53 @@ namespace Attendance_API.Controllers
     {
         public async Task<SchoolVM> Get(string id)
         {
-            SchoolVM ins;
 
-            using (var entities = new EduContext())
+            try
             {
-                var q = from i in entities.SchoolInfos
-                        join a in entities.Attendance_Device_Settings
-                        on i.SchoolID equals a.SchoolID
-                        where i.UserName == id
-                        select new SchoolVM
-                        {
-                            SchoolID = i.SchoolID,
-                            InstitutionName = i.SchoolName,
-                            Image_Link = a.Image_Link,
-                            Logo = i.SchoolLogo,
-                            UserName = i.UserName,
-                            SettingKey = a.SettingKey,
-                            Is_Device_Attendance_Enable = a.Is_Device_Attendance_Enable,
-                            Is_Employee_Attendance_Enable = a.Is_Employee_Attendance_Enable,
-                            Is_Student_Attendance_Enable = a.Is_Student_Attendance_Enable,
-                            Holiday_Active = !a.Is_Holiday_As_Offday,
-                            IsValid = a.IsActive
-                        };
+                SchoolVM ins;
+                using (var entities = new EduContext())
+                {
+                    var q = from i in entities.SchoolInfos
+                            join a in entities.Attendance_Device_Settings
+                                on i.SchoolID equals a.SchoolID
+                            where i.UserName == id
+                            select new SchoolVM
+                            {
+                                SchoolID = i.SchoolID,
+                                InstitutionName = i.SchoolName,
+                                Image_Link = a.Image_Link,
+                                Logo = i.SchoolLogo,
+                                UserName = i.UserName,
+                                SettingKey = a.SettingKey,
+                                Is_Device_Attendance_Enable = a.Is_Device_Attendance_Enable,
+                                Is_Employee_Attendance_Enable = a.Is_Employee_Attendance_Enable,
+                                Is_Student_Attendance_Enable = a.Is_Student_Attendance_Enable,
+                                Holiday_Active = !a.Is_Holiday_As_Offday,
+                                IsValid = a.IsActive
+                            };
 
 
-                ins = await q.FirstOrDefaultAsync<SchoolVM>();
+                    ins = await q.FirstOrDefaultAsync<SchoolVM>();
 
-                var isHoliday = from h in entities.Holidays
-                                join i in entities.SchoolInfos
-                                on h.SchoolID equals i.SchoolID
-                                where i.UserName == id && h.HolidayDate == DateTime.Today
-                                select h.HolidayID;
+                    var isHoliday = from h in entities.Holidays
+                                    join i in entities.SchoolInfos
+                                        on h.SchoolID equals i.SchoolID
+                                    where i.UserName == id && h.HolidayDate == DateTime.Today
+                                    select h.HolidayID;
 
-                ins.Is_Today_Holiday = await isHoliday.AnyAsync();
-                ins.LastUpdateDate = DateTime.Now.ToShortDateString();
-                ins.Current_Datetime = DateTime.Now;
+                    ins.Is_Today_Holiday = await isHoliday.AnyAsync();
+                    ins.LastUpdateDate = DateTime.Now.ToShortDateString();
+                    ins.Current_Datetime = DateTime.Now;
+                }
+
+                return ins;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
 
-            return ins;
+
         }
 
         [Route("api/School/{id}/short")]

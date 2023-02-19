@@ -45,7 +45,7 @@ namespace AttendanceDevice.Config_Class
         {
             get
             {
-                if (Users.Count() > 0)
+                if (Users.Any())
                 {
                     return Users.Select(u => new UserView
                     {
@@ -64,7 +64,7 @@ namespace AttendanceDevice.Config_Class
                     return new List<UserView>();
                 }
             }
-            set { UserViews = value; }
+            private set => UserViews = value;
         }
         public UserView GetUserView(int deviceID)
         {
