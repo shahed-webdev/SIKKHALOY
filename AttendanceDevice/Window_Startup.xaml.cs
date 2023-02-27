@@ -334,6 +334,30 @@ namespace AttendanceDevice
                 }
 
                 #endregion Device data send to server
+
+
+
+                //Get any update notification from server
+                var updateNotificationRequest = new RestRequest("api/Users/{id}/updateInfo", Method.GET);
+                updateNotificationRequest.AddUrlSegment("id", ins.SchoolID);
+                updateNotificationRequest.AddHeader("Authorization", "Bearer " + token);
+
+                var updateNotificationResponse =
+                    await client.ExecuteTaskAsync<List<DataUpdateList>>(updateNotificationRequest);
+
+                if (updateNotificationResponse.StatusCode == HttpStatusCode.OK && updateNotificationResponse.Data != null &&
+                    updateNotificationResponse.Data.Any())
+                {
+                    await LocalData.Instance.AddNotifications(updateNotificationResponse.Data);
+
+                    var setting = new Setting();
+                    setting.Show();
+                    this.Close();
+                    return;
+
+                }
+
+
                 //show display
                 var display = new DisplayWindow(initDevice);
                 display.Show();
