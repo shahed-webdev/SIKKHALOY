@@ -19,6 +19,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <StackPanel>
@@ -597,6 +598,20 @@
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
+        </Grid>
+
+        <Grid  Grid.Row="5">
+            <Button Background="Red"
+                Margin="15,15,15,-13"
+                    Padding="10,20" Click="ResetButton_Click" Height="Auto">
+                <StackPanel Orientation="Horizontal" Height="30" Width="94">
+                    <materialDesign:PackIcon
+                        Margin="0,0,4,0"
+                        VerticalAlignment="Center"
+                        Kind="Trash" />
+                    <TextBlock VerticalAlignment="Center" Text="Reset" />
+                </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </Page>

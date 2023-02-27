@@ -828,7 +828,6 @@ namespace Attendance_API.Controllers
 
         [Route("api/Attendance/{id}/GetTodayAttendance")]
         [HttpGet]
-
         public async Task<IEnumerable<AttendanceRecordAPI>> GetTodayAttendance(int id)
         {
             var today = DateTime.Today;
@@ -889,111 +888,121 @@ namespace Attendance_API.Controllers
             return attendanceRecords;
         }
 
-        [Route("api/Attendance/{id}/SendSms")]
-        [HttpPost]
-        public async Task<IHttpActionResult> SendSms(int id)
-        {
-            try
-            {
-                var sms = new SMS_Class(id.ToString());
+        //[Route("api/Attendance/{id}/SendSms")]
+        //[HttpPost]
+        //public async Task<IHttpActionResult> SendSms(int id)
+        //{
+        //    try
+        //    {
+        //        var sms = new SMS_Class(id.ToString());
 
-                var totalSms = 0;
+        //        var totalSms = 0;
 
-                var today = DateTime.Now;
+        //        var today = DateTime.Now;
 
-                var currentTime = DateTime.Now.TimeOfDay;
+        //        var currentTime = DateTime.Now.TimeOfDay;
 
-                var smsBalance = sms.SMSBalance;
+        //        var smsBalance = sms.SMSBalance;
 
-                #region Send SMS to All students
+        //        #region Send SMS to All students
 
-                var smsListDay = new List<Attendance_SMS>();
-                var smsList = new List<Attendance_SMS>();
+        //        var smsListDay = new List<Attendance_SMS>();
+        //        var smsList = new List<Attendance_SMS>();
 
-                using (var db = new EduContext())
-                {
-                    smsListDay = await db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today.Date)
-                        .ToListAsync();
-                    smsList = smsListDay
-                        .Where(s => s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
-
-
-                    if (smsList.Any())
-                    {
-                        foreach (var item in smsList)
-                        {
-                            var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
-                            if (isValid.Validation)
-                            {
-                                totalSms += sms.SMS_Conut(item.SMS_Text);
-                            }
-                        }
+        //        using (var db = new EduContext())
+        //        {
+        //            smsListDay = await db.Attendance_sms.Where(s => s.SchoolID == id && s.AttendanceDate == today.Date)
+        //                .ToListAsync();
+        //            smsList = smsListDay
+        //                .Where(s => s.ScheduleTime.TotalMinutes + s.SMS_TimeOut > currentTime.TotalMinutes).ToList();
 
 
-                        if (totalSms > 0 && smsBalance >= totalSms)
-                        {
-                            //delete all sms pending records 
+        //            if (smsList.Any())
+        //            {
+        //                foreach (var item in smsList)
+        //                {
+        //                    var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
+        //                    if (isValid.Validation)
+        //                    {
+        //                        totalSms += sms.SMS_Conut(item.SMS_Text);
+        //                    }
+        //                }
 
 
-                            db.Attendance_sms.RemoveRange(smsListDay);
-                            await db.SaveChangesAsync();
+        //                if (totalSms > 0 && smsBalance >= totalSms)
+        //                {
+        //                    //delete all sms pending records 
 
 
+        //                    db.Attendance_sms.RemoveRange(smsListDay);
+        //                    await db.SaveChangesAsync();
 
 
-                            // if (sms.SMS_GetBalance() >= totalSms)
-                            {
-                                var smsRecords = new List<SMS_OtherInfo>();
+        //                    // if (sms.SMS_GetBalance() >= totalSms)
+        //                    {
+        //                        var smsRecords = new List<SMS_OtherInfo>();
 
-                                foreach (var item in smsList)
-                                {
-                                    var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
-                                    if (isValid.Validation)
-                                    {
-                                        var isDuplicateSms = false;
+        //                        var smsSendList = new List<SendSmsModel>();
 
-                                        isDuplicateSms = await db.SMS_Send_Record.AnyAsync(s =>
-                                            s.PhoneNumber == item.MobileNo && s.TextSMS == item.SMS_Text);
-
-
-                                        if (!isDuplicateSms)
-                                        {
-                                            var smsSendId = await Task.Run(() =>
-                                                sms.SMS_Send(item.MobileNo, item.SMS_Text, "Device Attendance"));
-                                            var smsSendRecord = new SMS_OtherInfo
-                                            {
-                                                SMS_Send_ID = smsSendId,
-                                                SchoolID = item.SchoolID,
-                                                StudentID = item.StudentID == 0 ? (int?)null : item.StudentID,
-                                                TeacherID = item.EmployeeID == 0 ? (int?)null : item.EmployeeID,
-                                            };
-
-                                            smsRecords.Add(smsSendRecord);
-                                        }
-
-                                    }
-                                }
-
-                                db.SMS_OtherInfo.AddRange(smsRecords);
-                                await db.SaveChangesAsync();
+        //                        foreach (var item in smsList)
+        //                        {
+        //                            //var isValid = sms.SMS_Validation(item.MobileNo, item.SMS_Text);
+        //                            //if (isValid.Validation)
+        //                            {
+        //                                var isDuplicateSms = await db.SMS_Send_Record.AnyAsync(s =>
+        //                                    s.PhoneNumber == item.MobileNo && s.TextSMS == item.SMS_Text);
 
 
-                                //con.Close();
-                            }
-                        }
-                    }
-                }
+        //                                if (isDuplicateSms) continue;
 
-                #endregion
+        //                                var smsSend = new SendSmsModel
+        //                                {
+        //                                    Number = item.MobileNo,
+        //                                    Text = item.SMS_Text
+        //                                };
+        //                                smsSendList.Add(smsSend);
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                // ignored
-                return BadRequest(ex.Message);
-            }
-        }
+        //                                var smsSendRecord = new SMS_OtherInfo
+        //                                {
+        //                                    SMS_Send_ID = smsSend.Guid,
+        //                                    SchoolID = item.SchoolID,
+        //                                    StudentID = item.StudentID == 0 ? (int?)null : item.StudentID,
+        //                                    TeacherID = item.EmployeeID == 0 ? (int?)null : item.EmployeeID,
+        //                                };
+
+        //                                smsRecords.Add(smsSendRecord);
+
+
+        //                            }
+        //                        }
+
+        //                        var isSend = sms.SmsSendMultiple(smsSendList, "Device Attendance");
+        //                        if (isSend.Validation)
+        //                        {
+        //                            db.SMS_OtherInfo.AddRange(smsRecords);
+        //                            await db.SaveChangesAsync();
+        //                        }
+        //                        else
+        //                        {
+        //                            return BadRequest(isSend.Message);
+        //                        }
+
+        //                        //con.Close();
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        #endregion
+
+        //        return Ok();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // ignored
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
     }
 }
