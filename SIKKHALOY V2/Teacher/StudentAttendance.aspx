@@ -128,14 +128,14 @@
     <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
     <%} %>
 
-    <asp:SqlDataSource ID="Attendance_RecordSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="IF NOT EXISTS(SELECT AttendanceRecordID from Attendance_Record Where StudentClassID = @StudentClassID and AttendanceDate = @AttendanceDate and SchoolID = @SchoolID and EducationYearID = @EducationYearID)
+    <asp:SqlDataSource ID="Attendance_RecordSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="IF NOT EXISTS(SELECT AttendanceRecordID from Attendance_Record Where StudentClassID = @StudentClassID and AttendanceDate = CAST(@AttendanceDate as date) and SchoolID = @SchoolID and EducationYearID = @EducationYearID)
 BEGIN
 INSERT INTO Attendance_Record(SchoolID, RegistrationID, EducationYearID, StudentID, ClassID, StudentClassID, Attendance, AttendanceDate, Reason) VALUES (@SchoolID, @RegistrationID, @EducationYearID, @StudentID, @ClassID, @StudentClassID, @Attendance, @AttendanceDate, @Reason)
 END
 ELSE
 BEGIN 
-UPDATE Attendance_Record SET Attendance = @Attendance
-WHERE (StudentClassID = @StudentClassID) AND (AttendanceDate = @AttendanceDate) AND (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID)
+UPDATE Attendance_Record SET Attendance = @Attendance, Reason = @Reason
+WHERE (StudentClassID = @StudentClassID) AND (AttendanceDate = CAST(@AttendanceDate as date)) AND (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID)
 END"
         SelectCommand="SELECT * FROM [Attendance_Record]">
         <InsertParameters>
