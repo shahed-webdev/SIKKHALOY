@@ -19,5 +19,7 @@ namespace Attendance_API.DB_Model
         public TimeSpan? ExitTime { get; set; }
         public string ExitStatus { get; set; }
         public bool Is_OUT { get; set; }
+        public bool IsFromDevice { get; set; } = true;
+
     }
 }
