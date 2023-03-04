@@ -26,6 +26,8 @@ namespace EDUCATION.COM.Authority
 
                     SmsProviderRadioButtonList.Items.FindByValue(dv[0]["SmsProvider"].ToString()).Selected = true;
                     SmsProviderMultipleRadioButtonList.Items.FindByValue(dv[0]["SmsProviderMultiple"].ToString()).Selected = true;
+                    SMSSendingIntervalTextBox.Text = dv[0]["SmsSendInterval"].ToString();
+                    SMSProcessingUnitTextBox.Text = dv[0]["SmsProcessingUnit"].ToString();
                 }
             }
             catch (Exception exception)
@@ -37,6 +39,11 @@ namespace EDUCATION.COM.Authority
         protected void SmsProviderRadioButtonList_SelectedIndexChanged(object sender, EventArgs e)
         {
             SmsSettingSQL.Update();
+        }
+
+        protected void SMSSettingUpdateButton_Click(object sender, EventArgs e)
+        {
+            SmsSettingSQL.Insert();
         }
     }
 }

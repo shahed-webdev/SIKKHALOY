@@ -276,16 +276,16 @@ namespace AttendanceDevice
                 }
                 #endregion Employee Put
 
-                #region SMS_Send
+                //#region SMS_Send
 
-                var smsRequest = new RestRequest("api/Attendance/{id}/SendSms", Method.POST);
+                //var smsRequest = new RestRequest("api/Attendance/{id}/SendSms", Method.POST);
 
-                smsRequest.AddUrlSegment("id", ins.SchoolID);
-                smsRequest.AddHeader("Authorization", "Bearer " + ins.Token);
+                //smsRequest.AddUrlSegment("id", ins.SchoolID);
+                //smsRequest.AddHeader("Authorization", "Bearer " + ins.Token);
 
-                var responseSms = await client.ExecutePostTaskAsync(smsRequest);
+                //var responseSms = await client.ExecutePostTaskAsync(smsRequest);
 
-                #endregion
+                //#endregion
             }
         }
 
