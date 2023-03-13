@@ -102,9 +102,9 @@
             <asp:BoundField DataField="MobileNo" HeaderText="Number" SortExpression="MobileNo" />
             <asp:BoundField DataField="AttendanceStatus" HeaderText="Attendance" SortExpression="AttendanceStatus" />
             <asp:BoundField DataField="SMS_TimeOut" HeaderText="TimeOut" SortExpression="SMS_TimeOut" />
-            <asp:BoundField DataField="InsertDate" HeaderText="Fail Date" SortExpression="InsertDate" />
+            <asp:BoundField DataField="InsertDate" HeaderText="Fail Date" SortExpression="InsertDate" DataFormatString="{0:d MMM, yyyy (hh:mm tt)}" />
         </Columns>
         <PagerStyle CssClass="pgr" />
     </asp:GridView>
-    <asp:SqlDataSource ID="SmsFailSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_SMS_Failed.AttendanceSmsFailedId, Attendance_SMS_Failed.SchoolID, Attendance_SMS_Failed.ScheduleTime, Attendance_SMS_Failed.CreateTime, Attendance_SMS_Failed.SentTime, Attendance_SMS_Failed.AttendanceDate, Attendance_SMS_Failed.SMS_Text, Attendance_SMS_Failed.MobileNo, Attendance_SMS_Failed.AttendanceStatus, Attendance_SMS_Failed.SMS_TimeOut, Attendance_SMS_Failed.FailedReson, Attendance_SMS_Failed.InsertDate, SchoolInfo.SchoolName FROM Attendance_SMS_Failed INNER JOIN SchoolInfo ON Attendance_SMS_Failed.SchoolID = SchoolInfo.SchoolID"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="SmsFailSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Attendance_SMS_Failed.AttendanceSmsFailedId, Attendance_SMS_Failed.SchoolID, ISNULL(CONVERT(varchar(15),Attendance_SMS_Failed.ScheduleTime,100),'') AS ScheduleTime,  ISNULL(CONVERT(varchar(15),Attendance_SMS_Failed.CreateTime,100),'') AS CreateTime,  ISNULL(CONVERT(varchar(15),Attendance_SMS_Failed.SentTime,100),'') AS SentTime, Attendance_SMS_Failed.CreateTime, Attendance_SMS_Failed.AttendanceDate, Attendance_SMS_Failed.SMS_Text, Attendance_SMS_Failed.MobileNo, Attendance_SMS_Failed.AttendanceStatus, Attendance_SMS_Failed.SMS_TimeOut, Attendance_SMS_Failed.FailedReson, Attendance_SMS_Failed.InsertDate, SchoolInfo.SchoolName FROM Attendance_SMS_Failed INNER JOIN SchoolInfo ON Attendance_SMS_Failed.SchoolID = SchoolInfo.SchoolID"></asp:SqlDataSource>
 </asp:Content>
