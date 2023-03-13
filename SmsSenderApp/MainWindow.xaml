@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmsSenderApp"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-         ShowInTaskbar="False">
+        WindowStartupLocation="CenterScreen"
+       Topmost="True"
+        mc:Ignorable="d" Title="Home" Height="450" Width="800"  ShowInTaskbar="False">
     <Grid>
         <TextBlock x:Name="txtStatus"
                    Text="This application is running in the background."
