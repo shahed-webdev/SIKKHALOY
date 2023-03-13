@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <asp:GridView ID="SmsSenderGridView" CssClass="mGrid" runat="server" AutoGenerateColumns="False" DataKeyNames="AttendanceSmsSenderId" DataSourceID="SmsSenderSQL" AllowPaging="True" AllowSorting="True" PageSize="5">
+    <asp:GridView ID="SmsSenderGridView" CssClass="mGrid" runat="server" AutoGenerateColumns="False" DataKeyNames="AttendanceSmsSenderId" DataSourceID="SmsSenderSQL" AllowPaging="True" AllowSorting="True" PageSize="15">
         <Columns>
             <asp:BoundField DataField="AppStartTime" HeaderText="App Start Time" SortExpression="AppStartTime" />
             <asp:BoundField DataField="AppCloseTime" HeaderText="App Close Time" SortExpression="AppCloseTime" />
@@ -78,6 +78,7 @@
             <asp:BoundField DataField="TotalSmsSend" HeaderText="SMS Send" SortExpression="TotalSmsSend" />
             <asp:BoundField DataField="TotalSmsFailed" HeaderText="SMS Failed" SortExpression="TotalSmsFailed" />
         </Columns>
+         <PagerStyle CssClass="pgr" />
     </asp:GridView>
     <asp:SqlDataSource ID="SmsSenderSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT AttendanceSmsSenderId, AppStartTime, AppCloseTime, TotalEventCall, TotalSmsSend, TotalSmsFailed FROM Attendance_SMS_Sender ORDER BY AttendanceSmsSenderId DESC"></asp:SqlDataSource>
 

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Threading;
 
 namespace SmsSenderApp
@@ -15,22 +14,10 @@ namespace SmsSenderApp
     public partial class MainWindow : Window
     {
         private Attendance_SMS_Sender SmsSender { get; }
-        private readonly NotifyIcon notifyIcon;
-
 
         public MainWindow()
         {
             InitializeComponent();
-          
-            // Create the NotifyIcon
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = new System.Drawing.Icon("Resources/Sikkhaloy.ico");
-            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
-
-            // Handle the window's StateChanged event
-            this.StateChanged += MainWindow_StateChanged;
-
-     
 
             DispatcherTimer timer = new DispatcherTimer
             {
@@ -42,13 +29,14 @@ namespace SmsSenderApp
 
             GlobalClass.Instance.SenderInsert();
             SmsSender = GlobalClass.Instance.SmsSender;
+
+            ShowAppInfo();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
             try
             {
-
                 var today = DateTime.Now;
 
                 var failedSmsList = new List<Attendance_SMS_Failed>();
@@ -208,16 +196,15 @@ namespace SmsSenderApp
                 {
                     await GlobalClass.Instance.Attendance_SMS_FailedAddAsync(failedSmsList);
                 }
+
                 //Update the total send and fail status
 
                 GlobalClass.Instance.SmsSender.TotalSmsSend += smsList.Count;
                 GlobalClass.Instance.SmsSender.TotalSmsFailed += failedSmsList.Count;
 
-
-
                 // Perform your desired action here
                 GlobalClass.Instance.SmsSender.TotalEventCall++;
-                txtStatus.Text = $"App Started at {SmsSender.AppStartTime}, total event called: {SmsSender.TotalEventCall}, SMS send: {SmsSender.TotalSmsSend} & SMS Failed: {SmsSender.TotalSmsFailed}";
+                ShowAppInfo();
             }
             catch (Exception ex)
             {
@@ -225,24 +212,14 @@ namespace SmsSenderApp
             }
         }
 
-        private void MainWindow_StateChanged(object sender, EventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (WindowState == WindowState.Minimized)
-            {
-                // Hide the window and show the NotifyIcon
-                Hide();
-                notifyIcon.Visible = true;
-            }
+            e.Cancel = true;
+            Hide();
         }
 
-        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            // Restore the window and hide the NotifyIcon
-            Show();
-            WindowState = WindowState.Normal;
-            notifyIcon.Visible = false;
+        private void ShowAppInfo(){
+            txtStatus.Text = $"App Started at {SmsSender.AppStartTime.ToString("dd MMM, yyyy (hh:mm tt)")}, total event called: {SmsSender.TotalEventCall}, SMS send: {SmsSender.TotalSmsSend} & SMS Failed: {SmsSender.TotalSmsFailed}";
         }
-
-     
     }
 }

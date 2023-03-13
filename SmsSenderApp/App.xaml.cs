@@ -27,6 +27,10 @@ namespace SmsSenderApp
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
+            var mainWindow = new MainWindow();
+
             _notifyIcon.Icon = new Icon("Resources/Sikkhaloy.ico");
             _notifyIcon.Text = "Sikkhaloy SMS Sender";
             _notifyIcon.Click += NotifyIcon_Click;
@@ -34,7 +38,6 @@ namespace SmsSenderApp
             _notifyIcon.ContextMenuStrip = new Forms.ContextMenuStrip();
             _notifyIcon.ContextMenuStrip.Items.Add("Exit", Image.FromFile("Resources/Sikkhaloy.ico"), OnExitClicked);
             _notifyIcon.Visible = true;
-
 
 
             // Add a shortcut to the application in the Startup folder
@@ -49,8 +52,8 @@ namespace SmsSenderApp
                 shortcut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 shortcut.Save();
             }
+
             Log.Information("Application started");
-            base.OnStartup(e);
         }
 
         private void OnExitClicked(object sender, EventArgs e)
@@ -72,7 +75,5 @@ namespace SmsSenderApp
             Log.CloseAndFlush();
             _notifyIcon.Dispose();
         }
-
-
     }
 }
