@@ -316,7 +316,16 @@ namespace AttendanceDevice.Config_Class
                 db.SaveChanges();
             }
         }
-        public List<ErrorData_View> GetErrors()
+
+        public async Task AddNotifications(IEnumerable<DataUpdateList> notifications)
+        {
+            using (var db = new ModelContext())
+            {
+                db.dataUpdateLists.AddRange(notifications);
+                await db.SaveChangesAsync();
+            }
+        }
+        public List<ErrorData_View> GetServerNotifications()
         {
             using (var db = new ModelContext())
             {
@@ -332,7 +341,7 @@ namespace AttendanceDevice.Config_Class
                 return Errors.OrderByDescending(a => a.id).ToList();
             }
         }
-        public void DeleteErrors()
+        public void DeleteNotifications()
         {
             using (var db = new ModelContext())
             {
@@ -500,6 +509,24 @@ namespace AttendanceDevice.Config_Class
                 fpList = db.user_FingerPrints.ToList();
             }
             return fpList;
+        }
+
+        public async Task ResetApp()
+        {
+            using (var db = new ModelContext())
+            {
+                db.attendanceLog_Backups.Clear();
+                db.attendance_Records.Clear();
+                db.attendance_Schedule_Days.Clear();
+                db.user_Leave_Records.Clear();
+                db.dataUpdateLists.Clear();
+                db.user_FingerPrints.Clear();
+                db.Devices.Clear();
+                db.Users.Clear();
+                db.Institutions.Clear();
+
+                await db.SaveChangesAsync();
+            }
         }
     }
 

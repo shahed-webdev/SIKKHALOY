@@ -10,14 +10,22 @@ namespace AttendanceDevice.Settings.Pages
     /// </summary>
     public partial class Deshboard : Page
     {
+        private readonly Setting _setting;
+
         public Deshboard()
         {
             InitializeComponent();
         }
 
+        public Deshboard(Setting _setting)
+        {
+            this._setting = _setting;
+            InitializeComponent();
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var data = LocalData.Instance.GetErrors();
+            var data = LocalData.Instance.GetServerNotifications();
 
             if (data.Count > 0)
             {
@@ -35,8 +43,20 @@ namespace AttendanceDevice.Settings.Pages
 
         private void ErrorDelete_Button_Click(object sender, RoutedEventArgs e)
         {
-            LocalData.Instance.DeleteErrors();
+            LocalData.Instance.DeleteNotifications();
             this.NavigationService?.Refresh();
+        }
+
+        private async void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            await LocalData.Instance.ResetApp();
+
+
+            var loginWindow = new Login_Window();
+            loginWindow.Show();
+            _setting.Close();
+            //App.Current.Shutdown();
         }
     }
 }

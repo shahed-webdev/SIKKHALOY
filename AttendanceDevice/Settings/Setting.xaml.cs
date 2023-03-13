@@ -39,7 +39,7 @@ namespace AttendanceDevice.Settings
             }
             else
             {
-                var deshboardPage = new Deshboard();
+                var deshboardPage = new Deshboard(this);
                 FrameSetting.Content = deshboardPage;
             }
         }
@@ -381,7 +381,7 @@ namespace AttendanceDevice.Settings
 
         private void Dashboard_Button_Click(object sender, RoutedEventArgs e)
         {
-            var dashboard = new Deshboard();
+            var dashboard = new Deshboard(this);
             FrameSetting.Content = dashboard;
         }
 

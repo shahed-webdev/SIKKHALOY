@@ -155,7 +155,7 @@ namespace EDUCATION.COM.Teacher
                             Attendance_RecordSQL.InsertParameters["StudentID"].DefaultValue = StudentsAttendanceGridView.DataKeys[row.DataItemIndex]["StudentID"].ToString();
                             Attendance_RecordSQL.InsertParameters["StudentClassID"].DefaultValue = StudentsAttendanceGridView.DataKeys[row.DataItemIndex]["StudentClassID"].ToString();
                             Attendance_RecordSQL.InsertParameters["Attendance"].DefaultValue = Attendance.SelectedValue;
-                            Attendance_RecordSQL.InsertParameters["AttendanceDate"].DefaultValue = DateTime.Now.ToString();
+                            Attendance_RecordSQL.InsertParameters["AttendanceDate"].DefaultValue = DateTime.Now.ToString("dd MMM yyy");
                             Attendance_RecordSQL.InsertParameters["Reason"].DefaultValue = ReasonTextBox.Text;
                             Attendance_RecordSQL.Insert();
 

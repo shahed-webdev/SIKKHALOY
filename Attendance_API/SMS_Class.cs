@@ -107,16 +107,16 @@ namespace Attendance_API
 
         public Get_Validation SmsSendMultiple(List<SendSmsModel> smsList, string smsPurpose = "Purpose Not Define")
         {
-            SmsService.SendSmsMultiple(smsList);
+            //SmsService.SendSmsMultiple(smsList);
 
-            if (!SmsService.IsSuccess)
-            {
-                return new Get_Validation
-                {
-                    Validation = false,
-                    Message = SmsService.Error
-                };
-            }
+            //if (!SmsService.IsSuccess)
+            //{
+            //    return new Get_Validation
+            //    {
+            //        Validation = false,
+            //        Message = SmsService.Error
+            //    };
+            //}
 
             foreach (var smsModel in smsList)
             {

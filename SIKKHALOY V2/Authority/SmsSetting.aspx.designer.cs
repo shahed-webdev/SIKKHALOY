@@ -33,6 +33,51 @@ namespace EDUCATION.COM.Authority
         protected global::System.Web.UI.WebControls.RadioButtonList SmsProviderMultipleRadioButtonList;
 
         /// <summary>
+        /// SMSPendingFormView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FormView SMSPendingFormView;
+
+        /// <summary>
+        /// SMSPendingSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SMSPendingSQL;
+
+        /// <summary>
+        /// SMSSendingIntervalTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox SMSSendingIntervalTextBox;
+
+        /// <summary>
+        /// SMSProcessingUnitTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox SMSProcessingUnitTextBox;
+
+        /// <summary>
+        /// SMSSettingUpdateButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SMSSettingUpdateButton;
+
+        /// <summary>
         /// SmsSettingSQL control.
         /// </summary>
         /// <remarks>
@@ -40,5 +85,41 @@ namespace EDUCATION.COM.Authority
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SmsSettingSQL;
+
+        /// <summary>
+        /// SmsSenderGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView SmsSenderGridView;
+
+        /// <summary>
+        /// SmsSenderSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SmsSenderSQL;
+
+        /// <summary>
+        /// SmsFailGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView SmsFailGridView;
+
+        /// <summary>
+        /// SmsFailSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SmsFailSQL;
     }
 }
