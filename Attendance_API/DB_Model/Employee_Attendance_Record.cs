@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Attendance_API.DB_Model
 {
+    [Table("Employee_Attendance_Record")]
     public class Employee_Attendance_Record
     {
         [Key]
@@ -16,5 +18,7 @@ namespace Attendance_API.DB_Model
         public TimeSpan? ExitTime { get; set; }
         public string ExitStatus { get; set; }
         public bool Is_OUT { get; set; }
+        public bool IsFromDevice { get; set; } = true;
+
     }
 }
