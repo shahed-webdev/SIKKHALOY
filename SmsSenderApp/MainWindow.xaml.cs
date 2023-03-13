@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Threading;
 
 namespace SmsSenderApp
@@ -14,13 +15,24 @@ namespace SmsSenderApp
     public partial class MainWindow : Window
     {
         private Attendance_SMS_Sender SmsSender { get; }
+        private readonly NotifyIcon notifyIcon;
+
+
         public MainWindow()
         {
             InitializeComponent();
+          
+            // Create the NotifyIcon
+            notifyIcon = new NotifyIcon();
+            notifyIcon.Icon = new System.Drawing.Icon("Resources/Sikkhaloy.ico");
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
-            this.Visibility = Visibility.Hidden;
+            // Handle the window's StateChanged event
+            this.StateChanged += MainWindow_StateChanged;
 
-            var timer = new DispatcherTimer
+     
+
+            DispatcherTimer timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMinutes(GlobalClass.Instance.Setting.SmsSendInterval)
             };
@@ -213,9 +225,24 @@ namespace SmsSenderApp
             }
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-
+            if (WindowState == WindowState.Minimized)
+            {
+                // Hide the window and show the NotifyIcon
+                Hide();
+                notifyIcon.Visible = true;
+            }
         }
+
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // Restore the window and hide the NotifyIcon
+            Show();
+            WindowState = WindowState.Normal;
+            notifyIcon.Visible = false;
+        }
+
+     
     }
 }
