@@ -233,148 +233,148 @@ namespace Attendance_API.Controllers
         [HttpPost]
         public IHttpActionResult PutStudents(int id, [FromBody] List<AttendanceRecordAPI> logRecords)
         {
-            //try
-            //{
-            if (logRecords == null) return NotFound();
-            if (logRecords.Count < 1) return NotFound();
-
-            var smsList = new List<Attendance_SMS>();
-            using (var db = new EduContext())
+            try
             {
-                var today = DateTime.Now;
+                if (logRecords == null) return NotFound();
+                if (logRecords.Count < 1) return NotFound();
 
-                var attSetting = db.Attendance_Device_Settings.FirstOrDefault(s => s.SchoolID == id);
-                var schoolName = db.SchoolInfos.Find(id)?.SchoolName;
-
-                //var logForSms = new List<Attendance_Record>();
-                if (attSetting != null && attSetting.Is_Device_Attendance_Enable && attSetting.Is_Student_Attendance_Enable)
+                var smsList = new List<Attendance_SMS>();
+                using (var db = new EduContext())
                 {
-                    var studentList = db.VW_Attendance_Stus.Where(a => a.SchoolID == id).ToList();
+                    var today = DateTime.Now;
 
-                    var updatedRecords = from s in studentList
-                                         join a in logRecords
-                                         on s.DeviceID equals a.DeviceID
-                                         where s.SchoolID == id
-                                         select new Attendance_Record
-                                         {
-                                             SchoolID = s.SchoolID,
-                                             ClassID = s.ClassID,
-                                             EducationYearID = s.EducationYearID,
-                                             StudentID = s.StudentID,
-                                             StudentClassID = s.StudentClassID,
-                                             Attendance = a.AttendanceStatus,
-                                             AttendanceDate = a.AttendanceDate,
-                                             EntryTime = a.EntryTime == _clearTime ? (TimeSpan?)null : a.EntryTime,
-                                             ExitStatus = a.ExitStatus,
-                                             ExitTime = a.ExitTime == _clearTime ? (TimeSpan?)null : a.ExitTime,
-                                             Is_OUT = a.Is_OUT
-                                         };
+                    var attSetting = db.Attendance_Device_Settings.FirstOrDefault(s => s.SchoolID == id);
+                    var schoolName = db.SchoolInfos.Find(id)?.SchoolName;
 
-                    foreach (var log in updatedRecords)
+                    //var logForSms = new List<Attendance_Record>();
+                    if (attSetting != null && attSetting.Is_Device_Attendance_Enable && attSetting.Is_Student_Attendance_Enable)
                     {
-                        var updateLog = db.Attendance_Records.FirstOrDefault(u => u.SchoolID == log.SchoolID & u.StudentID == log.StudentID & u.AttendanceDate == log.AttendanceDate);
+                        var studentList = db.VW_Attendance_Stus.Where(a => a.SchoolID == id).ToList();
 
-                        if (updateLog == null) continue;
+                        var updatedRecords = from s in studentList
+                                             join a in logRecords
+                                             on s.DeviceID equals a.DeviceID
+                                             where s.SchoolID == id
+                                             select new Attendance_Record
+                                             {
+                                                 SchoolID = s.SchoolID,
+                                                 ClassID = s.ClassID,
+                                                 EducationYearID = s.EducationYearID,
+                                                 StudentID = s.StudentID,
+                                                 StudentClassID = s.StudentClassID,
+                                                 Attendance = a.AttendanceStatus,
+                                                 AttendanceDate = a.AttendanceDate,
+                                                 EntryTime = a.EntryTime == _clearTime ? (TimeSpan?)null : a.EntryTime,
+                                                 ExitStatus = a.ExitStatus,
+                                                 ExitTime = a.ExitTime == _clearTime ? (TimeSpan?)null : a.ExitTime,
+                                                 Is_OUT = a.Is_OUT
+                                             };
 
-                        updateLog.Attendance = log.Attendance;
-                        updateLog.ExitStatus = log.ExitStatus;
+                        foreach (var log in updatedRecords)
+                        {
+                            var updateLog = db.Attendance_Records.FirstOrDefault(u => u.SchoolID == log.SchoolID & u.StudentID == log.StudentID & u.AttendanceDate == log.AttendanceDate);
 
-                        updateLog.ExitTime = log.ExitTime;
-                        updateLog.Is_OUT = log.Is_OUT;
-                        updateLog.EntryTime = log.EntryTime;
+                            if (updateLog == null) continue;
 
-                        db.Entry(updateLog).State = EntityState.Modified;
-                        db.SaveChanges();
-                        //  logForSms.Add(updateLog);
+                            updateLog.Attendance = log.Attendance;
+                            updateLog.ExitStatus = log.ExitStatus;
+
+                            updateLog.ExitTime = log.ExitTime;
+                            updateLog.Is_OUT = log.Is_OUT;
+                            updateLog.EntryTime = log.EntryTime;
+
+                            db.Entry(updateLog).State = EntityState.Modified;
+                            db.SaveChanges();
+                            //  logForSms.Add(updateLog);
+                        }
                     }
+
+
+                    //if (logForSms.Count > 0)
+                    //{
+                    //    if (attSetting != null && attSetting.Is_All_SMS_On && attSetting.Is_Student_All_SMS_Active)
+                    //    {
+                    //        ////------LateAbs SMS
+                    //        if (attSetting.Is_Student_Abs_SMS_ON)
+                    //        {
+                    //            var attRecordLatAbs =
+                    //                logForSms.Where(a => !a.Is_OUT && a.Attendance == "Late Abs").ToList();
+
+                    //            if (attRecordLatAbs.Count > 0)
+                    //            {
+                    //                var lateAbsEnableStuList = db.VW_Attendance_Stu_Settings
+                    //                    .Where(a => a.SchoolID == id && a.Is_Abs_SMS).ToList();
+
+                    //                var stuList = from a in attRecordLatAbs
+                    //                              join s in lateAbsEnableStuList
+                    //                                  on a.StudentID equals s.StudentID
+                    //                              where s.Is_Late_SMS && a.AttendanceDate.Date == today.Date
+                    //                              select new Attendance_SMS
+                    //                              {
+                    //                                  SchoolID = id,
+                    //                                  StudentID = a.StudentID,
+                    //                                  ScheduleTime = a.EntryTime ?? s.LateEntryTime,
+                    //                                  AttendanceDate = a.AttendanceDate,
+                    //                                  SMS_Text = attSetting.Is_English_SMS
+                    //                                      ? $"Respected guardian, {s.StudentsName} today({a.AttendanceDate:d MMM yy}) late absent. Entry time {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}"
+                    //                                      : $"সম্মানিত অভিভাবক, {s.StudentsName} আজ({a.AttendanceDate:d MMM yy}) বিলম্বে (অনুপস্থিত হিসাবে), প্রবেশ করেছে। প্রবেশ সময় {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}",
+                    //                                  MobileNo = s.SMSPhoneNo,
+                    //                                  AttendanceStatus = a.Attendance,
+                    //                                  SMS_TimeOut = attSetting.SMS_TimeOut_Minute
+                    //                              };
+
+                    //                smsList.AddRange(stuList);
+                    //            }
+                    //        }
+
+
+                    //        ////------Exit SMS
+                    //        if (attSetting.Is_Student_Exit_SMS_ON)
+                    //        {
+                    //            var attRecordExit = logForSms.Where(a => a.Is_OUT).ToList();
+                    //            if (attRecordExit.Count > 0)
+                    //            {
+                    //                var exitEnableStuList = db.VW_Attendance_Stu_Settings
+                    //                    .Where(a => a.SchoolID == id && a.Exit_Confirmation).ToList();
+
+                    //                var stuList = from a in attRecordExit
+                    //                              join s in exitEnableStuList
+                    //                                  on a.StudentID equals s.StudentID
+                    //                              where s.Is_Late_SMS && a.AttendanceDate.Date == today.Date
+                    //                              select new Attendance_SMS
+                    //                              {
+                    //                                  SchoolID = id,
+                    //                                  StudentID = a.StudentID,
+                    //                                  ScheduleTime = a.EntryTime ?? s.LateEntryTime,
+                    //                                  AttendanceDate = a.AttendanceDate,
+                    //                                  SMS_Text = attSetting.Is_English_SMS
+                    //                                      ? $"Respected guardian, {s.StudentsName} has exited from {schoolName} at {DateTime.Today.Add(a.ExitTime.GetValueOrDefault()):h:mm tt}"
+                    //                                      : $"সম্মানিত অভিভাবক, {s.StudentsName}, {schoolName} থেকে {DateTime.Today.Add(a.ExitTime.GetValueOrDefault()):h:mm tt} প্রস্থান করেছে",
+                    //                                  MobileNo = s.SMSPhoneNo,
+                    //                                  AttendanceStatus = a.Attendance,
+                    //                                  SMS_TimeOut = attSetting.SMS_TimeOut_Minute
+                    //                              };
+
+                    //                smsList.AddRange(stuList);
+
+                    //            }
+                    //        }
+
+                    //        if (smsList.Count > 0)
+                    //        {
+                    //            db.Attendance_sms.AddRange(smsList);
+                    //            db.SaveChanges();
+                    //        }
+                    //    }
+                    //}
                 }
 
-
-                //if (logForSms.Count > 0)
-                //{
-                //    if (attSetting != null && attSetting.Is_All_SMS_On && attSetting.Is_Student_All_SMS_Active)
-                //    {
-                //        ////------LateAbs SMS
-                //        if (attSetting.Is_Student_Abs_SMS_ON)
-                //        {
-                //            var attRecordLatAbs =
-                //                logForSms.Where(a => !a.Is_OUT && a.Attendance == "Late Abs").ToList();
-
-                //            if (attRecordLatAbs.Count > 0)
-                //            {
-                //                var lateAbsEnableStuList = db.VW_Attendance_Stu_Settings
-                //                    .Where(a => a.SchoolID == id && a.Is_Abs_SMS).ToList();
-
-                //                var stuList = from a in attRecordLatAbs
-                //                              join s in lateAbsEnableStuList
-                //                                  on a.StudentID equals s.StudentID
-                //                              where s.Is_Late_SMS && a.AttendanceDate.Date == today.Date
-                //                              select new Attendance_SMS
-                //                              {
-                //                                  SchoolID = id,
-                //                                  StudentID = a.StudentID,
-                //                                  ScheduleTime = a.EntryTime ?? s.LateEntryTime,
-                //                                  AttendanceDate = a.AttendanceDate,
-                //                                  SMS_Text = attSetting.Is_English_SMS
-                //                                      ? $"Respected guardian, {s.StudentsName} today({a.AttendanceDate:d MMM yy}) late absent. Entry time {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}"
-                //                                      : $"সম্মানিত অভিভাবক, {s.StudentsName} আজ({a.AttendanceDate:d MMM yy}) বিলম্বে (অনুপস্থিত হিসাবে), প্রবেশ করেছে। প্রবেশ সময় {DateTime.Today.Add(a.EntryTime.GetValueOrDefault()):h:mm tt}. {schoolName}",
-                //                                  MobileNo = s.SMSPhoneNo,
-                //                                  AttendanceStatus = a.Attendance,
-                //                                  SMS_TimeOut = attSetting.SMS_TimeOut_Minute
-                //                              };
-
-                //                smsList.AddRange(stuList);
-                //            }
-                //        }
-
-
-                //        ////------Exit SMS
-                //        if (attSetting.Is_Student_Exit_SMS_ON)
-                //        {
-                //            var attRecordExit = logForSms.Where(a => a.Is_OUT).ToList();
-                //            if (attRecordExit.Count > 0)
-                //            {
-                //                var exitEnableStuList = db.VW_Attendance_Stu_Settings
-                //                    .Where(a => a.SchoolID == id && a.Exit_Confirmation).ToList();
-
-                //                var stuList = from a in attRecordExit
-                //                              join s in exitEnableStuList
-                //                                  on a.StudentID equals s.StudentID
-                //                              where s.Is_Late_SMS && a.AttendanceDate.Date == today.Date
-                //                              select new Attendance_SMS
-                //                              {
-                //                                  SchoolID = id,
-                //                                  StudentID = a.StudentID,
-                //                                  ScheduleTime = a.EntryTime ?? s.LateEntryTime,
-                //                                  AttendanceDate = a.AttendanceDate,
-                //                                  SMS_Text = attSetting.Is_English_SMS
-                //                                      ? $"Respected guardian, {s.StudentsName} has exited from {schoolName} at {DateTime.Today.Add(a.ExitTime.GetValueOrDefault()):h:mm tt}"
-                //                                      : $"সম্মানিত অভিভাবক, {s.StudentsName}, {schoolName} থেকে {DateTime.Today.Add(a.ExitTime.GetValueOrDefault()):h:mm tt} প্রস্থান করেছে",
-                //                                  MobileNo = s.SMSPhoneNo,
-                //                                  AttendanceStatus = a.Attendance,
-                //                                  SMS_TimeOut = attSetting.SMS_TimeOut_Minute
-                //                              };
-
-                //                smsList.AddRange(stuList);
-
-                //            }
-                //        }
-
-                //        if (smsList.Count > 0)
-                //        {
-                //            db.Attendance_sms.AddRange(smsList);
-                //            db.SaveChanges();
-                //        }
-                //    }
-                //}
+                return Ok();
             }
-
-            return Ok();
-            //}
-            //catch (Exception e)
-            //{
-            //    return BadRequest(e.Message);
-            //}
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [Route("api/Attendance/{id}/Employees")]
@@ -719,7 +719,15 @@ namespace Attendance_API.Controllers
                                     db.Entry(attRecord).State = EntityState.Modified;
                                 }
 
-                                db.SaveChanges();
+                                try
+                                {
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    continue;
+                                }
+
                             }
 
                         }
@@ -848,7 +856,14 @@ namespace Attendance_API.Controllers
                                     db.Entry(attRecord).State = EntityState.Modified;
                                 }
 
-                                db.SaveChanges();
+                                try
+                                {
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    continue;
+                                }
                             }
 
 
@@ -865,60 +880,68 @@ namespace Attendance_API.Controllers
         {
             var today = DateTime.Today;
             var attendanceRecords = new List<AttendanceRecordAPI>();
-            using (var db = new EduContext())
+            try
             {
-                var sAttendances = await db.Attendance_Records
-                    .Where(a => a.SchoolID == id && a.AttendanceDate == today).ToListAsync();
 
-                var sUsers = await db.VW_Attendance_Stus.Where(a => a.SchoolID == id).ToListAsync();
+                using (var db = new EduContext())
+                {
+                    var sAttendances = await db.Attendance_Records
+                        .Where(a => a.SchoolID == id && a.AttendanceDate == today).ToListAsync();
 
-                var sAttendanceRecords = (from a in sAttendances
-                                          join u in sUsers
-                                      on a.StudentID
-                                      equals u.StudentID
-                                          select new AttendanceRecordAPI
-                                          {
-                                              DeviceID = u.DeviceID,
-                                              AttendanceDate = a.AttendanceDate,
-                                              AttendanceStatus = a.Attendance,
-                                              ExitStatus = a.ExitStatus,
-                                              Is_OUT = a.Is_OUT,
-                                              EntryTime = a.EntryTime,
-                                              ExitTime = a.ExitTime,
-                                              Is_Sent = true,
-                                              Is_Updated = true
-                                          }).ToList();
+                    var sUsers = await db.VW_Attendance_Stus.Where(a => a.SchoolID == id).ToListAsync();
 
-
-                attendanceRecords.AddRange(sAttendanceRecords);
-
-
-                var eAttendances = await db.Employee_Attendance_Records
-                    .Where(a => a.SchoolID == id && a.AttendanceDate == today).ToListAsync();
-
-                var eUsers = await db.VW_Emp_Infos.Where(a => a.SchoolID == id).ToListAsync();
-                var eAttendanceRecords = (from a in eAttendances
-                                          join u in eUsers
-                                              on a.EmployeeID
-                                              equals u.EmployeeID
-                                          select new AttendanceRecordAPI
-                                          {
-                                              DeviceID = u.DeviceID,
-                                              AttendanceDate = a.AttendanceDate,
-                                              AttendanceStatus = a.AttendanceStatus,
-                                              ExitStatus = a.ExitStatus,
-                                              Is_OUT = a.Is_OUT,
-                                              EntryTime = a.EntryTime,
-                                              ExitTime = a.ExitTime,
-                                              Is_Sent = true,
-                                              Is_Updated = true
-                                          }).ToList();
+                    var sAttendanceRecords = (from a in sAttendances
+                                              join u in sUsers
+                                          on a.StudentID
+                                          equals u.StudentID
+                                              select new AttendanceRecordAPI
+                                              {
+                                                  DeviceID = u.DeviceID,
+                                                  AttendanceDate = a.AttendanceDate,
+                                                  AttendanceStatus = a.Attendance,
+                                                  ExitStatus = a.ExitStatus,
+                                                  Is_OUT = a.Is_OUT,
+                                                  EntryTime = a.EntryTime,
+                                                  ExitTime = a.ExitTime,
+                                                  Is_Sent = true,
+                                                  Is_Updated = true
+                                              }).ToList();
 
 
-                attendanceRecords.AddRange(eAttendanceRecords);
+                    attendanceRecords.AddRange(sAttendanceRecords);
 
+
+                    var eAttendances = await db.Employee_Attendance_Records
+                        .Where(a => a.SchoolID == id && a.AttendanceDate == today).ToListAsync();
+
+                    var eUsers = await db.VW_Emp_Infos.Where(a => a.SchoolID == id).ToListAsync();
+                    var eAttendanceRecords = (from a in eAttendances
+                                              join u in eUsers
+                                                  on a.EmployeeID
+                                                  equals u.EmployeeID
+                                              select new AttendanceRecordAPI
+                                              {
+                                                  DeviceID = u.DeviceID,
+                                                  AttendanceDate = a.AttendanceDate,
+                                                  AttendanceStatus = a.AttendanceStatus,
+                                                  ExitStatus = a.ExitStatus,
+                                                  Is_OUT = a.Is_OUT,
+                                                  EntryTime = a.EntryTime,
+                                                  ExitTime = a.ExitTime,
+                                                  Is_Sent = true,
+                                                  Is_Updated = true
+                                              }).ToList();
+
+
+                    attendanceRecords.AddRange(eAttendanceRecords);
+
+                }
+                return attendanceRecords;
             }
-            return attendanceRecords;
+            catch (Exception e)
+            {
+                return attendanceRecords;
+            }
         }
 
         //[Route("api/Attendance/{id}/SendSms")]

@@ -72,8 +72,8 @@
 
     <asp:GridView ID="SmsSenderGridView" CssClass="mGrid" runat="server" AutoGenerateColumns="False" DataKeyNames="AttendanceSmsSenderId" DataSourceID="SmsSenderSQL" AllowPaging="True" AllowSorting="True" PageSize="15">
         <Columns>
-            <asp:BoundField DataField="AppStartTime" HeaderText="App Start Time" SortExpression="AppStartTime" />
-            <asp:BoundField DataField="AppCloseTime" HeaderText="App Close Time" SortExpression="AppCloseTime" />
+            <asp:BoundField DataField="AppStartTime" HeaderText="App Start Time" SortExpression="AppStartTime" DataFormatString="{0:d MMM, yyyy (hh:mm tt)}" />
+            <asp:BoundField DataField="AppCloseTime" HeaderText="App Close Time" SortExpression="AppCloseTime" DataFormatString="{0:d MMM, yyyy (hh:mm tt)}" />
             <asp:BoundField DataField="TotalEventCall" HeaderText="Event Call" SortExpression="TotalEventCall" />
             <asp:BoundField DataField="TotalSmsSend" HeaderText="SMS Send" SortExpression="TotalSmsSend" />
             <asp:BoundField DataField="TotalSmsFailed" HeaderText="SMS Failed" SortExpression="TotalSmsFailed" />
