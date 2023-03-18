@@ -44,177 +44,186 @@ namespace AttendanceDevice.Config_Class
 
         public async void axCZKEM1_OnAttTransactionEx(string enrollNumber, int isInValid, int attState, int verifyMethod, int year, int month, int day, int hour, int minute, int second, int workCode)
         {
-            var deviceId = Convert.ToInt32(enrollNumber);
-            var dt = new DateTime(year, month, day, hour, minute, second);
-            var time = new TimeSpan(hour, minute, 0);
-            var userView = LocalData.Instance.GetUserView(deviceId);
-            var DuplicatePunchCountableMin = 10;
+            try
+            {
 
 
-            if (userView == null)
-            {
-                userView = new UserView { Name = "User Not found on PC", Enroll_Time = dt };
-                EnrollUserCard.DataContext = userView;
-                return;
-            }
-
-            userView.Enroll_Time = dt;
-            var sDate = dt.ToShortDateString();
-
-            EnrollUserCard.DataContext = userView;
+                var deviceId = Convert.ToInt32(enrollNumber);
+                var dt = new DateTime(year, month, day, hour, minute, second);
+                var time = new TimeSpan(hour, minute, 0);
+                var userView = LocalData.Instance.GetUserView(deviceId);
+                var DuplicatePunchCountableMin = 10;
 
 
-            var isStuDisable = userView.Is_Student && !LocalData.Instance.institution.Is_Student_Attendance_Enable;
-            var isEmpDisable = !userView.Is_Student && !LocalData.Instance.institution.Is_Employee_Attendance_Enable;
-            var schedule = LocalData.Instance.GetUserSchedule(userView.ScheduleID);
-
-            string reason;
-            //Schedule data not found
-            if (schedule == null)
-            {
-                reason = "Schedule data not found";
-                await LogBackupInsert(deviceId, dt, reason);
-                return;
-            }
-            // Device Attendance Disable
-            if (!LocalData.Instance.institution.Is_Device_Attendance_Enable)
-            {
-                reason = "Device Attendance Disable";
-                await LogBackupInsert(deviceId, dt, reason);
-            }
-            // Student Attendance Disable
-            else if (isStuDisable)
-            {
-                reason = "Student Attendance Disable";
-                await LogBackupInsert(deviceId, dt, reason);
-            }
-            // Employee Attendance Disable
-            else if (isEmpDisable)
-            {
-                reason = "Employee Attendance Disable";
-                await LogBackupInsert(deviceId, dt, reason);
-            }
-            // Today Check
-            else if (sDate != DateTime.Today.ToShortDateString())
-            {
-                reason = "Not Current Data";
-                await LogBackupInsert(deviceId, dt, reason);
-            }
-            //Holiday attendance disable
-            else if (LocalData.Instance.institution.Is_Today_Holiday && !LocalData.Instance.institution.Holiday_NotActive)
-            {
-                reason = "Holiday attendance disable";
-                await LogBackupInsert(deviceId, dt, reason);
-            }
-            //Schedule Off day
-            else if (!schedule.Is_OnDay)
-            {
-                reason = "Schedule Off Day";
-                await LogBackupInsert(deviceId, dt, reason);
-            }
-            // Insert or Update Attendance Records
-            else
-            {
-                using (var db = new ModelContext())
+                if (userView == null)
                 {
-                    var attRecords = await db.attendance_Records.Where(a => a.DeviceID == deviceId).ToListAsync();
+                    userView = new UserView { Name = "User Not found on PC", Enroll_Time = dt };
+                    EnrollUserCard.DataContext = userView;
+                    return;
+                }
 
-                    var attRecord = attRecords.FirstOrDefault(a => Convert.ToDateTime(a.AttendanceDate) == Convert.ToDateTime(sDate));
+                userView.Enroll_Time = dt;
+                var sDate = dt.ToShortDateString();
 
-                    var sStartTime = TimeSpan.Parse(schedule.StartTime);
-                    var sLateTime = TimeSpan.Parse(schedule.LateEntryTime);
-                    var sEndTime = TimeSpan.Parse(schedule.EndTime);
+                EnrollUserCard.DataContext = userView;
 
-                    if (attRecord == null)
+
+                var isStuDisable = userView.Is_Student && !LocalData.Instance.institution.Is_Student_Attendance_Enable;
+                var isEmpDisable = !userView.Is_Student && !LocalData.Instance.institution.Is_Employee_Attendance_Enable;
+                var schedule = LocalData.Instance.GetUserSchedule(userView.ScheduleID);
+
+                string reason;
+                //Schedule data not found
+                if (schedule == null)
+                {
+                    reason = "Schedule data not found";
+                    await LogBackupInsert(deviceId, dt, reason);
+                    return;
+                }
+                // Device Attendance Disable
+                if (!LocalData.Instance.institution.Is_Device_Attendance_Enable)
+                {
+                    reason = "Device Attendance Disable";
+                    await LogBackupInsert(deviceId, dt, reason);
+                }
+                // Student Attendance Disable
+                else if (isStuDisable)
+                {
+                    reason = "Student Attendance Disable";
+                    await LogBackupInsert(deviceId, dt, reason);
+                }
+                // Employee Attendance Disable
+                else if (isEmpDisable)
+                {
+                    reason = "Employee Attendance Disable";
+                    await LogBackupInsert(deviceId, dt, reason);
+                }
+                // Today Check
+                else if (sDate != DateTime.Today.ToShortDateString())
+                {
+                    reason = "Not Current Data";
+                    await LogBackupInsert(deviceId, dt, reason);
+                }
+                //Holiday attendance disable
+                else if (LocalData.Instance.institution.Is_Today_Holiday && !LocalData.Instance.institution.Holiday_NotActive)
+                {
+                    reason = "Holiday attendance disable";
+                    await LogBackupInsert(deviceId, dt, reason);
+                }
+                //Schedule Off day
+                else if (!schedule.Is_OnDay)
+                {
+                    reason = "Schedule Off Day";
+                    await LogBackupInsert(deviceId, dt, reason);
+                }
+                // Insert or Update Attendance Records
+                else
+                {
+                    using (var db = new ModelContext())
                     {
-                        attRecord = new Attendance_Record();
-                        attRecord.AttendanceDate = sDate;
-                        attRecord.DeviceID = deviceId;
-                        attRecord.EntryTime = time.ToString();
-                        if (time > sEndTime)
+                        var attRecords = await db.attendance_Records.Where(a => a.DeviceID == deviceId).ToListAsync();
+
+                        var attRecord = attRecords.FirstOrDefault(a => Convert.ToDateTime(a.AttendanceDate) == Convert.ToDateTime(sDate));
+
+                        var sStartTime = TimeSpan.Parse(schedule.StartTime);
+                        var sLateTime = TimeSpan.Parse(schedule.LateEntryTime);
+                        var sEndTime = TimeSpan.Parse(schedule.EndTime);
+
+                        if (attRecord == null)
                         {
-                            attRecord.AttendanceStatus = "Late Abs";
-                        }
-                        else
-                        {
-                            if (time <= sStartTime)
-                            {
-                                attRecord.AttendanceStatus = "Pre";
-                            }
-                            else if (time <= sLateTime)
-                            {
-                                attRecord.AttendanceStatus = "Late";
-                            }
-                            else if (time <= sEndTime)
+                            attRecord = new Attendance_Record();
+                            attRecord.AttendanceDate = sDate;
+                            attRecord.DeviceID = deviceId;
+                            attRecord.EntryTime = time.ToString();
+                            if (time > sEndTime)
                             {
                                 attRecord.AttendanceStatus = "Late Abs";
-                            }
-                        }
-                        attRecord.Is_Sent = false;
-                        attRecord.Is_Updated = false;
-                        db.attendance_Records.Add(attRecord);
-                        db.Entry(attRecord).State = EntityState.Added;
-                    }
-                    else
-                    {
-                        var isDuplicatePunch = false;
-
-                        if (attRecord.Is_OUT)
-                        {
-                            if (TimeSpan.TryParse(attRecord.ExitStatus, out var previousTime))
-                            {
-                                isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
-                            }
-                        }
-                        else
-                        {
-
-                            if (TimeSpan.TryParse(attRecord.EntryTime, out var previousTime))
-                            {
-                                isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
-                            }
-                        }
-
-                        if (!isDuplicatePunch)
-                        {
-                            if (attRecord.AttendanceStatus == "Abs")
-                            {
-                                attRecord.AttendanceStatus = "Late Abs";
-                                attRecord.EntryTime = time.ToString();
-                                attRecord.Is_Updated = false;
                             }
                             else
                             {
-                                if (time > sLateTime && time < sEndTime)
+                                if (time <= sStartTime)
                                 {
-                                    attRecord.ExitStatus = "Early Leave";
+                                    attRecord.AttendanceStatus = "Pre";
                                 }
-                                else if (time > sEndTime)
+                                else if (time <= sLateTime)
                                 {
-                                    attRecord.ExitStatus = "Out";
+                                    attRecord.AttendanceStatus = "Late";
                                 }
-                                attRecord.Is_OUT = true;
-                                attRecord.ExitTime = time.ToString();
-                                attRecord.Is_Updated = false;
+                                else if (time <= sEndTime)
+                                {
+                                    attRecord.AttendanceStatus = "Late Abs";
+                                }
+                            }
+                            attRecord.Is_Sent = false;
+                            attRecord.Is_Updated = false;
+                            db.attendance_Records.Add(attRecord);
+                            db.Entry(attRecord).State = EntityState.Added;
+                        }
+                        else
+                        {
+                            var isDuplicatePunch = false;
+
+                            if (attRecord.Is_OUT)
+                            {
+                                if (TimeSpan.TryParse(attRecord.ExitStatus, out var previousTime))
+                                {
+                                    isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
+                                }
+                            }
+                            else
+                            {
+
+                                if (TimeSpan.TryParse(attRecord.EntryTime, out var previousTime))
+                                {
+                                    isDuplicatePunch = previousTime.TotalMinutes + DuplicatePunchCountableMin > time.TotalMinutes;
+                                }
                             }
 
-                            db.Entry(attRecord).State = EntityState.Modified;
+                            if (!isDuplicatePunch)
+                            {
+                                if (attRecord.AttendanceStatus == "Abs")
+                                {
+                                    attRecord.AttendanceStatus = "Late Abs";
+                                    attRecord.EntryTime = time.ToString();
+                                    attRecord.Is_Updated = false;
+                                }
+                                else
+                                {
+                                    if (time > sLateTime && time < sEndTime)
+                                    {
+                                        attRecord.ExitStatus = "Early Leave";
+                                    }
+                                    else if (time > sEndTime)
+                                    {
+                                        attRecord.ExitStatus = "Out";
+                                    }
+                                    attRecord.Is_OUT = true;
+                                    attRecord.ExitTime = time.ToString();
+                                    attRecord.Is_Updated = false;
+                                }
+
+                                db.Entry(attRecord).State = EntityState.Modified;
+                            }
+
                         }
 
+                        await db.SaveChangesAsync();
                     }
+                }
 
-                    await db.SaveChangesAsync();
+                //string fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
+                //string toTime = DateTime.Today.ToString("yyyy-MM-dd 23:00:00");
+
+                //LogViewListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
+
+                if (!this.IsSdkFullSupported)
+                {
+                    this.ClearAll_Logs();
                 }
             }
-
-            //string fromTime = DateTime.Today.ToString("yyyy-MM-dd 00:00:00");
-            //string toTime = DateTime.Today.ToString("yyyy-MM-dd 23:00:00");
-
-            //LogViewListBox.ItemsSource = Machine.GetDailyAttendanceRecords(AttType.All);
-
-            if (!this.IsSdkFullSupported)
+            catch (Exception e)
             {
-                this.ClearAll_Logs();
+                // ignored
             }
         }
 
@@ -284,7 +293,7 @@ namespace AttendanceDevice.Config_Class
 
         public DeviceConnection(Device device)
         {
-            EnrollUserCard= new Card();
+            EnrollUserCard = new Card();
             axCZKEM1 = new CZKEM();
 
             this.Device = device;
