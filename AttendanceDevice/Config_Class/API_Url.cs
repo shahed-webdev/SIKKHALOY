@@ -6,11 +6,11 @@ namespace AttendanceDevice.Config_Class
 {
     public static class ApiUrl
     {
-        //public static readonly string EndPoint = "https://api.sikkhaloy.com/";
-        public static readonly string EndPoint = "http://192.168.0.108:45455/"; //developmnent
+        public static readonly string EndPoint = "https://api.sikkhaloy.com/";
+        //public static readonly string EndPoint = "http://192.168.0.108:45455/"; //developmnent
 
-        //public static readonly string WebUrl = "https://sikkhaloy.com";
-        public static readonly string WebUrl = "http://localhost:3326"; //developmnent
+        public static readonly string WebUrl = "https://sikkhaloy.com";
+        //public static readonly string WebUrl = "http://localhost:3326"; //developmnent
 
         public static async Task<bool> IsServerUnavailable()
         {
