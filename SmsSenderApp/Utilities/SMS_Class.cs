@@ -94,18 +94,18 @@ namespace SmsSenderApp
 
         public Get_Validation SmsSendMultiple(List<SendSmsModel> smsList, string smsPurpose = "Purpose Not Define")
         {
-            ////---------For SMS Send off
-            //SmsService.SendSmsMultiple(smsList);
+            //---------For SMS Send off
+            SmsService.SendSmsMultiple(smsList);
 
-            //if (!SmsService.IsSuccess)
-            //{
-            //    return new Get_Validation
-            //    {
-            //        Validation = false,
-            //        Message = SmsService.Error
-            //    };
-            //}
-            ////-----------------------------
+            if (!SmsService.IsSuccess)
+            {
+                return new Get_Validation
+                {
+                    Validation = false,
+                    Message = SmsService.Error
+                };
+            }
+            //-----------------------------
 
             var smsRecords = smsList.Select(s => new SMS_Send_Record
             {
