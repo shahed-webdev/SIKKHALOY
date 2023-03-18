@@ -284,8 +284,7 @@ namespace AttendanceDevice.Config_Class
 
         public DeviceConnection(Device device)
         {
-
-
+            EnrollUserCard= new Card();
             axCZKEM1 = new CZKEM();
 
             this.Device = device;

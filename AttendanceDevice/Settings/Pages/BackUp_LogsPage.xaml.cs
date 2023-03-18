@@ -33,7 +33,6 @@ namespace AttendanceDevice.Settings.Pages
 
         private List<Log_Backups_View> data_filter()
         {
-
             var sd = string.IsNullOrEmpty(FromDate.Text) ? "1/1/2000" : FromDate.Text;
             var td = string.IsNullOrEmpty(ToDate.Text) ? "1/1/3000" : ToDate.Text;
 
@@ -76,6 +75,7 @@ namespace AttendanceDevice.Settings.Pages
             {
                 LocalData.Instance.Delete_Log_Backup(fdate, tdate, IDs);
             }
+
             LogDG.ItemsSource = LocalData.Instance.Get_Log_Backup();
         }
 

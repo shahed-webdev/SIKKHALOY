@@ -39,7 +39,7 @@
                     FontWeight="Bold"
                     Foreground="#FFF70000"
                     Text="Server User Data Changed. Please Update" />
-                    <ListView x:Name="ActivityListView" Grid.Row="1">
+                    <ListView x:Name="ActivityListView" Height="200">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="BorderBrush" Value="LightGray" />
