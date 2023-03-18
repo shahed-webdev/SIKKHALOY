@@ -82,8 +82,6 @@ namespace AttendanceDevice
                     _tmr.Tick -= (EventHandler)d;
                 }
             }
-
-
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -379,10 +377,10 @@ namespace AttendanceDevice
         {
             Process.Start("http://sikkhaloy.com/Attendances/Online_Display/Attendance_Slider.aspx");
         }
+       
         private void LoopsIT_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("http://loopsit.com/");
         }
-
     }
 }

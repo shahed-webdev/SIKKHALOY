@@ -69,6 +69,8 @@ namespace AttendanceDevice.Settings.Pages
 
         private void DeleteRecord_Button_Click(object sender, RoutedEventArgs e)
         {
+            LoadingDH.IsOpen = true;
+
             var IDs = data_filter().Select(l => l.DeviceID).ToList();
 
             if (IDs.Count > 0)
@@ -77,10 +79,14 @@ namespace AttendanceDevice.Settings.Pages
             }
 
             LogDG.ItemsSource = LocalData.Instance.Get_Log_Backup();
+
+            LoadingDH.IsOpen = false;
         }
 
         private async void UploadRecord_Button_Click(object sender, RoutedEventArgs e)
         {
+            LoadingDH.IsOpen = true;
+
             var logs = new List<LogDataSendModel>();
             using (var db = new ModelContext())
             {
@@ -130,6 +136,8 @@ namespace AttendanceDevice.Settings.Pages
 
 
             }
+
+            LoadingDH.IsOpen = false;
         }
     }
 }
