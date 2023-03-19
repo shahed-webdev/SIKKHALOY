@@ -1,9 +1,9 @@
-﻿using Serilog;
+﻿
+using Serilog;
 using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows;
-using System.Windows.Input;
 using Forms = System.Windows.Forms;
 namespace SmsSenderApp
 {
@@ -35,13 +35,11 @@ namespace SmsSenderApp
             // prevent duplication running
             if (!mutex.WaitOne(TimeSpan.Zero, true))
             {
-                MessageBox.Show("The application is already running.", "Already Running", MessageBoxButton.OK, MessageBoxImage.Information);
-                Current.Shutdown();
+               Current.Shutdown();
                 return;
             }
 
-            var mainWindow = new MainWindow();
-
+           
             _notifyIcon.Icon = new Icon("Resources/Sikkhaloy.ico");
             _notifyIcon.Text = "Sikkhaloy SMS Sender";
             _notifyIcon.DoubleClick += NotifyIcon_Click;
@@ -65,6 +63,9 @@ namespace SmsSenderApp
             }
 
             Log.Information("Application started");
+
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
         }
 
         private void OnExitClicked(object sender, EventArgs e)
@@ -89,6 +90,6 @@ namespace SmsSenderApp
            
             Log.CloseAndFlush();
             _notifyIcon.Dispose();
-        }
+        }        
     }
 }

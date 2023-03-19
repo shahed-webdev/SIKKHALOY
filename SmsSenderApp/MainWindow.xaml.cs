@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using System.Reflection;
 
 namespace SmsSenderApp
 {
@@ -19,7 +20,7 @@ namespace SmsSenderApp
         public MainWindow()
         {
             InitializeComponent();
-            SetStartup(); // start app on windows start
+            SetStartup();
 
             DispatcherTimer timer = new DispatcherTimer
             {
@@ -226,8 +227,13 @@ namespace SmsSenderApp
 
         private void SetStartup()
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            registryKey.SetValue("SMS Sender App", System.Reflection.Assembly.GetExecutingAssembly().Location);
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                Assembly curAssembly = Assembly.GetExecutingAssembly();
+                key.SetValue(curAssembly.GetName().Name, curAssembly.Location);
+            }
+            catch { }
         }
     }
 }
