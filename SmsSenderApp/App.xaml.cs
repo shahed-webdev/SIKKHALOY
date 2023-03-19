@@ -1,7 +1,9 @@
 ﻿using Serilog;
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Forms = System.Windows.Forms;
 namespace SmsSenderApp
 {
@@ -11,6 +13,7 @@ namespace SmsSenderApp
     public partial class App : Application
     {
         private readonly Forms.NotifyIcon _notifyIcon;
+        private static readonly Mutex mutex = new Mutex(true, System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
 
         public App()
         {
@@ -29,11 +32,19 @@ namespace SmsSenderApp
         {
             base.OnStartup(e);
 
+            // prevent duplication running
+            if (!mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                MessageBox.Show("The application is already running.", "Already Running", MessageBoxButton.OK, MessageBoxImage.Information);
+                Current.Shutdown();
+                return;
+            }
+
             var mainWindow = new MainWindow();
 
             _notifyIcon.Icon = new Icon("Resources/Sikkhaloy.ico");
             _notifyIcon.Text = "Sikkhaloy SMS Sender";
-            _notifyIcon.Click += NotifyIcon_Click;
+            _notifyIcon.DoubleClick += NotifyIcon_Click;
 
             _notifyIcon.ContextMenuStrip = new Forms.ContextMenuStrip();
             _notifyIcon.ContextMenuStrip.Items.Add("Exit", Image.FromFile("Resources/Sikkhaloy.ico"), OnExitClicked);
@@ -65,13 +76,17 @@ namespace SmsSenderApp
         {
             // Show or hide toggle
             Current.MainWindow.Visibility = Current.MainWindow.Visibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
-
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            // prevent duplication running
+            mutex.ReleaseMutex();
+            base.OnExit(e);
+
             GlobalClass.Instance.SenderUpdate();
             Log.Information("Application Closed");
+           
             Log.CloseAndFlush();
             _notifyIcon.Dispose();
         }

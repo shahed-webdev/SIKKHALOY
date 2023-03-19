@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Microsoft.Win32;
+using Serilog;
 using SmsService;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace SmsSenderApp
         public MainWindow()
         {
             InitializeComponent();
+            SetStartup(); // start app on windows start
 
             DispatcherTimer timer = new DispatcherTimer
             {
@@ -220,6 +222,12 @@ namespace SmsSenderApp
 
         private void ShowAppInfo(){
             txtStatus.Text = $"App Started at {SmsSender.AppStartTime.ToString("dd MMM, yyyy (hh:mm tt)")}, total event called: {SmsSender.TotalEventCall}, SMS send: {SmsSender.TotalSmsSend} & SMS Failed: {SmsSender.TotalSmsFailed}";
+        }
+
+        private void SetStartup()
+        {
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            registryKey.SetValue("SMS Sender App", System.Reflection.Assembly.GetExecutingAssembly().Location);
         }
     }
 }
