@@ -78,13 +78,13 @@ namespace SmsService
                 {
                     dynamic responseObject = ParseResponse(response);
 
-                    if (responseObject.status != "SENT")
+                    if (responseObject[0].status != "SENT")
                     {
                         throw new Exception(string.Format("Sms Sending was failed. Because: {0}",
-                            responseObject.statusmsg));
+                            responseObject[0].statusmsg));
                     }
 
-                    return responseObject.statusmsg;
+                    return responseObject[0].statusmsg;
                 }
             }
             catch (WebException e)
@@ -139,7 +139,7 @@ namespace SmsService
                     //if (responseObject[0].status != "SENT")
                     //{
                     //    throw new Exception(string.Format("Sms Sending was failed. Because: {0}",
-                    //        responseObject.statusmsg));
+                    //        responseObject[0].statusmsg));
                     //}
                 }
             }

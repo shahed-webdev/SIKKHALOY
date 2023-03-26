@@ -97,13 +97,19 @@ namespace EDUCATION.COM.Accounts.Payment
                         if (isValid.Validation)
                         {
                             var smsSendId = sms.SMS_Send(phoneNo, msg, "Payment Collection");
+                            if (smsSendId != Guid.Empty)
+                            {
+                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
+                                SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue =
+                                    Session["SchoolID"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue =
+                                    Session["Edu_Year"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue =
+                                    StudentInfoFormView.DataKey["StudentID"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["TeacherID"].DefaultValue = "";
+                                SMS_OtherInfoSQL.Insert();
 
-                            SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
-                            SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
-                            SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
-                            SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue = StudentInfoFormView.DataKey["StudentID"].ToString();
-                            SMS_OtherInfoSQL.InsertParameters["TeacherID"].DefaultValue = "";
-                            SMS_OtherInfoSQL.Insert();
+                            }
                             isSentSMS = true;
                         }
                         else

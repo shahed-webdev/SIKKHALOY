@@ -45,13 +45,17 @@ namespace EDUCATION.COM.Committee
                         if (isValid.Validation)
                         {
                             var smsSendId = sms.SMS_Send(mobileNumber, message, "donation");
+                            if (smsSendId != Guid.Empty)
+                            {
+                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
+                                SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue =
+                                    Session["SchoolID"].ToString();
+                                SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue =
+                                    Session["Edu_Year"].ToString();
+                                SMS_OtherInfoSQL.Insert();
 
-                            SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
-                            SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
-                            SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
-                            SMS_OtherInfoSQL.Insert();
-
-                            isSentSMS = true;
+                                isSentSMS = true;
+                            }
                         }
                         else
                         {
