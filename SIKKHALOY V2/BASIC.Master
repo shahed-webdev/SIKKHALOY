@@ -21,7 +21,7 @@
     <!-- Bootstrap Date-Picker Plugin -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
     <!-- Custom -->
-    <link href="/CSS/Internal_Master.css?v=3.0.0" rel="stylesheet" />
+    <link href="/CSS/Internal_Master.css?v=1.0.1" rel="stylesheet" />
     <!-- Sidebar -->
     <link href="/CSS/SideNavbar.css?v=2.3.0" rel="stylesheet" />
     <!-- grid view -->

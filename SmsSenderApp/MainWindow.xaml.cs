@@ -20,7 +20,7 @@ namespace SmsSenderApp
         public MainWindow()
         {
             InitializeComponent();
-            SetStartup();
+            //SetStartup();
 
             DispatcherTimer timer = new DispatcherTimer
             {

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Exam Position" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="ExamPosition.aspx.cs" Inherits="EDUCATION.COM.Exam.ExamPosition" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="CSS/ExamPosition.css?v=2" rel="stylesheet" />
+    <link href="CSS/ExamPosition.css?v=1.0.1" rel="stylesheet" />
     <style>
           .FthSub { color:#304ffe;font-size: 12px;}
     </style>

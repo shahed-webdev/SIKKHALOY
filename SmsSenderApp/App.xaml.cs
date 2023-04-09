@@ -39,7 +39,6 @@ namespace SmsSenderApp
                 return;
             }
 
-           
             _notifyIcon.Icon = new Icon("Resources/Sikkhaloy.ico");
             _notifyIcon.Text = "Sikkhaloy SMS Sender";
             _notifyIcon.DoubleClick += NotifyIcon_Click;
@@ -82,9 +81,9 @@ namespace SmsSenderApp
         protected override void OnExit(ExitEventArgs e)
         {
             // prevent duplication running
-            mutex.ReleaseMutex();
-            base.OnExit(e);
+               mutex.ReleaseMutex();
 
+            base.OnExit(e);
             GlobalClass.Instance.SenderUpdate();
             Log.Information("Application Closed");
            
