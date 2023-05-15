@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="Print TC" Language="C#" MasterPageFile="~/BASIC.Master" EnableEventValidation="false" AutoEventWireup="true" CodeBehind="Print_TC.aspx.cs" Inherits="EDUCATION.COM.Admission.Print_TC" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="CSS/Print_TC.css?v=9.2" rel="stylesheet" />
+    <link href="CSS/print-tc.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <a href="Reject_Student_from_school.aspx" class="NoPrint">Back</a><br />
     <span class="blink_text">Before Print this page Make sure Page setup > Print Background(colors/Images) Selected</span>
     <div class="TC_Head">TRANSFER CERTIFICATE</div>
 
-    <asp:FormView ID="TCFormView" runat="server" DataSourceID="TC_SQL" Width="100%">
+    <asp:FormView ID="TCFormView" runat="server" DataSourceID="TC_SQL" RenderOuterTable="false">
         <ItemTemplate>
             <a class="btn btn-dark-green d-print-none" href="/Admission/Edit_Student_Info/Edit_Student_information.aspx?Student=<%#Eval("StudentID") %>&Student_Class=<%#Eval("StudentClassID") %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 Update Information</a>

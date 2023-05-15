@@ -1,9 +1,5 @@
 ﻿
-/*For Export To Word Data*/
-@page { mso-page-border-surround-header: no; mso-page-border-surround-footer: no; }
-@page word-style { size: 21cm 29.7cm; mso-page-orientation: portrait; margin: 0.7cm 0.7cm 0.7cm 0.7cm; mso-header-margin: 42.55pt; mso-footer-margin: 49.6pt; mso-paper-source: 0; layout-grid: 18.0pt; }
-.word-style{ page:word-style; min-height:50rem;position:relative;}
-/*******/
+.word-style{ min-height:50rem;position:relative;}
 
 .TC_Head { text-align:center; font-size:30px; color:#333; margin-top:15px}
 .Head { color: #333; font-size: 17px; height:170px; line-height: 31px; margin: 20px 0; padding: 25px; text-align: justify; }

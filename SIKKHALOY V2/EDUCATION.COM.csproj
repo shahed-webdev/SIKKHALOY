@@ -223,7 +223,7 @@
     <Content Include="Administration_Basic_Settings\Specify_group_section_Shift_for_classes.aspx" />
     <Content Include="Admission\Change_Student_RollNo_Group_Section_Shift.aspx" />
     <Content Include="Admission\Change_Student_Subjects.aspx" />
-    <Content Include="Admission\CSS\Print_TC.css" />
+    <Content Include="Admission\CSS\print-tc.css" />
     <Content Include="Admission\CSS\Reject_Student.css" />
     <Content Include="Admission\CSS\Report.css" />
     <Content Include="Admission\Edit_Student_Info\Find_Student.aspx" />
