@@ -61,9 +61,13 @@
     </asp:SqlDataSource>
 
     <div class="table-responsive mt-2">
-        <asp:GridView ID="PaymentRecordGridView" AllowSorting="true" AllowPaging="true" PageSize="50" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeMoneyReceiptId" DataSourceID="PaymentRecordSQL">
+        <asp:GridView ID="PaymentRecordGridView" AllowSorting="True" AllowPaging="True" PageSize="50" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="CommitteeMoneyReceiptId" DataSourceID="PaymentRecordSQL">
             <Columns>
-                <asp:BoundField DataField="CommitteeMoneyReceiptSn" HeaderText="Receipt" SortExpression="CommitteeMoneyReceiptSn" />
+                <asp:TemplateField HeaderText="Receipt" SortExpression="CommitteeMoneyReceiptSn">
+                    <ItemTemplate>
+                        <a href="./DonationReceipt.aspx?id=<%# Eval("CommitteeMoneyReceiptId") %>"><%# Eval("CommitteeMoneyReceiptSn") %></a>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:BoundField DataField="MemberName" HeaderText="Member Name" SortExpression="MemberName" />
                 <asp:BoundField DataField="CommitteeMemberType" HeaderText="Member Type" SortExpression="CommitteeMemberType" />
                 <asp:BoundField DataField="SmsNumber" HeaderText="Sms Number" SortExpression="SmsNumber" />

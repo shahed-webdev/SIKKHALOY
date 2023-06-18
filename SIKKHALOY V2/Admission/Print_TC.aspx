@@ -10,8 +10,10 @@
 
     <asp:FormView ID="TCFormView" runat="server" DataSourceID="TC_SQL" RenderOuterTable="false">
         <ItemTemplate>
-            <a class="btn btn-dark-green d-print-none" href="/Admission/Edit_Student_Info/Edit_Student_information.aspx?Student=<%#Eval("StudentID") %>&Student_Class=<%#Eval("StudentClassID") %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                Update Information</a>
+            <a class="btn btn-dark-green d-print-none" href="/Admission/Edit_Student_Info/Edit_Student_information.aspx?Student=<%#Eval("StudentID") %>&Student_Class=<%#Eval("StudentClassID") %>">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                Update Information
+            </a>
 
             <asp:Panel ID="Data_Panel" runat="server" CssClass="word-style">
                 <div class="Head">

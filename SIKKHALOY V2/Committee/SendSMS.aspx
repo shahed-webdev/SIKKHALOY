@@ -63,6 +63,7 @@
                         <asp:Parameter Name="StudentID" />
                         <asp:Parameter Name="TeacherID" />
                         <asp:Parameter Name="EducationYearID" />
+                        <asp:Parameter Name="CommitteeMemberId" />
                     </InsertParameters>
                 </asp:SqlDataSource>
             </div>

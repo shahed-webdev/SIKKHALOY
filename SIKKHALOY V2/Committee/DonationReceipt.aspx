@@ -30,6 +30,7 @@
                 <p class="mb-0"><%# Eval("MemberName") %></p>
                 <p class="mb-0"><%# Eval("SmsNumber") %>,  <%# Eval("Address") %></p>
                 <p class="mb-2">Payment Method:  <%# Eval("AccountName") %></p>
+                 <p class="mb-2">Collected By: <%# Eval("UserName") %></p>
 
                 <div class="d-flex justify-content-between align-items-center">
                     <span>Receipt: <%# Eval("CommitteeMoneyReceiptSn") %></span>
@@ -39,7 +40,7 @@
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="InfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.AccountId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMember.Address, CommitteeMemberType.CommitteeMemberType, Account.AccountName, Education_Year.EducationYear FROM CommitteeMoneyReceipt INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID INNER JOIN Education_Year ON CommitteeMoneyReceipt.EducationYearId = Education_Year.EducationYearID WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
+        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.AccountId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMember.Address, CommitteeMemberType.CommitteeMemberType, Account.AccountName, Education_Year.EducationYear, Registration.UserName FROM CommitteeMoneyReceipt INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID INNER JOIN Education_Year ON CommitteeMoneyReceipt.EducationYearId = Education_Year.EducationYearID INNER JOIN Registration ON CommitteeMoneyReceipt.RegistrationId = Registration.RegistrationID WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
             <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />
