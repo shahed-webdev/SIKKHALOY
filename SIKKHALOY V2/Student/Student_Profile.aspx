@@ -199,7 +199,7 @@ GROUP BY Exam_Result_of_Subject.SubjectID, Subject.SubjectName, Subject.SN ORDER
                             <div class="mb-3 states-last">
                                 <div class="z-depth-2">
                                     <div class="stats-left">
-                                        <h4><i class="fa fa-hourglass-half mr-1" aria-hidden="true"></i>Due</h4>
+                                        <h4 OnClick="ViewDueClick()"><i class="fa fa-hourglass-half mr-1" aria-hidden="true"></i>View Due</h4>
                                         <div id="Due_p"></div>
                                     </div>
                                     <div class="stats-right">
@@ -731,5 +731,10 @@ Education_Year ON T_AP.EducationYearID = Education_Year.EducationYearID ORDER BY
                 });
             }
         });
+
+        function ViewDueClick() {
+            window.location.href = "/Student/Accounts.aspx";
+        }
+
     </script>
 </asp:Content>

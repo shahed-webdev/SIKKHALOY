@@ -96,6 +96,7 @@
       <HintPath>libs\Microsoft.SqlServer.Types.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
@@ -131,6 +132,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -502,6 +504,7 @@
       <DependentUpon>Attendance_DataSet.xsd</DependentUpon>
     </Content>
     <Content Include="Student\Notice.aspx" />
+    <Content Include="Student\OnlinePayment\Success.aspx" />
     <Content Include="Teacher\StudentAttendance.aspx" />
     <Content Include="Teacher\StudentNotice.aspx" />
     <Content Include="W_Test.aspx" />
@@ -2214,6 +2217,13 @@
     </Compile>
     <Compile Include="Student\Notice.aspx.designer.cs">
       <DependentUpon>Notice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Student\OnlinePayment\PaymentFactory.cs" />
+    <Compile Include="Student\OnlinePayment\PaymentRequest.cs" />
+    <Compile Include="Student\OnlinePayment\PaymentResponse.cs" />
+    <Compile Include="Student\OnlinePayment\Success.aspx.cs">
+      <DependentUpon>Success.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Student\SMS_Inbox.aspx.cs">
       <DependentUpon>SMS_Inbox.aspx</DependentUpon>

@@ -1,7 +1,13 @@
-﻿using System;
+﻿using EDUCATION.COM.ACCOUNTS.Payment;
+using EDUCATION.COM.Student.OnlinePayment;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Services;
 
@@ -11,7 +17,18 @@ namespace EDUCATION.COM
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            PaymentFactory<PaymentResponse> paymentFactory = new PaymentFactory<PaymentResponse>();
+            var paymentInfo = paymentFactory.GetPaymentInfoFromQueryString(Request);
+            if (!string.IsNullOrEmpty(paymentInfo.opt_a))
+            {
+                SetSessionInfoAfterOnlinePayment(paymentInfo.opt_a);
+                Session["OnlinePaymentInfo"] = JsonConvert.SerializeObject(paymentInfo);
+                string MRid = paymentInfo.opt_b;
+                string Sid = paymentInfo.opt_c;
+                Response.Redirect(string.Format("~/Accounts/Payment/Money_Receipt.aspx?mN_R={0}&s_icD={1}", MRid, Sid));
+                
+                //Response.Redirect("~/Student/OnlinePayment/Success.aspx");
+            }
         }
 
         protected void SendButton_Click(object sender, EventArgs e)
@@ -96,6 +113,18 @@ namespace EDUCATION.COM
         {
             var url = "https://www.google.com/recaptcha/api/siteverify?secret=" + ReCaptchaSecret + "&response=" + response;
             return (new WebClient()).DownloadString(url);
+        }
+        private void SetSessionInfoAfterOnlinePayment(string sessionInfo)
+        {
+            //sessionInfo = "{SchoolID=1012,SchoolName=SIKKHALOY,RegistrationID=13548,EducationYearID=2464,StudentID=41148,ClassID=130,StudentClassID=189569,TeacherID=null}";
+            sessionInfo = sessionInfo.TrimStart('{').TrimEnd('}');
+            Dictionary<string, string> dictionary = sessionInfo.Split(',').ToDictionary(item => item.Split('=')[0], item => item.Split('=')[1]);
+            if (dictionary != null) {
+                foreach (KeyValuePair<string, string> entry in dictionary)
+                {
+                    Session[entry.Key] = !string.IsNullOrEmpty(entry.Value) ? entry.Value : null;
+                }
+            }
         }
     }
 }

@@ -3,11 +3,34 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
+    <style>
+        #grand-total-fixed {
+            display: none;
+            opacity: 0.95;
+            position: fixed;
+            width: 87%;
+            background: #fff;
+            bottom: 0;
+            box-shadow: 0 0 16px -1px rgba(40, 40, 40, 0.75);
+            margin-left: -15px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1.5rem 0;
+            z-index: 999;
+        }
+
+        @media (max-width: 767.98px) {
+            #grand-total-fixed {
+                width: 100%;
+            }
+        }
+    </style>
     <h3>Accounts</h3>
     <div class="tab">
         <ul class="nav nav-tabs z-depth-1">
-            <li><a class="nav-link active" href="#PresentDue" data-toggle="tab" role="tab" aria-expanded="true">Current Due</a></li>
-            <li><a class="nav-link" href="#DueAmount" data-toggle="tab" role="tab" aria-expanded="false">Total Due</a></li>
+            <li><a class="nav-link active" href="#DueAmount" data-toggle="tab" role="tab" aria-expanded="true">Total Due</a></li>
+            <li><a class="nav-link" href="#PresentDue" data-toggle="tab" role="tab" aria-expanded="false">Current Due</a></li>
             <li><a class="nav-link" href="#PaidAmount" data-toggle="tab" role="tab" aria-expanded="false">Total Paid</a></li>
             <li><a class="nav-link" href="#PaidRecord" data-toggle="tab" role="tab" aria-expanded="false">Paid Record</a></li>
             <li><a class="nav-link" href="#Concession" data-toggle="tab" role="tab" aria-expanded="false">Concession</a></li>
@@ -15,41 +38,18 @@
         </ul>
 
         <div class="tab-content card">
-            <div id="PresentDue" class="tab-pane fade in active show" role="tabpanel" aria-expanded="true">
-                <div class="alert alert-success Accounts-p-title">
-                    <span id="Current_Due"></span>
-                </div>
-                <div class="table-responsive">
-                    <asp:GridView ID="PresentDueGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PresentDueeSQL" CssClass="mGrid">
-                        <Columns>
-                            <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
-                            <asp:BoundField DataField="Class" HeaderText="Class" SortExpression="Class" />
-                            <asp:BoundField DataField="Role" HeaderText="Role" SortExpression="Role" />
-                            <asp:BoundField DataField="PayFor" HeaderText="Pay For" SortExpression="PayFor" />
-                            <asp:BoundField DataField="PaidAmount" HeaderText="Paid " SortExpression="PaidAmount" />
-                            <asp:TemplateField HeaderText="Due" SortExpression="Due">
-                                <ItemTemplate>
-                                    <asp:Label ID="PresentDueLabel" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:dd MMM yyyy}" />
-                        </Columns>
-                    </asp:GridView>
-                    <asp:SqlDataSource ID="PresentDueeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT  CreateClass.Class,Education_Year.EducationYear,Income_Roles.Role, Income_PayOrder.PayFor, Income_PayOrder.PaidAmount, CASE WHEN Income_PayOrder.EndDate &lt; GETDATE() - 1 THEN ISNULL(Amount , 0) + ISNULL(LateFee , 0) - ISNULL(Discount , 0) - ISNULL(PaidAmount , 0) - ISNULL(LateFee_Discount , 0) ELSE ISNULL(Amount , 0) - ISNULL(Discount , 0) - ISNULL(PaidAmount , 0) END AS Due, Income_PayOrder.EndDate, Income_PayOrder.StudentClassID FROM Income_PayOrder INNER JOIN Education_Year ON Income_PayOrder.EducationYearID = Education_Year.EducationYearID INNER JOIN Income_Roles ON Income_PayOrder.RoleID = Income_Roles.RoleID INNER JOIN CreateClass ON Income_PayOrder.ClassID = CreateClass.ClassID  WHERE (Income_PayOrder.Status = 'Due') AND (Income_PayOrder.EndDate &lt; GETDATE()) AND (Income_PayOrder.StudentID = @StudentID) ORDER BY Income_PayOrder.EndDate">
-                        <SelectParameters>
-                            <asp:SessionParameter Name="StudentID" SessionField="StudentID" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>
-                </div>
-            </div>
-
-            <div id="DueAmount" class="tab-pane fade" role="tabpanel" aria-expanded="false">
+            <div id="DueAmount" class="tab-pane fade in active show" role="tabpanel" aria-expanded="true">
                 <div class="alert alert-success Accounts-p-title">
                     <span id="Total_Due"></span>
                 </div>
-                <div class="table-responsive">
-                    <asp:GridView ID="DueGridView" runat="server" AutoGenerateColumns="False" DataSourceID="DueSQL" CssClass="mGrid">
+                <div id="payment-container" class="table-responsive">
+                    <asp:GridView ID="DueGridView" runat="server" AutoGenerateColumns="False" DataKeyNames="PayOrderID,Amount,StudentID,StudentClassID,RoleID,PayFor,StartDate,EducationYearID" DataSourceID="DueSQL" CssClass="mGrid">
                         <Columns>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="DueCheckBox" CssClass="due-checkbox" runat="server" Text=" " />
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
                             <asp:BoundField DataField="Class" HeaderText="Class" SortExpression="Class" />
                             <asp:BoundField DataField="Role" HeaderText="Role" SortExpression="Role" />
@@ -69,7 +69,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Due" SortExpression="Due">
                                 <ItemTemplate>
-                                    <asp:Label ID="TotalDueLabel" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
+                                    <asp:Label ID="TotalDueLabel" CssClass="due-amount" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="LateFee" HeaderText="Late Fee" SortExpression="LateFee" />
@@ -99,6 +99,34 @@ ORDER BY Income_PayOrder.EndDate">
                         <SelectParameters>
                             <asp:SessionParameter DefaultValue="" Name="StudentID" SessionField="StudentID" />
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                </div>
+            </div>
+
+            <div id="PresentDue" class="tab-pane fade" role="tabpanel" aria-expanded="false">
+                <div class="alert alert-success Accounts-p-title">
+                    <span id="Current_Due"></span>
+                </div>
+                <div class="table-responsive">
+                    <asp:GridView ID="PresentDueGridView" runat="server" AutoGenerateColumns="False" DataSourceID="PresentDueeSQL" CssClass="mGrid">
+                        <Columns>
+                            <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
+                            <asp:BoundField DataField="Class" HeaderText="Class" SortExpression="Class" />
+                            <asp:BoundField DataField="Role" HeaderText="Role" SortExpression="Role" />
+                            <asp:BoundField DataField="PayFor" HeaderText="Pay For" SortExpression="PayFor" />
+                            <asp:BoundField DataField="PaidAmount" HeaderText="Paid " SortExpression="PaidAmount" />
+                            <asp:TemplateField HeaderText="Due" SortExpression="Due">
+                                <ItemTemplate>
+                                    <asp:Label ID="PresentDueLabel" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:dd MMM yyyy}" />
+                        </Columns>
+                    </asp:GridView>
+                    <asp:SqlDataSource ID="PresentDueeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT  CreateClass.Class,Education_Year.EducationYear,Income_Roles.Role, Income_PayOrder.PayFor, Income_PayOrder.PaidAmount, CASE WHEN Income_PayOrder.EndDate &lt; GETDATE() - 1 THEN ISNULL(Amount , 0) + ISNULL(LateFee , 0) - ISNULL(Discount , 0) - ISNULL(PaidAmount , 0) - ISNULL(LateFee_Discount , 0) ELSE ISNULL(Amount , 0) - ISNULL(Discount , 0) - ISNULL(PaidAmount , 0) END AS Due, Income_PayOrder.EndDate, Income_PayOrder.StudentClassID FROM Income_PayOrder INNER JOIN Education_Year ON Income_PayOrder.EducationYearID = Education_Year.EducationYearID INNER JOIN Income_Roles ON Income_PayOrder.RoleID = Income_Roles.RoleID INNER JOIN CreateClass ON Income_PayOrder.ClassID = CreateClass.ClassID  WHERE (Income_PayOrder.Status = 'Due') AND (Income_PayOrder.EndDate &lt; GETDATE()) AND (Income_PayOrder.StudentID = @StudentID) ORDER BY Income_PayOrder.EndDate">
+                        <SelectParameters>
+                            <asp:SessionParameter Name="StudentID" SessionField="StudentID" />
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
@@ -358,6 +386,20 @@ FROM Income_PayOrder WHERE (SchoolID = @SchoolID) AND (EducationYearID = @Educat
         </ContentTemplate>
     </asp:UpdatePanel>
 
+    <!--submit button-->
+    <div id="payment-submit" class="mt-4">
+        <h4 id="total-pay-amount"></h4>
+
+        <div class="form-inline">
+            <div class="form-group">
+                <asp:Button ID="PayButton" runat="server" Text="Submit Payment" OnClick="PayButton_Click" CssClass="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+    <!--bottom sticky total amount-->
+    <div id="grand-total-fixed"></div>
+
 
     <script>
         $(function () {
@@ -396,6 +438,64 @@ FROM Income_PayOrder WHERE (SchoolID = @SchoolID) AND (EducationYearID = @Educat
         function openModal() {
             $('#myModal').modal('show');
         }
+
+
+        (function () {
+
+            document.getElementById('<%=PayButton.ClientID %>').disabled = true;
+
+            function calculateTotal() {
+                const inputedDues = document.querySelectorAll('input[type="checkbox"]:checked');
+                let total = 0;
+                inputedDues.forEach((item => {
+                    total += Number(item.value);
+                }));
+
+                if (total <= 0) {
+                    document.getElementById('<%=PayButton.ClientID %>').disabled = true;
+                } else {
+                    document.getElementById('<%=PayButton.ClientID %>').disabled = false;
+                }
+
+                return total;
+            }
+
+            //click checkbox and input dues
+            const totalPayAmount = document.getElementById("total-pay-amount");
+            const totalPayAmountFixed = document.getElementById("grand-total-fixed");
+            const paymentTable = document.getElementById("payment-container");
+
+            paymentTable.addEventListener("input", function (evt) {
+                const element = evt.target;
+
+                if (element.type === "checkbox") {
+                    element.closest("tr").classList.toggle("row-selected");
+                    const input = element.closest("tr").querySelector('.due-amount');
+                    element.value = input.textContent;
+                }
+
+                const total = `Total Amount: <span id="total-amount-pay">${calculateTotal()}</span> Tk`;
+                totalPayAmount.innerHTML = total;
+                totalPayAmountFixed.innerHTML = total;
+            });
+        })();
+
+        //show sticky bottom grand total
+        $(window).scroll(function () {
+            const totalPayAmount = +document.getElementById("total-amount-pay").textContent;
+            if (totalPayAmount === 0) {
+                $('#grand-total-fixed').fadeOut();
+                return;
+            }
+
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
+                $('#grand-total-fixed').fadeOut();
+            }
+            else {
+                // alert("totalPayAmount..." + totalPayAmount)
+                $('#grand-total-fixed').fadeIn();
+            }
+        });
 
     </script>
 </asp:Content>
