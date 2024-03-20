@@ -11,97 +11,79 @@ namespace EDUCATION.COM.Committee
 {
 
 
-    public partial class DonationReceipt
+    public partial class MemberList
     {
 
         /// <summary>
-        /// InfoFormView control.
+        /// DonorTypeDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView InfoFormView;
+        protected global::System.Web.UI.WebControls.DropDownList DonorTypeDropDownList;
 
         /// <summary>
-        /// InfoSQL control.
+        /// SqlCommitteeDonorType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource InfoSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlCommitteeDonorType;
 
         /// <summary>
-        /// PaymentGridView control.
+        /// DonationCategoryDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView PaymentGridView;
+        protected global::System.Web.UI.WebControls.DropDownList DonationCategoryDropDownList;
 
         /// <summary>
-        /// PaymentSQL control.
+        /// SqlCommitteeDonationCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource PaymentSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlCommitteeDonationCategory;
 
         /// <summary>
-        /// SMSFormView control.
+        /// TextBox1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView SMSFormView;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
 
         /// <summary>
-        /// SMSButton control.
+        /// FindButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button SMSButton;
+        protected global::System.Web.UI.WebControls.Button FindButton;
 
         /// <summary>
-        /// ErrorLabel control.
+        /// MemberGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ErrorLabel;
+        protected global::System.Web.UI.WebControls.GridView MemberGridView;
 
         /// <summary>
-        /// SMS_OtherInfoSQL control.
+        /// MemberSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SMS_OtherInfoSQL;
-
-        /// <summary>
-        /// RByFormView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView RByFormView;
-
-        /// <summary>
-        /// ReceivedBySQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource ReceivedBySQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource MemberSQL;
     }
 }

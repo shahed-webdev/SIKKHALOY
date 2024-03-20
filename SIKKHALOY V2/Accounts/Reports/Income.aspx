@@ -12,7 +12,7 @@
             <asp:TextBox ID="From_Date_TextBox" CssClass="form-control datepicker" placeholder="From Date" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" runat="server"></asp:TextBox>
         </div>
         <div class="form-group">
-            <asp:TextBox ID="To_Date_TextBox" CssClass="form-control datepicker" placeholder="From Date" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" runat="server"></asp:TextBox>
+            <asp:TextBox ID="To_Date_TextBox" CssClass="form-control datepicker" placeholder="To Date" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" runat="server"></asp:TextBox>
         </div>
         <div class="form-group">
             <asp:DropDownList ID="CategoryDropDownList" runat="server" AppendDataBoundItems="True" DataSourceID="CategorySQL" DataTextField="Category" DataValueField="Category" CssClass="form-control" AutoPostBack="True">
@@ -131,7 +131,7 @@ ISNULL(Account.AccountName, 'N/A') AS AccountName,
    CommitteeDonationCategory.DonationCategory  AS Category, 
 CommitteeDonation.Description AS Details, 
 CommitteePaymentRecord.PaidAmount AS Amount, 
-CommitteeMoneyReceipt.PaidDate AS [Date] 
+cast(CommitteeMoneyReceipt.PaidDate as Date) AS [Date] 
 FROM            CommitteeMoneyReceipt INNER JOIN
                          CommitteePaymentRecord ON CommitteeMoneyReceipt.CommitteeMoneyReceiptId = CommitteePaymentRecord.CommitteeMoneyReceiptId INNER JOIN
                          CommitteeDonation INNER JOIN
@@ -139,7 +139,7 @@ FROM            CommitteeMoneyReceipt INNER JOIN
                          CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN
                          Registration ON CommitteeMoneyReceipt.RegistrationId = Registration.RegistrationID LEFT OUTER JOIN 
                          Admin ON Registration.RegistrationID = Admin.RegistrationID LEFT OUTER JOIN 
-                         Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID WHERE(CommitteeMoneyReceipt.SchoolID = @SchoolID) and CommitteeMoneyReceipt.PaidDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') AND CommitteeDonationCategory.DonationCategory = @Category order by [Date]">
+                         Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID WHERE(CommitteeMoneyReceipt.SchoolID = @SchoolID) and cast(CommitteeMoneyReceipt.PaidDate as Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') AND CommitteeDonationCategory.DonationCategory = @Category order by [Date]">
                     <SelectParameters>
                         <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                         <asp:ControlParameter ControlID="From_Date_TextBox" Name="From_Date" PropertyName="Text" />

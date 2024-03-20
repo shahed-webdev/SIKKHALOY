@@ -99,6 +99,22 @@
                 </InsertParameters>
             </asp:SqlDataSource>
         </div>
+        <div>
+            <asp:FormView ID="RByFormView" runat="server" DataSourceID="ReceivedBySQL" Width="100%">
+                <ItemTemplate>
+                    <div class="RecvBy">
+                        (© Sikkhaloy.com) Received By:
+                <asp:Label ID="NameLabel" runat="server" Text='<%# Bind("Name") %>' />
+                    </div>
+                </ItemTemplate>
+            </asp:FormView>
+            <asp:SqlDataSource ID="ReceivedBySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Admin.FirstName + ' ' + Admin.LastName AS Name FROM Admin INNER JOIN Income_MoneyReceipt ON Admin.RegistrationID = Income_MoneyReceipt.RegistrationID WHERE (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID) AND (Income_MoneyReceipt.SchoolID = @SchoolID)">
+                <SelectParameters>
+                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                    <asp:QueryStringParameter Name="MoneyReceiptID" QueryStringField="id" Type="Int32" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+        </div>
         <input type="button" value="Print" onclick="window.print();" class="btn btn-outline-primary" />
     </div>
 

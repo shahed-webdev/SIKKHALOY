@@ -11,7 +11,7 @@ namespace EDUCATION.COM.Student.OnlinePayment
         public string store_id { get; set; }
         public string signature_key { get; set; }
         public string tran_id { get; set; }
-        public string amount { get; set; }
+        public double amount { get; set; }
         public string cus_name { get; set; }
         public string cus_email { get; set; }
         public string cus_phone { get; set; }
