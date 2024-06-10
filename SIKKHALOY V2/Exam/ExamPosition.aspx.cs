@@ -146,51 +146,52 @@ namespace EDUCATION.COM.Exam
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 //Class
-                if (e.Row.Cells[8].Text == "1")
+                var classIndex = 9;
+                if (e.Row.Cells[classIndex].Text == "1")
                 {
-                    e.Row.Cells[8].CssClass = "First";
-
-                    e.Row.Cells[8].Text += " st";
+                    e.Row.Cells[classIndex].CssClass = "First";
+                    e.Row.Cells[classIndex].Text += " st";
                 }
 
-                else if (e.Row.Cells[8].Text == "2")
+                else if (e.Row.Cells[classIndex].Text == "2")
                 {
-                    e.Row.Cells[8].CssClass = "Second";
-                    e.Row.Cells[8].Text += " nd";
+                    e.Row.Cells[classIndex].CssClass = "Second";
+                    e.Row.Cells[classIndex].Text += " nd";
                 }
 
-                else if (e.Row.Cells[8].Text == "3")
+                else if (e.Row.Cells[classIndex].Text == "3")
                 {
-                    e.Row.Cells[8].CssClass = "Third";
-                    e.Row.Cells[8].Text += " rd";
+                    e.Row.Cells[classIndex].CssClass = "Third";
+                    e.Row.Cells[classIndex].Text += " rd";
                 }
                 else
                 {
-                    e.Row.Cells[8].Text += " th";
+                    e.Row.Cells[classIndex].Text += " th";
                 }
 
                 //Section
-                if (e.Row.Cells[9].Text == "1")
+                var sectionIndex = 10;
+                if (e.Row.Cells[sectionIndex].Text == "1")
                 {
-                    e.Row.Cells[9].CssClass = "First";
-                    e.Row.Cells[9].Text += " st";
+                    e.Row.Cells[sectionIndex].CssClass = "First";
+                    e.Row.Cells[sectionIndex].Text += " st";
                 }
 
-                else if (e.Row.Cells[9].Text == "2")
+                else if (e.Row.Cells[sectionIndex].Text == "2")
                 {
-                    e.Row.Cells[9].CssClass = "Second";
-                    e.Row.Cells[9].Text += " nd";
+                    e.Row.Cells[sectionIndex].CssClass = "Second";
+                    e.Row.Cells[sectionIndex].Text += " nd";
 
                 }
 
-                else if (e.Row.Cells[9].Text == "3")
+                else if (e.Row.Cells[sectionIndex].Text == "3")
                 {
-                    e.Row.Cells[9].CssClass = "Third";
-                    e.Row.Cells[9].Text += " rd";
+                    e.Row.Cells[sectionIndex].CssClass = "Third";
+                    e.Row.Cells[sectionIndex].Text += " rd";
                 }
                 else
                 {
-                    e.Row.Cells[9].Text += " th";
+                    e.Row.Cells[sectionIndex].Text += " th";
                 }
 
 

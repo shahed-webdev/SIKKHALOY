@@ -11,26 +11,26 @@ namespace EDUCATION.COM.Committee
 {
 
 
-    public partial class PaymentRecord
+    public partial class MemberList
     {
 
         /// <summary>
-        /// SessionDownList control.
+        /// DonorTypeDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList SessionDownList;
+        protected global::System.Web.UI.WebControls.DropDownList DonorTypeDropDownList;
 
         /// <summary>
-        /// SessionSQL control.
+        /// SqlCommitteeDonorType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SessionSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlCommitteeDonorType;
 
         /// <summary>
         /// DonationCategoryDropDownList control.
@@ -51,40 +51,13 @@ namespace EDUCATION.COM.Committee
         protected global::System.Web.UI.WebControls.SqlDataSource SqlCommitteeDonationCategory;
 
         /// <summary>
-        /// CommitteeMemberDropDownList control.
+        /// TextBox1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList CommitteeMemberDropDownList;
-
-        /// <summary>
-        /// CommitteeMemberSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource CommitteeMemberSQL;
-
-        /// <summary>
-        /// FormDateTextBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox FormDateTextBox;
-
-        /// <summary>
-        /// ToDateTextBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ToDateTextBox;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
 
         /// <summary>
         /// FindButton control.
@@ -96,39 +69,21 @@ namespace EDUCATION.COM.Committee
         protected global::System.Web.UI.WebControls.Button FindButton;
 
         /// <summary>
-        /// TotalFormView control.
+        /// MemberGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView TotalFormView;
+        protected global::System.Web.UI.WebControls.GridView MemberGridView;
 
         /// <summary>
-        /// TotalSQL control.
+        /// MemberSQL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource TotalSQL;
-
-        /// <summary>
-        /// PaymentRecordGridView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView PaymentRecordGridView;
-
-        /// <summary>
-        /// PaymentRecordSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource PaymentRecordSQL;
+        protected global::System.Web.UI.WebControls.SqlDataSource MemberSQL;
     }
 }

@@ -3,14 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="CSS/ExamPosition.css?v=1.0.1" rel="stylesheet" />
     <style>
-          .FthSub { color:#304ffe;font-size: 12px;}
+        .FthSub { color: #304ffe; font-size: 12px; }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <a href="ExamPosition_WithSub.aspx" class="NoPrint">Full Tabulation Sheet >>></a>
     <h3>
-        <asp:Label ID="CGSSLabel" runat="server"></asp:Label></h3>
+        <asp:Label ID="CGSSLabel" runat="server"></asp:Label>
+    </h3>
 
     <div class="form-inline NoPrint">
         <div class="form-group">
@@ -88,6 +89,23 @@
         </div>
     </div>
 
+
+    <%if (StudentsGridView.Rows.Count > 0)
+        {%>
+    <div class="d-print-none text-right">
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#printOptionModal">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            Print Option
+        </button>
+
+        <button type="button" class="btn btn-primary" onclick="window.print()">
+            <i class="fa fa-print" aria-hidden="true"></i>
+            Print
+        </button>
+    </div>
+    <%}%>
+
+
     <div id="ExportPanel" runat="server" class="Exam_Position">
         <asp:Label ID="Export_ClassLabel" runat="server" Font-Bold="True" Font-Names="Tahoma" Font-Size="20px"></asp:Label>
         <div class="table-responsive">
@@ -123,7 +141,6 @@
                                 </ItemTemplate>
                             </asp:DataList>
                             <asp:HiddenField ID="StudentResultIDHiddenField" runat="server" Value='<%# Eval("StudentResultID") %>' />
-
                             <asp:SqlDataSource ID="SUB_markSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Subject.SubjectName,Exam_Result_of_Subject.PassStatus_Subject, Exam_Result_of_Subject.SubjectType,Exam_Result_of_Subject.ObtainedMark_ofSubject AS Mark, Subject.SubjectID FROM Exam_Result_of_Subject INNER JOIN Subject ON Exam_Result_of_Subject.SubjectID = Subject.SubjectID WHERE (Exam_Result_of_Subject.StudentResultID = @StudentResultID) ORDER BY ISNULL(Subject.SN,999), Subject.SubjectID">
                                 <SelectParameters>
                                     <asp:ControlParameter ControlID="StudentResultIDHiddenField" Name="StudentResultID" PropertyName="Value" />
@@ -138,6 +155,13 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="Student_Point" HeaderText="Point" SortExpression="Student_Point" DataFormatString="{0:0.00}" />
+                    <asp:TemplateField HeaderText="AVG." SortExpression="Average">
+                        <ItemTemplate>
+                            <span class="avrage-marks">
+                                <%# Eval("Average") %>
+                            </span>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:BoundField DataField="Position_InExam_Class" HeaderText="P.C" SortExpression="Position_InExam_Class" />
                     <asp:BoundField DataField="Position_InExam_Subsection" HeaderText="P.S" SortExpression="Position_InExam_Subsection" />
                 </Columns>
@@ -148,16 +172,16 @@
             </asp:GridView>
         </div>
         <asp:SqlDataSource ID="ShowStudentClassSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-            SelectCommand="SELECT        StudentsClass.StudentClassID, Student.StudentID, Student.ID,StudentsClass.RollNo, Student.StudentsName, Exam_Result_of_Student.StudentResultID, Exam_Result_of_Student.ObtainedMark_ofStudent, 
-                         Exam_Result_of_Student.Student_Grade, Exam_Result_of_Student.Student_Point, CAST(Exam_Result_of_Student.Position_InExam_Class AS int) AS Position_InExam_Class, 
-                         CAST(Exam_Result_of_Student.Position_InExam_Subsection AS int) AS Position_InExam_Subsection, Student.SMSPhoneNo, Exam_Result_of_Student.ExamID, 
-                         Exam_Result_of_Student.PassStatus_InSubject
+            SelectCommand="SELECT StudentsClass.StudentClassID, Student.StudentID, Student.ID,StudentsClass.RollNo, Student.StudentsName, Exam_Result_of_Student.StudentResultID, Exam_Result_of_Student.ObtainedMark_ofStudent,
+                         Exam_Result_of_Student.Student_Grade, Exam_Result_of_Student.Student_Point, CAST(Exam_Result_of_Student.Position_InExam_Class AS int) AS Position_InExam_Class,
+                         CAST(Exam_Result_of_Student.Position_InExam_Subsection AS int) AS Position_InExam_Subsection, Student.SMSPhoneNo, Exam_Result_of_Student.ExamID,
+                         Exam_Result_of_Student.PassStatus_InSubject, Exam_Result_of_Student.TotalSubject, Exam_Result_of_Student.Average
 FROM            StudentsClass INNER JOIN
                          Student ON StudentsClass.StudentID = Student.StudentID INNER JOIN
                          Exam_Result_of_Student ON StudentsClass.StudentClassID = Exam_Result_of_Student.StudentClassID
-WHERE        (StudentsClass.ClassID = @ClassID) AND (StudentsClass.SectionID LIKE @SectionID) AND (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND (StudentsClass.ShiftID LIKE @ShiftID) AND 
-                         (Student.Status = @Status) AND (StudentsClass.EducationYearID = @EducationYearID) AND (StudentsClass.SchoolID = @SchoolID) AND (Exam_Result_of_Student.ExamID = @ExamID) AND 
-                         (Exam_Result_of_Student.StudentPublishStatus = N'Pub') AND 
+WHERE        (StudentsClass.ClassID = @ClassID) AND (StudentsClass.SectionID LIKE @SectionID) AND (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND (StudentsClass.ShiftID LIKE @ShiftID) AND
+                         (Student.Status = @Status) AND (StudentsClass.EducationYearID = @EducationYearID) AND (StudentsClass.SchoolID = @SchoolID) AND (Exam_Result_of_Student.ExamID = @ExamID) AND
+                         (Exam_Result_of_Student.StudentPublishStatus = N'Pub') AND
                          (Exam_Result_of_Student.PassStatus_InSubject LIKE @PassStatus)
 ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLACE(StudentsClass.RollNo , '$' , '') , ',' , '') AS FLOAT) ELSE 0 END">
             <SelectParameters>
@@ -189,16 +213,15 @@ ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 T
         <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
         <asp:CustomValidator ID="CV" runat="server" ClientValidationFunction="Validate" ErrorMessage="You do not select any student from student list." ForeColor="Red" ValidationGroup="1"></asp:CustomValidator>
     </div>
+
     <asp:CheckBox ID="SecPositionCheckBox" CssClass="NoPrint" runat="server" Text="Send Section Position" />
+
     <div class="form-inline NoPrint">
         <div class="form-group">
             <asp:Button ID="SMSButton" runat="server" CssClass="btn btn-primary" Text="Send Result By SMS" OnClick="SMSButton_Click" ValidationGroup="1" />
         </div>
         <div class="form-group">
             <asp:Button ID="ExportWordButton" runat="server" CssClass="btn btn-primary" OnClick="ExportWordButton_Click" Text="Export To Word" />
-        </div>
-        <div class="form-group">
-            <input type="button" value="Print" class="btn btn-primary" onclick="window.print()" />
         </div>
     </div>
 
@@ -215,6 +238,36 @@ ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 T
         </SelectParameters>
     </asp:SqlDataSource>
     <%}%>
+
+    <!-- modal print option--->
+    <div class="modal fade d-print-none" id="printOptionModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Print Option</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input onchange="printHiddenTableColumn(10,this);" type="checkbox" id="isHiddenPrintClassCol" />
+                        <label for="isHiddenPrintClassCol">Hide Class Position Column</label>
+                    </div>
+                    <div class="form-group">
+                        <input onchange="printHiddenTableColumn(11,this);" type="checkbox" id="isHiddenPrintSectionCol" />
+                        <label for="isHiddenPrintSectionCol">Hide Section Position Column</label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <asp:UpdateProgress ID="UpdateProgress" runat="server">
@@ -265,6 +318,23 @@ ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 T
                 }
             }
             c.IsValid = !1;
+        };
+
+        // Print Option
+        function printHiddenTableColumn(columnNumber, selft) {
+            const header = $('#<%=StudentsGridView.ClientID %> thead tr');
+            const body = $('#<%=StudentsGridView.ClientID %> tbody tr');
+
+            console.log(selft, columnNumber);
+
+            // if checked then hide the column
+            if ($(selft).is(':checked')) {
+                header.find('th:nth-child(' + columnNumber + ')').addClass('d-print-none');
+                body.find('td:nth-child(' + columnNumber + ')').addClass('d-print-none');
+            } else {
+                header.find('th:nth-child(' + columnNumber + ')').removeClass('d-print-none');
+                body.find('td:nth-child(' + columnNumber + ')').removeClass('d-print-none');
+            }
         };
     </script>
 </asp:Content>

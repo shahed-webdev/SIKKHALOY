@@ -8,6 +8,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3 class="d-flex justify-content-between align-items-center py-0">Add Member
+         <a class="btn btn-info d-print-none" href="SearchMember.aspx" style="margin-left: 45%">Search Member</a>
         <a class="btn btn-dark d-print-none" href="MemberType.aspx">Add Member Type</a>
     </h3>
 

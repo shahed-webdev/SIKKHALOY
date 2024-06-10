@@ -31,46 +31,75 @@
     <asp:FormView ID="IncomeFormView" runat="server" DataSourceID="NetSQL" RenderOuterTable="false">
         <ItemTemplate>
             <div class="row">
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
                     <div class="user-grid">
                         <i class="fa fa-line-chart"></i>
                         <span class="headline">INCOME</span>
                         <span class="value"><%#Eval("Total_Revenue","{0:N0}") %> TK</span>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
                     <div class="user-grid">
                         <i class="fa fa-area-chart"></i>
                         <span class="headline">EXPENSE</span>
                         <span class="value"><%#Eval("Total_Expense","{0:N0}") %> TK</span>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
+                    <div class="user-grid">
+                        <i class="fa fa-area-chart"></i>
+                        <span class="headline">ONLINE PAYMENT</span>
+                        <span class="value"><%#Eval("Online_Payment","{0:N0}") %> TK</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3">
                     <div class="user-grid">
                         <i class="fa fa-bar-chart"></i>
-                        <span class="headline">NET</span>
+                        <span class="headline">CASH IN HAND</span>
                         <span class="value"><%#Eval("Net","{0:N0}") %> TK</span>
                     </div>
                 </div>
             </div>
         </ItemTemplate>
     </asp:FormView>
-    <asp:SqlDataSource ID="NetSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT        Other_Income + Studnet_Paid + CommitteeDonation AS Total_Revenue, Expenditure + Employee_Paid AS Total_Expense, Other_Income + Studnet_Paid + CommitteeDonation - Expenditure - Employee_Paid AS Net
-FROM            (SELECT        (SELECT        ISNULL(SUM(Extra_IncomeAmount), 0) AS Expr1
-                                                     FROM            Extra_Income
-                                                     WHERE        (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))) AS Other_Income,
-                                                        (SELECT        ISNULL(SUM(TotalAmount), 0) AS Expr1
-                                                          FROM            CommitteeMoneyReceipt
-                                                          WHERE        (SchoolId = @SchoolID) AND (PaidDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))) AS CommitteeDonation,
-                                                        (SELECT        ISNULL(SUM(PaidAmount), 0) AS Expr1
-                                                          FROM            Income_PaymentRecord
-                                                          WHERE        (SchoolID = @SchoolID) AND (CAST(PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))) AS Studnet_Paid,
-                                                        (SELECT        ISNULL(SUM(Amount), 0) AS Expr1
-                                                          FROM            Expenditure
-                                                          WHERE        (SchoolID = @SchoolID) AND (ExpenseDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))) AS Expenditure,
-                                                        (SELECT        ISNULL(SUM(Amount), 0) AS Expr1
-                                                          FROM            Employee_Payorder_Records
-                                                          WHERE        (SchoolID = @SchoolID) AND (Paid_date BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))) AS Employee_Paid) AS t"
+    <asp:SqlDataSource ID="NetSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Other_Income + Studnet_Paid + CommitteeDonation AS Total_Revenue, 
+Expenditure + Employee_Paid AS Total_Expense, 
+Online_Payment,
+Other_Income + Studnet_Paid + CommitteeDonation - Expenditure - Employee_Paid - Online_Payment AS Net
+FROM            
+(SELECT        
+	(SELECT        ISNULL(SUM(Extra_IncomeAmount), 0) AS Expr1
+	 FROM            Extra_Income
+	 WHERE        (SchoolID = @SchoolID) AND (Extra_IncomeDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
+	 ) AS Other_Income,
+	(SELECT        ISNULL(SUM(TotalAmount), 0) AS Expr1
+	  FROM            CommitteeMoneyReceipt
+	  WHERE        (SchoolId = @SchoolID) AND (PaidDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
+	) AS CommitteeDonation,
+	(SELECT        ISNULL(SUM(PaidAmount), 0) AS Expr1
+	  FROM            Income_PaymentRecord
+	  WHERE        (SchoolID = @SchoolID) AND (CAST(PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
+	  ) AS Studnet_Paid,
+	(SELECT ISNULL(SUM(t.TotalAmount), 0) as Expr1
+	FROM
+	(SELECT a.PaidAmount as TotalAmount
+	  FROM Income_PaymentRecord a, Account b
+	  WHERE a.AccountID = b.AccountID 
+	  AND a.SchoolID = b.SchoolID
+	  AND b.AccountName = 'Online Payment'
+      AND (a.SchoolID = @SchoolID)
+	  AND (CAST(PaidDate AS Date) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
+	)t
+	)AS Online_Payment ,
+	(SELECT        ISNULL(SUM(Amount), 0) AS Expr1
+	  FROM            Expenditure
+	  WHERE        (SchoolID = @SchoolID) AND (ExpenseDate BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
+	  ) AS Expenditure,
+	(SELECT        ISNULL(SUM(Amount), 0) AS Expr1
+	  FROM            Employee_Payorder_Records
+	  WHERE        (SchoolID = @SchoolID) AND (Paid_date BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
+	  ) AS Employee_Paid
+) AS t"
         CancelSelectOnNullParameter="False">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />

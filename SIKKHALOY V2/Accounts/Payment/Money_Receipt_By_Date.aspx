@@ -58,6 +58,7 @@
                     <asp:Label ID="RoleLabel" runat="server" Text='<%# Bind("Role")%>' />
                     : 
                <asp:Label ID="Label2" runat="server" Text='<%# Bind("Amount") %>' />
+                    TK
                 </ItemTemplate>
                 <FooterStyle HorizontalAlign="Right" />
                 <ItemStyle HorizontalAlign="Right" />
@@ -65,15 +66,18 @@
             <asp:TemplateField HeaderText="Paid">
                 <ItemTemplate>
                     <asp:Label ID="PaidAmountLabel" runat="server" Text='<%# Bind("PaidAmount") %>'></asp:Label>
+                    TK
                 </ItemTemplate>
                 <FooterTemplate>
                     <span id="PGTLabel"></span>
+                    TK
                     <asp:HiddenField ID="PaidHF" runat="server" />
                 </FooterTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Due">
                 <ItemTemplate>
                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
+                    TK
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
@@ -88,6 +92,8 @@
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
         </SelectParameters>
     </asp:SqlDataSource>
+
+     <p class="text-right" id="amount-in-word"></p>
 
     <div id="Due_Show">
         <div class="P_Dues">Current Due</div>
@@ -105,13 +111,20 @@
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:d MMM yyyy}" />
-                <asp:BoundField DataField="PaidAmount" HeaderText="Paid" />
+              <asp:TemplateField HeaderText="Paid">
+                    <ItemTemplate>
+                        <%# Eval("PaidAmount") %>
+                        TK
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="Due">
                     <ItemTemplate>
                         <asp:Label ID="DueLabel" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
+                        TK
                     </ItemTemplate>
                     <FooterTemplate>
                         <span id="DGTLabel"></span>
+                        TK
                     </FooterTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -199,13 +212,17 @@
         <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
     </div>
 
-
+    <!--Amount in word js-->
+    <script src="../../JS/amount-in-word.js"></script>
     <script>
         $(function () {
             //Paid Grand Total
             var PaidTotal = 0;
             $("[id*=PaidAmountLabel]").each(function () { PaidTotal = PaidTotal + parseFloat($(this).text()) });
             $("#PGTLabel").text(PaidTotal);
+
+            const inWord = number2text(PaidTotal);
+            document.getElementById("amount-in-word").textContent = inWord;
 
             //Due Grand Total
             var DueTotal = 0;

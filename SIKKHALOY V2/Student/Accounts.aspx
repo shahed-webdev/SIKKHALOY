@@ -26,7 +26,7 @@
             }
         }
     </style>
-    <h3>Accounts</h3>
+    <h3>Accounts <span style="margin-left:12%">পেমেন্ট দেয়ার জন্য মাসের নামে টিক দিন ও নিচে সাবমিট পেমেন্ট ক্লিক করুন</span> </h3>
     <div class="tab">
         <ul class="nav nav-tabs z-depth-1">
             <li><a class="nav-link active" href="#DueAmount" data-toggle="tab" role="tab" aria-expanded="true">Total Due</a></li>
@@ -50,18 +50,20 @@
                                     <asp:CheckBox ID="DueCheckBox" CssClass="due-checkbox" runat="server" Text=" " />
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
-                            <asp:BoundField DataField="Class" HeaderText="Class" SortExpression="Class" />
                             <asp:BoundField DataField="Role" HeaderText="Role" SortExpression="Role" />
                             <asp:BoundField DataField="PayFor" HeaderText="Pay For" SortExpression="PayFor" />
-                            <asp:BoundField DataField="StartDate" HeaderText="Start Date" SortExpression="StartDate" DataFormatString="{0:dd-MMM-yy}" />
-                            <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:dd-MMM-yy}"></asp:BoundField>
                             <asp:TemplateField HeaderText="Fee" SortExpression="Amount">
                                 <ItemTemplate>
                                     <asp:Label ID="TotalFeesLabel" runat="server" Text='<%# Bind("Amount") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="Discount" HeaderText="Concession" SortExpression="Discount" />
+                            <asp:BoundField DataField="EducationYear" HeaderText="Session" SortExpression="EducationYear" />
+                            <asp:BoundField DataField="Class" HeaderText="Class" SortExpression="Class" />
+                            <asp:BoundField DataField="StartDate" HeaderText="Start Date" SortExpression="StartDate" DataFormatString="{0:dd-MMM-yy}" />
+                            <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:dd-MMM-yy}"></asp:BoundField>
+                            <asp:BoundField DataField="LateFee" HeaderText="Late Fee" SortExpression="LateFee" />
+                            <asp:BoundField DataField="LateFee_Discount" HeaderText="LF.Conc" SortExpression="LateFee_Discount" />
                             <asp:TemplateField HeaderText="Paid" SortExpression="PaidAmount">
                                 <ItemTemplate>
                                     <asp:Label ID="Label3" runat="server" Text='<%# Bind("PaidAmount") %>'></asp:Label>
@@ -72,8 +74,6 @@
                                     <asp:Label ID="TotalDueLabel" CssClass="due-amount" runat="server" Text='<%# Bind("Due") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="LateFee" HeaderText="Late Fee" SortExpression="LateFee" />
-                            <asp:BoundField DataField="LateFee_Discount" HeaderText="LF.Conc" SortExpression="LateFee_Discount" />
                             <asp:BoundField DataField="LastPaidDate" HeaderText="Last Paid Date" SortExpression="LastPaidDate" DataFormatString="{0:dd-MMM-yyyy}" />
                         </Columns>
                         <FooterStyle CssClass="GridFooter" />
