@@ -7,29 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Student {
-    
-    
-    public partial class Accounts {
-        
-        /// <summary>
-        /// PresentDueGridView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView PresentDueGridView;
-        
-        /// <summary>
-        /// PresentDueeSQL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource PresentDueeSQL;
-        
+namespace EDUCATION.COM.Student
+{
+
+
+    public partial class Accounts
+    {
+
         /// <summary>
         /// DueGridView control.
         /// </summary>
@@ -38,7 +22,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView DueGridView;
-        
+
         /// <summary>
         /// DueSQL control.
         /// </summary>
@@ -47,7 +31,25 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource DueSQL;
-        
+
+        /// <summary>
+        /// PresentDueGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView PresentDueGridView;
+
+        /// <summary>
+        /// PresentDueeSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource PresentDueeSQL;
+
         /// <summary>
         /// PaidGridView control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PaidGridView;
-        
+
         /// <summary>
         /// PaidSQL control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PaidSQL;
-        
+
         /// <summary>
         /// UpdatePanel6 control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel6;
-        
+
         /// <summary>
         /// PaidRecordGridView control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PaidRecordGridView;
-        
+
         /// <summary>
         /// MoneyReceiptSQL control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource MoneyReceiptSQL;
-        
+
         /// <summary>
         /// LessPayGridView control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView LessPayGridView;
-        
+
         /// <summary>
         /// DiscountSQL control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource DiscountSQL;
-        
+
         /// <summary>
         /// DisCountLateFeeGridView control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView DisCountLateFeeGridView;
-        
+
         /// <summary>
         /// LateFeeSQL control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource LateFeeSQL;
-        
+
         /// <summary>
         /// ChargeGridView control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView ChargeGridView;
-        
+
         /// <summary>
         /// ChargeLateFSQL control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ChargeLateFSQL;
-        
+
         /// <summary>
         /// P_SumFormView control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView P_SumFormView;
-        
+
         /// <summary>
         /// PayOrderSummarySQL control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayOrderSummarySQL;
-        
+
         /// <summary>
         /// PayOrderGridView control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PayOrderGridView;
-        
+
         /// <summary>
         /// PayOrderSQL control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayOrderSQL;
-        
+
         /// <summary>
         /// UpdatePanel9 control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel9;
-        
+
         /// <summary>
         /// AllPaidRGridView control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView AllPaidRGridView;
-        
+
         /// <summary>
         /// AllPayRecordSQL control.
         /// </summary>
@@ -209,5 +211,14 @@ namespace EDUCATION.COM.Student {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AllPayRecordSQL;
+
+        /// <summary>
+        /// PayButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button PayButton;
     }
 }

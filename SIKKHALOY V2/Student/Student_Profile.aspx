@@ -39,8 +39,14 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Dashboard</h3>
-
+<div class="row" style="display:flex; margin:0">
+    <h3 style="height: 55px; padding: 0; width: 100%; padding-left: 16px;">Dashboard
+<%--    <span id="spanBankingMsg" style="margin-left: 2%; font-weight: bold;"> আমরা সকল মোবাইল ব্যাংকিংসহ ন্যাশনাল এবং ইন্টারন্যাশনাল কার্ড পেমেন্ট গ্রহন করি</span>--%>
+    <button id="btnPayOnline" type="button" class="btn btn-danger" style="height: 42px; font-size: 14px; border-radius: 5px; font-weight: bold; padding: 0 25px;"
+        OnClick="ViewDueClick()">
+        Pay Online</button>
+    </h3>
+</div>
     <div class="row">
         <div class="col-lg-3">
             <div class="card mb-3">
@@ -173,7 +179,10 @@ GROUP BY Exam_Result_of_Subject.SubjectID, Subject.SubjectName, Subject.SN ORDER
                                     <h4><i class="fa fa-pie-chart mr-1" aria-hidden="true"></i>Current Due</h4>
                                     <div id="CurrentDue_p"></div>
                                 </div>
-                                <div class="stats-right">
+                                <div class="stats-right" style="padding-bottom: 0px; padding-top: 7%;">
+                                    <button type="button" id="btnPayNow" class="btn btn-danger" 
+                                                style="height: 30px; font-size: 12px; font-weight: bold; padding: 0px 10px;"
+                                                OnClick="ViewDueClick()"> Pay Now</button>
                                     <input id="C_D" type="hidden" value='<%# Eval("CurrentDue") %>' />
                                     <label><%# Eval("CurrentDue","{0:N0}") %>৳</label>
                                 </div>
@@ -199,7 +208,7 @@ GROUP BY Exam_Result_of_Subject.SubjectID, Subject.SubjectName, Subject.SN ORDER
                             <div class="mb-3 states-last">
                                 <div class="z-depth-2">
                                     <div class="stats-left">
-                                        <h4><i class="fa fa-hourglass-half mr-1" aria-hidden="true"></i>Due</h4>
+                                        <h4 OnClick="ViewDueClick()" style="cursor:pointer"><i class="fa fa-hourglass-half mr-1" aria-hidden="true"></i>View Due</h4>
                                         <div id="Due_p"></div>
                                     </div>
                                     <div class="stats-right">
@@ -390,7 +399,7 @@ Education_Year ON T_AP.EducationYearID = Education_Year.EducationYearID ORDER BY
             $('[id*=EduYearDropDownList] option[value="' + sy + '"]').attr('selected', true);
 
             ClassChart();
-
+            //showHideOnlinePayButton();
             //doughnut-- Attendance
             $.ajax({
                 type: "POST",
@@ -731,5 +740,36 @@ Education_Year ON T_AP.EducationYearID = Education_Year.EducationYearID ORDER BY
                 });
             }
         });
+
+        function ViewDueClick() {
+            window.location.href = "/Student/Accounts.aspx";
+        }
+
+        function showHideOnlinePayButton() {
+            $('#btnPayOnline').hide();
+            $('#btnPayNow').hide();
+            $('#spanBankingMsg').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "Student_Profile.aspx/IsOnlinePaymentApplicable",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d) { //enable
+                        $('#btnPayOnline').show();
+                        $('#btnPayNow').show();
+                        $('#spanBankingMsg').show();
+                    } 
+                },
+                failure: function (r) {
+                    //alert(r.d);
+                },
+                error: function (r) {
+                    //alert(r.d);
+                }
+            });
+        }
+
     </script>
 </asp:Content>

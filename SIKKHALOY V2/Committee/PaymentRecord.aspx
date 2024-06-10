@@ -18,6 +18,18 @@
             </asp:SqlDataSource>
         </div>
         <div class="form-group ml-3">
+            <label>Donation Type</label>
+            <asp:DropDownList ID="DonationCategoryDropDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="True" CssClass="form-control" DataSourceID="SqlCommitteeDonationCategory" DataTextField="DonationCategory" DataValueField="CommitteeDonationCategoryId">
+                <asp:ListItem Value="%">[ ALL Type ]</asp:ListItem>
+            </asp:DropDownList>
+            <asp:SqlDataSource ID="SqlCommitteeDonationCategory" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT CommitteeDonationCategoryId, DonationCategory FROM CommitteeDonationCategory WHERE (SchoolID = @SchoolID)">
+                <SelectParameters>
+                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+        </div>
+
+        <div class="form-group ml-3">
             <label>Committee Member</label>
             <asp:DropDownList ID="CommitteeMemberDropDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="true" CssClass="form-control" DataSourceID="CommitteeMemberSQL" DataTextField="MemberName" DataValueField="CommitteeMemberId">
                 <asp:ListItem Value="%">[ All ]</asp:ListItem>
@@ -40,6 +52,9 @@
         <div class="form-group ml-3" style="padding-top: 1.8rem">
             <asp:Button ID="FindButton" runat="server" CssClass="btn btn-outline-primary btn-md" Text="Find" />
         </div>
+        <div class="form-group ml-3" style="padding-top: 1.8rem">
+            <input id="PrintButton" type="button" value="Print" onclick="window.print();" class="btn btn-info" />
+        </div>
     </div>
 
     <asp:FormView ID="TotalFormView" runat="server" DataSourceID="TotalSQL" RenderOuterTable="false">
@@ -50,13 +65,27 @@
         </ItemTemplate>
     </asp:FormView>
     <asp:SqlDataSource ID="TotalSQL" runat="server" CancelSelectOnNullParameter="False" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT SUM(ISNULL(TotalAmount, 0)) AS TOTAL FROM CommitteeMoneyReceipt WHERE (SchoolId = @SchoolId) AND (EducationYearId LIKE @EducationYearId) AND (CAST(PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) AND  (CommitteeMemberId LIKE @CommitteeMemberId)">
+        SelectCommand="SELECT COALESCE(SUM(CommitteeMoneyReceipt.TotalAmount),0) AS TOTAL 
+        FROM CommitteeMoneyReceipt
+        INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId 
+        INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId 
+        INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID 
+        INNER JOIN CommitteePaymentRecord ON CommitteePaymentRecord.CommitteeMoneyReceiptId = CommitteeMoneyReceipt.CommitteeMoneyReceiptId
+        INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId 
+        INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId
+        WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) 
+        AND (CommitteeMoneyReceipt.EducationYearId LIKE @EducationYearId) 
+        AND (CAST(CommitteeMoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') 
+        AND ISNULL(@To_Date, '1-1-3000')) 
+        AND (CommitteeMoneyReceipt.CommitteeMemberId LIKE @CommitteeMemberId)
+        AND (CommitteeDonationCategory.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" />
             <asp:ControlParameter ControlID="SessionDownList" Name="EducationYearId" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="FormDateTextBox" Name="From_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="CommitteeMemberDropDownList" Name="CommitteeMemberId" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="DonationCategoryDropDownList" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
 
@@ -81,7 +110,9 @@
                         </asp:Repeater>
                         <asp:HiddenField ID="MRidHiddenField" runat="server" Value='<%# Bind("CommitteeMoneyReceiptId")%>' />
                         <asp:SqlDataSource ID="PRSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                            SelectCommand="SELECT CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description, CommitteePaymentRecord.CommitteeMoneyReceiptId FROM  CommitteePaymentRecord INNER JOIN                            CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN                            CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteePaymentRecord.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
+                            SelectCommand="SELECT CommitteePaymentRecord.PaidAmount, CommitteeDonationCategory.DonationCategory, CommitteeDonation.Description, CommitteePaymentRecord.CommitteeMoneyReceiptId FROM  CommitteePaymentRecord INNER JOIN
+                            CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId INNER JOIN
+                            CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId WHERE (CommitteePaymentRecord.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
                             <SelectParameters>
                                 <asp:ControlParameter ControlID="MRidHiddenField" Name="CommitteeMoneyReceiptId" PropertyName="Value" />
                             </SelectParameters>
@@ -95,7 +126,23 @@
     </div>
 
     <asp:SqlDataSource ID="PaymentRecordSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMemberType.CommitteeMemberType, CommitteeMember.MemberName, CommitteeMember.SmsNumber, Account.AccountName FROM CommitteeMoneyReceipt INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.EducationYearId LIKE @EducationYearId) AND (CAST(CommitteeMoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000')) AND (CommitteeMoneyReceipt.CommitteeMemberId LIKE @CommitteeMemberId)"
+        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, 
+        CommitteeMoneyReceipt.CommitteeMemberId,  CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, 
+        CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMemberType.CommitteeMemberType, 
+        CommitteeMember.MemberName, CommitteeMember.SmsNumber, Account.AccountName 
+        FROM CommitteeMoneyReceipt 
+        INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId 
+        INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId 
+        INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID 
+        INNER JOIN CommitteePaymentRecord ON CommitteePaymentRecord.CommitteeMoneyReceiptId = CommitteeMoneyReceipt.CommitteeMoneyReceiptId
+        INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId 
+        INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId
+        WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) 
+        AND (CommitteeMoneyReceipt.EducationYearId LIKE @EducationYearId) 
+        AND (CAST(CommitteeMoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') 
+        AND ISNULL(@To_Date, '1-1-3000')) 
+        AND (CommitteeMoneyReceipt.CommitteeMemberId LIKE @CommitteeMemberId)
+        AND (CommitteeDonationCategory.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)"
         CancelSelectOnNullParameter="False">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" />
@@ -103,6 +150,7 @@
             <asp:ControlParameter ControlID="FormDateTextBox" Name="From_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="CommitteeMemberDropDownList" Name="CommitteeMemberId" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="DonationCategoryDropDownList" Name="CommitteeDonationCategoryId" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
 

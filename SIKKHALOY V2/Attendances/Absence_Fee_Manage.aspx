@@ -89,7 +89,7 @@ DELETE FROM Attendance_Schedule WHERE (ScheduleID = @ScheduleID) AND (SchoolID =
                             <EditItemTemplate>
                                 <asp:TextBox ID="ScheduleNameTextBox" runat="server" CssClass="form-control" Text='<%# Bind("ScheduleName") %>'></asp:TextBox><br />
                                 <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
-                                &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                                &nbsp;<asp:LinkButton ID="ScheduleCancelLinkButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:LinkButton ID="ScdlLinkButton" ToolTip="Click here to edit time" runat="server" CausesValidation="False" CommandName="Select" Text='<%# Bind("ScheduleName") %>' Font-Size="13" ForeColor="#003399" Font-Bold="True" />
@@ -136,7 +136,7 @@ DELETE FROM Attendance_Schedule WHERE (ScheduleID = @ScheduleID) AND (SchoolID =
                         </asp:TemplateField>
                         <asp:TemplateField ShowHeader="False">
                             <ItemTemplate>
-                                <asp:LinkButton ID="LinkButton2" OnClientClick="return confirm('If you delete schedule, assign will be deleted.')" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"></asp:LinkButton>
+                                <asp:LinkButton ID="ScheduleDeleteLinkButton" OnClientClick="return confirm('If you delete schedule, assign will be deleted.')" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"></asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

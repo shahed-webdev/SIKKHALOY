@@ -1,10 +1,12 @@
-﻿using System;
+﻿using EDUCATION.COM.PaymentDataSetTableAdapters;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.Services;
+using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Student
 {
@@ -133,6 +135,38 @@ namespace EDUCATION.COM.Student
                     return chartData;
                 }
             }
+        }
+
+        [WebMethod]
+        public static bool IsOnlinePaymentApplicable()
+        {
+            bool isOnlinePaymentApplicable = false;
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["EducationConnectionString"].ConnectionString;
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = "SELECT OnlinePaymentEnable FROM SchoolInfo WHERE SchoolID = @SchoolID";
+                    cmd.Parameters.AddWithValue("@SchoolID", HttpContext.Current.Session["SchoolID"].ToString());
+                    cmd.Connection = conn;
+                    conn.Open();
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            int onlinePaymentEnable = Int32.Parse(sdr["OnlinePaymentEnable"].ToString());
+                            isOnlinePaymentApplicable = onlinePaymentEnable == 1;
+                        }
+                    }
+                    conn.Close();
+
+                }
+            }
+
+            return isOnlinePaymentApplicable;
+
         }
     }
 }

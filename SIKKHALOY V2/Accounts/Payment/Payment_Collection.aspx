@@ -36,6 +36,8 @@
                                     <li>
                                         <strong>(<span id="IDLabel"><%# Eval("ID") %></span>) <%# Eval("StudentsName") %></strong>
                                     </li>
+                                    <li><b>Fathers Name: </b><%# Eval("FathersName") %>
+                                    </li>
                                     <li>
                                         <b>Class:</b>
                                         <%# Eval("Class") %>

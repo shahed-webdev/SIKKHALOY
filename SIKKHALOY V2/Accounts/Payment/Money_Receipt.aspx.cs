@@ -70,13 +70,12 @@ namespace EDUCATION.COM.Accounts.Payment
                 var receiptNo = (ReceiptFormView.Row.FindControl("MoneyReceiptIDLabel") as Label)?.Text;
 
                 msg += $"(ID: {studentId}) {studentName}. You've Paid: {paid} Tk. Receipt No: {receiptNo}";
-
                 if (RoleCheckBox.Checked)
                 {
                     foreach (GridViewRow row in PaidDetailsGridView.Rows)
                     {
-                        var role = PaidDetailsGridView.DataKeys[row.RowIndex]?["Role"];
-                        var payFor = PaidDetailsGridView.DataKeys[row.RowIndex]?["PayFor"];
+                        var role = PaidDetailsGridView.DataKeys[row.DataItemIndex]?["Role"];
+                        var payFor = PaidDetailsGridView.DataKeys[row.DataItemIndex]?["PayFor"];
 
                         msg += $", {role}: {payFor}";
                     }
