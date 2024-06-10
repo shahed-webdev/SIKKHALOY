@@ -126,23 +126,19 @@
     </div>
 
     <asp:SqlDataSource ID="PaymentRecordSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, 
-        CommitteeMoneyReceipt.CommitteeMemberId,  CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, 
-        CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMemberType.CommitteeMemberType, 
-        CommitteeMember.MemberName, CommitteeMember.SmsNumber, Account.AccountName 
-        FROM CommitteeMoneyReceipt 
-        INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId 
-        INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId 
-        INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID 
-        INNER JOIN CommitteePaymentRecord ON CommitteePaymentRecord.CommitteeMoneyReceiptId = CommitteeMoneyReceipt.CommitteeMoneyReceiptId
-        INNER JOIN CommitteeDonation ON CommitteePaymentRecord.CommitteeDonationId = CommitteeDonation.CommitteeDonationId 
-        INNER JOIN CommitteeDonationCategory ON CommitteeDonation.CommitteeDonationCategoryId = CommitteeDonationCategory.CommitteeDonationCategoryId
-        WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) 
-        AND (CommitteeMoneyReceipt.EducationYearId LIKE @EducationYearId) 
-        AND (CAST(CommitteeMoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') 
-        AND ISNULL(@To_Date, '1-1-3000')) 
-        AND (CommitteeMoneyReceipt.CommitteeMemberId LIKE @CommitteeMemberId)
-        AND (CommitteeDonationCategory.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId)"
+        SelectCommand="SELECT        CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, 
+                         CommitteeMoneyReceipt.PaidDate, CommitteeMemberType.CommitteeMemberType, CommitteeMember.MemberName, CommitteeMember.SmsNumber, Account.AccountName
+FROM            CommitteeMoneyReceipt INNER JOIN
+                         CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN
+                         CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN
+                         Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID
+WHERE        (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.EducationYearId LIKE @EducationYearId) AND (CAST(CommitteeMoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') 
+                         AND ISNULL(@To_Date, '1-1-3000')) AND (CommitteeMoneyReceipt.CommitteeMemberId LIKE @CommitteeMemberId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId IN
+                             (SELECT        CommitteePaymentRecord.CommitteeMoneyReceiptId
+                               FROM            CommitteeDonationCategory INNER JOIN
+                                                         CommitteeDonation ON CommitteeDonationCategory.CommitteeDonationCategoryId = CommitteeDonation.CommitteeDonationCategoryId INNER JOIN
+                                                         CommitteePaymentRecord ON CommitteeDonation.CommitteeDonationId = CommitteePaymentRecord.CommitteeDonationId
+                               WHERE        (CommitteeDonationCategory.CommitteeDonationCategoryId LIKE @CommitteeDonationCategoryId) AND (CommitteeDonationCategory.SchoolID = @SchoolId)))"
         CancelSelectOnNullParameter="False">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" />
