@@ -5,8 +5,10 @@
         .info { text-align: center; color: #000; font-weight: 400; margin-bottom: 6px; }
         .mGrid td { padding: 3px; border: 1px solid #a0a0a0; }
         .grid-footer td { font-weight: bold; }
-       
+        .received-by-user-container { text-align: center; color: #333; font-size: 11px; margin-top: 5px; }
+
         @page { margin: 0 13.3rem !important; }
+
         @media print {
             .logo-waper { display: none; }
             #header { margin-bottom: 10px; border-bottom: none !important; }
@@ -23,7 +25,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h6 class="font-weight-bold text-center">Payment Receipt</h6>
-    
+
     <asp:GridView ID="OthersPaymentGridView" runat="server" AutoGenerateColumns="False" DataSourceID="OthersPaymentSQL" CssClass="mGrid" Font-Bold="False" RowStyle-CssClass="Rows">
         <Columns>
             <asp:BoundField DataField="Extra_IncomeID" HeaderText="Receipt No." SortExpression="Extra_IncomeID" />
@@ -35,26 +37,48 @@
                 <ItemTemplate>
                     <label class="amount">
                         <%# Eval("Extra_IncomeAmount") %> TK
-                    </label> 
+                    </label>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
         <RowStyle CssClass="Rows" />
     </asp:GridView>
     <asp:SqlDataSource ID="OthersPaymentSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT Extra_Income.Extra_IncomeID, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeDate, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeAmount FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.Extra_IncomeID = @Extra_IncomeID) AND (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.EducationYearID = @EducationYearID)">
+        SelectCommand="SELECT Extra_Income.Extra_IncomeID, Extra_IncomeCategory.Extra_Income_CategoryName, 
+        Extra_Income.Extra_IncomeDate, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeAmount 
+        FROM Extra_Income INNER JOIN Extra_IncomeCategory 
+        ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID 
+        WHERE (Extra_Income.Extra_IncomeID = @Extra_IncomeID) AND (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.EducationYearID = @EducationYearID)">
         <SelectParameters>
             <asp:QueryStringParameter Name="Extra_IncomeID" QueryStringField="id" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
             <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
-   
+
     <div class="text-right mt-2 dynamic-font-size">
-         <label style="white-space:nowrap"><strong id="total"></strong> TK</label>
+        <label style="white-space: nowrap"><strong id="total"></strong>TK</label>
         <p class="m-0" id="amount-in-word"></p>
     </div>
 
+
+    <asp:FormView ID="ReceivedByFormView" runat="server" DataSourceID="ReceivedBySQL" RenderOuterTable="false">
+        <ItemTemplate>
+            <div class="received-by-user-container">
+                (© Sikkhaloy.com) Received By: <%# Eval("Name") %>
+            </div>
+        </ItemTemplate>
+    </asp:FormView>
+    <asp:SqlDataSource ID="ReceivedBySQL" runat="server"
+        ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+        SelectCommand="SELECT Admin.FirstName + ' ' + Admin.LastName AS Name FROM Admin INNER JOIN 
+        Extra_Income ON Admin.RegistrationID = Extra_Income.RegistrationID
+        WHERE (Extra_Income.Extra_IncomeID = @Extra_IncomeID) AND (Extra_Income.SchoolID = @SchoolID)">
+        <SelectParameters>
+            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+            <asp:QueryStringParameter Name="Extra_IncomeID" QueryStringField="id" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
     <div class="d-print-none my-4 card">
         <div class="card-header">

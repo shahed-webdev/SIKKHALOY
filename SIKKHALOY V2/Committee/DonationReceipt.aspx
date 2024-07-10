@@ -39,8 +39,18 @@
             </div>
         </ItemTemplate>
     </asp:FormView>
-    <asp:SqlDataSource ID="InfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.AccountId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMember.Address, CommitteeMemberType.CommitteeMemberType, Account.AccountName, Education_Year.EducationYear, Registration.UserName FROM CommitteeMoneyReceipt INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID INNER JOIN Education_Year ON CommitteeMoneyReceipt.EducationYearId = Education_Year.EducationYearID INNER JOIN Registration ON CommitteeMoneyReceipt.RegistrationId = Registration.RegistrationID WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
+    <asp:SqlDataSource ID="InfoSQL" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.AccountId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, 
+                         CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMember.Address, CommitteeMemberType.CommitteeMemberType, 
+                         Account.AccountName, Education_Year.EducationYear, Admin.FirstName, Admin.LastName
+        FROM CommitteeMoneyReceipt INNER JOIN
+                         CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN
+                         CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN
+                         Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID INNER JOIN
+                         Education_Year ON CommitteeMoneyReceipt.EducationYearId = Education_Year.EducationYearID INNER JOIN
+                         Admin ON CommitteeMoneyReceipt.RegistrationId = Admin.RegistrationID
+        WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
             <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />
@@ -73,7 +83,7 @@
     <asp:FormView runat="server" DataSourceID="InfoSQL" RenderOuterTable="False">
         <ItemTemplate>
             <div class="received-by-user-container">
-                (© Sikkhaloy.com) Received By: <%# Eval("UserName") %>
+                (© Sikkhaloy.com) Received By: <%# Eval("FirstName") %> <%# Eval("LastName") %>
             </div>
         </ItemTemplate>
     </asp:FormView>

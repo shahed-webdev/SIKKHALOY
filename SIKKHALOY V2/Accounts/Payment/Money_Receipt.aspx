@@ -153,7 +153,9 @@
             </div>
         </ItemTemplate>
     </asp:FormView>
-    <asp:SqlDataSource ID="ReceivedBySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Admin.FirstName + ' ' + Admin.LastName AS Name FROM Admin INNER JOIN Income_MoneyReceipt ON Admin.RegistrationID = Income_MoneyReceipt.RegistrationID WHERE (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID) AND (Income_MoneyReceipt.SchoolID = @SchoolID)">
+    <asp:SqlDataSource ID="ReceivedBySQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" 
+        SelectCommand="SELECT Admin.FirstName + ' ' + Admin.LastName AS Name FROM Admin INNER JOIN Income_MoneyReceipt ON Admin.RegistrationID = Income_MoneyReceipt.RegistrationID 
+        WHERE (Income_MoneyReceipt.MoneyReceiptID = @MoneyReceiptID) AND (Income_MoneyReceipt.SchoolID = @SchoolID)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:Parameter Name="MoneyReceiptID" />
