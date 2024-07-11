@@ -80,6 +80,8 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
+    <p>আল্লাহ আপনার দান কবুল করুন, দুনিয়া ও আখেরাতে উত্তম বিনিময় দান করুন। </p>
+
     <asp:FormView runat="server" DataSourceID="InfoSQL" RenderOuterTable="False">
         <ItemTemplate>
             <div class="received-by-user-container">
