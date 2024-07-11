@@ -50,7 +50,6 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
-
     <div class="d-print-none mt-4">
         <input type="button" value="Print" onclick="window.print();" class="btn btn-outline-primary" />
     </div>

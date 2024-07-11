@@ -41,6 +41,7 @@
         <FooterStyle CssClass="grid-footer" />
         <RowStyle CssClass="Rows" />
     </asp:GridView>
+
     <asp:SqlDataSource ID="OthersPaymentSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
         SelectCommand="SELECT Extra_Income.Extra_IncomeID, Extra_IncomeCategory.Extra_Income_CategoryName, Extra_Income.Extra_IncomeDate, Extra_Income.Extra_IncomeFor, Extra_Income.Extra_IncomeAmount FROM Extra_Income INNER JOIN Extra_IncomeCategory ON Extra_Income.Extra_IncomeCategoryID = Extra_IncomeCategory.Extra_IncomeCategoryID WHERE (Extra_Income.Extra_IncomeID = @Extra_IncomeID) AND (Extra_Income.SchoolID = @SchoolID) AND (Extra_Income.EducationYearID = @EducationYearID)">
         <SelectParameters>
@@ -54,8 +55,59 @@
     <div class="d-print-none mt-4">
         <input type="button" value="Print" onclick="window.print();" class="btn btn-outline-primary" />
     </div>
+        <asp:FormView runat="server" DataSourceID="InfoSQL" RenderOuterTable="False">
+        <ItemTemplate>
+            <div class="received-by-user-container">
+                (© Sikkhaloy.com) Received By: <%# Eval("UserName") %>
+
+<<<<<<< Updated upstream
+
+=======
+            </div>
+        </ItemTemplate>
+    </asp:FormView>
+        <asp:SqlDataSource ID="InfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+        SelectCommand="SELECT CommitteeMoneyReceipt.CommitteeMoneyReceiptId, CommitteeMoneyReceipt.CommitteeMemberId, CommitteeMoneyReceipt.AccountId, CommitteeMoneyReceipt.CommitteeMoneyReceiptSn, CommitteeMoneyReceipt.TotalAmount, CommitteeMoneyReceipt.PaidDate, CommitteeMember.MemberName, CommitteeMember.SmsNumber, CommitteeMember.Address, CommitteeMemberType.CommitteeMemberType, Account.AccountName, Education_Year.EducationYear, Registration.UserName FROM CommitteeMoneyReceipt INNER JOIN CommitteeMember ON CommitteeMoneyReceipt.CommitteeMemberId = CommitteeMember.CommitteeMemberId INNER JOIN CommitteeMemberType ON CommitteeMember.CommitteeMemberTypeId = CommitteeMemberType.CommitteeMemberTypeId INNER JOIN Account ON CommitteeMoneyReceipt.AccountId = Account.AccountID INNER JOIN Education_Year ON CommitteeMoneyReceipt.EducationYearId = Education_Year.EducationYearID INNER JOIN Registration ON CommitteeMoneyReceipt.RegistrationId = Registration.RegistrationID WHERE (CommitteeMoneyReceipt.SchoolId = @SchoolId) AND (CommitteeMoneyReceipt.CommitteeMoneyReceiptId = @CommitteeMoneyReceiptId)">
+        <SelectParameters>
+            <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" Type="Int32" />
+            <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+    <div class="d-print-none my-4 card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">
+                <i class="fa fa-print"></i>
+                Print Options
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div>
+                    <input id="checkboxInstitution" type="checkbox" />
+                    <label for="checkboxInstitution">Hide Institution Name</label>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mt-3">
+                <div>
+                    <label for="inputTopSpace">Page Space From Top (px)</label>
+                    <input id="inputTopSpace" min="0" type="number" class="form-control" />
+                </div>
+                <div class="ml-3">
+                    <label for="inputFontSize">Font Size (px)</label>
+                    <input id="inputFontSize" min="10" max="20" type="number" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <input id="PrintButton" type="button" value="Print" onclick="window.print();" class="btn btn-info" />
+        </div>
+    </div>
 
 
+    <!--Amount in word js-->
+    <script src="../../JS/amount-in-word.js"></script>
+>>>>>>> Stashed changes
     <script>
         $(function () {
             bindPrintOption();
