@@ -3,7 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Employee Monthly Payorder</h3>
+
+    <div class="row">
+        <div class="col-sm-12"><h3>Employee Monthly Payorder  <a style="float:right" href="../SetEmployee_With_PayorderName.aspx">Set Employee With Payorder Name</a></h3></div>
+        
+    </div>
+
+    
+    
+   
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -32,9 +40,19 @@ select  FORMAT(Date,'MMM yyyy') as Month_Name, date from months">
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
+
                 <div class="col-sm-4 form-group">
+                    <%if (EmployeeListGridView.Rows.Count > 0)
+                        {%>
+                    
+                    <asp:Button ID="UploadButton" runat="server" CssClass="btn btn-primary d-print-none mt-4" Text="Update" OnClick="SalaryUpdateButton_Click" />
+
+                    <%}%>
+
+
                     <asp:Button ID="SubmitButton" runat="server" CssClass="btn btn-deep-orange mt-4" Text="Generate Salary" OnClick="SubmitButton_Click" ValidationGroup="1" />
                 </div>
+
             </div>
 
             <asp:SqlDataSource ID="PayorderSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="Emp_Salary_Monthly" SelectCommand="SELECT * FROM [Employee_Payorder]" InsertCommandType="StoredProcedure">
@@ -49,6 +67,87 @@ select  FORMAT(Date,'MMM yyyy') as Month_Name, date from months">
                     <asp:Parameter Direction="Output" Name="GeT_Employee_PayorderID" Type="Int32" />
                 </InsertParameters>
             </asp:SqlDataSource>
+            <div class="alert alert-info">                
+                <label id="CountStudent"></label>
+            </div>
+            <div class="table-responsive">
+                <asp:GridView ID="EmployeeListGridView" runat="server" AutoGenerateColumns="False" CssClass="mGrid" DataKeyNames="EmployeeID,EmployeeType" DataSourceID="EmployeeListSQL" AllowSorting="True">
+                    <Columns>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <asp:CheckBox ID="AllIteamCheckBox" runat="server" Text="All" />
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="SingleCheckBox" runat="server" Text=" " />
+                            </ItemTemplate>
+                            <ItemStyle Width="50px" />
+                        </asp:TemplateField>
+                        
+                        <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" />
+                        <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                        <asp:BoundField DataField="Phone" HeaderText="Mobile No." SortExpression="Phone" />
+                        <asp:BoundField DataField="Designation" HeaderText="Designation" SortExpression="Designation" />
+                        <asp:BoundField DataField="EmployeeType" HeaderText="Type" SortExpression="Type" />                       
+                        <asp:TemplateField HeaderText="Salary" SortExpression="Salary">
+                            <ItemTemplate>
+                                <asp:TextBox ID="SalaryTextBox" CssClass="form-control" runat="server" Text='<%# Bind("Salary") %>'></asp:TextBox>
+                            </ItemTemplate>
+                            <HeaderStyle CssClass="d-print-none" />
+                            <ItemStyle CssClass="d-print-none" />
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="Bank_AccNo" HeaderText="Bank Acc.No" SortExpression="Bank_AccNo" />                       
+                        <asp:TemplateField HeaderText="Image">
+                            <ItemTemplate>
+                                <img alt="" src="/Handeler/Employee_Image.ashx?Img=<%#Eval("EmployeeID") %>" class="z-depth-1 img-fluid" style="width: 50px" />
+                            </ItemTemplate>
+                            <ItemStyle VerticalAlign="Middle" CssClass="Itm_Img" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+                <asp:SqlDataSource ID="EmployeeListSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+                    SelectCommand="SELECT EmployeeID, ID,Bank_AccNo, EmployeeType, Permanent_Temporary, Salary,  FirstName +' '+ LastName as Name, Designation, Phone, DeviceID FROM VW_Emp_Info WHERE (SchoolID = @SchoolID) AND (Job_Status = N'Active') AND (Employee_Payorder_NameID=@Employee_Payorder_NameID) order by ID"
+                    UpdateCommand="IF NOT EXISTS (SELECT * FROM Employee_Info WHERE ID = @ID AND SchoolID = @SchoolID) 
+                                    UPDATE Employee_Info SET ID = @ID WHERE (EmployeeID = @EmployeeID)"
+                    InsertCommand="UPDATE Employee_Info SET EmployeeType = @EmployeeType WHERE (EmployeeID = @EmployeeID)">                    
+                    <InsertParameters>
+                        <asp:Parameter Name="EmployeeType" />
+                        <asp:Parameter Name="EmployeeID" />
+                    </InsertParameters>
+                    <SelectParameters>
+                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />                       
+                        <asp:ControlParameter ControlID="PayorderNameDropDownList" Name="Employee_Payorder_NameID" PropertyName="SelectedValue" />
+                    </SelectParameters>
+                    <UpdateParameters>
+                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+                        <asp:Parameter Name="ID" />
+                        <asp:Parameter Name="EmployeeID" />
+                    </UpdateParameters>
+                </asp:SqlDataSource>
+                <asp:SqlDataSource ID="SalaryUpdateSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * FROM [Employee_Info]" UpdateCommand="UPDATE Employee_Info SET Salary = @Salary WHERE (EmployeeID = @EmployeeID)">
+                    <UpdateParameters>
+                        <asp:Parameter Name="Salary" />
+                        <asp:Parameter Name="EmployeeID" />
+                    </UpdateParameters>
+                </asp:SqlDataSource>
+                <asp:SqlDataSource ID="Bank_AccNoUpdateSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * FROM [Employee_Info]" UpdateCommand="UPDATE Employee_Info SET Bank_AccNo = @Bank_AccNo WHERE (EmployeeID = @EmployeeID)">
+                    <UpdateParameters>
+                        <asp:Parameter Name="Bank_AccNo" />
+                        <asp:Parameter Name="EmployeeID" />
+                    </UpdateParameters>
+                </asp:SqlDataSource>
+                <asp:SqlDataSource ID="Device_DataUpdateSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="IF NOT EXISTS(SELECT DateUpdateID FROM  Attendance_Device_DataUpdateList WHERE (SchoolID = @SchoolID) AND (UpdateType = @UpdateType))
+BEGIN
+INSERT INTO Attendance_Device_DataUpdateList(SchoolID, RegistrationID, UpdateType, UpdateDescription) VALUES (@SchoolID, @RegistrationID, @UpdateType, @UpdateDescription)
+END"
+                    SelectCommand="SELECT * FROM [Attendance_Device_DataUpdateList]">
+                    <InsertParameters>
+                        <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
+                        <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
+                        <asp:Parameter DefaultValue="Employee ID Change" Name="UpdateType" Type="String" />
+                        <asp:Parameter DefaultValue="Employee ID chnage" Name="UpdateDescription" Type="String" />
+                    </InsertParameters>
+                </asp:SqlDataSource>
+            </div>
 
             <div class="table-responsive">
                 <asp:GridView ID="PayOrderGridView" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="Employee_PayorderID,EmployeeID" DataSourceID="EmplyoeePayOrderSQL">
@@ -305,7 +404,25 @@ UPDATE Employee_Payorder_Name SET Payorder_Name = @Payorder_Name WHERE (Employee
         </ProgressTemplate>
     </asp:UpdateProgress>
 
-    <script>
+
+
+    <script type="text/javascript">
         function isNumberKey(a) { a = a.which ? a.which : event.keyCode; return 46 != a && 31 < a && (48 > a || 57 < a) ? !1 : !0 };
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function (a, b) {
+            if ($("[id*=EmployeeListGridView] tr").length) {
+                $("#CountStudent").text("TOTAL: " + $("[id*=EmployeeListGridView] td").closest("tr").length + " EMPLOYEE.");
+            }
+            $("[id*=AllIteamCheckBox]").on("click", function () {
+                var a = $(this), b = $(this).closest("table");
+                $("input[type=checkbox]", b).each(function () {
+                    a.is(":checked") ? ($(this).attr("checked", "checked"), $("td", $(this).closest("tr")).addClass("selected")) : ($(this).removeAttr("checked"), $("td", $(this).closest("tr")).removeClass("selected"));
+                });
+            });
+
+            $("[id*=SingleCheckBox]").on("click", function () {
+                var a = $(this).closest("table"), b = $("[id*=AllIteamCheckBox]", a);
+                $(this).is(":checked") ? ($("td", $(this).closest("tr")).addClass("selected"), $("[id*=SingleCheckBox]", a).length == $("[id*=SingleCheckBox]:checked", a).length && b.attr("checked", "checked")) : ($("td", $(this).closest("tr")).removeClass("selected"), b.removeAttr("checked"));
+            });
+        });
     </script>
 </asp:Content>

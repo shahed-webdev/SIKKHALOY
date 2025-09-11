@@ -13,10 +13,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="md-form mt-0">
-                        <a class="blue-text" data-toggle="modal" data-target="#RoutineModal"><i class="fa fa-plus-circle mr-1"></i>Add/Delete Routine</a>
+                        <a class="blue-text" data-toggle="modal" data-target="#RoutineModal"><i class="fa fa-plus-circle mr-1"></i>Create/Delete Routine Name</a>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="RoutineNameDropDownList" CssClass="EroorStar" InitialValue="0" ValidationGroup="1">*</asp:RequiredFieldValidator>
                         <asp:DropDownList ID="RoutineNameDropDownList" CssClass="form-control" runat="server" AppendDataBoundItems="True" DataSourceID="SelectRoutineInfoSQL" DataTextField="RoutineSpecification" DataValueField="RoutineInfoID">
-                            <asp:ListItem Value="0">[ SELECT ]</asp:ListItem>
+                            <asp:ListItem Value="0">[ SELECT ROUTINE NAME ]</asp:ListItem>
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="SelectRoutineInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT RoutineInfoID, RoutineSpecification FROM RoutineInfo WHERE(SchoolID = @SchoolID) AND (RoutineInfoID NOT IN (SELECT RoutineInfoID FROM RoutineDay WHERE (SchoolID = @SchoolID)))">
                             <SelectParameters>

@@ -84,6 +84,7 @@
                         <asp:TemplateField HeaderText="Student's Name" SortExpression="StudentsName">
                             <ItemTemplate>
                                 <asp:Label ID="StudentsNameLabel" runat="server" Text='<%# Bind("StudentsName") %>'></asp:Label>
+                                 <asp:HiddenField ID="StudentIDHidden" runat="server" Value='<%# Bind("ID") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="RollNo" HeaderText="Roll No" SortExpression="RollNo" />
@@ -212,7 +213,10 @@ END"
             $("[id*=AttendenceRadioButtonList]").click(function () {
                 var td = $("td", $(this).parent().closest("table").closest("tr"));
                 var Name = $("[id*=StudentsNameLabel]", td).text();
+                var ID = $("[id*=StudentIDHidden]", td).val();
                 var Date = $("[id*=AttendanceDateTextBox]").val();
+                
+                var Name_ID = "" + Name + " ID:" + ID + "";
 
                 if ($(this).val() == "Pre") {
                     $("[id*=ReasonTextBox]", td).val("").attr("disabled", true).removeClass("Etextbox").addClass("Dtextbox");
@@ -225,17 +229,17 @@ END"
                 }
 
                 if ($(this).val() == "Abs") {
-                    $("[id*=ReasonTextBox]", td).val(eng1 + Name + eng2 + Date + eng_Abs).attr("disabled", false).addClass("Etextbox");
+                    $("[id*=ReasonTextBox]", td).val(eng1 + Name_ID + eng2 + Date + eng_Abs).attr("disabled", false).addClass("Etextbox");
                     $("[id*=SMSCheckBox]", td).attr('checked', true).attr("disabled", false);
                 }
 
                 if ($(this).val() == "Late") {
-                    $("[id*=ReasonTextBox]", td).val(eng1 + Name + eng2 + Date + eng_Late).attr("disabled", false).addClass("Etextbox");
+                    $("[id*=ReasonTextBox]", td).val(eng1 + Name_ID + eng2 + Date + eng_Late).attr("disabled", false).addClass("Etextbox");
                     $("[id*=SMSCheckBox]", td).attr('checked', true).attr("disabled", false);
                 }
 
                 if ($(this).val() == "Bunk") {
-                    $("[id*=ReasonTextBox]", td).val(eng1 + Name + eng2 + Date + eng_Bunk).attr("disabled", false).addClass("Etextbox");
+                    $("[id*=ReasonTextBox]", td).val(eng1 + Name_ID + eng2 + Date + eng_Bunk).attr("disabled", false).addClass("Etextbox");
                     $("[id*=SMSCheckBox]", td).attr('checked', true).attr("disabled", false);
                 }
             });

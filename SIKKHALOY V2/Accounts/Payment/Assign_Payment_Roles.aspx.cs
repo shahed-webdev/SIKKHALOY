@@ -106,6 +106,7 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
 
         protected void addRole()
         {
+       
             SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM Income_Assign_Role WHERE (SchoolID = @SchoolID) AND (ClassID = @ClassID) AND (EducationYearID = @EducationYearID) AND (RoleID = @RoleID)", con);
             cmd3.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
             cmd3.Parameters.AddWithValue("@ClassID", ClassDropDownList.SelectedValue);

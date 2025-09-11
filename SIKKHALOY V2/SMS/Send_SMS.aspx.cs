@@ -1,5 +1,6 @@
 ﻿using Education;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -312,6 +313,9 @@ namespace EDUCATION.COM.SMS
             if (SMSMultiView.ActiveViewIndex == 2)
             {
                 PhoneNo = SingleMobileNoTextBox.Text;
+                string[] nums =(PhoneNo.Split(','));
+
+
 
                 TotalSMS = SMS.SMS_Conut(Msg);
 
@@ -319,28 +323,34 @@ namespace EDUCATION.COM.SMS
                 {
                     if (SMS.SMS_GetBalance() >= TotalSMS)
                     {
-                        Get_Validation isValid = SMS.SMS_Validation(PhoneNo, Msg);
-                        if (isValid.Validation)
+
+                        foreach(var num in nums)
                         {
-                            Guid smsSendId = SMS.SMS_Send(PhoneNo, Msg, "SMS Service");
-                            if (smsSendId != Guid.Empty)
+                            PhoneNo = num;
+                            Get_Validation isValid = SMS.SMS_Validation(PhoneNo, Msg);
+                            if (isValid.Validation)
                             {
-                                SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
-                                SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
-                                SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
-                                SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue = "";
-                                SMS_OtherInfoSQL.InsertParameters["TeacherID"].DefaultValue = "";
+                                Guid smsSendId = SMS.SMS_Send(PhoneNo, Msg, "SMS Service");
+                                if (smsSendId != Guid.Empty)
+                                {
+                                    SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
+                                    SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue = "";
+                                    SMS_OtherInfoSQL.InsertParameters["TeacherID"].DefaultValue = "";
 
-                                SMS_OtherInfoSQL.Insert();
+                                    SMS_OtherInfoSQL.Insert();
 
-                                SMSTextBox.Text = string.Empty;
-                                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('SMS Sent Successfully.')", true);
+                                    SMSTextBox.Text = string.Empty;
+                                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('SMS Sent Successfully.')", true);
+                                }
+                            }
+                            else
+                            {
+                                ErrorLabel.Text = isValid.Message;
                             }
                         }
-                        else
-                        {
-                            ErrorLabel.Text = isValid.Message;
-                        }
+                        
                     }
                     else
                     {

@@ -23,5 +23,6 @@ namespace EDUCATION.COM.Employee.Edit_Employee
             Device_DataUpdateSQL.Insert();
             Response.Redirect("Deactivated_Employee_List.aspx");
         }
+       
     }
 }

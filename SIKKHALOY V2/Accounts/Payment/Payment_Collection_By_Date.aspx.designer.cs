@@ -159,6 +159,15 @@ namespace EDUCATION.COM.Accounts.Payment
         protected global::System.Web.UI.WebControls.SqlDataSource DueSQL;
 
         /// <summary>
+        /// Fee_DiscountSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Fee_DiscountSQL;
+
+        /// <summary>
         /// OtherSessionGridView control.
         /// </summary>
         /// <remarks>
@@ -319,5 +328,14 @@ namespace EDUCATION.COM.Accounts.Payment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button PayButton;
+
+        /// <summary>
+        /// UpdateConcessionButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdateConcessionButton;
     }
 }

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.ADMISSION_REGISTER {
-    
-    
-    public partial class Admission_New_Student {
-        
+namespace EDUCATION.COM.ADMISSION_REGISTER
+{
+
+
+    public partial class Admission_New_Student
+    {
+
         /// <summary>
         /// LastIDLabel control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LastIDLabel;
-        
+
         /// <summary>
         /// RegularExpressionValidator2 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// IDTextBox control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox IDTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// RegularExpressionValidator1 control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
-        
+
         /// <summary>
         /// SMSPhoneNoTextBox control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SMSPhoneNoTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// EducationYearDropDownList control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList EducationYearDropDownList;
-        
+
         /// <summary>
         /// EduYearSQL control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource EduYearSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator6 control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-        
+
         /// <summary>
         /// StudentNameTextBox control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox StudentNameTextBox;
-        
+
         /// <summary>
         /// RegularExpressionValidator5 control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator5;
-        
+
         /// <summary>
         /// StudentEmailTextBox control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox StudentEmailTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator4 control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
-        
+
         /// <summary>
         /// GenderRadioButtonList control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList GenderRadioButtonList;
-        
+
         /// <summary>
         /// RegularExpressionValidator6 control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator6;
-        
+
         /// <summary>
         /// BirthDayTextBox control.
         /// </summary>
@@ -173,7 +175,16 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox BirthDayTextBox;
-        
+
+        /// <summary>
+        /// Legal_IdentityTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Legal_IdentityTextBox;
+
         /// <summary>
         /// BloodGroupDropDownList control.
         /// </summary>
@@ -182,7 +193,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList BloodGroupDropDownList;
-        
+
         /// <summary>
         /// ReligionDropDownList control.
         /// </summary>
@@ -191,7 +202,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ReligionDropDownList;
-        
+
         /// <summary>
         /// StudentPermanentAddressTextBox control.
         /// </summary>
@@ -200,7 +211,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox StudentPermanentAddressTextBox;
-        
+
         /// <summary>
         /// StudentLocalAddressTextBox control.
         /// </summary>
@@ -209,7 +220,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox StudentLocalAddressTextBox;
-        
+
         /// <summary>
         /// Imge_HF control.
         /// </summary>
@@ -218,7 +229,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField Imge_HF;
-        
+
         /// <summary>
         /// RequiredFieldValidator5 control.
         /// </summary>
@@ -227,7 +238,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
-        
+
         /// <summary>
         /// FatherNameTextBox control.
         /// </summary>
@@ -236,7 +247,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FatherNameTextBox;
-        
+
         /// <summary>
         /// FatherPhoneTextBox control.
         /// </summary>
@@ -245,7 +256,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FatherPhoneTextBox;
-        
+
         /// <summary>
         /// FatherOccupationTextBox control.
         /// </summary>
@@ -254,7 +265,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FatherOccupationTextBox;
-        
+
         /// <summary>
         /// MothersNameTextBox control.
         /// </summary>
@@ -263,7 +274,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox MothersNameTextBox;
-        
+
         /// <summary>
         /// MotherPhoneTextBox control.
         /// </summary>
@@ -272,7 +283,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox MotherPhoneTextBox;
-        
+
         /// <summary>
         /// MotherOccupationTextBox control.
         /// </summary>
@@ -281,7 +292,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox MotherOccupationTextBox;
-        
+
         /// <summary>
         /// PreviousSchoolNameTextBox control.
         /// </summary>
@@ -290,7 +301,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PreviousSchoolNameTextBox;
-        
+
         /// <summary>
         /// PreviousClassTextBox control.
         /// </summary>
@@ -299,7 +310,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PreviousClassTextBox;
-        
+
         /// <summary>
         /// PrevExamYearTextBox control.
         /// </summary>
@@ -308,7 +319,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PrevExamYearTextBox;
-        
+
         /// <summary>
         /// PrevGradeTextBox control.
         /// </summary>
@@ -317,7 +328,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PrevGradeTextBox;
-        
+
         /// <summary>
         /// Guardian_Imge_HF control.
         /// </summary>
@@ -326,7 +337,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField Guardian_Imge_HF;
-        
+
         /// <summary>
         /// SecondGuardianNameTextBox control.
         /// </summary>
@@ -335,7 +346,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SecondGuardianNameTextBox;
-        
+
         /// <summary>
         /// RelationshipwithStudentTextBox control.
         /// </summary>
@@ -344,7 +355,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox RelationshipwithStudentTextBox;
-        
+
         /// <summary>
         /// SecondGuardianPhoneTextBox control.
         /// </summary>
@@ -353,7 +364,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SecondGuardianPhoneTextBox;
-        
+
         /// <summary>
         /// OthersDetailsTextBox control.
         /// </summary>
@@ -362,7 +373,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox OthersDetailsTextBox;
-        
+
         /// <summary>
         /// StudentInfoSQL control.
         /// </summary>
@@ -371,7 +382,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource StudentInfoSQL;
-        
+
         /// <summary>
         /// StudentImageSQL control.
         /// </summary>
@@ -380,7 +391,7 @@ namespace EDUCATION.COM.ADMISSION_REGISTER {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource StudentImageSQL;
-        
+
         /// <summary>
         /// StudentsInfoButton control.
         /// </summary>

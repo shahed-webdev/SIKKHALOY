@@ -67,6 +67,12 @@
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ControlToValidate="BirthDayTextBox" CssClass="EroorSummer" ErrorMessage="Invalid" ValidationExpression="^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$" ValidationGroup="1"></asp:RegularExpressionValidator></label>
                     <asp:TextBox ID="BirthDayTextBox" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
+                   <div class="col-lg form-group">
+                    <label>
+                   Legal Identity No. (NID:... Or B.R.N:...)
+               </label>
+                    <asp:TextBox ID="Legal_IdentityTextBox" runat="server" CssClass="form-control"></asp:TextBox>
+                </div>
                 <div class="col-lg form-group">
                     <label>Blood Group</label>
                     <asp:DropDownList ID="BloodGroupDropDownList" runat="server" CssClass="form-control">
@@ -107,6 +113,8 @@
                     <asp:TextBox ID="StudentLocalAddressTextBox" runat="server" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
                 </div>
             </div>
+
+
             <div class="form-group">
                 <label>Student&#39;s photo</label><br />
                 <input name="Student_photo" type="file" accept=".png,.jpg" />
@@ -142,7 +150,7 @@
                     <asp:TextBox ID="MotherOccupationTextBox" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
             </div>
-
+            
 
             <div class="alert alert-success mt-5">Previous Institution Information (If Any)</div>
             <div class="form-group">
@@ -194,7 +202,7 @@
             </div>
 
 
-            <asp:SqlDataSource ID="StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO Student(RegistrationID, SchoolID, StudentRegistrationID, StudentImageID, ID, SMSPhoneNo, StudentEmailAddress, StudentsName, Gender, DateofBirth, BloodGroup, Religion, StudentPermanentAddress, StudentsLocalAddress, PrevSchoolName, PrevClass, PrevExamYear, PrevExamGrade, MothersName, MotherOccupation, MotherPhoneNumber, FathersName, FatherOccupation, FatherPhoneNumber, GuardianName, GuardianRelationshipwithStudent, GuardianPhoneNumber, Status, OtherDetails, AdmissionDate) VALUES (@RegistrationID, @SchoolID, @StudentRegistrationID, @StudentImageID, @ID, @SMSPhoneNo, @StudentEmailAddress, @StudentsName, @Gender, CONVERT(date,@DateofBirth,105) , @BloodGroup, @Religion, @StudentPermanentAddress, @StudentsLocalAddress, @PrevSchoolName, @PrevClass, @PrevExamYear, @PrevExamGrade, @MothersName, @MotherOccupation, @MotherPhoneNumber, @FathersName, @FatherOccupation, @FatherPhoneNumber, @GuardianName, @GuardianRelationshipwithStudent, @GuardianPhoneNumber, @Status, @OtherDetails, GETDATE())" SelectCommand="SELECT * FROM [Student]">
+            <asp:SqlDataSource ID="StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="INSERT INTO Student(RegistrationID, SchoolID, StudentRegistrationID, StudentImageID, ID, SMSPhoneNo, StudentEmailAddress, StudentsName, Gender, DateofBirth,Legal_Identity, BloodGroup, Religion, StudentPermanentAddress, StudentsLocalAddress, PrevSchoolName, PrevClass, PrevExamYear, PrevExamGrade, MothersName, MotherOccupation, MotherPhoneNumber, FathersName, FatherOccupation, FatherPhoneNumber, GuardianName, GuardianRelationshipwithStudent, GuardianPhoneNumber, Status, OtherDetails, AdmissionDate) VALUES (@RegistrationID, @SchoolID, @StudentRegistrationID, @StudentImageID, @ID, @SMSPhoneNo, @StudentEmailAddress, @StudentsName, @Gender, CONVERT(date,@DateofBirth,105) ,@Legal_Identity, @BloodGroup, @Religion, @StudentPermanentAddress, @StudentsLocalAddress, @PrevSchoolName, @PrevClass, @PrevExamYear, @PrevExamGrade, @MothersName, @MotherOccupation, @MotherPhoneNumber, @FathersName, @FatherOccupation, @FatherPhoneNumber, @GuardianName, @GuardianRelationshipwithStudent, @GuardianPhoneNumber, @Status, @OtherDetails, GETDATE())" SelectCommand="SELECT * FROM [Student]">
                 <InsertParameters>
                     <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                     <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" />
@@ -206,6 +214,7 @@
                     <asp:ControlParameter ControlID="StudentNameTextBox" Name="StudentsName" PropertyName="Text" Type="String" />
                     <asp:ControlParameter ControlID="GenderRadioButtonList" Name="Gender" PropertyName="SelectedValue" Type="String" />
                     <asp:ControlParameter ControlID="BirthDayTextBox" Name="DateofBirth" PropertyName="Text" Type="String" />
+                    <asp:ControlParameter ControlID="Legal_IdentityTextBox" Name="Legal_Identity" PropertyName="Text" Type="String" />
                     <asp:ControlParameter ControlID="BloodGroupDropDownList" Name="BloodGroup" PropertyName="SelectedValue" Type="String" />
                     <asp:ControlParameter ControlID="ReligionDropDownList" Name="Religion" PropertyName="SelectedValue" Type="String" />
                     <asp:ControlParameter ControlID="StudentPermanentAddressTextBox" Name="StudentPermanentAddress" PropertyName="Text" Type="String" />

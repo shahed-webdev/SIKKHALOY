@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.SMS {
-    
-    
-    public partial class Send_SMS {
-        
+namespace EDUCATION.COM.SMS
+{
+
+
+    public partial class Send_SMS
+    {
+
         /// <summary>
         /// SMSFormView control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView SMSFormView;
-        
+
         /// <summary>
         /// SMSSQL control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SMSSQL;
-        
+
         /// <summary>
         /// SelectRadioButtonList control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList SelectRadioButtonList;
-        
+
         /// <summary>
         /// SMSMultiView control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.MultiView SMSMultiView;
-        
+
         /// <summary>
         /// Selected_Students_View control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Selected_Students_View;
-        
+
         /// <summary>
         /// ClassDropDownList control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ClassDropDownList;
-        
+
         /// <summary>
         /// ClassNameSQL control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
-        
+
         /// <summary>
         /// GroupDropDownList control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList GroupDropDownList;
-        
+
         /// <summary>
         /// GroupSQL control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource GroupSQL;
-        
+
         /// <summary>
         /// SectionDropDownList control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SectionDropDownList;
-        
+
         /// <summary>
         /// SectionSQL control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SectionSQL;
-        
+
         /// <summary>
         /// ShiftDropDownList control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ShiftDropDownList;
-        
+
         /// <summary>
         /// ShiftSQL control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ShiftSQL;
-        
+
         /// <summary>
         /// IDTextBox control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox IDTextBox;
-        
+
         /// <summary>
         /// IDFindButton control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button IDFindButton;
-        
+
         /// <summary>
         /// RequiredFieldValidator10 control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator10;
-        
+
         /// <summary>
         /// FindIDSQL control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource FindIDSQL;
-        
+
         /// <summary>
         /// AllStudentsGridView control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView AllStudentsGridView;
-        
+
         /// <summary>
         /// AllStudentsSQL control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AllStudentsSQL;
-        
+
         /// <summary>
         /// AllStudentView control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View AllStudentView;
-        
+
         /// <summary>
         /// Single_SMS_View control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Single_SMS_View;
-        
+
         /// <summary>
         /// SingleMobileNoTextBox control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SingleMobileNoTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator8 control.
         /// </summary>
@@ -218,16 +220,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator8;
-        
-        /// <summary>
-        /// RegularExpressionValidator1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
-        
+
         /// <summary>
         /// Teachers_View control.
         /// </summary>
@@ -236,7 +229,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Teachers_View;
-        
+
         /// <summary>
         /// AllTeachersGridView control.
         /// </summary>
@@ -245,7 +238,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView AllTeachersGridView;
-        
+
         /// <summary>
         /// AllTeachersSQL control.
         /// </summary>
@@ -254,7 +247,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AllTeachersSQL;
-        
+
         /// <summary>
         /// SMSTextBox control.
         /// </summary>
@@ -263,7 +256,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox SMSTextBox;
-        
+
         /// <summary>
         /// SMSButton control.
         /// </summary>
@@ -272,7 +265,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SMSButton;
-        
+
         /// <summary>
         /// RequiredFieldValidator7 control.
         /// </summary>
@@ -281,7 +274,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
-        
+
         /// <summary>
         /// ErrorLabel control.
         /// </summary>
@@ -290,7 +283,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ErrorLabel;
-        
+
         /// <summary>
         /// SMS_OtherInfoSQL control.
         /// </summary>
@@ -299,7 +292,7 @@ namespace EDUCATION.COM.SMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SMS_OtherInfoSQL;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

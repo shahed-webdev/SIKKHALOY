@@ -1,7 +1,7 @@
 ﻿
 /*Card*/
 #wrapper { display: grid; grid-gap:33px;grid-template-columns:repeat(2, 1fr);}
-#wrapper > div {border:2px solid #c01146 !important; color: #333;height:347px;}
+#wrapper > div {border:2px solid #c01146; color: #333;height:347px;}
 
 .Info-card { padding:0.2em}
 

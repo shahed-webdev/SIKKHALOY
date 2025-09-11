@@ -3,11 +3,36 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/Custom.css?v=14.3" rel="stylesheet" />
     <link href="css/skin1.css?v=6" id="DefaultCSS" rel="stylesheet" />
+
+
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jscolor.js"></script>--%>
+
+    <style>
+        #canvas {
+            width: 500px;
+            height: 250px;
+            background-color: #000;
+        }
+
+        input#colorpic {
+            width: 100px;
+            height: 40px;
+            background-color: transparent;
+            float: left;
+        }
+
+        .idcardborder {
+            border: 2px solid #0075d2;
+        }
+    </style>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3>Admit Card</h3>
-    <a class="d-print-none" href="Old_AdmitCard.aspx">Old Admit Card</a>
+    <a class="d-print-none" href="Old_AdmitCard.aspx">Old Admit Card</a> 
+    <div style="float:right"><h3 ><a class="d-print-none" href="AdmitCard_WithoutPhoto.aspx"> প্রবেশপত্র বাংলায়</a></h3> <h3 ><a class="d-print-none" href="Old_AdmitCardWithoutPhoto.aspx"> প্রবেশপত্র বাংলায় পুরাতন</a></h3></div>
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -16,7 +41,7 @@
 
     <div class="form-inline NoPrint">
         <div class="form-group">
-            <asp:DropDownList ID="ExamDropDownList" runat="server" CssClass="form-control" DataSourceID="ExamSQL" DataTextField="ExamName" DataValueField="ExamID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ExamDropDownList_SelectedIndexChanged">
+            <asp:DropDownList ID="ExamDropDownList" runat="server" onchange="showMe(this);" CssClass="form-control" DataSourceID="ExamSQL" DataTextField="ExamName" DataValueField="ExamID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ExamDropDownList_SelectedIndexChanged">
                 <asp:ListItem Value="0">[ EXAM ]</asp:ListItem>
             </asp:DropDownList>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="ExamDropDownList" CssClass="EroorStar" ErrorMessage="*" InitialValue="0" ValidationGroup="F"></asp:RequiredFieldValidator>
@@ -39,7 +64,7 @@
             </asp:SqlDataSource>
         </div>
         <%if (SectionDropDownList.Items.Count > 1)
-       {%>
+            {%>
         <div class="form-group">
             <asp:DropDownList ID="SectionDropDownList" runat="server" AutoPostBack="True" CssClass="form-control" DataSourceID="SectionSQL" DataTextField="Section" DataValueField="SectionID" OnDataBound="SectionDropDownList_DataBound" OnSelectedIndexChanged="ClassDropDownList_SelectedIndexChanged">
             </asp:DropDownList>
@@ -51,7 +76,7 @@
         </div>
         <%}%>
         <%if (GroupDropDownList.Items.Count > 1)
-        { %>
+            { %>
         <div class="form-group">
             <asp:DropDownList ID="GroupDropDownList" runat="server" AutoPostBack="True" CssClass="form-control" DataSourceID="GroupSQL" DataTextField="SubjectGroup" DataValueField="SubjectGroupID" OnDataBound="GroupDropDownList_DataBound" OnSelectedIndexChanged="ClassDropDownList_SelectedIndexChanged">
             </asp:DropDownList>
@@ -79,9 +104,15 @@
         <div class="form-group">
             <asp:Button ID="FindButton" runat="server" Text="Find" class="btn btn-primary" OnClick="FindButton_Click" ValidationGroup="F" />
         </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary hidden-print" onclick="window.print();"><i class="glyphicon glyphicon-print"></i>Print</button>
+        </div>
     </div>
 
     <div class="form-inline NoPrint">
+        <div class="form-group">
+            <input id="ExamNameTextBox" class="form-control" type="text" value="" placeholder="Exam Name" />
+        </div>
         <div class="form-group">
             <input id="TeacherSign" class="form-control" type="text" value="Teacher signature" placeholder="Teacher Signature" />
             <label class="btn btn-grey btn-file">
@@ -107,25 +138,67 @@
             <input id="Issue_d" placeholder="Issue date" autocomplete="off" type="text" class="form-control p-date" />
         </div>
         <div class="form-group">
-            <div id="colorPanel" class="colorPanel hidden-print">
+            <%--<div id="colorPanel" class="colorPanel hidden-print">
                 <ul></ul>
+            </div>--%>
+
+            <div class="dropdown">
+                <button class="btn btn-primary " type="button" data-toggle="dropdown">
+                    Choose Color
+            <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li style="text-align: center"><a><b>Background Color</b></a></li>
+                    <li class="divider"></li>
+                    <asp:Table runat="server" CssClass="table">
+                        <asp:TableRow>
+                            <asp:TableCell>Head</asp:TableCell>
+                            <asp:TableCell><li><input type="color" class="getColor" /></li></asp:TableCell>
+                        </asp:TableRow>
+                    </asp:Table>
+                    <li class="divider"></li>
+                    <li style="text-align: center"><a><b>Font Color</b></a></li>
+                    <li class="divider"></li>
+                    <asp:Table runat="server" CssClass="table">
+                        <asp:TableRow>
+                            <asp:TableCell>Head</asp:TableCell>
+                            <asp:TableCell><li><input type="color" class="getfontColor" /></li></asp:TableCell>
+                        </asp:TableRow>
+                    </asp:Table>
+                </ul>
             </div>
+
+
         </div>
-        <div class="form-group">
-            <button type="button" class="btn btn-primary hidden-print" onclick="window.print();"><i class="glyphicon glyphicon-print"></i>Print</button>
-        </div>
+
     </div>
+
+
 
     <div class="alert alert-success hidden-print">
         <asp:Label ID="TotalCardLabel" runat="server"></asp:Label>
         [Page orientation "landscape" prefer mozilla browser]
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div id="wrapper">
         <asp:Repeater ID="IDCardDL" runat="server">
             <ItemTemplate>
-                <div>
-                    <div class="card-header">
+                <div class="idcardborder">
+                    <div class="card-header color-output">
                         <div class="pl-1">
                             <img src='/Handeler/SchoolLogo.ashx?SLogo=<%#Eval("SchoolID") %>' />
                         </div>
@@ -243,9 +316,42 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 
+    <%--<div class="color-picker">
+        <canvas id="canvas"></canvas>
+        <br />
+        <input type="color" id="colorpic" />
+        <div id="colorCode">#000</div>
+
+    </div>
+
+
+
+
+    <div id="canvas_1" style="width: 300px; height: 100px">
+    </div>--%>
+
+
+
 
     <script src="/JS/jquery.colorpanel.js"></script>
+
+
     <script>
+
+        //var canvas = document.getElementById("canvas_3");
+        //var input = document.getElementById("colorpic");
+        //var colorCode = document.getElementById("colorCode");
+
+        //input.addEventListener("input", setColor);
+        //function setColor() {
+        //    canvas.style.backgroundColor = input.value;
+        //    colorCode.innerHTML = input.value;
+        //}
+        //setColor();
+
+
+
+
         /*Sign Upload*/
         //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function (e, f) {
         $(function () {
@@ -364,10 +470,18 @@
 
             $('.ExamName').text($('[id*=ExamDropDownList] :selected').text());
 
+            $('#ExamNameTextBox').val($('[id*=ExamDropDownList] :selected').text());
+
             $(".Teacher").text($("#TeacherSign").val());
             $("#TeacherSign").on('keyup', function () {
                 $(".Teacher").text($(this).val());
             });
+
+
+            $("#ExamNameTextBox").on('keyup', function () {
+                $(".ExamName").text($(this).val());
+            });
+
 
             $(".Head").text($("#PrincipalSign").val());
             $("#PrincipalSign").on('keyup', function () {
@@ -381,9 +495,12 @@
                 if (this.value == 3) {
                     $(".card-header h4").css('font-size', '1rem !important');
                 }
+
+
             });
 
             //Chane Color
+
             $('#colorPanel').ColorPanel({
                 styleSheet: '#DefaultCSS',
                 animateContainer: '#wrapper',
@@ -395,4 +512,34 @@
             });
         });
     </script>
+
+    <script type="text/javascript"> 
+        function showMe(a) {
+            $('#ExamNameTextBox').val($('[id*=ExamDropDownList] :selected').text());
+        }
+
+        // Background Color
+
+        $(".getColor").on("change", function () {
+            //Get Color
+            var color = $(".getColor").val();
+            //apply cuurent color to div
+            $(".color-output").css("background", color);
+            $(".idcardborder").css("border-color", color);
+            $(".headcolor").css("background", color);
+        })
+
+
+        //  forcolor
+
+        $(".getfontColor").on("change", function () {
+            //Get Color
+            var color = $(".getfontColor").val();
+            //apply cuurent color to font
+            $(".color-output").css("color", color);
+
+        })
+
+    </script>
+
 </asp:Content>

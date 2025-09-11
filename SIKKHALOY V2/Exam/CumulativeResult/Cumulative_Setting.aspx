@@ -117,6 +117,7 @@ ORDER BY Exam_Name.ExamID">
                     </asp:RadioButtonList>
 
                     <asp:CheckBox ID="SectionPositionCheckBox" Text="Hide Section Position" runat="server" />
+                    <asp:CheckBox ID="ClassPositionCheckBox" Text="Hide Class Position" runat="server" />
                 </div>
             </div>
 
@@ -241,7 +242,7 @@ WHERE        (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND
                             </asp:SqlDataSource>
                             <asp:SqlDataSource ID="Exam_Publish_SettingSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" DeleteCommand="DELETE FROM Exam_Cumulative_Setting
 WHERE  (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (ClassID = @ClassID) AND (CumulativeNameID = @CumulativeNameID)"
-                                InsertCommand="INSERT INTO Exam_Cumulative_Setting(CumulativeNameID, SchoolID, RegistrationID, EducationYearID, ClassID, IS_Fail_Enable_Optional_Subject, IS_Add_Optional_Mark_In_FullMarks, IS_Enable_Grade_as_it_is_if_Fail, Optional_Percentage_Deduction, Exam_Position_Format, IS_Hide_SubExam, IS_Hide_Sec_Position, Attendance_FromDate, Attendance_ToDate, GradeNameID,IS_Grade_BasePoint) VALUES (@CumulativeNameID, @SchoolID, @RegistrationID, @EducationYearID, @ClassID, @IS_Fail_Enable_Optional_Subject, @IS_Add_Optional_Mark_In_FullMarks, @IS_Enable_Grade_as_it_is_if_Fail, @Optional_Percentage_Deduction, @Exam_Position_Format, @IS_Hide_SubExam, @IS_Hide_Sec_Position, @Attendance_FromDate, @Attendance_ToDate, @GradeNameID,@IS_Grade_BasePoint)
+                                InsertCommand="INSERT INTO Exam_Cumulative_Setting(CumulativeNameID, SchoolID, RegistrationID, EducationYearID, ClassID, IS_Fail_Enable_Optional_Subject, IS_Add_Optional_Mark_In_FullMarks, IS_Enable_Grade_as_it_is_if_Fail, Optional_Percentage_Deduction, Exam_Position_Format, IS_Hide_SubExam, IS_Hide_Sec_Position,IS_Hide_Class_Position, Attendance_FromDate, Attendance_ToDate, GradeNameID,IS_Grade_BasePoint) VALUES (@CumulativeNameID, @SchoolID, @RegistrationID, @EducationYearID, @ClassID, @IS_Fail_Enable_Optional_Subject, @IS_Add_Optional_Mark_In_FullMarks, @IS_Enable_Grade_as_it_is_if_Fail, @Optional_Percentage_Deduction, @Exam_Position_Format, @IS_Hide_SubExam, @IS_Hide_Sec_Position,@IS_Hide_Class_Position, @Attendance_FromDate, @Attendance_ToDate, @GradeNameID,@IS_Grade_BasePoint)
 SET @Cumulative_SettingID = scope_identity()"
                                 OnInserted="Exam_Publish_SettingSQL_Inserted" SelectCommand="SELECT * FROM Exam_Cumulative_Setting WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (ClassID = @ClassID) AND (CumulativeNameID = @CumulativeNameID)">
                                 <DeleteParameters>
@@ -263,6 +264,7 @@ SET @Cumulative_SettingID = scope_identity()"
                                     <asp:ControlParameter ControlID="Position_RadioButtonList" DefaultValue="" Name="Exam_Position_Format" PropertyName="SelectedValue" />
                                     <asp:ControlParameter ControlID="SubExam_ShowCheckBox" Name="IS_Hide_SubExam" PropertyName="Checked" />
                                     <asp:ControlParameter ControlID="SectionPositionCheckBox" Name="IS_Hide_Sec_Position" PropertyName="Checked" />
+                                    <asp:ControlParameter ControlID="ClassPositionCheckBox" Name="IS_Hide_Class_Position" PropertyName="Checked" />
                                     <asp:ControlParameter ControlID="FromDateTextBox" Name="Attendance_FromDate" PropertyName="Text" />
                                     <asp:ControlParameter ControlID="ToDateTextBox" Name="Attendance_ToDate" PropertyName="Text" />
                                     <asp:ControlParameter ControlID="Grading_System_DropDownList" Name="GradeNameID" PropertyName="SelectedValue" />

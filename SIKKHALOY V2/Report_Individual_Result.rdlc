@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -249,6 +249,10 @@
           <DataField>IS_Hide_Sec_Position</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="IS_Hide_Class_Position">
+          <DataField>IS_Hide_Class_Position</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
         <Field Name="Sub_ExamSN">
           <DataField>Sub_ExamSN</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -288,12 +292,12 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>11.18433in</Width>
+                  <Width>11.65308in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>3.28336in</Height>
+                  <Height>3.33543in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -324,10 +328,10 @@
                                           <rd:DefaultName>Textbox29</rd:DefaultName>
                                           <Style>
                                             <Border>
-                                              <Color>LightGrey</Color>
+                                              <Color>Gray</Color>
                                               <Style>Solid</Style>
                                             </Border>
-                                            <BackgroundColor>Gainsboro</BackgroundColor>
+                                            <BackgroundColor>LightPink</BackgroundColor>
                                             <VerticalAlign>Middle</VerticalAlign>
                                             <PaddingLeft>2pt</PaddingLeft>
                                             <PaddingRight>2pt</PaddingRight>
@@ -343,39 +347,39 @@
                               <TablixBody>
                                 <TablixColumns>
                                   <TablixColumn>
-                                    <Width>0.49963in</Width>
+                                    <Width>0.6993in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.43778in</Width>
+                                    <Width>0.57644in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.39263in</Width>
+                                    <Width>0.58278in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.05102in</Width>
+                                    <Width>1.1429in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.46501in</Width>
+                                    <Width>0.6344in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.32381in</Width>
+                                    <Width>0.52662in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.35943in</Width>
+                                    <Width>0.56495in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.40714in</Width>
+                                    <Width>0.64486in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.34962in</Width>
+                                    <Width>0.85146in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.34894in</Width>
+                                    <Width>0.79439in</Width>
                                   </TablixColumn>
                                 </TablixColumns>
                                 <TablixRows>
                                   <TablixRow>
-                                    <Height>0.18346in</Height>
+                                    <Height>0.23554in</Height>
                                     <TablixCells>
                                       <TablixCell>
                                         <CellContents>
@@ -389,7 +393,6 @@
                                                     <Value>FM</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -402,10 +405,10 @@
                                             <rd:DefaultName>Textbox41</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -427,7 +430,6 @@
                                                     <Value>PM</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -440,10 +442,10 @@
                                             <rd:DefaultName>Textbox38</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -465,7 +467,6 @@
                                                     <Value>OM</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -478,10 +479,10 @@
                                             <rd:DefaultName>Textbox28</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -503,7 +504,6 @@
                                                     <Value>MARKS</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -516,10 +516,10 @@
                                             <rd:DefaultName>Textbox33</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -541,7 +541,6 @@
                                                     <Value>GRADE</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -554,10 +553,10 @@
                                             <rd:DefaultName>Textbox44</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -579,7 +578,6 @@
                                                     <Value>GPA</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -592,10 +590,10 @@
                                             <rd:DefaultName>Textbox47</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -617,7 +615,6 @@
                                                     <Value>PC</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -630,10 +627,10 @@
                                             <rd:DefaultName>Textbox35</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -655,7 +652,6 @@
                                                     <Value>PS</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -668,10 +664,10 @@
                                             <rd:DefaultName>Textbox42</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -693,7 +689,6 @@
                                                     <Value>HMC</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -706,10 +701,10 @@
                                             <rd:DefaultName>Textbox6</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -731,7 +726,6 @@
                                                     <Value>HMS</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -744,10 +738,10 @@
                                             <rd:DefaultName>Textbox20</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <BackgroundColor>Gainsboro</BackgroundColor>
+                                              <BackgroundColor>LightSteelBlue</BackgroundColor>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
@@ -774,8 +768,6 @@
                                                     <Value>=Fields!FullMark.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -787,7 +779,7 @@
                                             <rd:DefaultName>FullMark</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -811,8 +803,6 @@
                                                     <Value>=Fields!PassMark.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -824,7 +814,7 @@
                                             <rd:DefaultName>PassMark</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -848,8 +838,6 @@
                                                     <Value>=Fields!MarksObtained.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Color>=IIf(Fields!MarksObtained.Value &lt; Fields!PassMark.Value,"Red","Black")</Color>
                                                     </Style>
                                                   </TextRun>
@@ -858,8 +846,6 @@
                                                     <Value>=IIf(Fields!AbsenceStatus.Value = "Absent","Abs","")</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Color>Red</Color>
                                                     </Style>
                                                   </TextRun>
@@ -872,7 +858,7 @@
                                             <rd:DefaultName>MarksObtained</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -897,8 +883,6 @@
                                                     <Value>=IIf(Fields!SubjectAbsenceStatus.Value = "Absent","Abs",Fields!ObtainedMark_ofSubject.Value)</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_Subject.Value = "P","Black","Red")</Color>
                                                     </Style>
                                                   </TextRun>
@@ -906,28 +890,24 @@
                                                     <Value> / </Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
                                                     <Value>=Fields!TotalMark_ofSubject.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
                                             <rd:DefaultName>ObtainedMark_ofSubject</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -951,8 +931,6 @@
                                                     <Value>=Fields!SubjectGrades.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_Subject.Value = "P","Black","Red")</Color>
                                                     </Style>
                                                   </TextRun>
@@ -965,7 +943,7 @@
                                             <rd:DefaultName>SubjectGrades</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -989,8 +967,6 @@
                                                     <Value>=Fields!SubjectPoint.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Format>0.00;(0.00)</Format>
                                                       <Color>=IIf(Fields!PassStatus_Subject.Value = "P","Black","Red")</Color>
                                                     </Style>
@@ -1004,7 +980,7 @@
                                             <rd:DefaultName>SubjectPoint</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -1028,8 +1004,6 @@
                                                     <Value>=Fields!Position_InSubject_Class.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_Subject.Value = "P","Black","Red")</Color>
                                                     </Style>
                                                   </TextRun>
@@ -1042,7 +1016,7 @@
                                             <rd:DefaultName>Position_InSubject_Class</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -1066,8 +1040,6 @@
                                                     <Value>=Fields!Position_InSubject_Subsection.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_Subject.Value = "P","Black","Red")</Color>
                                                     </Style>
                                                   </TextRun>
@@ -1080,7 +1052,7 @@
                                             <rd:DefaultName>Position_InSubject_Subsection</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -1104,8 +1076,6 @@
                                                     <Value>=Fields!HighestMark_InSubject_Class.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -1117,7 +1087,7 @@
                                             <rd:DefaultName>HighestMark_InSubject_Class</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -1141,8 +1111,6 @@
                                                     <Value>=Fields!HighestMark_InSubject_Subsection.Value</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
-                                                      <FontSize>9pt</FontSize>
-                                                      <FontWeight>Normal</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -1154,7 +1122,7 @@
                                             <rd:DefaultName>HighestMark_InSubject_Subsection</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>Solid</Style>
                                               </Border>
                                               <VerticalAlign>Middle</VerticalAlign>
@@ -1182,7 +1150,6 @@
                                                   <TextRun>
                                                     <Value />
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -1195,7 +1162,7 @@
                                             <rd:DefaultName>Textbox50</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1219,7 +1186,6 @@
                                                   <TextRun>
                                                     <Value />
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -1232,7 +1198,7 @@
                                             <rd:DefaultName>Textbox51</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1256,7 +1222,6 @@
                                                   <TextRun>
                                                     <Value />
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -1269,7 +1234,7 @@
                                             <rd:DefaultName>Textbox52</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1293,7 +1258,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!ObtainedMark_ofStudent.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_InSubject.Value = "P","Black","Red")</Color>
                                                     </Style>
@@ -1301,7 +1265,6 @@
                                                   <TextRun>
                                                     <Value xml:space="preserve"> </Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Format>0.00</Format>
                                                       <Color>=IIf(Fields!PassStatus_InSubject.Value = "P","White","Red")</Color>
@@ -1310,14 +1273,12 @@
                                                   <TextRun>
                                                     <Value>/  </Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
                                                     <Value xml:space="preserve"> </Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Color>White</Color>
                                                     </Style>
@@ -1325,7 +1286,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!TotalMark_ofStudent.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -1338,7 +1298,7 @@
                                             <rd:DefaultName>TotalMark_ofStudent</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1362,7 +1322,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!Student_Grade.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_InSubject.Value = "P","Black","Red")</Color>
                                                     </Style>
@@ -1376,7 +1335,7 @@
                                             <rd:DefaultName>Student_Grade</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1400,7 +1359,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!Student_Point.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Format>0.00;(0.00)</Format>
                                                       <Color>=IIf(Fields!PassStatus_InSubject.Value = "P","Black","Red")</Color>
@@ -1415,7 +1373,7 @@
                                             <rd:DefaultName>Student_Point</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1439,7 +1397,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!Position_InExam_Class.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_InSubject.Value = "P","Black","Red")</Color>
                                                     </Style>
@@ -1453,7 +1410,7 @@
                                             <rd:DefaultName>Position_InExam_Class2</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1477,7 +1434,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!Position_InExam_Subsection.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Color>=IIf(Fields!PassStatus_InSubject.Value = "P","Black","Red")</Color>
                                                     </Style>
@@ -1491,7 +1447,7 @@
                                             <rd:DefaultName>Position_InExam_Subsection1</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1515,7 +1471,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!HighestMark_InExam_Class.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -1528,7 +1483,7 @@
                                             <rd:DefaultName>Textbox13</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1552,7 +1507,6 @@
                                                   <TextRun>
                                                     <Value>=Fields!HighestMark_InExam_Subsection.Value</Value>
                                                     <Style>
-                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -1565,7 +1519,7 @@
                                             <rd:DefaultName>Textbox22</rd:DefaultName>
                                             <Style>
                                               <Border>
-                                                <Color>LightGrey</Color>
+                                                <Color>Gray</Color>
                                                 <Style>None</Style>
                                               </Border>
                                               <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1622,7 +1576,6 @@
                                                     <TextRun>
                                                       <Value>=Fields!SubExamName.Value</Value>
                                                       <Style>
-                                                        <FontSize>9pt</FontSize>
                                                         <FontWeight>Bold</FontWeight>
                                                       </Style>
                                                     </TextRun>
@@ -1635,10 +1588,10 @@
                                               <rd:DefaultName>SubExamName</rd:DefaultName>
                                               <Style>
                                                 <Border>
-                                                  <Color>LightGrey</Color>
+                                                  <Color>Gray</Color>
                                                   <Style>Solid</Style>
                                                 </Border>
-                                                <BackgroundColor>Gainsboro</BackgroundColor>
+                                                <BackgroundColor>LightPink</BackgroundColor>
                                                 <VerticalAlign>Middle</VerticalAlign>
                                                 <PaddingLeft>2pt</PaddingLeft>
                                                 <PaddingRight>2pt</PaddingRight>
@@ -1674,7 +1627,9 @@
                                                   <TextRuns>
                                                     <TextRun>
                                                       <Value />
-                                                      <Style />
+                                                      <Style>
+                                                        <FontWeight>Bold</FontWeight>
+                                                      </Style>
                                                     </TextRun>
                                                   </TextRuns>
                                                   <Style>
@@ -1685,10 +1640,10 @@
                                               <rd:DefaultName>Textbox32</rd:DefaultName>
                                               <Style>
                                                 <Border>
-                                                  <Color>LightGrey</Color>
+                                                  <Color>Gray</Color>
                                                   <Style>Solid</Style>
                                                 </Border>
-                                                <BackgroundColor>Gainsboro</BackgroundColor>
+                                                <BackgroundColor>LightPink</BackgroundColor>
                                                 <VerticalAlign>Middle</VerticalAlign>
                                                 <PaddingLeft>2pt</PaddingLeft>
                                                 <PaddingRight>2pt</PaddingRight>
@@ -1702,7 +1657,11 @@
                                           <TablixMember />
                                           <TablixMember />
                                           <TablixMember />
-                                          <TablixMember />
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=Fields!IS_Hide_Class_Position.Value</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
                                           <TablixMember>
                                             <Visibility>
                                               <Hidden>=Fields!IS_Hide_Sec_Position.Value</Hidden>
@@ -1724,7 +1683,7 @@
                                 <TablixMembers>
                                   <TablixMember>
                                     <TablixHeader>
-                                      <Size>1.43515in</Size>
+                                      <Size>2.68555in</Size>
                                       <CellContents>
                                         <Textbox Name="Textbox27">
                                           <CanGrow>true</CanGrow>
@@ -1736,7 +1695,6 @@
                                                   <Value>SUBJECTS</Value>
                                                   <Style>
                                                     <FontFamily>Tahoma</FontFamily>
-                                                    <FontSize>8pt</FontSize>
                                                     <FontWeight>Bold</FontWeight>
                                                   </Style>
                                                 </TextRun>
@@ -1749,10 +1707,10 @@
                                           <rd:DefaultName>Textbox27</rd:DefaultName>
                                           <Style>
                                             <Border>
-                                              <Color>LightGrey</Color>
+                                              <Color>Gray</Color>
                                               <Style>Solid</Style>
                                             </Border>
-                                            <BackgroundColor>Gainsboro</BackgroundColor>
+                                            <BackgroundColor>LightSteelBlue</BackgroundColor>
                                             <VerticalAlign>Middle</VerticalAlign>
                                             <PaddingLeft>2pt</PaddingLeft>
                                             <PaddingRight>2pt</PaddingRight>
@@ -1771,7 +1729,7 @@
                                       </GroupExpressions>
                                     </Group>
                                     <TablixHeader>
-                                      <Size>1.43515in</Size>
+                                      <Size>2.68555in</Size>
                                       <CellContents>
                                         <Textbox Name="SubjectName">
                                           <CanGrow>true</CanGrow>
@@ -1783,14 +1741,12 @@
                                                   <Value xml:space="preserve"> </Value>
                                                   <Style>
                                                     <FontSize>9pt</FontSize>
-                                                    <FontWeight>Bold</FontWeight>
                                                   </Style>
                                                 </TextRun>
                                                 <TextRun>
                                                   <Value>=Fields!SubjectName.Value</Value>
                                                   <Style>
                                                     <FontSize>9pt</FontSize>
-                                                    <FontWeight>Bold</FontWeight>
                                                   </Style>
                                                 </TextRun>
                                                 <TextRun>
@@ -1798,7 +1754,6 @@
                                                   <Value>=IIf(Fields!SubjectType.Value="Optional"," *","")</Value>
                                                   <Style>
                                                     <FontSize>12pt</FontSize>
-                                                    <FontWeight>Bold</FontWeight>
                                                     <Color>Purple</Color>
                                                   </Style>
                                                 </TextRun>
@@ -1811,7 +1766,7 @@
                                           <rd:DefaultName>SubjectName</rd:DefaultName>
                                           <Style>
                                             <Border>
-                                              <Color>LightGrey</Color>
+                                              <Color>Gray</Color>
                                               <Style>Solid</Style>
                                             </Border>
                                             <BackgroundColor>=IIf(Fields!IS_Add_InExam.Value,"White","LightGrey")</BackgroundColor>
@@ -1827,7 +1782,7 @@
                                   </TablixMember>
                                   <TablixMember>
                                     <TablixHeader>
-                                      <Size>1.43515in</Size>
+                                      <Size>2.68555in</Size>
                                       <CellContents>
                                         <Textbox Name="Textbox49">
                                           <CanGrow>true</CanGrow>
@@ -1851,7 +1806,7 @@
                                           <rd:DefaultName>Textbox49</rd:DefaultName>
                                           <Style>
                                             <Border>
-                                              <Color>LightGrey</Color>
+                                              <Color>Gray</Color>
                                               <Style>None</Style>
                                             </Border>
                                             <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1870,8 +1825,8 @@
                               </TablixRowHierarchy>
                               <DataSetName>DataSet1</DataSetName>
                               <Top>2.53333in</Top>
-                              <Height>0.75002in</Height>
-                              <Width>6.07016in</Width>
+                              <Height>0.8021in</Height>
+                              <Width>9.70365in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1882,14 +1837,16 @@
                               <ReportItems>
                                 <Subreport Name="Subreport2">
                                   <ReportName>Sub_Report</ReportName>
-                                  <Top>1.08659in</Top>
-                                  <Left>9.57565in</Left>
+                                  <Top>1.04493in</Top>
+                                  <Left>9.7944in</Left>
                                   <Height>1.30785in</Height>
-                                  <Width>1.59761in</Width>
+                                  <Width>1.72261in</Width>
                                   <Style>
                                     <Border>
                                       <Style>None</Style>
                                     </Border>
+                                    <FontFamily />
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </Subreport>
                                 <Image Name="Image1">
@@ -1897,7 +1854,7 @@
                                   <Value>=Fields!SchoolLogo.Value</Value>
                                   <MIMEType>image/jpeg</MIMEType>
                                   <Sizing>FitProportional</Sizing>
-                                  <Top>0.00326in</Top>
+                                  <Left>0.11458in</Left>
                                   <Height>1in</Height>
                                   <Width>0.98893in</Width>
                                   <ZIndex>1</ZIndex>
@@ -1958,9 +1915,9 @@
                                     </Paragraph>
                                   </Paragraphs>
                                   <rd:DefaultName>Textbox229</rd:DefaultName>
-                                  <Left>1.54936in</Left>
+                                  <Left>1.79936in</Left>
                                   <Height>0.55807in</Height>
-                                  <Width>7.63347in</Width>
+                                  <Width>8.1543in</Width>
                                   <ZIndex>2</ZIndex>
                                   <Style>
                                     <Border>
@@ -1995,10 +1952,10 @@
                                     </Paragraph>
                                   </Paragraphs>
                                   <rd:DefaultName>ExamName</rd:DefaultName>
-                                  <Top>0.61363in</Top>
-                                  <Left>2.76519in</Left>
+                                  <Top>0.57196in</Top>
+                                  <Left>3.10817in</Left>
                                   <Height>0.32591in</Height>
-                                  <Width>5.28265in</Width>
+                                  <Width>5.51388in</Width>
                                   <ZIndex>3</ZIndex>
                                   <Style>
                                     <Border>
@@ -2065,14 +2022,15 @@
                                   </Paragraphs>
                                   <rd:DefaultName>Textbox7</rd:DefaultName>
                                   <Top>1.38104in</Top>
-                                  <Left>1.6244in</Left>
+                                  <Left>1.7494in</Left>
                                   <Height>0.21875in</Height>
-                                  <Width>7.43343in</Width>
+                                  <Width>7.95426in</Width>
                                   <ZIndex>4</ZIndex>
                                   <Style>
                                     <Border>
                                       <Style>None</Style>
                                     </Border>
+                                    <BackgroundColor>White</BackgroundColor>
                                     <PaddingLeft>2pt</PaddingLeft>
                                     <PaddingRight>2pt</PaddingRight>
                                     <PaddingTop>2pt</PaddingTop>
@@ -2083,28 +2041,28 @@
                                   <TablixBody>
                                     <TablixColumns>
                                       <TablixColumn>
-                                        <Width>1.30819in</Width>
+                                        <Width>1.34813in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.67782in</Width>
+                                        <Width>0.71776in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.625in</Width>
+                                        <Width>0.66494in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.54625in</Width>
+                                        <Width>0.58619in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.64583in</Width>
+                                        <Width>0.68577in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.52083in</Width>
+                                        <Width>0.56077in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.44792in</Width>
+                                        <Width>0.48786in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>1.29167in</Width>
+                                        <Width>1.33161in</Width>
                                       </TablixColumn>
                                     </TablixColumns>
                                     <TablixRows>
@@ -2273,7 +2231,7 @@
                                           </TablixCell>
                                           <TablixCell>
                                             <CellContents>
-                                              <Textbox Name="Textbox14">
+                                              <Textbox Name="Position_InExam_Subsection">
                                                 <CanGrow>true</CanGrow>
                                                 <KeepTogether>true</KeepTogether>
                                                 <Paragraphs>
@@ -2289,7 +2247,7 @@
                                                     </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
-                                                <rd:DefaultName>Textbox14</rd:DefaultName>
+                                                <rd:DefaultName>Position_InExam_Subsection</rd:DefaultName>
                                                 <Style>
                                                   <Border>
                                                     <Color>White</Color>
@@ -2781,7 +2739,11 @@
                                       <TablixMember />
                                       <TablixMember />
                                       <TablixMember />
-                                      <TablixMember />
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>=Fields!IS_Hide_Class_Position.Value</Hidden>
+                                        </Visibility>
+                                      </TablixMember>
                                       <TablixMember>
                                         <Visibility>
                                           <Hidden>=Fields!IS_Hide_Sec_Position.Value</Hidden>
@@ -2800,10 +2762,11 @@
                                       <TablixMember />
                                     </TablixMembers>
                                   </TablixRowHierarchy>
+                                  <DataSetName>DataSet1</DataSetName>
                                   <Top>1.84437in</Top>
-                                  <Left>3.42184in</Left>
+                                  <Left>3.32062in</Left>
                                   <Height>0.5in</Height>
-                                  <Width>6.06351in</Width>
+                                  <Width>6.38303in</Width>
                                   <ZIndex>5</ZIndex>
                                   <Style>
                                     <Border>
@@ -2815,25 +2778,25 @@
                                   <TablixBody>
                                     <TablixColumns>
                                       <TablixColumn>
-                                        <Width>0.57347in</Width>
+                                        <Width>0.5571in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.63671in</Width>
+                                        <Width>0.62034in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.49139in</Width>
+                                        <Width>0.47502in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.45834in</Width>
+                                        <Width>0.44197in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.43376in</Width>
+                                        <Width>0.41739in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.36272in</Width>
+                                        <Width>0.34635in</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>0.39103in</Width>
+                                        <Width>0.37466in</Width>
                                       </TablixColumn>
                                     </TablixColumns>
                                     <TablixRows>
@@ -3335,7 +3298,7 @@
                                   </TablixRowHierarchy>
                                   <Top>1.84437in</Top>
                                   <Height>0.5in</Height>
-                                  <Width>3.34742in</Width>
+                                  <Width>3.23283in</Width>
                                   <ZIndex>6</ZIndex>
                                   <Style>
                                     <Border>
@@ -3377,9 +3340,9 @@
                                       </Paragraphs>
                                       <rd:DefaultName>Textbox54</rd:DefaultName>
                                       <Top>0.07761in</Top>
-                                      <Left>1.77126in</Left>
+                                      <Left>1.8733in</Left>
                                       <Height>0.25in</Height>
-                                      <Width>4.23069in</Width>
+                                      <Width>4.49066in</Width>
                                       <Style>
                                         <Border>
                                           <Style>None</Style>
@@ -3439,9 +3402,9 @@
                                       </Paragraphs>
                                       <rd:DefaultName>Textbox55</rd:DefaultName>
                                       <Top>0.07761in</Top>
-                                      <Left>6.0714in</Left>
+                                      <Left>6.43341in</Left>
                                       <Height>0.25in</Height>
-                                      <Width>1.43707in</Width>
+                                      <Width>1.52085in</Width>
                                       <ZIndex>1</ZIndex>
                                       <Style>
                                         <Border>
@@ -3476,9 +3439,8 @@
                                       </Paragraphs>
                                       <rd:DefaultName>Textbox56</rd:DefaultName>
                                       <Top>0.07761in</Top>
-                                      <Left>0.07504in</Left>
                                       <Height>0.25in</Height>
-                                      <Width>1.60843in</Width>
+                                      <Width>1.80386in</Width>
                                       <ZIndex>2</ZIndex>
                                       <Style>
                                         <Border>
@@ -3493,9 +3455,9 @@
                                   </ReportItems>
                                   <KeepTogether>true</KeepTogether>
                                   <Top>1.00898in</Top>
-                                  <Left>1.54936in</Left>
+                                  <Left>1.7494in</Left>
                                   <Height>0.40644in</Height>
-                                  <Width>7.63347in</Width>
+                                  <Width>7.95426in</Width>
                                   <ZIndex>7</ZIndex>
                                   <Style>
                                     <Border>
@@ -3510,9 +3472,10 @@
                                   <Value>=Fields!Image.Value</Value>
                                   <MIMEType>image/jpeg</MIMEType>
                                   <Sizing>FitProportional</Sizing>
-                                  <Left>10.33433in</Left>
+                                  <Top>0.07435in</Top>
+                                  <Left>10.46909in</Left>
                                   <Height>0.92565in</Height>
-                                  <Width>0.85in</Width>
+                                  <Width>1.04792in</Width>
                                   <ZIndex>8</ZIndex>
                                   <Style>
                                     <Border>
@@ -3550,9 +3513,9 @@
                                   </Paragraphs>
                                   <rd:DefaultName>Textbox8</rd:DefaultName>
                                   <Top>0.76715in</Top>
-                                  <Left>9.67979in</Left>
+                                  <Left>9.7944in</Left>
                                   <Height>0.25in</Height>
-                                  <Width>1.50454in</Width>
+                                  <Width>1.59761in</Width>
                                   <ZIndex>9</ZIndex>
                                   <Style>
                                     <Border>
@@ -3568,7 +3531,7 @@
                               </ReportItems>
                               <KeepTogether>true</KeepTogether>
                               <Height>2.39444in</Height>
-                              <Width>11.18433in</Width>
+                              <Width>11.65308in</Width>
                               <ZIndex>1</ZIndex>
                               <Style>
                                 <Border>
@@ -3611,8 +3574,8 @@
             </TablixRowHierarchy>
             <KeepTogether>true</KeepTogether>
             <DataSetName>DataSet1</DataSetName>
-            <Height>3.28336in</Height>
-            <Width>11.18433in</Width>
+            <Height>3.33543in</Height>
+            <Width>11.65308in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3621,13 +3584,13 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>3.28336in</Height>
+        <Height>3.33543in</Height>
         <Style />
       </Body>
-      <Width>11.18433in</Width>
+      <Width>11.67391in</Width>
       <Page>
         <PageFooter>
-          <Height>0.5522in</Height>
+          <Height>1.41678in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3744,120 +3707,35 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>WD: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>Working Days.</Value>
+                      <Value>WD: Working Days.PM: Pass Marks. FM: Full Marks. OM: Obtained Marks. PC: Position in Class. PS: Position in Section.HMC: Highest Marks in Class. HMS: Highest Marks in Section</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <Color>Green</Color>
                       </Style>
                     </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
                     <TextRun>
-                      <Value>PM:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Pass Marks. </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>FM:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Full Marks. </Value>
+                      <Value />
                       <Style>
                         <FontSize>8pt</FontSize>
                         <Color>Green</Color>
                       </Style>
                     </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
                     <TextRun>
-                      <Value>OM:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Obtained Marks. </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>PC:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Position in Class. </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>PS:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Position in Section.</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>HMC:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Highest Marks in Class. </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>HMS:</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Green</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Highest Marks in Section</Value>
+                      <Value />
                       <Style>
                         <FontSize>8pt</FontSize>
                         <Color>Green</Color>
@@ -3871,9 +3749,8 @@
               </Paragraphs>
               <rd:DefaultName>Textbox57</rd:DefaultName>
               <Top>0.3022in</Top>
-              <Left>0.16667in</Left>
               <Height>0.25in</Height>
-              <Width>10.90243in</Width>
+              <Width>11.65308in</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>

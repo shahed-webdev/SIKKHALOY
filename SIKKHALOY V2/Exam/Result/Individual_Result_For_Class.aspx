@@ -1,8 +1,24 @@
 ﻿<%@ Page Title="Individual Exam Result" Language="C#" MasterPageFile="~/BASIC.Master" EnableEventValidation="false" AutoEventWireup="true" CodeBehind="Individual_Result_For_Class.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.Individual_Result_For_Class" %>
 
 <%@ Register assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
+<%@ Register assembly="Microsoft.ReportViewer.WebForms" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="CSS/Result_Print.css" rel="stylesheet" />
+
+    <style>
+
+        #P1d93a975137b4709ac498e56e068b884_3_oReportDiv .A41684c2a8cb24d2bb457b518a9533a28434 {
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: pre-wrap;
+            font-style: normal;
+            font-family: Arial;
+            font-size: 7pt;
+            font-weight: 600;
+            color: Black;
+            text-align: center;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">

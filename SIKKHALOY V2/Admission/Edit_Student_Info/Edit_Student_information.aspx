@@ -62,6 +62,12 @@
                         <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ControlToValidate="DateofBirthTextBox" CssClass="EroorSummer" ErrorMessage="Invalid Format" ValidationExpression="^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$" ValidationGroup="1"></asp:RegularExpressionValidator>
                         <asp:TextBox ID="DateofBirthTextBox" runat="server" Text='<%# Bind("DateofBirth") %>' CssClass="form-control" />
                     </div>
+                        <div class="form-group">
+                        <label>Legal Identity No.</label>
+                       
+                            <asp:TextBox ID="Legal_IdentityTextBox" runat="server" Text='<%# Bind("Legal_Identity") %>' placeholder="NID : 20155485444/ BRN : 2012545544554" CssClass="form-control" />
+                    </div>
+
                     <div class="form-group">
                         <label>Blood Group</label>
                         <asp:DropDownList ID="BloodGroupDropDownList"  SelectedValue='<%#Bind("BloodGroup") %>' runat="server" CssClass="form-control">
@@ -168,8 +174,8 @@
         </asp:FormView>
     </div>
     <asp:SqlDataSource ID="StudentInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-        SelectCommand="SELECT Student.ID, Student.StudentsName, Student.Gender,CONVERT(varchar,Student.DateofBirth, 103) AS DateofBirth ,  Student.BloodGroup, Student.Religion, Student.StudentsLocalAddress, Student.PrevSchoolName, Student.PrevClass, Student.PrevExamYear, Student.PrevExamGrade, Student.MothersName, Student.FathersName, Student.GuardianName, Student.SMSPhoneNo, Student.MotherOccupation, Student.MotherPhoneNumber, Student.FatherOccupation, Student.FatherPhoneNumber, Student.GuardianRelationshipwithStudent, Student.GuardianPhoneNumber, Student.OtherDetails, Student.StudentPermanentAddress, Student.StudentEmailAddress, StudentsClass.StudentClassID, StudentsClass.StudentID, CreateClass.Class, Student.StudentImageID FROM Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID INNER JOIN CreateClass ON StudentsClass.ClassID = CreateClass.ClassID WHERE (Student.SchoolID = @SchoolID) AND (StudentsClass.StudentClassID = @StudentClassID) AND (StudentsClass.StudentID = @StudentID)"
-        UpdateCommand="UPDATE Student SET SMSPhoneNo = @SMSPhoneNo, StudentsName = @StudentsName, StudentEmailAddress = @StudentEmailAddress, Gender = @Gender, DateofBirth = CONVERT(date,@DateofBirth,105), BloodGroup = @BloodGroup, Religion = @Religion, StudentPermanentAddress = @StudentPermanentAddress, StudentsLocalAddress = @StudentsLocalAddress, PrevSchoolName = @PrevSchoolName, PrevClass = @PrevClass, PrevExamYear = @PrevExamYear, PrevExamGrade = @PrevExamGrade, MothersName = @MothersName, MotherOccupation = @MotherOccupation, MotherPhoneNumber = @MotherPhoneNumber, FathersName = @FathersName, FatherOccupation = @FatherOccupation, FatherPhoneNumber = @FatherPhoneNumber, GuardianName = @GuardianName, GuardianRelationshipwithStudent = @GuardianRelationshipwithStudent, GuardianPhoneNumber = @GuardianPhoneNumber, OtherDetails = @OtherDetails WHERE (StudentID = @StudentID)">
+        SelectCommand="SELECT Student.ID, Student.StudentsName, Student.Gender,CONVERT(varchar,Student.DateofBirth, 103) AS DateofBirth ,Legal_Identity,Student.BloodGroup, Student.Religion, Student.StudentsLocalAddress, Student.PrevSchoolName, Student.PrevClass, Student.PrevExamYear, Student.PrevExamGrade, Student.MothersName, Student.FathersName, Student.GuardianName, Student.SMSPhoneNo, Student.MotherOccupation, Student.MotherPhoneNumber, Student.FatherOccupation, Student.FatherPhoneNumber, Student.GuardianRelationshipwithStudent, Student.GuardianPhoneNumber, Student.OtherDetails, Student.StudentPermanentAddress, Student.StudentEmailAddress, StudentsClass.StudentClassID, StudentsClass.StudentID, CreateClass.Class, Student.StudentImageID FROM Student INNER JOIN StudentsClass ON Student.StudentID = StudentsClass.StudentID INNER JOIN CreateClass ON StudentsClass.ClassID = CreateClass.ClassID WHERE (Student.SchoolID = @SchoolID) AND (StudentsClass.StudentClassID = @StudentClassID) AND (StudentsClass.StudentID = @StudentID)"
+        UpdateCommand="UPDATE Student SET SMSPhoneNo = @SMSPhoneNo, StudentsName = @StudentsName, StudentEmailAddress = @StudentEmailAddress, Gender = @Gender, DateofBirth = CONVERT(date,@DateofBirth,105),Legal_Identity=@Legal_Identity, BloodGroup = @BloodGroup, Religion = @Religion, StudentPermanentAddress = @StudentPermanentAddress, StudentsLocalAddress = @StudentsLocalAddress, PrevSchoolName = @PrevSchoolName, PrevClass = @PrevClass, PrevExamYear = @PrevExamYear, PrevExamGrade = @PrevExamGrade, MothersName = @MothersName, MotherOccupation = @MotherOccupation, MotherPhoneNumber = @MotherPhoneNumber, FathersName = @FathersName, FatherOccupation = @FatherOccupation, FatherPhoneNumber = @FatherPhoneNumber, GuardianName = @GuardianName, GuardianRelationshipwithStudent = @GuardianRelationshipwithStudent, GuardianPhoneNumber = @GuardianPhoneNumber, OtherDetails = @OtherDetails WHERE (StudentID = @StudentID)">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
             <asp:QueryStringParameter Name="StudentClassID" QueryStringField="Student_Class" />
@@ -181,6 +187,7 @@
             <asp:Parameter Name="StudentEmailAddress" />
             <asp:Parameter Name="Gender" Type="String" />
             <asp:Parameter Name="DateofBirth" Type="String" />
+            <asp:Parameter Name="Legal_Identity" Type="String" />
             <asp:Parameter Name="BloodGroup" Type="String" />
             <asp:Parameter Name="Religion" Type="String" />
             <asp:Parameter Name="StudentPermanentAddress" />

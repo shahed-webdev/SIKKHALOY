@@ -7,7 +7,7 @@
 
     <div class="tab">
         <ul class="nav nav-tabs z-depth-1">
-            <li><a class="nav-link active" href="#general-notice" data-toggle="tab" role="tab" aria-expanded="true">General</a></li>
+            <li><a class="nav-link active" href="#general-notice" data-toggle="tab" role="tab" aria-expanded="true">General Notice</a></li>
             <li><a class="nav-link" href="#home-work" data-toggle="tab" role="tab" aria-expanded="false">Home Work</a></li>
         </ul>
 
@@ -18,12 +18,15 @@
                         <div class="mb-3">
                             <h4 class="font-weight-bold"><%# Eval("NoticeTitle") %></h4>
                             <p><%# Eval("Notice") %></p>
+
+                          <div style="margin-bottom:20px;"><asp:LinkButton ID="lnkDownload" Text='<%# Eval("Notice_file").ToString() == "" ? "" : "Download" %>' CommandArgument='<%# Eval("Notice_file") %>' runat="server" OnClick="DownloadFile"></asp:LinkButton></div>
+
                             <small>Post Date: <%# Eval("InsertDate","{0:d MMM yyyy hh:mm tt}") %></small>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
                 <asp:SqlDataSource ID="GeneralNoticeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                    SelectCommand="SELECT StudentNotice.NoticeTitle, StudentNotice.Notice, StudentNotice.InsertDate FROM StudentNoticeClass INNER JOIN StudentNotice ON StudentNoticeClass.StudentNoticeId = StudentNotice.StudentNoticeId INNER JOIN StudentsClass ON StudentNoticeClass.ClassId = StudentsClass.ClassID AND StudentNotice.EducationYearId = StudentsClass.EducationYearID WHERE (StudentNotice.EducationYearId = @EducationYearId) AND (StudentNotice.SchoolId = @SchoolId) AND (StudentsClass.StudentClassID = @StudentClassID) AND (IsHomeWork = 0) ORDER BY StudentNotice.InsertDate DESC">
+                    SelectCommand="SELECT StudentNotice.NoticeTitle, StudentNotice.Notice, StudentNotice.InsertDate,StudentNotice.Notice_file FROM StudentNoticeClass INNER JOIN StudentNotice ON StudentNoticeClass.StudentNoticeId = StudentNotice.StudentNoticeId INNER JOIN StudentsClass ON StudentNoticeClass.ClassId = StudentsClass.ClassID AND StudentNotice.EducationYearId = StudentsClass.EducationYearID WHERE (StudentNotice.EducationYearId = @EducationYearId) AND (StudentNotice.SchoolId = @SchoolId) AND (StudentsClass.StudentClassID = @StudentClassID) AND (IsHomeWork = 0) ORDER BY StudentNotice.InsertDate DESC">
                     <SelectParameters>
                         <asp:SessionParameter Name="EducationYearId" SessionField="Edu_Year" />
                         <asp:SessionParameter Name="SchoolId" SessionField="SchoolID" />

@@ -17,7 +17,7 @@
 
             <asp:Panel ID="Data_Panel" runat="server" CssClass="word-style">
                 <div class="Head">
-                    It is hereby gladly declared that <b><%# Eval("StudentsName") %></b>, 
+                    It is hereby gladly declared that <b><%# Eval("StudentsName") %></b> Student ID: <b><%# Eval("StudentID") %> </b>, 
                  <%#(string)Eval("Gender") == "Male" ? "son of" : "daughter of" %> <b><%# Eval("FathersName") %></b>
                     of residence- <b><%# Eval("StudentsLocalAddress") %></b>
                     had been reading in this institution in class <b><%# Eval("Class") %></b> Roll No. <b><%# Eval("RollNo") %></b> upto <b>

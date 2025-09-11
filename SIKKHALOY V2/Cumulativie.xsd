@@ -48,58 +48,58 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="Cumulativie" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Cumulativie" msprop:Generator_UserDSName="Cumulativie">
+  <xs:element name="Cumulativie" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="Cumulativie" msprop:Generator_DataSetName="Cumulativie">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Result_of_Cumulative" msprop:Generator_TableClassName="Result_of_CumulativeDataTable" msprop:Generator_TableVarName="tableResult_of_Cumulative" msprop:Generator_TablePropName="Result_of_Cumulative" msprop:Generator_RowDeletingName="Result_of_CumulativeRowDeleting" msprop:Generator_RowChangingName="Result_of_CumulativeRowChanging" msprop:Generator_RowEvHandlerName="Result_of_CumulativeRowChangeEventHandler" msprop:Generator_RowDeletedName="Result_of_CumulativeRowDeleted" msprop:Generator_UserTableName="Result_of_Cumulative" msprop:Generator_RowChangedName="Result_of_CumulativeRowChanged" msprop:Generator_RowEvArgName="Result_of_CumulativeRowChangeEvent" msprop:Generator_RowClassName="Result_of_CumulativeRow">
+        <xs:element name="Result_of_Cumulative" msprop:Generator_RowClassName="Result_of_CumulativeRow" msprop:Generator_RowEvHandlerName="Result_of_CumulativeRowChangeEventHandler" msprop:Generator_RowDeletedName="Result_of_CumulativeRowDeleted" msprop:Generator_RowDeletingName="Result_of_CumulativeRowDeleting" msprop:Generator_RowEvArgName="Result_of_CumulativeRowChangeEvent" msprop:Generator_TablePropName="Result_of_Cumulative" msprop:Generator_RowChangedName="Result_of_CumulativeRowChanged" msprop:Generator_RowChangingName="Result_of_CumulativeRowChanging" msprop:Generator_TableClassName="Result_of_CumulativeDataTable" msprop:Generator_UserTableName="Result_of_Cumulative" msprop:Generator_TableVarName="tableResult_of_Cumulative">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="StudentID" msprop:Generator_ColumnVarNameInTable="columnStudentID" msprop:Generator_ColumnPropNameInRow="StudentID" msprop:Generator_ColumnPropNameInTable="StudentIDColumn" msprop:Generator_UserColumnName="StudentID" type="xs:int" />
-              <xs:element name="TotalMark" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTotalMark" msprop:Generator_ColumnPropNameInRow="TotalMark" msprop:Generator_ColumnPropNameInTable="TotalMarkColumn" msprop:Generator_UserColumnName="TotalMark" type="xs:double" minOccurs="0" />
-              <xs:element name="ObtainedMark" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtainedMark" msprop:Generator_ColumnPropNameInRow="ObtainedMark" msprop:Generator_ColumnPropNameInTable="ObtainedMarkColumn" msprop:Generator_UserColumnName="ObtainedMark" type="xs:double" minOccurs="0" />
-              <xs:element name="Avarage" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnAvarage" msprop:Generator_ColumnPropNameInRow="Avarage" msprop:Generator_ColumnPropNameInTable="AvarageColumn" msprop:Generator_UserColumnName="Avarage" type="xs:double" minOccurs="0" />
-              <xs:element name="Point" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPoint" msprop:Generator_ColumnPropNameInRow="Point" msprop:Generator_ColumnPropNameInTable="PointColumn" msprop:Generator_UserColumnName="Point" type="xs:double" minOccurs="0" />
-              <xs:element name="Grade" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnGrade" msprop:Generator_ColumnPropNameInRow="Grade" msprop:Generator_ColumnPropNameInTable="GradeColumn" msprop:Generator_UserColumnName="Grade" minOccurs="0">
+              <xs:element name="StudentID" msprop:Generator_ColumnPropNameInRow="StudentID" msprop:Generator_ColumnPropNameInTable="StudentIDColumn" msprop:Generator_ColumnVarNameInTable="columnStudentID" msprop:Generator_UserColumnName="StudentID" type="xs:int" />
+              <xs:element name="TotalMark" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="TotalMark" msprop:Generator_ColumnPropNameInTable="TotalMarkColumn" msprop:Generator_ColumnVarNameInTable="columnTotalMark" msprop:Generator_UserColumnName="TotalMark" type="xs:double" minOccurs="0" />
+              <xs:element name="ObtainedMark" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="ObtainedMark" msprop:Generator_ColumnPropNameInTable="ObtainedMarkColumn" msprop:Generator_ColumnVarNameInTable="columnObtainedMark" msprop:Generator_UserColumnName="ObtainedMark" type="xs:double" minOccurs="0" />
+              <xs:element name="Avarage" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="Avarage" msprop:Generator_ColumnPropNameInTable="AvarageColumn" msprop:Generator_ColumnVarNameInTable="columnAvarage" msprop:Generator_UserColumnName="Avarage" type="xs:double" minOccurs="0" />
+              <xs:element name="Point" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="Point" msprop:Generator_ColumnPropNameInTable="PointColumn" msprop:Generator_ColumnVarNameInTable="columnPoint" msprop:Generator_UserColumnName="Point" type="xs:double" minOccurs="0" />
+              <xs:element name="Grade" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="Grade" msprop:Generator_ColumnPropNameInTable="GradeColumn" msprop:Generator_ColumnVarNameInTable="columnGrade" msprop:Generator_UserColumnName="Grade" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Position" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPosition" msprop:Generator_ColumnPropNameInRow="Position" msprop:Generator_ColumnPropNameInTable="PositionColumn" msprop:Generator_UserColumnName="Position" type="xs:long" minOccurs="0" />
-              <xs:element name="StudentID1" msprop:Generator_ColumnVarNameInTable="columnStudentID1" msprop:Generator_ColumnPropNameInRow="StudentID1" msprop:Generator_ColumnPropNameInTable="StudentID1Column" msprop:Generator_UserColumnName="StudentID1" type="xs:int" />
-              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID">
+              <xs:element name="Position" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="Position" msprop:Generator_ColumnPropNameInTable="PositionColumn" msprop:Generator_ColumnVarNameInTable="columnPosition" msprop:Generator_UserColumnName="Position" type="xs:long" minOccurs="0" />
+              <xs:element name="StudentID1" msprop:Generator_ColumnPropNameInRow="StudentID1" msprop:Generator_ColumnPropNameInTable="StudentID1Column" msprop:Generator_ColumnVarNameInTable="columnStudentID1" msprop:Generator_UserColumnName="StudentID1" type="xs:int" />
+              <xs:element name="ID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_UserColumnName="ID">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="StudentsName" msprop:Generator_ColumnVarNameInTable="columnStudentsName" msprop:Generator_ColumnPropNameInRow="StudentsName" msprop:Generator_ColumnPropNameInTable="StudentsNameColumn" msprop:Generator_UserColumnName="StudentsName">
+              <xs:element name="StudentsName" msprop:Generator_ColumnPropNameInRow="StudentsName" msprop:Generator_ColumnPropNameInTable="StudentsNameColumn" msprop:Generator_ColumnVarNameInTable="columnStudentsName" msprop:Generator_UserColumnName="StudentsName">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Class" msprop:Generator_ColumnVarNameInTable="columnClass" msprop:Generator_ColumnPropNameInRow="Class" msprop:Generator_ColumnPropNameInTable="ClassColumn" msprop:Generator_UserColumnName="Class" minOccurs="0">
+              <xs:element name="Class" msprop:Generator_ColumnPropNameInRow="Class" msprop:Generator_ColumnPropNameInTable="ClassColumn" msprop:Generator_ColumnVarNameInTable="columnClass" msprop:Generator_UserColumnName="Class" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="128" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="ExamName" msprop:Generator_ColumnVarNameInTable="columnExamName" msprop:Generator_ColumnPropNameInRow="ExamName" msprop:Generator_ColumnPropNameInTable="ExamNameColumn" msprop:Generator_UserColumnName="ExamName" minOccurs="0">
+              <xs:element name="ExamName" msprop:Generator_ColumnPropNameInRow="ExamName" msprop:Generator_ColumnPropNameInTable="ExamNameColumn" msprop:Generator_ColumnVarNameInTable="columnExamName" msprop:Generator_UserColumnName="ExamName" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="128" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="exam_TM" msprop:Generator_ColumnVarNameInTable="columnexam_TM" msprop:Generator_ColumnPropNameInRow="exam_TM" msprop:Generator_ColumnPropNameInTable="exam_TMColumn" msprop:Generator_UserColumnName="exam_TM" type="xs:double" minOccurs="0" />
-              <xs:element name="exam_OM" msprop:Generator_ColumnVarNameInTable="columnexam_OM" msprop:Generator_ColumnPropNameInRow="exam_OM" msprop:Generator_ColumnPropNameInTable="exam_OMColumn" msprop:Generator_UserColumnName="exam_OM" type="xs:double" minOccurs="0" />
-              <xs:element name="Exam_Point" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnExam_Point" msprop:Generator_ColumnPropNameInRow="Exam_Point" msprop:Generator_ColumnPropNameInTable="Exam_PointColumn" msprop:Generator_UserColumnName="Exam_Point" type="xs:double" minOccurs="0" />
-              <xs:element name="Exam_Grade" msprop:Generator_ColumnVarNameInTable="columnExam_Grade" msprop:Generator_ColumnPropNameInRow="Exam_Grade" msprop:Generator_ColumnPropNameInTable="Exam_GradeColumn" msprop:Generator_UserColumnName="Exam_Grade" minOccurs="0">
+              <xs:element name="exam_TM" msprop:Generator_ColumnPropNameInRow="exam_TM" msprop:Generator_ColumnPropNameInTable="exam_TMColumn" msprop:Generator_ColumnVarNameInTable="columnexam_TM" msprop:Generator_UserColumnName="exam_TM" type="xs:double" minOccurs="0" />
+              <xs:element name="exam_OM" msprop:Generator_ColumnPropNameInRow="exam_OM" msprop:Generator_ColumnPropNameInTable="exam_OMColumn" msprop:Generator_ColumnVarNameInTable="columnexam_OM" msprop:Generator_UserColumnName="exam_OM" type="xs:double" minOccurs="0" />
+              <xs:element name="Exam_Point" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="Exam_Point" msprop:Generator_ColumnPropNameInTable="Exam_PointColumn" msprop:Generator_ColumnVarNameInTable="columnExam_Point" msprop:Generator_UserColumnName="Exam_Point" type="xs:double" minOccurs="0" />
+              <xs:element name="Exam_Grade" msprop:Generator_ColumnPropNameInRow="Exam_Grade" msprop:Generator_ColumnPropNameInTable="Exam_GradeColumn" msprop:Generator_ColumnVarNameInTable="columnExam_Grade" msprop:Generator_UserColumnName="Exam_Grade" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />

@@ -335,7 +335,7 @@ namespace EDUCATION.COM.Student
                     cus_phone = dicStudentInfo["phone"],
                     type = "json",
                     //request.success_url = confirmationBase + "/Student/OnlinePayment/Success.aspx";
-                    success_url = "http://localhost:3326/Default.aspx",
+                    success_url = "https://sikkhaloy.com/Default.aspx",
                     fail_url = ConfirmationBase + "/Student/OnlinePayment/Failed.aspx",
                     cancel_url = ConfirmationBase + "/Student/OnlinePayment/Cancelled.aspx",
                     opt_a = GetSessionInfo(),

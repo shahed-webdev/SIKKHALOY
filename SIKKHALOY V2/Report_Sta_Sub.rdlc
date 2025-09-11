@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2024-09-25T03:30:28.8147942Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Exam_Result">
@@ -7,6 +18,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>f747418e-4c0b-4593-89c2-047db90a02a6</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -111,7 +123,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.52542in</Width>
+                  <Width>1.1445in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -491,7 +503,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox5">
                         <CanGrow>true</CanGrow>
@@ -529,7 +541,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox9">
                         <CanGrow>true</CanGrow>
@@ -569,7 +581,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox11">
                         <CanGrow>true</CanGrow>
@@ -619,7 +631,7 @@
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="SubjectGrades">
                         <CanGrow>true</CanGrow>
@@ -655,7 +667,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox15">
                         <CanGrow>true</CanGrow>
@@ -690,7 +702,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox17">
                         <CanGrow>true</CanGrow>
@@ -730,7 +742,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox13">
                         <CanGrow>true</CanGrow>
@@ -770,7 +782,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.54625in</Size>
+                    <Size>1.16533in</Size>
                     <CellContents>
                       <Textbox Name="Textbox19">
                         <CanGrow>true</CanGrow>
@@ -814,7 +826,7 @@
             <DataSetName>DataSet1</DataSetName>
             <Top>1.01264in</Top>
             <Height>2.57292in</Height>
-            <Width>1.07167in</Width>
+            <Width>2.30983in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1170,7 +1182,7 @@
             <rd:DefaultName>Textbox1</rd:DefaultName>
             <Top>0.4861in</Top>
             <Height>0.43626in</Height>
-            <Width>4.17709in</Width>
+            <Width>9.1875in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>

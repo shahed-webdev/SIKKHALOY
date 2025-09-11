@@ -23,6 +23,10 @@ namespace EDUCATION.COM.Accounts.Reports
         {
             SectionDropDownList.Items.Insert(0, new ListItem("[ ALL SECTION ]", "%"));
         }
+        protected void GroupDropDownList_DataBound(object sender, EventArgs e)
+        {
+            GroupDropDownList.Items.Insert(0, new ListItem("[ ALL GROUP ]", "%"));
+        }
 
         protected void IncomeGridView_RowDataBound(object sender, GridViewRowEventArgs e)
         {

@@ -4,7 +4,13 @@
     <link href="../../css/Invoice.css" rel="stylesheet" />
     <style>
         .invoice-to { padding: 0.7rem 0; margin: 20px 0; }
-        .img-sign { position: absolute; bottom:90px; right: 46px; color: #000; }
+        .img-sign { position: absolute; bottom:40px; right: 6px; color: #000; }
+        .mr-5, .mx-5 {
+  margin-right: 1rem !important;
+}
+        .ml-5, .mx-5 {
+  margin-left: 1rem !important;
+}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -67,7 +73,7 @@
                     </div>
                 </div>
 
-                <div class="details-list">
+                <div class="details-list" style="margin-bottom:20px;">
                     <asp:Repeater ID="DetailsRepeater" runat="server" DataSourceID="DetailsSQL">
                         <HeaderTemplate>
                             <table class="invoice-table">
@@ -106,31 +112,46 @@
                 </div>
 
                 <div class="row no-gutters">
-                    <div class="col">
+<div class="col">
                         <div class="conclusion">
-                            <h4>Thank you for your business, Loops IT Ltd.</h4>
+                            <h4>Thank you, IT Genius.</h4>
                             <h5>Payment Method:</h5>
 
                             <table>
                                 <tr>
-                                    <td style="background-color: #ddd; padding: 0 3px">DBBL Account Name</td>
-                                    <td>Loops IT</td>
+                                    <td style="background-color: #ddd; padding: 0 3px">BANK NAME</td>
+                                    
+                                    <td>Eastern Bank PLC</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Name</td>
+                                  <td>IT Genius</td>
                                 </tr>
                                 <tr>
                                     <td>Account Number</td>
-                                    <td>227.110.6579</td>
+                                    <td>10510.7000.1333</td>
                                 </tr>
                                 <tr>
                                     <td>Branch</td>
-                                    <td>Tejgaon Branch</td>
+                                    <td>Sonargaon Branch</td>
+                                </tr>
+                                    <tr>
+                                    <td>Routing Number</td>
+                                    <td>095276586</td>
+                                   </tr>
+                                 <tr>
+                                    <td style=" padding: 5px;"><img src="../../../CSS/Image/rocket.jpg" /></td>
+                                    <td>01739144141-6</td>
+                                     
                                 </tr>
                                 <tr>
-                                    <td style="background-color: #ddd; padding: 0 10px;">DBBL Rocket</td>
-                                    <td>017391441416</td>
+                                    <td style=" padding: 5px;">bKash (Personal)</td>
+                                    <td>+880 1712-674118</td>
+                                     
                                 </tr>
                             </table>
                         </div>
-                    </div>
+</div>
 
                     <div class="col-3">
                         <div class="gt-table">
@@ -158,11 +179,20 @@
                 </div>
 
                 <div class="img-sign">
-                    <img src="/CSS/Image/PaidSign.png" />
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="/CSS/Image/PaidSign.png" /></td>
+                        </tr>
+                        <tr>
+
+                            <td>Authorised sign</td>
+                        </tr>
+                    </table>
+
+
                 </div>
-                <div class="auto-sign" style="width:132px">
-                    Authorised sign
-                </div>
+
 
                 <div class="invc-footer">
                     <div class="footer_title"></div>

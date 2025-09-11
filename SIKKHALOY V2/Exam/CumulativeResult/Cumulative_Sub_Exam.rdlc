@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2024-09-15T07:25:25.5213638Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Cu_Exam">
@@ -7,6 +18,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>fd880b79-81e0-4325-a07e-a9a80d8cf265</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -237,6 +249,10 @@
           <DataField>IS_Hide_Sec_Position</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="IS_Hide_Class_Position">
+          <DataField>IS_Hide_Class_Position</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
         <Field Name="WorkingDays">
           <DataField>WorkingDays</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -331,46 +347,46 @@
                               <TablixBody>
                                 <TablixColumns>
                                   <TablixColumn>
-                                    <Width>1.28683in</Width>
+                                    <Width>1.39408in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.26867in</Width>
+                                    <Width>0.63812in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.56054in</Width>
+                                    <Width>1.31522in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.47763in</Width>
+                                    <Width>0.60263in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.45399in</Width>
+                                    <Width>0.72923in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.47068in</Width>
+                                    <Width>0.75669in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.62066in</Width>
+                                    <Width>0.43834in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.52813in</Width>
+                                    <Width>0.52698in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.38335in</Width>
+                                    <Width>0.60071in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.32678in</Width>
+                                    <Width>0.58146in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.24781in</Width>
+                                    <Width>0.45936in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.32677in</Width>
+                                    <Width>0.37269in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.35258in</Width>
+                                    <Width>0.63348in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.38927in</Width>
+                                    <Width>0.47588in</Width>
                                   </TablixColumn>
                                 </TablixColumns>
                                 <TablixRows>
@@ -1193,7 +1209,7 @@
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
@@ -1381,7 +1397,7 @@
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
@@ -1418,7 +1434,7 @@
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
@@ -1717,7 +1733,7 @@
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
@@ -1901,7 +1917,7 @@
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
@@ -1938,7 +1954,7 @@
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
@@ -2189,7 +2205,11 @@
                                           <TablixMember />
                                           <TablixMember />
                                           <TablixMember />
-                                          <TablixMember />
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=Fields!IS_Hide_Class_Position.Value</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
                                           <TablixMember>
                                             <Visibility>
                                               <Hidden>=Fields!IS_Hide_Sec_Position.Value</Hidden>
@@ -2232,7 +2252,7 @@
                               <DataSetName>DataSet1</DataSetName>
                               <Top>2.42899in</Top>
                               <Height>0.79755in</Height>
-                              <Width>6.69369in</Width>
+                              <Width>9.52487in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -3153,7 +3173,11 @@
                                       <TablixMember />
                                       <TablixMember />
                                       <TablixMember />
-                                      <TablixMember />
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>=Fields!IS_Hide_Class_Position.Value</Hidden>
+                                        </Visibility>
+                                      </TablixMember>
                                       <TablixMember>
                                         <Visibility>
                                           <Hidden>=Fields!IS_Hide_Sec_Position.Value</Hidden>
@@ -3992,10 +4016,10 @@
         <Height>3.22654in</Height>
         <Style />
       </Body>
-      <Width>11.29892in</Width>
+      <Width>11.64267in</Width>
       <Page>
         <PageFooter>
-          <Height>0.6511in</Height>
+          <Height>0.75527in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -4222,12 +4246,39 @@
                     <TextAlign>Center</TextAlign>
                   </Style>
                 </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value />
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <Color>DarkGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value />
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <Color>DarkGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox57</rd:DefaultName>
               <Top>0.2761in</Top>
-              <Left>0.00425in</Left>
               <Height>0.25in</Height>
-              <Width>11.29467in</Width>
+              <Width>11.64267in</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>

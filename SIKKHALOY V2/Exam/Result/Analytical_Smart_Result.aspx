@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Analytical Smart Result" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Analytical_Smart_Result.aspx.cs" Inherits="EDUCATION.COM.Exam.Result.Analytical_Smart_Result" %>
 
 <%@ Register assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
+<%@ Register TagPrefix="rsweb" Namespace="Microsoft.Reporting.WebForms" Assembly="Microsoft.ReportViewer.WebForms" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="CSS/Analytical_Smart_Result.css?v=3" rel="stylesheet" />
 </asp:Content>
@@ -71,8 +72,8 @@
 
         <div id="tab2" class="tab-pane fade" role="tabpanel" aria-expanded="false">
             <div class="table-responsive">
-                <rsweb:ReportViewer ID="Individual_SubjectRV" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="" Height="100%" AsyncRendering="False" SizeToReportContent="True" BackColor="White">
-                    <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Sta_Sub.rdlc" ReportPath="Report_Sta_Sub.rdlc">
+                 <rsweb:ReportViewer ID="Individual_SubjectRV" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%" Height="400px" AsyncRendering="True" SizeToReportContent="False" SplitterBackColor="White" BackColor="White">
+                       <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Sta_Sub.rdlc" ReportPath="Report_Sta_Sub.rdlc">
                         <DataSources>
                             <rsweb:ReportDataSource DataSourceId="Individual_SubjectODS" Name="DataSet1" />
                         </DataSources>
@@ -125,8 +126,8 @@ GROUP BY Exam_Result_of_Subject.StudentID) AS S_T GROUP BY Sub_Failed ">
 
         <div id="tab4" class="tab-pane fade" role="tabpanel" aria-expanded="false">
             <div class="table-responsive">
-                <rsweb:ReportViewer ID="UnsuccessfulRV" runat="server" Width="100%" BackColor="White" Height="100%" AsyncRendering="False">
-                    <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Unsuccess_Student.rdlc" ReportPath="Report_Unsuccess_Student.rdlc">
+                <rsweb:ReportViewer ID="UnsuccessfulRV" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%" Height="400px" SizeToReportContent="true" BackColor="White">
+                       <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Unsuccess_Student.rdlc" ReportPath="Report_Unsuccess_Student.rdlc">
                         <DataSources>
                             <rsweb:ReportDataSource DataSourceId="UnsuccessfulODS" Name="DataSet1" />
                         </DataSources>
@@ -144,7 +145,7 @@ GROUP BY Exam_Result_of_Subject.StudentID) AS S_T GROUP BY Sub_Failed ">
         </div>
 
         <div id="tab5" class="tab-pane fade" role="tabpanel" aria-expanded="false">
-            <rsweb:ReportViewer ID="Pass_FailRV" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="" Height="100%" AsyncRendering="False" SizeToReportContent="True" BackColor="White">
+            <rsweb:ReportViewer ID="Pass_FailRV" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="" Height="520px" AsyncRendering="False" SizeToReportContent="False" BackColor="White">
                 <LocalReport ReportEmbeddedResource="EDUCATION.COM.Report_Pass_Fail.rdlc" ReportPath="Report_Pass_Fail.rdlc">
                     <DataSources>
                         <rsweb:ReportDataSource DataSourceId="Pass_FailODS" Name="DataSet1" />

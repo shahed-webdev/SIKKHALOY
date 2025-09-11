@@ -33,7 +33,7 @@ namespace EDUCATION.COM.Admission
             HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWrite);
 
             // Read Style file (css) here and add to response 
-            FileInfo fi = new FileInfo(Server.MapPath("~/Admission/CSS/Print_TC.css"));
+            FileInfo fi = new FileInfo(Server.MapPath("~/Admission/CSS/print-tc.css"));
             StringBuilder sb = new StringBuilder();
             StreamReader sr = fi.OpenText();
 

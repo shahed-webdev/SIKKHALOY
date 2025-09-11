@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -10,7 +13,11 @@ namespace EDUCATION.COM.Employee.Payorder
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                //DataView dv = (DataView)EmployeeListSQL.Select(DataSourceSelectArguments.Empty);
+                //CountLabel.Text = "Total: " + dv.Count.ToString() + " Employee(s)";
+            }
         }
         protected void AddPayorderButton_Click(object sender, EventArgs e)
         {
@@ -28,17 +35,34 @@ namespace EDUCATION.COM.Employee.Payorder
             con.Open();
             SqlDataReader EmployeeID_DR;
             EmployeeID_DR = EmployeeID_Cmd.ExecuteReader();
-
-            while (EmployeeID_DR.Read())
-            {
-                PayorderSQL.InsertParameters["EmployeeID"].DefaultValue = EmployeeID_DR["EmployeeID"].ToString();
-                PayorderSQL.Insert();
+            CheckBox SingleCheckBox = new CheckBox();
+            string employeeId = "";
+            
+            foreach (GridViewRow Row in EmployeeListGridView.Rows)
+            {                
+                SingleCheckBox = Row.FindControl("SingleCheckBox") as CheckBox;
+                employeeId = EmployeeListGridView.DataKeys[Row.DataItemIndex]["EmployeeID"].ToString();
+                Session["empID"] = employeeId;
+                if (SingleCheckBox.Checked)
+                {
+                    PayorderSQL.InsertParameters["EmployeeID"].DefaultValue = employeeId; //EmployeeID_DR["EmployeeID"].ToString();
+                    PayorderSQL.Insert();
+                }
             }
             con.Close();
-
             PayOrderGridView.DataBind();
-        }
-
+        }        
+        protected void EditLinkButton_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandArgument.ToString() == "Teacher")
+            {
+                Response.Redirect("Edit_Employee/Employee.aspx?Emp=" + e.CommandName.ToString());
+            }
+            else
+            {
+                Response.Redirect("Edit_Employee/Staff.aspx?Emp=" + e.CommandName.ToString());
+            }
+        }        
         protected void UpdateButton_Click(object sender, EventArgs e)
         {
             foreach (GridViewRow row in PayOrderGridView.Rows)
@@ -86,6 +110,35 @@ namespace EDUCATION.COM.Employee.Payorder
             }
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Update Successfull !!')", true);
+        }
+        
+        protected void SalaryUpdateButton_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+            //bool Up = false;
+
+            foreach (GridViewRow rows in EmployeeListGridView.Rows)
+            {       
+                
+                TextBox SalaryTextBox = (TextBox)rows.FindControl("SalaryTextBox");
+                
+
+
+                
+                //Update Salary
+                if (SalaryTextBox.Text != "")
+                {
+                    SalaryUpdateSQL.UpdateParameters["Salary"].DefaultValue = SalaryTextBox.Text;
+                    SalaryUpdateSQL.UpdateParameters["EmployeeID"].DefaultValue = EmployeeListGridView.DataKeys[rows.DataItemIndex]["EmployeeID"].ToString();
+                    SalaryUpdateSQL.Update();
+                }                
+            }
+            //if (Up)
+                //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Update Successfully !!'');" +
+                // "window.location='Payorder_Monthly.aspx';", true);
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Update Successfully!!')", true);
+
+
         }
     }
 }

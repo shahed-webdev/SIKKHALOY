@@ -27,11 +27,11 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Seat Plan</h3>
+     <h3>Seat Plan</h3><div style="float:right"> <h3 ><a class="d-print-none" href="SeatPlanWithoutPhoto.aspx"> সিট প্ল্যান বাংলায়</a></h3></div>
 
     <div class="form-inline NoPrint">
         <div class="form-group">
-            <asp:DropDownList ID="ExamDropDownList" runat="server" CssClass="form-control" DataSourceID="ExamSQL" DataTextField="ExamName" DataValueField="ExamID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ExamDropDownList_SelectedIndexChanged">
+            <asp:DropDownList ID="ExamDropDownList" runat="server" CssClass="form-control" onchange="showMe(this);" DataSourceID="ExamSQL" DataTextField="ExamName" DataValueField="ExamID" AppendDataBoundItems="True" AutoPostBack="True" OnSelectedIndexChanged="ExamDropDownList_SelectedIndexChanged">
                 <asp:ListItem Value="0">[ EXAM ]</asp:ListItem>
             </asp:DropDownList>
             <asp:SqlDataSource ID="ExamSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT ExamID, ExamName FROM Exam_Name WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID)">
@@ -40,6 +40,9 @@
                     <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                 </SelectParameters>
             </asp:SqlDataSource>
+        </div>
+        <div class="form-group">
+            <input id="ExamNameTextBox" class="form-control" type="text" value="" placeholder="Exam Name"/>
         </div>
         <div class="form-group">
             <asp:DropDownList ID="ClassDropDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="True" CssClass="form-control" DataSourceID="ClassNameSQL" DataTextField="Class" DataValueField="ClassID" OnSelectedIndexChanged="ClassDropDownList_SelectedIndexChanged">
@@ -166,6 +169,13 @@
 
 
     <script>
+        $('.ExamName').text($('[id*=ExamDropDownList] :selected').text());
+        $('#ExamNameTextBox').val($('[id*=ExamDropDownList] :selected').text());
+        $("#ExamNameTextBox").on('keyup', function () {
+            $(".ExamName").text($(this).val());
+        });
+
+
         $(function () {
             var Default_fontSize = 13;
             var Max_fontSize = 20;
@@ -181,7 +191,14 @@
 
             $('.Ins_Name').css('font-size', New_fontSize);
 
-            $('.ExamName').text($('[id*=ExamDropDownList] :selected').text());
+            
+
+            /*$('#ExamNameTextBox').val($('[id*=ExamDropDownList] :selected').text());*/
         });
+    </script>
+    <script type="text/javascript"> 
+        function showMe(a) {
+            $('#ExamNameTextBox').val($('[id*=ExamDropDownList] :selected').text());
+        }
     </script>
 </asp:Content>

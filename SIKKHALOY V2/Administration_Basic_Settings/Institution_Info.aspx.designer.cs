@@ -7,11 +7,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Administration_Basic_Settings {
-    
-    
-    public partial class Institution_Info {
-        
+namespace EDUCATION.COM.Administration_Basic_Settings
+{
+
+
+    public partial class Institution_Info
+    {
+
+        /// <summary>
+        /// rbSendSMS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rbSendSMS;
+
+        /// <summary>
+        /// SmsSettingSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SmsSettingSQL;
+
         /// <summary>
         /// PImgFormView control.
         /// </summary>
@@ -20,7 +40,7 @@ namespace EDUCATION.COM.Administration_Basic_Settings {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView PImgFormView;
-        
+
         /// <summary>
         /// ImgSQL control.
         /// </summary>
@@ -29,7 +49,7 @@ namespace EDUCATION.COM.Administration_Basic_Settings {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ImgSQL;
-        
+
         /// <summary>
         /// InstitutionInfoDetailsView control.
         /// </summary>
@@ -38,7 +58,7 @@ namespace EDUCATION.COM.Administration_Basic_Settings {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DetailsView InstitutionInfoDetailsView;
-        
+
         /// <summary>
         /// InstitutionInfoSQL control.
         /// </summary>

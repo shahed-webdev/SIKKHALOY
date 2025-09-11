@@ -50,6 +50,7 @@
                                         <th class="text-right">Unit</th>
                                         <th class="text-right">Unit Price</th>
                                         <th class="text-right">Line Total</th>
+                                        
                                         <th class="text-right">Due</th>
                                     </tr>
                                 </thead>
@@ -62,6 +63,7 @@
                                 <td class="text-right"><%# Eval("Unit") %></td>
                                 <td class="text-right"><%# Eval("UnitPrice") %></td>
                                 <td class="text-right"><%# Eval("TotalAmount") %></td>
+                                
                                 <td class="text-right"><%# Eval("Due") %></td>
                             </tr>
                         </ItemTemplate>
@@ -78,31 +80,47 @@
                 </div>
 
                 <div class="row no-gutters my-4">
-                    <div class="col">
+<div class="col">
                         <div class="conclusion">
-                            <h4>Thank you, Loops IT Ltd.</h4>
+                            <h4>Thank you, IT Genius.</h4>
                             <h5>Payment Method:</h5>
 
                             <table>
                                 <tr>
-                                    <td style="background-color: #ddd; padding: 0 3px">DBBL Account Name</td>
-                                    <td>Loops IT</td>
+                                    <td style="background-color: #ddd; padding: 0 3px">BANK NAME</td>
+                                    
+                                    <td>Eastern Bank PLC</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Name</td>
+                                  <td>IT Genius</td>
                                 </tr>
                                 <tr>
                                     <td>Account Number</td>
-                                    <td>227.110.6579</td>
+                                    <td>10510.7000.1333</td>
                                 </tr>
                                 <tr>
                                     <td>Branch</td>
-                                    <td>Tejgaon Branch</td>
+                                    <td>Sonargaon Branch</td>
+                                </tr>
+                                    <tr>
+                                    <td>Routing Number</td>
+                                    <td>095276586</td>
+                                   </tr>
+                                 <tr>
+                                    <td style=" padding: 5px;"><img src="../../CSS/Image/rocket.jpg" /></td>
+                                    <td>01739144141-6</td>
+                                     
                                 </tr>
                                 <tr>
-                                    <td style="background-color: #ddd; padding: 0 10px;">DBBL Rocket</td>
-                                    <td>017391441416</td>
+                                    <td style=" padding: 5px;">bKash (Personal)</td>
+                                    <td>+880 1712-674118</td>
+                                     
                                 </tr>
                             </table>
                         </div>
                     </div>
+
 
                     <div class="col-3">
                         <div class="gt-table">
@@ -142,11 +160,11 @@
                         </div>
                         <div class="col">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            # 328, East Nakhal Para, Tejgaon, Dhaka
+                           18/11 Mosjid Road, Sontek, Jatrabari, Dhaka
                         </div>
                         <div class="col-3">
                             <i class="fa fa-globe" aria-hidden="true"></i>
-                            www.loopsit.com
+                            www.itgeniusbd.com
                         </div>
                     </div>
                 </div>
@@ -156,7 +174,7 @@
             <h4 class="text-center">You have no due invoice!</h4>
         </EmptyDataTemplate>
     </asp:FormView>
-    <asp:SqlDataSource ID="InvoiceSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT SUM(AAP_Invoice.TotalAmount - AAP_Invoice.PaidAmount) AS GrandTotal, SUM(AAP_Invoice.Discount) AS Discount, SUM(AAP_Invoice.PaidAmount) AS PaidAmount, SUM(AAP_Invoice.Due) AS Due, SchoolInfo.SchoolName, SchoolInfo.Address, SchoolInfo.Phone, SchoolInfo.Email FROM AAP_Invoice INNER JOIN SchoolInfo ON AAP_Invoice.SchoolID = SchoolInfo.SchoolID WHERE (AAP_Invoice.SchoolID = @SchoolID) AND (AAP_Invoice.IsPaid = 0) GROUP BY SchoolInfo.SchoolName, SchoolInfo.Address, SchoolInfo.Phone, SchoolInfo.Email">
+    <asp:SqlDataSource ID="InvoiceSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT sum(AAP_Invoice.TotalAmount - AAP_Invoice.PaidAmount) as pid, SUM(AAP_Invoice.TotalAmount - AAP_Invoice.PaidAmount) AS GrandTotal, SUM(AAP_Invoice.Discount) AS Discount, SUM(AAP_Invoice.PaidAmount) AS PaidAmount, SUM(AAP_Invoice.Due) AS Due, SchoolInfo.SchoolName, SchoolInfo.Address, SchoolInfo.Phone, SchoolInfo.Email FROM AAP_Invoice INNER JOIN SchoolInfo ON AAP_Invoice.SchoolID = SchoolInfo.SchoolID WHERE (AAP_Invoice.SchoolID = @SchoolID) AND (AAP_Invoice.IsPaid = 0) GROUP BY SchoolInfo.SchoolName, SchoolInfo.Address, SchoolInfo.Phone, SchoolInfo.Email">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
         </SelectParameters>

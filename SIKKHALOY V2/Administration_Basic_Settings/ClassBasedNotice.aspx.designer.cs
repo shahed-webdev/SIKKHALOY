@@ -60,6 +60,15 @@ namespace EDUCATION.COM.Administration_Basic_Settings
         protected global::System.Web.UI.WebControls.TextBox NoticeTextBox;
 
         /// <summary>
+        /// FileUploadPDF control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadPDF;
+
+        /// <summary>
         /// NoticeButton control.
         /// </summary>
         /// <remarks>
@@ -87,6 +96,15 @@ namespace EDUCATION.COM.Administration_Basic_Settings
         protected global::System.Web.UI.WebControls.SqlDataSource StudentNoticeClassSQL;
 
         /// <summary>
+        /// HomeworkSqlDataSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource HomeworkSqlDataSource;
+
+        /// <summary>
         /// NoticeGridView control.
         /// </summary>
         /// <remarks>
@@ -94,5 +112,14 @@ namespace EDUCATION.COM.Administration_Basic_Settings
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView NoticeGridView;
+
+        /// <summary>
+        /// HomeWorkGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView HomeWorkGridView;
     }
 }

@@ -79,15 +79,10 @@
             <asp:QueryStringParameter Name="CommitteeMoneyReceiptId" QueryStringField="id" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
-    
-    <div class="text-right mt-2 dynamic-font-size">
-        <label class="m-0" style="white-space: nowrap">
-            <strong id="total-paid"></strong>
-            TK
-        </label>
-        <p class="m-0" id="amount-in-word"></p>
-    </div>
-      <asp:FormView runat="server" DataSourceID="InfoSQL" RenderOuterTable="False">
+
+    <p>আল্লাহ আপনার দান কবুল করুন, দুনিয়া ও আখেরাতে উত্তম বিনিময় দান করুন। </p>
+
+    <asp:FormView runat="server" DataSourceID="InfoSQL" RenderOuterTable="False">
         <ItemTemplate>
             <div class="received-by-user-container">
                 (© Sikkhaloy.com) Received By: <%# Eval("FirstName") %> <%# Eval("LastName") %>
@@ -96,7 +91,14 @@
     </asp:FormView>
 
 
-     <p style="font-size:11px; text-align:center; margin-top:10px;">আল্লাহ আপনার দান কবুল করুন, দুনিয়া ও আখেরাতে উত্তম বিনিময় দান করুন। </p>
+    <div class="text-right mt-2 dynamic-font-size">
+        <label class="m-0" style="white-space: nowrap">
+            <strong id="total-paid"></strong>
+            TK
+        </label>
+        <p class="m-0" id="amount-in-word"></p>
+    </div>
+
     <div class="d-print-none my-4 card">
         <div class="card-header">
             <h4 class="card-title mb-0">

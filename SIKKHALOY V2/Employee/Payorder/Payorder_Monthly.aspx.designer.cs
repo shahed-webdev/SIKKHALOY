@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Employee.Payorder {
-    
-    
-    public partial class Payorder_Monthly {
-        
+namespace EDUCATION.COM.Employee.Payorder
+{
+
+
+    public partial class Payorder_Monthly
+    {
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// PayorderNameDropDownList control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList PayorderNameDropDownList;
-        
+
         /// <summary>
         /// RequiredFieldValidator4 control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
-        
+
         /// <summary>
         /// MonthNameDropDownList control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList MonthNameDropDownList;
-        
+
         /// <summary>
         /// MonthNameSQL control.
         /// </summary>
@@ -65,7 +67,16 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource MonthNameSQL;
-        
+
+        /// <summary>
+        /// UploadButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UploadButton;
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -74,7 +85,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// PayorderSQL control.
         /// </summary>
@@ -83,7 +94,52 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayorderSQL;
-        
+
+        /// <summary>
+        /// EmployeeListGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView EmployeeListGridView;
+
+        /// <summary>
+        /// EmployeeListSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource EmployeeListSQL;
+
+        /// <summary>
+        /// SalaryUpdateSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SalaryUpdateSQL;
+
+        /// <summary>
+        /// Bank_AccNoUpdateSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Bank_AccNoUpdateSQL;
+
+        /// <summary>
+        /// Device_DataUpdateSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Device_DataUpdateSQL;
+
         /// <summary>
         /// PayOrderGridView control.
         /// </summary>
@@ -92,7 +148,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PayOrderGridView;
-        
+
         /// <summary>
         /// EmplyoeePayOrderSQL control.
         /// </summary>
@@ -101,7 +157,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource EmplyoeePayOrderSQL;
-        
+
         /// <summary>
         /// AttendanceFineUpdateSQL control.
         /// </summary>
@@ -110,7 +166,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AttendanceFineUpdateSQL;
-        
+
         /// <summary>
         /// UpdateButton control.
         /// </summary>
@@ -119,7 +175,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button UpdateButton;
-        
+
         /// <summary>
         /// upnlUsers control.
         /// </summary>
@@ -128,7 +184,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upnlUsers;
-        
+
         /// <summary>
         /// PayorderNameTextBox control.
         /// </summary>
@@ -137,7 +193,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PayorderNameTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -146,7 +202,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// AddPayorderButton control.
         /// </summary>
@@ -155,7 +211,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddPayorderButton;
-        
+
         /// <summary>
         /// PayorderNameSQL control.
         /// </summary>
@@ -164,7 +220,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayorderNameSQL;
-        
+
         /// <summary>
         /// AllownceNameGridView control.
         /// </summary>
@@ -173,7 +229,7 @@ namespace EDUCATION.COM.Employee.Payorder {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView AllownceNameGridView;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

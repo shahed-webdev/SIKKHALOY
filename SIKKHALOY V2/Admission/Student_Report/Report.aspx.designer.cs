@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Admission.Student_Rerport {
-    
-    
-    public partial class Report {
-        
+namespace EDUCATION.COM.Admission.Student_Rerport
+{
+
+
+    public partial class Report
+    {
+
         /// <summary>
         /// IDTextBox control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox IDTextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator7 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
-        
+
         /// <summary>
         /// IDFindButton control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button IDFindButton;
-        
+
         /// <summary>
         /// ShowIDSQL control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ShowIDSQL;
-        
+
         /// <summary>
         /// StudentInfoFormView control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView StudentInfoFormView;
-        
+
         /// <summary>
         /// StudentInfoSQL control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource StudentInfoSQL;
-        
+
         /// <summary>
         /// BestSubFormView control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView BestSubFormView;
-        
+
         /// <summary>
         /// BestSubSQL control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource BestSubSQL;
-        
+
         /// <summary>
         /// WeakFormView control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView WeakFormView;
-        
+
         /// <summary>
         /// WeakSQL control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource WeakSQL;
-        
+
         /// <summary>
         /// SubjectAvgRepeater control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater SubjectAvgRepeater;
-        
+
         /// <summary>
         /// SubjectAvgSQL control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SubjectAvgSQL;
-        
+
         /// <summary>
         /// StdentAvgFormView control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView StdentAvgFormView;
-        
+
         /// <summary>
         /// StudentAvgSQL control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource StudentAvgSQL;
-        
+
         /// <summary>
         /// SessionSuccessRepeater control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater SessionSuccessRepeater;
-        
+
         /// <summary>
         /// SessionSuccessSQL control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SessionSuccessSQL;
-        
+
         /// <summary>
         /// EduYearDropDownList control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList EduYearDropDownList;
-        
+
         /// <summary>
         /// EduYearSQL control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource EduYearSQL;
-        
+
         /// <summary>
         /// FromDateTextBox control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FromDateTextBox;
-        
+
         /// <summary>
         /// ToDateTextBox control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox ToDateTextBox;
-        
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// Att_Summery_FormView control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView Att_Summery_FormView;
-        
+
         /// <summary>
         /// SummerySQL control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SummerySQL;
-        
+
         /// <summary>
         /// UpdatePanel3 control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel3;
-        
+
         /// <summary>
         /// AttendanceCalendar control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar AttendanceCalendar;
-        
+
         /// <summary>
         /// UpdatePanel2 control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel2;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// ExamDropDownList control.
         /// </summary>
@@ -263,7 +265,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ExamDropDownList;
-        
+
         /// <summary>
         /// ExamNameSQl control.
         /// </summary>
@@ -272,7 +274,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ExamNameSQl;
-        
+
         /// <summary>
         /// ResultReportViewer control.
         /// </summary>
@@ -281,7 +283,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Microsoft.Reporting.WebForms.ReportViewer ResultReportViewer;
-        
+
         /// <summary>
         /// ExamResultODS control.
         /// </summary>
@@ -290,7 +292,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource ExamResultODS;
-        
+
         /// <summary>
         /// GradingSystemODS control.
         /// </summary>
@@ -299,7 +301,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource GradingSystemODS;
-        
+
         /// <summary>
         /// SchoolInfoODS control.
         /// </summary>
@@ -308,7 +310,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource SchoolInfoODS;
-        
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -317,7 +319,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// Cum_ExamDropDownList control.
         /// </summary>
@@ -326,7 +328,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Cum_ExamDropDownList;
-        
+
         /// <summary>
         /// CumiExamSQL control.
         /// </summary>
@@ -335,7 +337,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource CumiExamSQL;
-        
+
         /// <summary>
         /// Cu_ResultReportViewer control.
         /// </summary>
@@ -344,7 +346,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Microsoft.Reporting.WebForms.ReportViewer Cu_ResultReportViewer;
-        
+
         /// <summary>
         /// Cum_ExamResultODS control.
         /// </summary>
@@ -353,7 +355,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource Cum_ExamResultODS;
-        
+
         /// <summary>
         /// Cu_GradingSystemODS control.
         /// </summary>
@@ -362,7 +364,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource Cu_GradingSystemODS;
-        
+
         /// <summary>
         /// BulletedList1 control.
         /// </summary>
@@ -371,7 +373,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.BulletedList BulletedList1;
-        
+
         /// <summary>
         /// StudentSubjectSQL control.
         /// </summary>
@@ -380,7 +382,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource StudentSubjectSQL;
-        
+
         /// <summary>
         /// DueGridView control.
         /// </summary>
@@ -389,7 +391,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView DueGridView;
-        
+
         /// <summary>
         /// DueSQL control.
         /// </summary>
@@ -398,7 +400,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource DueSQL;
-        
+
         /// <summary>
         /// PresentDueGridView control.
         /// </summary>
@@ -407,7 +409,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PresentDueGridView;
-        
+
         /// <summary>
         /// PresentDueeSQL control.
         /// </summary>
@@ -416,7 +418,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PresentDueeSQL;
-        
+
         /// <summary>
         /// PaidGridView control.
         /// </summary>
@@ -425,7 +427,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PaidGridView;
-        
+
         /// <summary>
         /// PaidSQL control.
         /// </summary>
@@ -434,7 +436,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PaidSQL;
-        
+
         /// <summary>
         /// UpdatePanel6 control.
         /// </summary>
@@ -443,7 +445,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel6;
-        
+
         /// <summary>
         /// PaidRecordGridView control.
         /// </summary>
@@ -452,7 +454,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PaidRecordGridView;
-        
+
         /// <summary>
         /// MoneyReceiptSQL control.
         /// </summary>
@@ -461,7 +463,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource MoneyReceiptSQL;
-        
+
         /// <summary>
         /// LessPayGridView control.
         /// </summary>
@@ -470,7 +472,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView LessPayGridView;
-        
+
         /// <summary>
         /// DiscountSQL control.
         /// </summary>
@@ -479,7 +481,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource DiscountSQL;
-        
+
         /// <summary>
         /// DisCountLateFeeGridView control.
         /// </summary>
@@ -488,7 +490,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView DisCountLateFeeGridView;
-        
+
         /// <summary>
         /// LateFeeSQL control.
         /// </summary>
@@ -497,7 +499,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource LateFeeSQL;
-        
+
         /// <summary>
         /// ChargeGridView control.
         /// </summary>
@@ -506,7 +508,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView ChargeGridView;
-        
+
         /// <summary>
         /// ChargeLateFSQL control.
         /// </summary>
@@ -515,7 +517,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ChargeLateFSQL;
-        
+
         /// <summary>
         /// P_SumFormView control.
         /// </summary>
@@ -524,7 +526,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView P_SumFormView;
-        
+
         /// <summary>
         /// PayOrderSummarySQL control.
         /// </summary>
@@ -533,7 +535,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayOrderSummarySQL;
-        
+
         /// <summary>
         /// PayOrderGridView control.
         /// </summary>
@@ -542,7 +544,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PayOrderGridView;
-        
+
         /// <summary>
         /// PayOrderSQL control.
         /// </summary>
@@ -551,7 +553,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayOrderSQL;
-        
+
         /// <summary>
         /// SMSGridView control.
         /// </summary>
@@ -560,7 +562,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView SMSGridView;
-        
+
         /// <summary>
         /// SMSRecordSQL control.
         /// </summary>
@@ -569,7 +571,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SMSRecordSQL;
-        
+
         /// <summary>
         /// UpdatePanel4 control.
         /// </summary>
@@ -578,7 +580,34 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel4;
-        
+
+        /// <summary>
+        /// From_Date_TextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox From_Date_TextBox;
+
+        /// <summary>
+        /// To_Date_TextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox To_Date_TextBox;
+
+        /// <summary>
+        /// Find_Button control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Find_Button;
+
         /// <summary>
         /// Fault_Gridview control.
         /// </summary>
@@ -587,7 +616,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView Fault_Gridview;
-        
+
         /// <summary>
         /// FaultSQL control.
         /// </summary>
@@ -596,7 +625,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource FaultSQL;
-        
+
         /// <summary>
         /// UpdatePanel5 control.
         /// </summary>
@@ -605,7 +634,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel5;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -614,7 +643,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// Fault_Title_TextBox control.
         /// </summary>
@@ -623,7 +652,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Fault_Title_TextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -632,7 +661,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// Fault_TextBox control.
         /// </summary>
@@ -641,7 +670,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Fault_TextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator4 control.
         /// </summary>
@@ -650,7 +679,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
-        
+
         /// <summary>
         /// Fault_Date_TextBox control.
         /// </summary>
@@ -659,7 +688,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Fault_Date_TextBox;
-        
+
         /// <summary>
         /// Fault_Add_Button control.
         /// </summary>
@@ -668,7 +697,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Fault_Add_Button;
-        
+
         /// <summary>
         /// UpdatePanel9 control.
         /// </summary>
@@ -677,7 +706,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel9;
-        
+
         /// <summary>
         /// AllPaidRGridView control.
         /// </summary>
@@ -686,7 +715,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView AllPaidRGridView;
-        
+
         /// <summary>
         /// AllPayRecordSQL control.
         /// </summary>
@@ -695,7 +724,7 @@ namespace EDUCATION.COM.Admission.Student_Rerport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AllPayRecordSQL;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

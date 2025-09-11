@@ -26,7 +26,7 @@
         <asp:RadioButtonList ID="SelectRadioButtonList" runat="server" RepeatLayout="Flow" RepeatDirection="Horizontal" AutoPostBack="True" CssClass="Radio-button">
             <asp:ListItem Selected="True">Send SMS selected students</asp:ListItem>
             <asp:ListItem>Send SMS All students</asp:ListItem>
-            <asp:ListItem>Single SMS</asp:ListItem>
+            <asp:ListItem>Send Single Or Multiple SMS</asp:ListItem>
             <asp:ListItem>Send SMS Teachers</asp:ListItem>
         </asp:RadioButtonList>
     </div>
@@ -138,9 +138,9 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
                     <div class="form-group">
-                        <asp:TextBox ID="SingleMobileNoTextBox" runat="server" CssClass="form-control" onkeypress="return isNumberKey(event)" placeholder="Enter Mobile Number"></asp:TextBox>
+                        <asp:TextBox ID="SingleMobileNoTextBox" runat="server" CssClass="form-control"  placeholder="Enter Mobile Number"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="SingleMobileNoTextBox" CssClass="EroorSummer" ErrorMessage="Enter mobile no." ValidationGroup="1"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="SingleMobileNoTextBox" CssClass="EroorSummer" ErrorMessage="Invalid Mobile number" ValidationExpression="^(?=\d+ \d+#)[\d ]{12}#\d{5}|\d{11}|\d{1,12}#\d{1,5}$" ValidationGroup="1"></asp:RegularExpressionValidator>
+                        <%--<asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="SingleMobileNoTextBox" CssClass="EroorSummer" ErrorMessage="Invalid Mobile number" ValidationExpression="^(?=\d+ \d+#)[\d ]{12}#\d{5}|\d{11}|\d{1,12}#\d{1,5}$" ValidationGroup="1"></asp:RegularExpressionValidator>--%>
                     </div>
                 </div>
             </div>

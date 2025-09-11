@@ -150,7 +150,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion
             }
             #endregion
 
-
+            SubmitButton.Enabled = false;
             bool IS_Optional = false;
             foreach (GridViewRow row in GroupGridView.Rows)
             {
@@ -187,6 +187,8 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion
                 StudentClassSQL.Update();  //Class Changing status update
                 UpdatePaymantSQL.Delete(); //Delete Unpaid Record
                 UpdatePaymantSQL.Update(); //Update Payment
+
+                SubmitButton.Enabled = true;
 
                 Response.Redirect("Payments.aspx?Student=" + Request.QueryString["Student"].ToString() + "&Class=" + ClassDropDownList.SelectedValue + "&StudentClass=" + Session["StudentClassID"]);
             }

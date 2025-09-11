@@ -37,6 +37,9 @@
                                         <strong>(<span id="IDLabel"><%# Eval("ID") %></span>) <%# Eval("StudentsName") %></strong>
                                     </li>
                                     <li>
+                                        <strong>Father's Name <%# Eval("FathersName") %></strong>
+                                    </li>
+                                    <li>
                                         <b>Class:</b>
                                         <%# Eval("Class") %>
                                     </li>
@@ -45,6 +48,7 @@
                                     <li><b>Session: </b><%# Eval("EducationYear") %> <i class="fa fa-hand-o-right"></i><a target="_blank" href="/Admission/Student_Report/Report.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>">Full Details</a></li>
                                 </ul>
                                 <button type="button" data-toggle="modal" data-target="#Others_Modal" class="btn btn-outline-success btn-md m-0">Add More Payment</button>
+
                             </div>
                         </div>
                     </div>
@@ -184,7 +188,12 @@
                 <asp:BoundField DataField="PayFor" HeaderText="Pay For" SortExpression="PayFor" />
                 <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:d MMM yyyy}" />
                 <asp:BoundField DataField="Amount" HeaderText="Fee" SortExpression="Amount" />
-                <asp:BoundField DataField="Discount" HeaderText="Concession" SortExpression="Discount" />
+                <asp:TemplateField HeaderText="Concession" SortExpression="Concession" ValidateRequestMode="Disabled">
+                    <ItemTemplate>
+                        <asp:TextBox ID="ConcessionTextBox" runat="server" type="number" Enabled="false" CssClass="form-control concession-input" Text='<%# Eval("Discount") %>' autocomplete="off"></asp:TextBox>
+                    </ItemTemplate>
+                    <ItemStyle Width="150px" />
+                </asp:TemplateField>
                 <asp:BoundField DataField="LateFee" HeaderText="Late Fee" SortExpression="LateFee" />
                 <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" />
                 <asp:TemplateField HeaderText="Due" SortExpression="Due">
@@ -212,13 +221,33 @@ FROM            Income_PayOrder INNER JOIN
                          Education_Year ON Income_PayOrder.EducationYearID = Education_Year.EducationYearID INNER JOIN
                          CreateClass ON Income_PayOrder.ClassID = CreateClass.ClassID 
 WHERE        (Income_PayOrder.Status = 'Due') AND (Student.ID = @ID)  AND (Income_PayOrder.SchoolID = @SchoolID) AND (Income_PayOrder.EducationYearID = @EducationYearID)
-ORDER BY Income_PayOrder.EndDate">
+ORDER BY Income_PayOrder.EndDate"
+            UpdateCommand="UPDATE Income_PayOrder SET Discount = @Discount WHERE (PayOrderID = @PayOrderID)">
             <SelectParameters>
                 <asp:ControlParameter ControlID="SearchIDTextBox" DefaultValue="" Name="ID" PropertyName="Text" />
                 <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                 <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
             </SelectParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="Discount" />
+                <asp:Parameter Name="PayOrderID" />
+            </UpdateParameters>
         </asp:SqlDataSource>
+
+
+
+        <asp:SqlDataSource ID="Fee_DiscountSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+            SelectCommand="SELECT * FROM [Income_Discount_Record]" UpdateCommand="UPDATE Income_PayOrder SET Discount = @Discount WHERE (PayOrderID = @PayOrderID)">
+
+            <UpdateParameters>
+                <asp:Parameter Name="Discount" />
+                <asp:Parameter Name="PayOrderID" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
+
+
+
+
 
         <%if (OtherSessionGridView.Rows.Count > 0)
             {%>
@@ -236,7 +265,12 @@ ORDER BY Income_PayOrder.EndDate">
                 <asp:BoundField DataField="PayFor" HeaderText="Pay For" SortExpression="PayFor" />
                 <asp:BoundField DataField="EndDate" HeaderText="End Date" SortExpression="EndDate" DataFormatString="{0:d MMM yyyy}" />
                 <asp:BoundField DataField="Amount" HeaderText="Fee" SortExpression="Amount" />
-                <asp:BoundField DataField="Discount" HeaderText="Concession" SortExpression="Discount" />
+                <asp:TemplateField HeaderText="Concession" SortExpression="Concession" ValidateRequestMode="Disabled">
+                    <ItemTemplate>
+                        <asp:TextBox ID="ConcessionTextBox" runat="server" type="number" Enabled="false" CssClass="form-control concession-input" Text='<%# Eval("Discount") %>' autocomplete="off"></asp:TextBox>
+                    </ItemTemplate>
+                    <ItemStyle Width="150px" />
+                </asp:TemplateField>
                 <asp:BoundField DataField="LateFee" HeaderText="Late Fee" SortExpression="LateFee" />
                 <asp:BoundField DataField="PaidAmount" HeaderText="Paid" SortExpression="PaidAmount" />
                 <asp:TemplateField HeaderText="Due" SortExpression="Due">
@@ -264,12 +298,17 @@ FROM            Income_PayOrder INNER JOIN
                          Education_Year ON Income_PayOrder.EducationYearID = Education_Year.EducationYearID INNER JOIN
                          CreateClass ON Income_PayOrder.ClassID = CreateClass.ClassID 
 WHERE        (Income_PayOrder.Status = 'Due') AND (Student.ID = @ID)  AND (Income_PayOrder.SchoolID = @SchoolID) AND (Income_PayOrder.EducationYearID &lt;&gt; @EducationYearID)
-ORDER BY Income_PayOrder.EndDate">
+ORDER BY Income_PayOrder.EndDate"
+            UpdateCommand="UPDATE Income_PayOrder SET Discount = @Discount WHERE (PayOrderID = @PayOrderID)">
             <SelectParameters>
                 <asp:ControlParameter ControlID="SearchIDTextBox" DefaultValue="" Name="ID" PropertyName="Text" />
                 <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                 <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
             </SelectParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="Discount" />
+                <asp:Parameter Name="PayOrderID" />
+            </UpdateParameters>
         </asp:SqlDataSource>
         <%}%>
     </div>
@@ -361,6 +400,7 @@ ORDER BY Income_PayOrder.EndDate">
             <div class="form-group">
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="AccountDropDownList" CssClass="EroorStar" ErrorMessage="*" ValidationGroup="PaY"></asp:RequiredFieldValidator>
                 <asp:Button ID="PayButton" runat="server" Text="Pay" OnClick="PayButton_Click" OnClientClick="return validateForm()" ValidationGroup="PaY" CssClass="btn btn-primary" />
+                <asp:Button ID="UpdateConcessionButton" runat="server" Text="Update Concession" OnClick="UpdateConcessionButton_Click" CssClass="btn btn-primary" />
             </div>
         </div>
     </div>
@@ -425,6 +465,7 @@ ORDER BY Income_PayOrder.EndDate">
             //calculate total dues
             function calculateTotal() {
                 const inputedDues = document.querySelectorAll(".due-input:not([disabled])");
+                const inputedConcession = document.querySelectorAll(".concession-input:not([disabled])");
                 let total = 0;
                 inputedDues.forEach((item => {
                     total += Number(item.value);
@@ -445,7 +486,9 @@ ORDER BY Income_PayOrder.EndDate">
                     element.closest("tr").classList.toggle("row-selected");
 
                     const input = element.closest("tr").querySelector('.due-input');
+                    const consinput = element.closest("tr").querySelector('.concession-input');
                     input.disabled = !element.checked;
+                    consinput.disabled = !element.checked;
                 }
 
                 const total = `Total Amount: <span id="total-amount-pay">${calculateTotal()}</span> Tk`;

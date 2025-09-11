@@ -95,6 +95,8 @@ namespace EDUCATION.COM.Exam.CumulativeResult
             ShiftDropDownList.DataBind();
             SectionDropDownList.DataBind();
             view();
+
+            string eduyear = Session["Edu_Year"].ToString();
         }
 
         protected void GroupDropDownList_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,33 +149,10 @@ namespace EDUCATION.COM.Exam.CumulativeResult
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 //Class
-                if (e.Row.Cells[7].Text == "1")
-                {
-                    e.Row.Cells[7].CssClass = "First";
-
-                    e.Row.Cells[7].Text += " st";
-                }
-
-                else if (e.Row.Cells[7].Text == "2")
-                {
-                    e.Row.Cells[7].CssClass = "Second";
-                    e.Row.Cells[7].Text += " nd";
-                }
-
-                else if (e.Row.Cells[7].Text == "3")
-                {
-                    e.Row.Cells[7].CssClass = "Third";
-                    e.Row.Cells[7].Text += " rd";
-                }
-                else
-                {
-                    e.Row.Cells[7].Text += " th";
-                }
-
-                //Section
                 if (e.Row.Cells[8].Text == "1")
                 {
                     e.Row.Cells[8].CssClass = "First";
+
                     e.Row.Cells[8].Text += " st";
                 }
 
@@ -181,7 +160,6 @@ namespace EDUCATION.COM.Exam.CumulativeResult
                 {
                     e.Row.Cells[8].CssClass = "Second";
                     e.Row.Cells[8].Text += " nd";
-
                 }
 
                 else if (e.Row.Cells[8].Text == "3")
@@ -192,6 +170,30 @@ namespace EDUCATION.COM.Exam.CumulativeResult
                 else
                 {
                     e.Row.Cells[8].Text += " th";
+                }
+
+                //Section
+                if (e.Row.Cells[9].Text == "1")
+                {
+                    e.Row.Cells[9].CssClass = "First";
+                    e.Row.Cells[9].Text += " st";
+                }
+
+                else if (e.Row.Cells[9].Text == "2")
+                {
+                    e.Row.Cells[9].CssClass = "Second";
+                    e.Row.Cells[9].Text += " nd";
+
+                }
+
+                else if (e.Row.Cells[9].Text == "3")
+                {
+                    e.Row.Cells[9].CssClass = "Third";
+                    e.Row.Cells[9].Text += " rd";
+                }
+                else
+                {
+                    e.Row.Cells[9].Text += " th";
                 }
 
 
@@ -237,11 +239,13 @@ namespace EDUCATION.COM.Exam.CumulativeResult
                         Text += "Total Marks: " + Convert.ToDecimal(StudentsGridView.DataKeys[row.RowIndex]["ObtainedMark_ofStudent"].ToString()).ToString("0.00");
                         Text += ", Grade: " + StudentsGridView.DataKeys[row.RowIndex]["Student_Grade"];
                         Text += ", Point: " + Convert.ToDecimal(StudentsGridView.DataKeys[row.RowIndex]["Student_Point"].ToString()).ToString("0.00");
-                        Text += ", Position In Class: " + row.Cells[7].Text;
-
+                        if (ClassPositionCheckBox.Checked)
+                        {
+                            Text += ", Position In Class: " + row.Cells[8].Text;
+                        }
                         if (SecPositionCheckBox.Checked)
                         {
-                            Text += ", Position In Section: " + row.Cells[8].Text;
+                            Text += ", Position In Section: " + row.Cells[9].Text;
                         }
 
                         Text += ". Regards: " + Session["School_Name"];
@@ -284,10 +288,13 @@ namespace EDUCATION.COM.Exam.CumulativeResult
                                 Text += "Total Marks: " + Convert.ToDecimal(StudentsGridView.DataKeys[row.RowIndex]["ObtainedMark_ofStudent"].ToString()).ToString("0.00");
                                 Text += ", Grade: " + StudentsGridView.DataKeys[row.RowIndex]["Student_Grade"];
                                 Text += ", Point: " + Convert.ToDecimal(StudentsGridView.DataKeys[row.RowIndex]["Student_Point"].ToString()).ToString("0.00");
-                                Text += ", Position In Class: " + row.Cells[7].Text;
+                                if (ClassPositionCheckBox.Checked)
+                                {
+                                    Text += ", Position In Class: " + row.Cells[8].Text;
+                                }                                
                                 if (SecPositionCheckBox.Checked)
                                 {
-                                    Text += ", Position In Section: " + row.Cells[8].Text;
+                                    Text += ", Position In Section: " + row.Cells[9].Text;
                                 }
                                 Text += ". Regards: " + Session["School_Name"];
                             }

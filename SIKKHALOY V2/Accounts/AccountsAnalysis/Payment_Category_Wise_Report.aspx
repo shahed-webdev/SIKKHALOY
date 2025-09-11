@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Payment Category Wise Report" Language="C#" MasterPageFile="~/BASIC.Master" AutoEventWireup="true" CodeBehind="Payment_Category_Wise_Report.aspx.cs" Inherits="EDUCATION.COM.Accounts.AccountsAnalysis.Payment_Category_Wise_Report" %>
 
 <%@ Register assembly="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
+<%@ Register assembly="Microsoft.ReportViewer.WebForms" namespace="Microsoft.Reporting.WebForms" tagprefix="rsweb" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="CSS/Category_Report.css?v=2" rel="stylesheet" />
     <link href="/CSS/bootstrap-multiselect.css" rel="stylesheet" />

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Admission.New_Student_Admission {
-    
-    
-    public partial class Admission_Form {
-        
+namespace EDUCATION.COM.Admission.New_Student_Admission
+{
+
+
+    public partial class Admission_Form
+    {
+
         /// <summary>
         /// FormFormView control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Admission.New_Student_Admission {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView FormFormView;
-        
+
         /// <summary>
         /// FormSQL control.
         /// </summary>

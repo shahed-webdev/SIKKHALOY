@@ -2,34 +2,124 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        #wrapper { display: grid; grid-gap: 45px 30px; grid-template-columns: repeat(3, 1fr); }
-        #wrapper > div { position: relative; border: 2px solid #0075d2; /*width: 323.52px; height: 204px;*/ }
+        #wrapper {
+            display: grid;
+            grid-gap: 45px 30px;
+            grid-template-columns: repeat(3, 1fr);
+        }
 
-        #grid_Header { margin-bottom:8px; background-color: #0075d2; border-bottom: 2px solid #006bc8; color: #fff; text-align: center; display: grid; grid-template-columns: 40px 1fr;}
-        #grid_Header img { height: 30px; border-radius: 3px; }
-        .Hidden_Ins_Name { position: absolute; visibility: hidden; height: auto; width: auto; white-space: nowrap; }
-        .Institution_Dialog { font-size: 11px; letter-spacing: 3.3px; line-height: 14px; text-align: center; }
+            #wrapper > div {
+                position: relative;
+                border: 2px solid #0075d2; /*width: 323.52px; height: 204px;*/
+            }
 
-        .iCard-title { margin: auto; background-color: #0075d2; border-radius: 3px; color: #fff; font-size: 15px; padding: 1px 10px; text-align: center; width: 126px; }
+        #grid_Header {
+            margin-bottom: 8px;
+            background-color: #0075d2;
+            border-bottom: 2px solid #006bc8;
+            color: #fff;
+            text-align: center;
+            display: grid;
+            grid-template-columns: 40px 1fr;
+        }
 
-        #user-info {margin-bottom: 20px; display: grid; grid-template-columns: 90px 1fr;}
-        #user-info img { height: 85px; width: 85px; }
-        #user-info ul { margin: 5px 0 0 0; padding-left: 5px;}
-        #user-info ul li {list-style: none; font-size: 12px; line-height: 1.5; color: #000;}
-        .c-user-name { font-weight: bold; }
+            #grid_Header img {
+                height: 30px;
+                border-radius: 3px;
+            }
 
-        .c-address {position: absolute; bottom:0; background-color:#0075d2; font-size: 12px; text-align: center; color: #fff; width: 100%; }
-        .sign { position: absolute; right: 5px; bottom: 18px; font-weight: normal; margin-bottom: 0; font-size: 8.5pt; }
+        .Hidden_Ins_Name {
+            position: absolute;
+            visibility: hidden;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+        }
 
-        @page { margin: 15px;}
+        .Institution_Dialog {
+            font-size: 11px;
+            letter-spacing: 3.3px;
+            line-height: 14px;
+            text-align: center;
+        }
+
+        .iCard-title {
+            margin: auto;
+            background-color: #0075d2;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 15px;
+            padding: 1px 10px;
+            text-align: center;
+            width: 126px;
+        }
+
+        #user-info {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 90px 1fr;
+        }
+
+            #user-info img {
+                height: 85px;
+                width: 85px;
+            }
+
+            #user-info ul {
+                margin: 5px 0 0 0;
+                padding-left: 5px;
+            }
+
+                #user-info ul li {
+                    list-style: none;
+                    font-size: 12px;
+                    line-height: 1.5;
+                    color: #000;
+                }
+
+        .c-user-name {
+            font-weight: bold;
+        }
+
+        .c-address {
+            position: absolute;
+            bottom: 0;
+            background-color: #0075d2;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            width: 100%;
+        }
+
+        .sign {
+            position: absolute;
+            right: 5px;
+            bottom: 18px;
+            font-weight: normal;
+            margin-bottom: 0;
+            font-size: 8.5pt;
+        }
+
+        @page {
+            margin: 15px;
+        }
+
         @media print {
-            #header, h3 { display: none; }
+            #header, h3 {
+                display: none;
+            }
         }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <h3>Students ID Cards</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Students ID Cards  <a style="float: right" href="../ID_Cards/Student_ID_Cards.aspx">Student Custom ID Card</a> <a style="float: right" href="../ID_Cards/Card.aspx"> Gurdian Card ---</a> <a style="float: right" href="../ID_Cards/Student_Card.aspx"> Student ID Card ---</a></h3>
+            
+        </div>
+    </div>
+    
 
     <div class="form-inline NoPrint">
         <div class="form-group">
@@ -128,7 +218,8 @@
                         </div>
                         <div>
                             <ul>
-                                <li class="c-user-name"><%# Eval("StudentsName")%></li>
+                                <li class="c-user-name"> Name: <%# Eval("StudentsName")%> </li>
+                                <li> Father's Name: <%# Eval("FathersName")%>  </li>
                                 <li>Class: <%# Eval("Class") %>, Roll No: <%# Eval("RollNo") %></li>
                                 <li>Phone: <%# Eval("SMSPhoneNo") %></li>
                                 <li>Blood Group: <%# Eval("BloodGroup") %></li>

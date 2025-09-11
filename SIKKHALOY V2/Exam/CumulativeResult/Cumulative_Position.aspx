@@ -3,7 +3,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="../CSS/ExamPosition.css" rel="stylesheet" />
     <style>
-        .FthSub { color: #304ffe; font-size: 12px; }
+        .FthSub {
+            color: #304ffe;
+            font-size: 12px;
+        }
     </style>
 </asp:Content>
 
@@ -74,6 +77,22 @@
                         </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
+
+                <%if (StudentsGridView.Rows.Count > 0)
+                    {%>
+                <div class="d-print-none text-right">
+                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#printOptionModal">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                        Print Option
+                    </button>
+
+                    <button type="button" class="btn btn-primary" onclick="window.print()">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                        Print
+                    </button>
+                </div>
+                <%}%>
+                
             </div>
 
             <div id="ExportPanel" runat="server" class="Exam_Position">
@@ -100,6 +119,7 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
+                            
                             <asp:BoundField DataField="RollNo" HeaderText="Roll" SortExpression="RollNo" />
                             <asp:TemplateField HeaderText="Subjects - Marks">
                                 <ItemTemplate>
@@ -107,7 +127,7 @@
                                         <ItemTemplate>
                                             <div class="Is_Subject">
                                                 <input class="PassStatus_Subject" type="hidden" value='<%# Eval("PassStatus_Subject") %>' />
-                                                 <input class="SubjectType" type="hidden" value='<%# Eval("SubjectType") %>' />
+                                                <input class="SubjectType" type="hidden" value='<%# Eval("SubjectType") %>' />
                                                 <asp:Label ID="SubjectNameLabel" runat="server" Text='<%# Eval("SubjectName") %>' />
                                                 <br />
                                                 <asp:Label ID="MarkLabel" runat="server" Text='<%# Eval("Mark","{0:F2}") %>' Font-Bold="True" />
@@ -132,6 +152,13 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="Student_Point" HeaderText="Point" SortExpression="Student_Point" DataFormatString="{0:0.00}" />
+                            <asp:TemplateField HeaderText="AVG." SortExpression="Average">
+                                <ItemTemplate>
+                                    <span class="avrage-marks">
+                                        <%# Eval("Average") %>
+                                    </span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:BoundField DataField="Position_InExam_Class" HeaderText="P.C" SortExpression="Position_InExam_Class" />
                             <asp:BoundField DataField="Position_InExam_Subsection" HeaderText="P.S" SortExpression="Position_InExam_Subsection" />
                         </Columns>
@@ -146,7 +173,7 @@
             </div>
 
             <asp:SqlDataSource ID="ShowStudentClassSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                SelectCommand="SELECT StudentsClass.StudentClassID, Student.StudentID, Student.ID, Student.StudentsName, StudentsClass.RollNo, Exam_Cumulative_Student.Cumulative_StudentID, Exam_Cumulative_Student.ObtainedMark_ofStudent, Exam_Cumulative_Student.Student_Grade, Exam_Cumulative_Student.Student_Point, CAST(Exam_Cumulative_Student.Position_InExam_Class AS int) AS Position_InExam_Class, CAST(Exam_Cumulative_Student.Position_InExam_Subsection AS int) AS Position_InExam_Subsection, Student.SMSPhoneNo, Exam_Cumulative_Student.CumulativeNameID, Exam_Cumulative_Student.PassStatus_InSubject, Exam_Cumulative_Student.Cumulative_SettingID FROM StudentsClass INNER JOIN Student ON StudentsClass.StudentID = Student.StudentID INNER JOIN Exam_Cumulative_Student ON StudentsClass.StudentClassID = Exam_Cumulative_Student.StudentClassID INNER JOIN Exam_Cumulative_Setting ON Exam_Cumulative_Student.Cumulative_SettingID = Exam_Cumulative_Setting.Cumulative_SettingID WHERE (StudentsClass.ClassID = @ClassID) AND (StudentsClass.SectionID LIKE @SectionID) AND (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND (StudentsClass.ShiftID LIKE @ShiftID) AND (Student.Status = @Status) AND (StudentsClass.EducationYearID = @EducationYearID) AND (StudentsClass.SchoolID = @SchoolID) AND (Exam_Cumulative_Student.CumulativeNameID = @CumulativeNameID) AND (Exam_Cumulative_Setting.IS_Published = 1) ORDER BY Position_InExam_Class,CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLACE(StudentsClass.RollNo , '$' , '') , ',' , '') AS FLOAT) ELSE 0 END">
+                SelectCommand="SELECT StudentsClass.StudentClassID, Student.StudentID, Student.ID, Student.StudentsName, StudentsClass.RollNo, Exam_Cumulative_Student.Cumulative_StudentID, Exam_Cumulative_Student.ObtainedMark_ofStudent, Exam_Cumulative_Student.Student_Grade, Exam_Cumulative_Student.Student_Point, CAST(Exam_Cumulative_Student.Position_InExam_Class AS int) AS Position_InExam_Class, CAST(Exam_Cumulative_Student.Position_InExam_Subsection AS int) AS Position_InExam_Subsection, Student.SMSPhoneNo, Exam_Cumulative_Student.CumulativeNameID, Exam_Cumulative_Student.PassStatus_InSubject, Exam_Cumulative_Student.Cumulative_SettingID,Exam_Cumulative_Student.Average FROM StudentsClass INNER JOIN Student ON StudentsClass.StudentID = Student.StudentID INNER JOIN Exam_Cumulative_Student ON StudentsClass.StudentClassID = Exam_Cumulative_Student.StudentClassID INNER JOIN Exam_Cumulative_Setting ON Exam_Cumulative_Student.Cumulative_SettingID = Exam_Cumulative_Setting.Cumulative_SettingID WHERE (StudentsClass.ClassID = @ClassID) AND (StudentsClass.SectionID LIKE @SectionID) AND (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND (StudentsClass.ShiftID LIKE @ShiftID) AND (Student.Status = @Status) AND (StudentsClass.EducationYearID = @EducationYearID) AND (StudentsClass.SchoolID = @SchoolID) AND (Exam_Cumulative_Student.CumulativeNameID = @CumulativeNameID) AND (Exam_Cumulative_Setting.IS_Published = 1) ORDER BY Position_InExam_Class,CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(REPLACE(REPLACE(StudentsClass.RollNo , '$' , '') , ',' , '') AS FLOAT) ELSE 0 END">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="ClassDropDownList" Name="ClassID" PropertyName="SelectedValue" />
                     <asp:ControlParameter ControlID="SectionDropDownList" Name="SectionID" PropertyName="SelectedValue" />
@@ -170,6 +197,7 @@
 
             <%if (StudentsGridView.Rows.Count > 0)
                 {%>
+            <asp:CheckBox ID="ClassPositionCheckBox" CssClass="NoPrint" runat="server" Text="Send Class Position" Checked="True" />
             <asp:CheckBox ID="SecPositionCheckBox" CssClass="NoPrint" runat="server" Text="Send Section Position" />
             <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
             <div class="form-inline NoPrint">
@@ -179,9 +207,9 @@
                 <div class="form-group">
                     <asp:Button ID="ExportWordButton" runat="server" CssClass="btn btn-primary" OnClick="ExportWordButton_Click" Text="Export To Word" /></td>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <input type="button" value="Print" class="btn btn-primary" onclick="window.print()" />
-                </div>
+                </div>--%>
             </div>
 
             <asp:FormView ID="SMSFormView" runat="server" CssClass="NoPrint" DataKeyNames="SMSID" DataSourceID="SMSSQL" Width="100%">
@@ -203,6 +231,37 @@
             <asp:PostBackTrigger ControlID="SMSButton" />
         </Triggers>
     </asp:UpdatePanel>
+
+
+    <!-- modal print option--->
+<div class="modal fade d-print-none" id="printOptionModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Print Option</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input onchange="printHiddenTableColumn(9,this);" type="checkbox" id="isHiddenPrintClassCol" />
+                    <label for="isHiddenPrintClassCol">Hide Class Position Column</label>
+                </div>
+                <div class="form-group">
+                    <input onchange="printHiddenTableColumn(10,this);" type="checkbox" id="isHiddenPrintSectionCol" />
+                    <label for="isHiddenPrintSectionCol">Hide Section Position Column</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <asp:UpdateProgress ID="UpdateProgress" runat="server">
         <ProgressTemplate>
             <div id="progress_BG"></div>
@@ -250,5 +309,21 @@
                 $(this).is(":checked") ? ($("td", $(this).closest("tr")).addClass("selected"), $("[id*=SingleCheckBox]", a).length == $("[id*=SingleCheckBox]:checked", a).length && b.attr("checked", "checked")) : ($("td", $(this).closest("tr")).removeClass("selected"), b.removeAttr("checked"));
             });
         });
+        // Print Option
+        function printHiddenTableColumn(columnNumber, selft) {
+            const header = $('#<%=StudentsGridView.ClientID %> thead tr');
+            const body = $('#<%=StudentsGridView.ClientID %> tbody tr');
+
+            console.log(selft, columnNumber);
+
+            // if checked then hide the column
+            if ($(selft).is(':checked')) {
+                header.find('th:nth-child(' + columnNumber + ')').addClass('d-print-none');
+                body.find('td:nth-child(' + columnNumber + ')').addClass('d-print-none');
+            } else {
+                header.find('th:nth-child(' + columnNumber + ')').removeClass('d-print-none');
+                body.find('td:nth-child(' + columnNumber + ')').removeClass('d-print-none');
+            }
+        };
     </script>
 </asp:Content>

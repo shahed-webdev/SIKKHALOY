@@ -19,6 +19,17 @@
         .statistic2 { white-space: nowrap; overflow: hidden; padding: 20px 2px 20px 10px; margin-bottom: 15px; }
         .statistic2 strong { font-size: 1.1em; color: #333; font-weight: 700; line-height: 1; }
         .statistic2 small { color: #818181; font-size: 1rem; text-transform: uppercase; }
+        @media (min-width: 992px) {
+  .col-lg-3 {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 100%;
+  }
+}
+.p-image img {
+  height: 140px;
+  width: 140px;
+}
     </style>
 </asp:Content>
 
@@ -56,39 +67,39 @@
                             <div class="info">
                                 <ul>
                                     <li>
-                                        <b>(<label id="IDLabel"><%# Eval("ID") %></label>)
+                                        
                                  <%# Eval("StudentsName") %></b>
+                                        <b>(ID: <label id="IDLabel"><%# Eval("ID") %></label>)
                                     </li>
                                     <li>
                                         <b>Father's Name:</b>
-                                        <%# Eval("FathersName") %>
+                                        <%# Eval("FathersName") %>, <b>Phone:</b>
+                                        <%# Eval("SMSPhoneNo") %>
                                     </li>
                                     <li class="alert-info">
                                         <b>Class:</b>
                                         <%# Eval("Class") %>
+                                         Roll No: <%# Eval("RollNo") %>
                                         <%# Eval("SubjectGroup",", Group: {0}") %>
                                         <%# Eval("Section",", Section: {0}") %>
                                         <%# Eval("Shift",", Shift: {0}") %>
+                                       
                                     </li>
-                                    <li><b>Roll No:</b>
-                                        <%# Eval("RollNo") %>
-                                    </li>
-                                    <li><b>Phone:</b>
-                                        <%# Eval("SMSPhoneNo") %>
-                                    </li>
-                                    <li>
-                                        <a target="_blank" href="../New_Student_Admission/Admission_Form.aspx?Student=<%# Eval("StudentID") %>&StudentClass=<%# Eval("StudentClassID") %>">Print Admission Form</a>
+
+                                    <li class="NoPrint">
+                                        <a target="_blank" href="../New_Student_Admission/Admission_Form.aspx?Student=<%# Eval("StudentID") %>&StudentClass=<%# Eval("StudentClassID") %>">Print Admission Form</a> ----
+                                        <a target="_blank" href="../New_Student_Admission/Form_Bangla.aspx?Student=<%# Eval("StudentID") %>&StudentClass=<%# Eval("StudentClassID") %>">প্রিন্ট ভর্তি ফরম (বাংলা)</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4">
+                <div class="col-lg-3 col-md-4 NoPrint">
                     <div class="card mb-3">
                         <div class="card-header bg-white d-print-none">
-                            Guardian Info
-                            <a class="pull-right" href="../Edit_Student_Info/Edit_Student_information.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>"><i class="fa fa-pencil-square mr-1" aria-hidden="true"></i>Update</a>
+                            <b>Guardian Info </b>
+                             <a class="pull-right" href="../Edit_Student_Info/Edit_Student_information.aspx?Student=<%# Eval("StudentID") %>&Student_Class=<%# Eval("StudentClassID") %>"><i class="fa fa-pencil-square mr-1" aria-hidden="true"></i>Update </a>
                         </div>
                         <div class="py-2">
                             <img class="gimg img-thumbnail" src="/Handeler/Guardian_Photo.ashx?SID=<%# Eval("StudentImageID") %>" />
@@ -951,6 +962,21 @@ FROM Income_PayOrder WHERE (SchoolID = @SchoolID) AND (EducationYearID = @Educat
             <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                 <ContentTemplate>
                     <button type="button" class="btn btn-grey d-print-none btn-sm" data-toggle="modal" data-target="#FaultModal">Add Report</button>
+                                    <div class="form-inline head-area NoPrint">
+        <div class="form-group">
+            <asp:TextBox ID="From_Date_TextBox" CssClass="form-control Datetime" placeholder="From Date" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" runat="server"></asp:TextBox>
+        </div>
+        <div class="form-group">
+            <asp:TextBox ID="To_Date_TextBox" CssClass="form-control Datetime" placeholder="From Date" onkeypress="return isNumberKey(event)" autocomplete="off" onDrop="blur();return false;" onpaste="return false" runat="server"></asp:TextBox>
+            <i id="PickDate" class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+        </div>
+        <div class="form-group">
+            <asp:Button ID="Find_Button" CssClass="btn btn-primary" runat="server" Text="Submit" />
+        </div>
+        <div class="form-group pull-right Print">
+            <a title="Print This Page" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></a>
+        </div>
+    </div>
                     <asp:GridView ID="Fault_Gridview" CssClass="mGrid" DataKeyNames="StudentFaultID" runat="server" DataSourceID="FaultSQL" AutoGenerateColumns="False" Width="100%" AllowPaging="True" AllowSorting="True" PageSize="30">
                         <Columns>
                             <asp:TemplateField HeaderText="Title" SortExpression="Fault_Title">
@@ -979,6 +1005,7 @@ FROM Income_PayOrder WHERE (SchoolID = @SchoolID) AND (EducationYearID = @Educat
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("Fault_Date", "{0:d MMM yyyy}") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:BoundField DataField="UserName" HeaderText="Added By" SortExpression="UserName" />
                             <asp:TemplateField HeaderText="Edit/Delete">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkEdit" runat="server" CssClass="blue-text d-print-none" CommandName="edit">
@@ -994,10 +1021,12 @@ FROM Income_PayOrder WHERE (SchoolID = @SchoolID) AND (EducationYearID = @Educat
                                     <asp:Button ID="lnkCancel" CssClass="btn btn-default btn-sm" runat="server" CommandName="cancel" Text="Cancel" />
                                 </EditItemTemplate>
                             </asp:TemplateField>
+
                         </Columns>
                         <PagerStyle CssClass="pgr" />
                     </asp:GridView>
-                    <asp:SqlDataSource ID="FaultSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" DeleteCommand="DELETE FROM [Student_Fault] WHERE [StudentFaultID] = @StudentFaultID" InsertCommand="INSERT INTO [Student_Fault] ([SchoolID], [RegistrationID], [EducationYearID], [StudentID], [StudentClassID], [Fault_Title], [Fault], [Fault_Date]) VALUES (@SchoolID, @RegistrationID, @EducationYearID, @StudentID, @StudentClassID, @Fault_Title, @Fault, @Fault_Date)" SelectCommand="SELECT StudentFaultID, Fault_Title, Fault, Fault_Date FROM Student_Fault WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (StudentClassID = @StudentClassID) ORDER BY Fault_Date DESC" UpdateCommand="UPDATE Student_Fault SET Fault_Title = @Fault_Title, Fault = @Fault, Fault_Date = @Fault_Date WHERE (StudentFaultID = @StudentFaultID)">
+                    <asp:SqlDataSource ID="FaultSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" DeleteCommand="DELETE FROM [Student_Fault] WHERE [StudentFaultID] = @StudentFaultID" InsertCommand="INSERT INTO [Student_Fault] ([SchoolID], [RegistrationID], [EducationYearID], [StudentID], [StudentClassID], [Fault_Title], [Fault], [Fault_Date]) VALUES (@SchoolID, @RegistrationID, @EducationYearID, @StudentID, @StudentClassID, @Fault_Title, @Fault, @Fault_Date)" SelectCommand=" SELECT Registration.UserName, StudentFaultID, Fault_Title, Fault,Fault_Date FROM Student_Fault Inner join Registration on Student_Fault.RegistrationId=Registration.RegistrationID 
+WHERE (Student_Fault.SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID) AND (StudentClassID = @StudentClassID)AND Fault_Date BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000') ORDER BY Fault_Date DESC" UpdateCommand="UPDATE Student_Fault SET Fault_Title = @Fault_Title, Fault = @Fault, Fault_Date = @Fault_Date WHERE (StudentFaultID = @StudentFaultID)" CancelSelectOnNullParameter="False">
                         <DeleteParameters>
                             <asp:Parameter Name="StudentFaultID" Type="Int32" />
                         </DeleteParameters>
@@ -1015,6 +1044,8 @@ FROM Income_PayOrder WHERE (SchoolID = @SchoolID) AND (EducationYearID = @Educat
                             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                             <asp:SessionParameter Name="EducationYearID" SessionField="Edu_Year" />
                             <asp:QueryStringParameter Name="StudentClassID" QueryStringField="Student_Class" />
+                       <asp:ControlParameter ControlID="From_Date_TextBox" Name="From_Date" PropertyName="Text" />
+                     <asp:ControlParameter ControlID="To_Date_TextBox" Name="To_Date" PropertyName="Text" />
                         </SelectParameters>
                         <UpdateParameters>
                             <asp:Parameter Name="Fault_Title" Type="String" />

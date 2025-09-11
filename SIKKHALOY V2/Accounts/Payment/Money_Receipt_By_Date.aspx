@@ -207,7 +207,8 @@
     </div>
 
     <div class="form-group d-print-none">
-        <asp:CheckBox ID="RoleCheckBox" runat="server" Text="Send Payment Roles" /><br />
+        <asp:CheckBox ID="RoleCheckBox" runat="server" Text="Send Payment Roles" />
+        <asp:CheckBox ID="CurrentDueCheckBox" runat="server" Text="Send Current Due" /><br />
         <asp:Button ID="SMSButton" runat="server" Text="Send SMS" CssClass="btn btn-primary" OnClick="SMSButton_Click" />
         <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
     </div>

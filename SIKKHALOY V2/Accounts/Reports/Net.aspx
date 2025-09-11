@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <a href="Final_Reports.aspx" class="NoPrint">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        Back to Accounts Summary</a>
+        Back to Accounts Summary</a> .....  <i class="fa fa-search" aria-hidden="true"></i> <a href="UserWise_Account_Report.aspx"> Income Expense Summary by user</a>
     <h3>
         <label class="Date"></label>
         INCOME & EXPENSE

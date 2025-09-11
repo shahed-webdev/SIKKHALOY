@@ -70,5 +70,9 @@ namespace EDUCATION.COM.Administration_Basic_Settings
 
             Response.Redirect(Request.Url.AbsoluteUri);
         }
+        protected void rbSendSMS_SelectedIndexChanged(object sender, EventArgs e)   //OnSelectedIndexChanged="rbSendSMS_SelectedIndexChanged"
+        {
+            SmsSettingSQL.Update();
+        }
     }
 }

@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.0.20283.0</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2024-09-25T03:24:44.3853145Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Exam_Result">
@@ -7,6 +18,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>78c14a9b-d53c-4210-9d00-8ff8a28780e0</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -707,7 +719,7 @@
           <Subreport Name="Subreport1">
             <ReportName>Report_School</ReportName>
             <Height>0.34846in</Height>
-            <Width>10.75in</Width>
+            <Width>10.14583in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -787,7 +799,7 @@
         <Height>4.56125in</Height>
         <Style />
       </Body>
-      <Width>10.75in</Width>
+      <Width>10.14583in</Width>
       <Page>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>

@@ -180,6 +180,11 @@ namespace EDUCATION.COM.ATTENDANCES
                             if (SMSCheckBox.Checked)
                             {
                                 PhoneNo = StudentsAttendanceGridView.DataKeys[row.DataItemIndex]["SMSPhoneNo"].ToString();
+                                
+                                string studentID = StudentsAttendanceGridView.DataKeys[row.DataItemIndex]["ID"].ToString();
+
+
+
                                 Msg = ReasonTextBox.Text + " " + Session["School_Name"].ToString();
 
                                 Get_Validation IsValid = SMS.SMS_Validation(PhoneNo, Msg);

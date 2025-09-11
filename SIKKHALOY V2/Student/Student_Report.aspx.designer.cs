@@ -7,27 +7,56 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Student {
-    
-    
-    public partial class Student_Report {
-        
+namespace EDUCATION.COM.Student
+{
+
+
+    public partial class Student_Report
+    {
+
         /// <summary>
-        /// Fault_Gridview control.
+        /// From_Date_TextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView Fault_Gridview;
-        
+        protected global::System.Web.UI.WebControls.TextBox From_Date_TextBox;
+
         /// <summary>
-        /// FaultSQL control.
+        /// To_Date_TextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource FaultSQL;
+        protected global::System.Web.UI.WebControls.TextBox To_Date_TextBox;
+
+        /// <summary>
+        /// Find_Button control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Find_Button;
+
+        /// <summary>
+        /// FindGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView FindGridView;
+
+        /// <summary>
+        /// SqlDataSource1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
     }
 }

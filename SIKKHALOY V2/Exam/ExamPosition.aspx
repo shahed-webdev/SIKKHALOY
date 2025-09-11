@@ -4,16 +4,35 @@
     <link href="CSS/ExamPosition.css?v=1.0.1" rel="stylesheet" />
     <style>
         .FthSub { color: #304ffe; font-size: 12px; }
+
+h3 {
+  padding: 1rem;
+  border-radius: .25rem;
+  margin-top: 3px;
+  text-transform: uppercase;
+  color: #dd172a;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: #fff;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+  margin-bottom: 1.5rem !important;
+  text-align: center;
+  font-weight: bold;
+}
+
     </style>
+    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <a href="ExamPosition_WithSub.aspx" class="NoPrint">Full Tabulation Sheet >>></a>
+      <a href="ExamPosition_WithSub.aspx" class="NoPrint">Full Tabulation Sheet >>></a>
+    <h3 style="float:right"><a href="ExmamPositionBangla.aspx" class="NoPrint"> মেধা তালিকা বাংলায় >>></a></h3>
     <h3>
         <asp:Label ID="CGSSLabel" runat="server"></asp:Label>
     </h3>
 
     <div class="form-inline NoPrint">
+       
         <div class="form-group">
             <asp:DropDownList ID="ClassDropDownList" runat="server" CssClass="form-control" AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="ClassNameSQL" DataTextField="Class" DataValueField="ClassID" OnSelectedIndexChanged="ClassDropDownList_SelectedIndexChanged">
                 <asp:ListItem Value="0">[ SELECT CLASS ]</asp:ListItem>
@@ -213,8 +232,9 @@ ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 T
         <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
         <asp:CustomValidator ID="CV" runat="server" ClientValidationFunction="Validate" ErrorMessage="You do not select any student from student list." ForeColor="Red" ValidationGroup="1"></asp:CustomValidator>
     </div>
-
+    <asp:CheckBox ID="ClassPositionCheckBox" CssClass="NoPrint" runat="server" Text="Send Class Position" Checked="True" />
     <asp:CheckBox ID="SecPositionCheckBox" CssClass="NoPrint" runat="server" Text="Send Section Position" />
+    
 
     <div class="form-inline NoPrint">
         <div class="form-group">
@@ -337,4 +357,5 @@ ORDER BY Position_InExam_Class , CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 T
             }
         };
     </script>
+
 </asp:Content>

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Exam.Admit_Card {
-    
-    
-    public partial class Multiple_Admit_Card {
-        
+namespace EDUCATION.COM.Exam.Admit_Card
+{
+
+
+    public partial class Multiple_Admit_Card
+    {
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// ExamDropDownList control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ExamDropDownList;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// ExamSQL control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ExamSQL;
-        
+
         /// <summary>
         /// ClassDropDownList control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ClassDropDownList;
-        
+
         /// <summary>
         /// ClassNameSQL control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
-        
+
         /// <summary>
         /// SectionDropDownList control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SectionDropDownList;
-        
+
         /// <summary>
         /// SectionSQL control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SectionSQL;
-        
+
         /// <summary>
         /// GroupDropDownList control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList GroupDropDownList;
-        
+
         /// <summary>
         /// GroupSQL control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource GroupSQL;
-        
+
         /// <summary>
         /// Paid_DropDownList control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList Paid_DropDownList;
-        
+
         /// <summary>
         /// Find_ID_TextBox control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Find_ID_TextBox;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// FindButton control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button FindButton;
-        
+
         /// <summary>
         /// TotalCardLabel control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label TotalCardLabel;
-        
+
         /// <summary>
         /// IDCardDL control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater IDCardDL;
-        
+
         /// <summary>
         /// ICardInfoSQL control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ICardInfoSQL;
-        
+
         /// <summary>
         /// IDsSQL control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace EDUCATION.COM.Exam.Admit_Card {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource IDsSQL;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

@@ -3,6 +3,23 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/Employee/CSS/Acadamic_Calender.css" rel="stylesheet" />
     <link href="css/Admin.css?v=1.2" rel="stylesheet" />
+    <style>
+    .AdminNotice a{
+    font-size: 16px;
+    height: 43px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    color: red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+    @media (min-width: 1200px) {
+    .container {
+        max-width: 1160px;
+    }
+}
+
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="card my-3 wow fadeIn">

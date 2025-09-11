@@ -229,6 +229,8 @@ namespace EDUCATION.COM.Exam.CumulativeResult
 
                 //------------------- SectionPositionCheckBox
                 SectionPositionCheckBox.Checked = Convert.ToBoolean(ResetDv[0]["IS_Hide_Sec_Position"]);
+                //------------------- ClassPositionCheckBox
+                ClassPositionCheckBox.Checked = Convert.ToBoolean(ResetDv[0]["IS_Hide_Class_Position"]);
                 //-------------------SubExam_ShowCheckBox
                 SubExam_ShowCheckBox.Checked = Convert.ToBoolean(ResetDv[0]["IS_Hide_SubExam"]);
 

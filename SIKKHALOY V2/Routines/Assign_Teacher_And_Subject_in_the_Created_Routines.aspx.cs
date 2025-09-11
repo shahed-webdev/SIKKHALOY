@@ -253,7 +253,7 @@ namespace EDUCATION.COM.ROUTINES
         protected void TeacherDropDownList_DataBound(object sender, EventArgs e)
         {
             var TeacherDropDownList = sender as DropDownList;
-            TeacherDropDownList.Items.Insert(0, new ListItem("[ No Class ]", "0"));
+            TeacherDropDownList.Items.Insert(0, new ListItem("[ Select Teacher ]", "0"));
         }
 
         protected void DeleteRoutine_Button_Click(object sender, EventArgs e)

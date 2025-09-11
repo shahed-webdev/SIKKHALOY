@@ -45,6 +45,7 @@
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                <asp:BoundField DataField="FatherName" HeaderText="Father's Name" SortExpression="FatherName" />
                  <asp:BoundField DataField="Phone" HeaderText="Mobile No." SortExpression="Phone" />
                 <asp:BoundField DataField="Designation" HeaderText="Designation" SortExpression="Designation" />
                 <asp:TemplateField HeaderText="Emp.Type" SortExpression="EmployeeType">
@@ -79,7 +80,7 @@
             </Columns>
         </asp:GridView>
         <asp:SqlDataSource ID="EmployeeSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-            SelectCommand="SELECT EmployeeID, ID,Bank_AccNo, EmployeeType, Permanent_Temporary, Salary,  FirstName +' '+ LastName as Name, Designation, Phone, DeviceID FROM VW_Emp_Info WHERE (SchoolID = @SchoolID) AND (Job_Status = N'Active') AND (EmployeeType LIKE @EmployeeType) order by ID"
+            SelectCommand="SELECT EmployeeID, ID,Bank_AccNo, EmployeeType, Permanent_Temporary, Salary,  FirstName +' '+ LastName as Name,FatherName, Designation, Phone, DeviceID FROM VW_Emp_Info WHERE (SchoolID = @SchoolID) AND (Job_Status = N'Active') AND (EmployeeType LIKE @EmployeeType) order by ID"
             FilterExpression="ID LIKE '{0}%' or Name LIKE '{0}%' or Designation LIKE '{0}%' or Phone LIKE '{0}%'" UpdateCommand="IF NOT EXISTS (SELECT * FROM Employee_Info WHERE ID = @ID AND SchoolID = @SchoolID) 
 UPDATE Employee_Info SET ID = @ID WHERE (EmployeeID = @EmployeeID)"
             InsertCommand="UPDATE Employee_Info SET EmployeeType = @EmployeeType WHERE (EmployeeID = @EmployeeID)">

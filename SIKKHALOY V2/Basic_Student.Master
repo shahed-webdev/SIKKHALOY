@@ -98,7 +98,7 @@ WHERE        (Education_Year_User.SchoolID = @SchoolID) AND (Education_Year_User
                 <li id="_7"><a href="/Student/SMS_Inbox.aspx"><i class="fa fa-envelope"></i>SMS Inbox</a></li>
                 <li id="_8"><a href="/Student/Student_Details.aspx"><i class="fa fa-paperclip"></i>My Details</a></li>
                 <li id="_9"><a href="/Student/Student_Report.aspx"><i class="fa fa-address-card"></i>My Report</a></li>
-                <li id="_10"><a href="/Student/Notice.aspx"><i class="fa fa-bullhorn"></i>Notice</a></li>
+                <li id="_10"><a href="/Student/Notice.aspx"><i class="fa fa-bullhorn"></i>Notice/Homework</a></li>
                 <li></li>
             </ul>
         </div>

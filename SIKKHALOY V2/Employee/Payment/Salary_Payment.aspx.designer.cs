@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Employee.Payment {
-    
-    
-    public partial class Salary_Payment {
-        
+namespace EDUCATION.COM.Employee.Payment
+{
+
+
+    public partial class Salary_Payment
+    {
+
         /// <summary>
         /// PayorderNameDropDownList control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList PayorderNameDropDownList;
-        
+
         /// <summary>
         /// PayorderNameSQL control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource PayorderNameSQL;
-        
+
         /// <summary>
         /// MonthNameDropDownList control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList MonthNameDropDownList;
-        
+
         /// <summary>
         /// MonthNameSQL control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource MonthNameSQL;
-        
+
         /// <summary>
         /// EmpTypeRadioButtonList control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList EmpTypeRadioButtonList;
-        
+
         /// <summary>
         /// EmployeeGridView control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView EmployeeGridView;
-        
+
         /// <summary>
         /// EmplyoeePayOrderSQL control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource EmplyoeePayOrderSQL;
-        
+
         /// <summary>
         /// Employee_Payorder_RecordsSQL control.
         /// </summary>
@@ -83,7 +85,16 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Employee_Payorder_RecordsSQL;
-        
+
+        /// <summary>
+        /// SMS_OtherInfoSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SMS_OtherInfoSQL;
+
         /// <summary>
         /// CV control.
         /// </summary>
@@ -92,7 +103,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CustomValidator CV;
-        
+
         /// <summary>
         /// AccountDropDownList control.
         /// </summary>
@@ -101,7 +112,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList AccountDropDownList;
-        
+
         /// <summary>
         /// AccountSQL control.
         /// </summary>
@@ -110,7 +121,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource AccountSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator6 control.
         /// </summary>
@@ -119,7 +130,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-        
+
         /// <summary>
         /// Paid_Date_TextBox control.
         /// </summary>
@@ -128,7 +139,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Paid_Date_TextBox;
-        
+
         /// <summary>
         /// dRfv control.
         /// </summary>
@@ -137,7 +148,16 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator dRfv;
-        
+
+        /// <summary>
+        /// SMSRadioButtonList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList SMSRadioButtonList;
+
         /// <summary>
         /// PayButton control.
         /// </summary>
@@ -146,7 +166,7 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button PayButton;
-        
+
         /// <summary>
         /// AccerrorLabel control.
         /// </summary>
@@ -155,7 +175,16 @@ namespace EDUCATION.COM.Employee.Payment {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label AccerrorLabel;
-        
+
+        /// <summary>
+        /// ErrorLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ErrorLabel;
+
         /// <summary>
         /// GrandTotalHF control.
         /// </summary>

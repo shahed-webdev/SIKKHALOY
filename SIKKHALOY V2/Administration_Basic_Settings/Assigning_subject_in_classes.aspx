@@ -59,7 +59,7 @@
          <SelectedRowStyle CssClass="Selected" />
       </asp:GridView>
    </div>
-   <asp:SqlDataSource ID="SubjectGroupSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * FROM Subject WHERE (SchoolID = @SchoolID) ORDER BY SubjectName">
+   <asp:SqlDataSource ID="SubjectGroupSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * FROM Subject WHERE (SchoolID = @SchoolID) ORDER BY ISNULL(SN, 9999)">
       <SelectParameters>
          <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
       </SelectParameters>

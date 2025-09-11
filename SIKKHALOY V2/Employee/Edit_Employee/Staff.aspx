@@ -41,7 +41,7 @@
                                 <label>Designation</label>
                                 <asp:TextBox ID="DesignationTextBox" runat="server" Text='<%# Bind("Designation") %>' CssClass="form-control" />
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label>Religion</label>
                                 <asp:DropDownList ID="ReligionDropDownList" runat="server" CssClass="form-control" SelectedValue='<%# Bind("Religion") %>'>
                                     <asp:ListItem>Islam</asp:ListItem>
@@ -50,6 +50,7 @@
                                     <asp:ListItem>Christianity</asp:ListItem>
                                 </asp:DropDownList>
                             </div>
+
                             <div class="form-group">
                                 <label>Date of Birth</label>
                                 <asp:TextBox ID="DateofBirthTextBox" runat="server" Text='<%# Bind("DateofBirth") %>' CssClass="form-control" />
@@ -112,7 +113,7 @@
                                 </asp:RadioButtonList>
                             </div>
 
-                            <div class="form-group" style="display:none;">
+                            <div class="form-group" style="display: none;">
                                 <label>Salary Type</label>
                                 <asp:RadioButtonList ID="SalaryTypeRadioButtonList" CssClass="form-control" runat="server" RepeatDirection="Horizontal" SelectedValue='<%# Bind("Work_Time_Basis") %>'>
                                     <asp:ListItem>Work Basis</asp:ListItem>
@@ -120,7 +121,7 @@
                                 </asp:RadioButtonList>
                             </div>
 
-                            <div class="form-group" id="DR" style="display:none;">
+                            <div class="form-group" id="DR" style="display: none;">
                                 <asp:RadioButtonList ID="JobperiodRadioButtonList" runat="server" CssClass="form-control" RepeatDirection="Horizontal" SelectedValue='<%# Bind("Time_Basis_Type") %>'>
                                     <asp:ListItem>Monthly</asp:ListItem>
                                     <asp:ListItem>Weekly</asp:ListItem>
@@ -142,7 +143,8 @@
                             </div>
 
                             <div class="form-group" id="AHD" style="display: none">
-                                <label>Deduction Amount
+                                <label>
+                                    Deduction Amount
                                     <asp:RegularExpressionValidator ControlToValidate="Abs_DeductedAmount_TextBox" SetFocusOnError="true" ValidationExpression="[1-9][0-9]*" ID="Rx2" runat="server" ErrorMessage="0 Not allow" CssClass="EroorSummer" /></label>
                                 <asp:TextBox ID="Abs_DeductedAmount_TextBox" CssClass="form-control" runat="server" autocomplete="off" onDrop="blur();return false;" onkeypress="return isNumberKey(event)" onpaste="return false" placeholder="Amount" Text='<%# Bind("Abs_Deduction") %>'></asp:TextBox>
                             </div>
@@ -156,7 +158,8 @@
                             </div>
 
                             <div class="form-group" id="LateDay" style="display: none">
-                                <label>Number of days
+                                <label>
+                                    Number of days
                                     <asp:RegularExpressionValidator ControlToValidate="LateDaysTextBox" SetFocusOnError="true" ValidationExpression="[1-9][0-9]*" ID="Rx" runat="server" ErrorMessage="0 Not allow" CssClass="EroorSummer" /></label>
                                 <asp:TextBox ID="LateDaysTextBox" Text='<%# Bind("Late_Days") %>' autocomplete="off" CssClass="form-control" onDrop="blur();return false;" onkeypress="return isNumberKey(event)" onpaste="return false" runat="server" placeholder="Number of late days"></asp:TextBox>
                             </div>
@@ -171,10 +174,11 @@
         </EditItemTemplate>
     </asp:FormView>
 
-    <asp:SqlDataSource ID="JobInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * FROM Employee_Info WHERE (EmployeeID = @EmployeeID) AND (SchoolID = @SchoolID)" UpdateCommand="UPDATE Employee_Info SET Permanent_Temporary = @Permanent_Temporary, Work_Time_Basis = @Work_Time_Basis, Time_Basis_Type = @Time_Basis_Type, Salary = @Salary, IS_Abs_Deducted = @IS_Abs_Deducted, Abs_Deduction = @Abs_Deduction, IS_Late_Count_As_Abs = @IS_Late_Count_As_Abs, Late_Days = @Late_Days WHERE (EmployeeID = @EmployeeID)">
+    <asp:SqlDataSource ID="JobInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT * FROM Employee_Info WHERE (EmployeeID = @EmployeeID) AND (SchoolID = @SchoolID)" UpdateCommand="UPDATE Employee_Info SET Permanent_Temporary = @Permanent_Temporary, Work_Time_Basis = @Work_Time_Basis, Time_Basis_Type = @Time_Basis_Type,Employee_Payorder_NameID=@Employee_Payorder_NameID, Salary = @Salary, IS_Abs_Deducted = @IS_Abs_Deducted, Abs_Deduction = @Abs_Deduction, IS_Late_Count_As_Abs = @IS_Late_Count_As_Abs, Late_Days = @Late_Days WHERE (EmployeeID = @EmployeeID)">
         <SelectParameters>
             <asp:QueryStringParameter Name="EmployeeID" QueryStringField="Emp" />
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+            <%--<asp:ControlParameter ControlID="PayorderNameDropDownList" Name="Employee_Payorder_NameID" PropertyName="SelectedValue" />--%>
         </SelectParameters>
         <UpdateParameters>
             <asp:QueryStringParameter Name="EmployeeID" QueryStringField="Emp" />
@@ -186,9 +190,21 @@
             <asp:Parameter Name="Abs_Deduction" />
             <asp:Parameter Name="IS_Late_Count_As_Abs" />
             <asp:Parameter Name="Late_Days" />
+            <asp:Parameter Name="Employee_Payorder_NameID" />
+            <%--<asp:ControlParameter ControlID="PayorderNameDropDownList" Name="Employee_Payorder_NameID" PropertyName="SelectedValue" />--%>
+
+
         </UpdateParameters>
     </asp:SqlDataSource>
+    <asp:SqlDataSource ID="PayorderNameSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Payorder_NameID, SchoolID, RegistrationID, Payorder_Name, CreateDate FROM Employee_Payorder_Name WHERE (SchoolID = @SchoolID)">
 
+
+
+        <SelectParameters>
+            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
+        </SelectParameters>
+
+    </asp:SqlDataSource>
 
     <asp:Button ID="DeactivateButton" runat="server" Text="Deactivate Staff" CssClass="btn bg-danger" OnClientClick="return confirm('Are You Sure Want To Deactivate?')" OnClick="DeactivateButton_Click" />
     <asp:SqlDataSource ID="DeactivateEmpSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT EmployeeID, SchoolID, RegistrationID, ID, RFID, DeviceID, EmployeeType, Permanent_Temporary, Work_Time_Basis, Time_Basis_Type, Salary, IS_Abs_Deducted, Abs_Deduction, IS_Late_Count_As_Abs, Job_Status, CreateDate FROM Employee_Info WHERE (SchoolID = @SchoolID)" UpdateCommand="UPDATE Employee_Info SET Job_Status = 'Deactivate' WHERE (EmployeeID = @EmployeeID)">
@@ -201,17 +217,18 @@
     </asp:SqlDataSource>
 
 
-            <asp:SqlDataSource ID="Device_DataUpdateSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="IF NOT EXISTS(SELECT DateUpdateID FROM  Attendance_Device_DataUpdateList WHERE (SchoolID = @SchoolID) AND (UpdateType = @UpdateType))
+    <asp:SqlDataSource ID="Device_DataUpdateSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" InsertCommand="IF NOT EXISTS(SELECT DateUpdateID FROM  Attendance_Device_DataUpdateList WHERE (SchoolID = @SchoolID) AND (UpdateType = @UpdateType))
 BEGIN
 INSERT INTO Attendance_Device_DataUpdateList(SchoolID, RegistrationID, UpdateType, UpdateDescription) VALUES (@SchoolID, @RegistrationID, @UpdateType, @UpdateDescription)
-END" SelectCommand="SELECT * FROM [Attendance_Device_DataUpdateList]">
-                <InsertParameters>
-                    <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
-                    <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
-                    <asp:Parameter DefaultValue="Deactivate Employee" Name="UpdateType" Type="String" />
-                    <asp:Parameter DefaultValue="Employee Deactivate" Name="UpdateDescription" Type="String" />
-                </InsertParameters>
-            </asp:SqlDataSource>
+END"
+        SelectCommand="SELECT * FROM [Attendance_Device_DataUpdateList]">
+        <InsertParameters>
+            <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" Type="Int32" />
+            <asp:SessionParameter Name="RegistrationID" SessionField="RegistrationID" Type="Int32" />
+            <asp:Parameter DefaultValue="Deactivate Employee" Name="UpdateType" Type="String" />
+            <asp:Parameter DefaultValue="Employee Deactivate" Name="UpdateDescription" Type="String" />
+        </InsertParameters>
+    </asp:SqlDataSource>
 
 
     <script src="/JS/DateMask.js"></script>

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Exam {
-    
-    
-    public partial class Publish_Result {
-        
+namespace EDUCATION.COM.Exam
+{
+
+
+    public partial class Publish_Result
+    {
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// ClassDropDownList control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ClassDropDownList;
-        
+
         /// <summary>
         /// ClassSQL control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassSQL;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// ExamDropDownList control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ExamDropDownList;
-        
+
         /// <summary>
         /// ExamNameSQl control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ExamNameSQl;
-        
+
         /// <summary>
         /// CreateExamLink control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink CreateExamLink;
-        
+
         /// <summary>
         /// Position_RadioButtonList control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList Position_RadioButtonList;
-        
+
         /// <summary>
         /// SectionPositionCheckBox control.
         /// </summary>
@@ -101,7 +103,16 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox SectionPositionCheckBox;
-        
+
+        /// <summary>
+        /// ClassPositionCheckBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ClassPositionCheckBox;
+
         /// <summary>
         /// H_FullMarkCheckBox control.
         /// </summary>
@@ -110,7 +121,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox H_FullMarkCheckBox;
-        
+
         /// <summary>
         /// H_PassMarkCheckBox control.
         /// </summary>
@@ -119,7 +130,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox H_PassMarkCheckBox;
-        
+
         /// <summary>
         /// OptionalSubjectRadioButtonList control.
         /// </summary>
@@ -128,7 +139,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList OptionalSubjectRadioButtonList;
-        
+
         /// <summary>
         /// SpecificMarkPanel control.
         /// </summary>
@@ -137,7 +148,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel SpecificMarkPanel;
-        
+
         /// <summary>
         /// OptionalPercentageRequired control.
         /// </summary>
@@ -146,7 +157,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator OptionalPercentageRequired;
-        
+
         /// <summary>
         /// OptionalRegularExpressionValidator control.
         /// </summary>
@@ -155,7 +166,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator OptionalRegularExpressionValidator;
-        
+
         /// <summary>
         /// MinPercentageTextBox control.
         /// </summary>
@@ -164,7 +175,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox MinPercentageTextBox;
-        
+
         /// <summary>
         /// FailEnableInOptionalCheckBox control.
         /// </summary>
@@ -173,7 +184,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox FailEnableInOptionalCheckBox;
-        
+
         /// <summary>
         /// AddOptionalinTotalMarkCheckBox control.
         /// </summary>
@@ -182,7 +193,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox AddOptionalinTotalMarkCheckBox;
-        
+
         /// <summary>
         /// GradeSetting_RBList control.
         /// </summary>
@@ -191,7 +202,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList GradeSetting_RBList;
-        
+
         /// <summary>
         /// Grade_AS_ItisCheckBox control.
         /// </summary>
@@ -200,7 +211,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox Grade_AS_ItisCheckBox;
-        
+
         /// <summary>
         /// ExamRadioButtonList control.
         /// </summary>
@@ -209,7 +220,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList ExamRadioButtonList;
-        
+
         /// <summary>
         /// EMMultiView control.
         /// </summary>
@@ -218,7 +229,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.MultiView EMMultiView;
-        
+
         /// <summary>
         /// SameView control.
         /// </summary>
@@ -227,7 +238,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View SameView;
-        
+
         /// <summary>
         /// RegularExpressionValidator3 control.
         /// </summary>
@@ -236,7 +247,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator3;
-        
+
         /// <summary>
         /// AlTotalMarkssRequired control.
         /// </summary>
@@ -245,7 +256,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator AlTotalMarkssRequired;
-        
+
         /// <summary>
         /// AlTotalMarksTextBox control.
         /// </summary>
@@ -254,7 +265,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox AlTotalMarksTextBox;
-        
+
         /// <summary>
         /// DifferentView control.
         /// </summary>
@@ -263,7 +274,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View DifferentView;
-        
+
         /// <summary>
         /// DifferntMarksGridView control.
         /// </summary>
@@ -272,7 +283,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView DifferntMarksGridView;
-        
+
         /// <summary>
         /// DifferentMarksSQL control.
         /// </summary>
@@ -281,7 +292,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource DifferentMarksSQL;
-        
+
         /// <summary>
         /// SubExamFailCheckBox control.
         /// </summary>
@@ -290,7 +301,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox SubExamFailCheckBox;
-        
+
         /// <summary>
         /// SubExamRadioButtonList control.
         /// </summary>
@@ -299,7 +310,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList SubExamRadioButtonList;
-        
+
         /// <summary>
         /// SubExamPanel control.
         /// </summary>
@@ -308,7 +319,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel SubExamPanel;
-        
+
         /// <summary>
         /// SubExam_Mark_GridView control.
         /// </summary>
@@ -317,7 +328,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView SubExam_Mark_GridView;
-        
+
         /// <summary>
         /// SubExam_Mark_SQL control.
         /// </summary>
@@ -326,7 +337,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SubExam_Mark_SQL;
-        
+
         /// <summary>
         /// Student_ResultSQL control.
         /// </summary>
@@ -335,7 +346,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Student_ResultSQL;
-        
+
         /// <summary>
         /// Exam_Publish_SettingSQL control.
         /// </summary>
@@ -344,7 +355,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Exam_Publish_SettingSQL;
-        
+
         /// <summary>
         /// FromDateTextBox control.
         /// </summary>
@@ -353,7 +364,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FromDateTextBox;
-        
+
         /// <summary>
         /// ToDateTextBox control.
         /// </summary>
@@ -362,7 +373,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox ToDateTextBox;
-        
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -371,7 +382,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// ResetOptionalSQL control.
         /// </summary>
@@ -380,7 +391,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ResetOptionalSQL;
-        
+
         /// <summary>
         /// ResetExamMarkSQL control.
         /// </summary>
@@ -389,7 +400,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ResetExamMarkSQL;
-        
+
         /// <summary>
         /// ResetSubExamSQL control.
         /// </summary>
@@ -398,7 +409,7 @@ namespace EDUCATION.COM.Exam {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ResetSubExamSQL;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

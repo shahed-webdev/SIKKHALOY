@@ -132,6 +132,9 @@ namespace EDUCATION.COM.Exam
                 //----------------------SectionPositionCheckBox
                 SectionPositionCheckBox.Checked = Convert.ToBoolean(ResetDv[0]["IS_Hide_Sec_Position"]);
 
+                //----------------------ClassPositionCheckBox
+                ClassPositionCheckBox.Checked = Convert.ToBoolean(ResetDv[0]["IS_Hide_Class_Position"]);
+
                 //----------------------H_FullMarkCheckBox
                 H_FullMarkCheckBox.Checked = Convert.ToBoolean(ResetDv[0]["IS_Hide_FullMark"]);
 
@@ -283,7 +286,10 @@ namespace EDUCATION.COM.Exam
             Exam_Publish_SettingSQL.Insert();
             Student_ResultSQL.Insert();
 
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Result has been published successfully!!')", true);
+            //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Result has been published successfully!!')", true);
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alert", "alert('Result has been published successfully!!');" +
+                 "window.location='Publish_Result.aspx';", true);
         }
 
         protected void SubjectList()

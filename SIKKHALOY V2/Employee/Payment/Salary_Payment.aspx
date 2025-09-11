@@ -2,10 +2,23 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        .row-muted { background-color: #d1d1d1; }
-        .hiddenPaid { display: none }
-        .btn-unpaid { color: #0063e3 !important; font-weight: 400; }
-        .delete-salary { color: red; cursor: pointer }
+        .row-muted {
+            background-color: #d1d1d1;
+        }
+
+        .hiddenPaid {
+            display: none
+        }
+
+        .btn-unpaid {
+            color: #0063e3 !important;
+            font-weight: 400;
+        }
+
+        .delete-salary {
+            color: red;
+            cursor: pointer
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -51,7 +64,7 @@ select  FORMAT(Date,'MMM yyyy') as Month_Name, date from months">
     </div>
 
     <div class="table-responsive">
-        <asp:GridView ID="EmployeeGridView" AllowSorting="True" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="MonthlyPayorderID,Employee_PayorderID,Name,EmployeeID,Due,PaidStatus,PaidAmount" DataSourceID="EmplyoeePayOrderSQL" OnRowDataBound="EmployeeGridView_RowDataBound" ShowFooter="True">
+        <asp:GridView ID="EmployeeGridView" AllowSorting="True" runat="server" CssClass="mGrid" AutoGenerateColumns="False" DataKeyNames="MonthlyPayorderID,Employee_PayorderID,ID,Name,Phone,EmployeeID,Due,PaidStatus,PaidAmount" DataSourceID="EmplyoeePayOrderSQL" OnRowDataBound="EmployeeGridView_RowDataBound" ShowFooter="True">
             <Columns>
                 <asp:TemplateField>
                     <HeaderTemplate>
@@ -170,7 +183,7 @@ select  FORMAT(Date,'MMM yyyy') as Month_Name, date from months">
             <FooterStyle CssClass="GridFooter" />
         </asp:GridView>
 
-        <asp:SqlDataSource ID="EmplyoeePayOrderSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Payorder_Monthly.MonthlyPayorderID, VW_Emp_Info.ID, VW_Emp_Info.FirstName + ' ' + VW_Emp_Info.LastName AS Name, VW_Emp_Info.Designation, VW_Emp_Info.Bank_AccNo, Employee_Payorder_Monthly.WorkingDays, Employee_Payorder.PayorderAmount, Employee_Payorder.Allowance, Employee_Payorder.Bonus, Employee_Payorder.Diduction, Employee_Payorder.Fine, Employee_Payorder.InTotalSalary, Employee_Payorder.Employee_PayorderID, Employee_Payorder.EmployeeID, Employee_Payorder.GrossSalary, Employee_Payorder_Monthly.FineCountDays, Employee_Payorder.PaidAmount, Employee_Payorder.Due, Employee_Payorder.PaidStatus FROM Employee_Payorder_Monthly INNER JOIN Employee_Payorder ON Employee_Payorder_Monthly.Employee_PayorderID = Employee_Payorder.Employee_PayorderID INNER JOIN VW_Emp_Info ON Employee_Payorder.EmployeeID = VW_Emp_Info.EmployeeID WHERE (Employee_Payorder.Employee_Payorder_NameID = @Employee_Payorder_NameID) AND (Employee_Payorder_Monthly.MonthName = @MonthName) AND (Employee_Payorder.SchoolID = @SchoolID) AND (VW_Emp_Info.EmployeeType LIKE @EmployeeType)" UpdateCommand="UPDATE Employee_Payorder SET PaidAmount = PaidAmount + @PaidAmount WHERE (Employee_PayorderID = @Employee_PayorderID) AND (SchoolID = @SchoolID)">
+        <asp:SqlDataSource ID="EmplyoeePayOrderSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT Employee_Payorder_Monthly.MonthlyPayorderID, VW_Emp_Info.ID, VW_Emp_Info.FirstName + ' ' + VW_Emp_Info.LastName AS Name,VW_Emp_Info.Phone, VW_Emp_Info.Designation, VW_Emp_Info.Bank_AccNo, Employee_Payorder_Monthly.WorkingDays, Employee_Payorder.PayorderAmount, Employee_Payorder.Allowance, Employee_Payorder.Bonus, Employee_Payorder.Diduction, Employee_Payorder.Fine, Employee_Payorder.InTotalSalary, Employee_Payorder.Employee_PayorderID, Employee_Payorder.EmployeeID, Employee_Payorder.GrossSalary, Employee_Payorder_Monthly.FineCountDays, Employee_Payorder.PaidAmount, Employee_Payorder.Due, Employee_Payorder.PaidStatus FROM Employee_Payorder_Monthly INNER JOIN Employee_Payorder ON Employee_Payorder_Monthly.Employee_PayorderID = Employee_Payorder.Employee_PayorderID INNER JOIN VW_Emp_Info ON Employee_Payorder.EmployeeID = VW_Emp_Info.EmployeeID WHERE (Employee_Payorder.Employee_Payorder_NameID = @Employee_Payorder_NameID) AND (Employee_Payorder_Monthly.MonthName = @MonthName) AND (Employee_Payorder.SchoolID = @SchoolID) AND (VW_Emp_Info.EmployeeType LIKE @EmployeeType)" UpdateCommand="UPDATE Employee_Payorder SET PaidAmount = PaidAmount + @PaidAmount WHERE (Employee_PayorderID = @Employee_PayorderID) AND (SchoolID = @SchoolID)">
             <SelectParameters>
                 <asp:ControlParameter ControlID="PayorderNameDropDownList" Name="Employee_Payorder_NameID" PropertyName="SelectedValue" />
                 <asp:ControlParameter ControlID="MonthNameDropDownList" Name="MonthName" PropertyName="SelectedItem.Text" />
@@ -203,6 +216,20 @@ UPDATE Employee_Payorder SET PaidAmount = 0 WHERE (SchoolID = @SchoolID) AND (Em
             </InsertParameters>
         </asp:SqlDataSource>
 
+        <asp:SqlDataSource ID="SMS_OtherInfoSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
+            InsertCommand="INSERT INTO SMS_OtherInfo(SMS_Send_ID, SchoolID, StudentID, TeacherID, EducationYearID) VALUES (@SMS_Send_ID, @SchoolID, @StudentID, @TeacherID, @EducationYearID)" SelectCommand="SELECT * FROM [SMS_OtherInfo]">
+            <InsertParameters>
+                <asp:Parameter Name="SMS_Send_ID" DbType="Guid" />
+                <asp:Parameter Name="SchoolID" />
+                <asp:Parameter Name="StudentID" />
+                <asp:Parameter Name="TeacherID" />
+                <asp:Parameter Name="EducationYearID" />
+            </InsertParameters>
+        </asp:SqlDataSource>
+
+
+
+
         <% if (EmployeeGridView.Rows.Count > 0)
             { %>
         <label id="SalaryTotal" class="mt-2 green-text"></label>
@@ -224,9 +251,18 @@ UPDATE Employee_Payorder SET PaidAmount = 0 WHERE (SchoolID = @SchoolID) AND (Em
                 <asp:RequiredFieldValidator ID="dRfv" runat="server" ControlToValidate="Paid_Date_TextBox" CssClass="EroorStar" ErrorMessage="*" ValidationGroup="A"></asp:RequiredFieldValidator>
             </div>
             <div class="form-group">
+                <%--<asp:CheckBox runat="server" ID="SMSCheckBox" Text="Send SMS"/>--%>
+                <label>SMS Send :</label>&nbsp
+                <asp:RadioButtonList CssClass="form-control" ID="SMSRadioButtonList" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem Selected="True" Value="Yes">Yes</asp:ListItem>
+                    <asp:ListItem Value="No">No</asp:ListItem>                    
+                </asp:RadioButtonList>
+
+
                 <asp:Button ID="PayButton" ValidationGroup="A" runat="server" Text="Pay Salary" CssClass="btn btn-primary" OnClick="PayButton_Click" />
                 <label id="Error" class="red-text"></label>
                 <asp:Label ID="AccerrorLabel" CssClass="EroorSummer" runat="server"></asp:Label>
+                <asp:Label ID="ErrorLabel" runat="server" CssClass="EroorSummer"></asp:Label>
             </div>
         </div>
         <% } %>
@@ -262,6 +298,12 @@ UPDATE Employee_Payorder SET PaidAmount = 0 WHERE (SchoolID = @SchoolID) AND (Em
 
     <asp:HiddenField ID="GrandTotalHF" runat="server" />
     <script>
+        $(document).ready(function () {
+            $('#SMSCheckBox').attr('checked', true);
+
+        });
+
+
         $(function () {
             $(".Datetime").datepicker({
                 format: 'dd M yyyy',
@@ -275,6 +317,8 @@ UPDATE Employee_Payorder SET PaidAmount = 0 WHERE (SchoolID = @SchoolID) AND (Em
             }
 
             $('input[type=checkbox]').prop("checked", false);
+
+
 
             //Select All Checkbox 
 

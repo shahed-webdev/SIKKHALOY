@@ -194,7 +194,7 @@ UPDATE Income_PaymentRecord SET StudentClassID = @New_StudentClassID WHERE  (Stu
 UPDATE Income_PayOrder SET StudentClassID = @New_StudentClassID WHERE (StudentClassID = @StudentClassID)">
                 <DeleteParameters>
                     <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
-                    <asp:QueryStringParameter Name="StudentClassID" QueryStringField="Old_Class" />
+                    <asp:QueryStringParameter Name="StudentClassID" QueryStringField="Old_Class" />                    
                 </DeleteParameters>
                 <UpdateParameters>
                     <asp:SessionParameter Name="New_StudentClassID" SessionField="StudentClassID" />

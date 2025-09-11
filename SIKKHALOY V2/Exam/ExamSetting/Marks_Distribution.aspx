@@ -18,7 +18,7 @@
                                 Class
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ClassDropDownList" CssClass="EroorSummer" ErrorMessage="*" InitialValue="0" ValidationGroup="Ex"></asp:RequiredFieldValidator></label>
                             <asp:DropDownList ID="ClassDropDownList" runat="server" AppendDataBoundItems="True" AutoPostBack="True" CssClass="form-control" DataSourceID="ClassSQL" DataTextField="Class" DataValueField="ClassID" OnSelectedIndexChanged="ClassDropDownList_SelectedIndexChanged">
-                                <asp:ListItem Value="0">[ SELECT ]</asp:ListItem>
+                                <asp:ListItem Value="0">[ SELECT CLASS ]</asp:ListItem>
                             </asp:DropDownList>
                             <asp:SqlDataSource ID="ClassSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                                 SelectCommand="SELECT DISTINCT CreateClass.ClassID, CreateClass.Class, CreateClass.SN
@@ -41,7 +41,7 @@ ORDER BY CreateClass.SN">
                                 Exam
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="ExamDropDownList" CssClass="EroorSummer" ErrorMessage="*" InitialValue="0" ValidationGroup="Ex"></asp:RequiredFieldValidator></label>
                             <asp:DropDownList ID="ExamDropDownList" runat="server" AutoPostBack="True" CssClass="form-control" DataSourceID="ExamNameSQl" DataTextField="ExamName" DataValueField="ExamID" AppendDataBoundItems="True" OnSelectedIndexChanged="ExamDropDownList_SelectedIndexChanged">
-                                <asp:ListItem Value="0">[ SELECT ]</asp:ListItem>
+                                <asp:ListItem Value="0">[ SELECT EXAM ]</asp:ListItem>
                             </asp:DropDownList>
                             <asp:SqlDataSource ID="ExamNameSQl" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
                                 SelectCommand="SELECT ExamID, SchoolID, RegistrationID, EducationYearID, ExamName, Date FROM Exam_Name WHERE (SchoolID = @SchoolID) AND (EducationYearID = @EducationYearID)">

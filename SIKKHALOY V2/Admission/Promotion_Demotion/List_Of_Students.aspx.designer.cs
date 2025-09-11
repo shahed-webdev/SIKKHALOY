@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Admission.Promotion_Demotion {
-    
-    
-    public partial class List_Of_Students {
-        
+namespace EDUCATION.COM.Admission.Promotion_Demotion
+{
+
+
+    public partial class List_Of_Students
+    {
+
         /// <summary>
         /// ContainUpdatePanel control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel ContainUpdatePanel;
-        
+
         /// <summary>
         /// ClassDropDownList control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ClassDropDownList;
-        
+
         /// <summary>
         /// ClassNameSQL control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
-        
+
         /// <summary>
         /// GroupDropDownList control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList GroupDropDownList;
-        
+
         /// <summary>
         /// GroupSQL control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource GroupSQL;
-        
+
         /// <summary>
         /// SectionDropDownList control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SectionDropDownList;
-        
+
         /// <summary>
         /// SectionSQL control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SectionSQL;
-        
+
         /// <summary>
         /// ShiftDropDownList control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ShiftDropDownList;
-        
+
         /// <summary>
         /// ShiftSQL control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ShiftSQL;
-        
+
         /// <summary>
         /// StudentsGridView control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView StudentsGridView;
-        
+
         /// <summary>
         /// ShowStudentClassSQL control.
         /// </summary>
@@ -110,7 +112,187 @@ namespace EDUCATION.COM.Admission.Promotion_Demotion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ShowStudentClassSQL;
-        
+
+        /// <summary>
+        /// Re_ClassDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Re_ClassDropDownList;
+
+        /// <summary>
+        /// Re_ClassSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Re_ClassSQL;
+
+        /// <summary>
+        /// Re_GroupDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Re_GroupDropDownList;
+
+        /// <summary>
+        /// Re_GroupSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Re_GroupSQL;
+
+        /// <summary>
+        /// Re_SectionDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Re_SectionDropDownList;
+
+        /// <summary>
+        /// Re_SectionSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Re_SectionSQL;
+
+        /// <summary>
+        /// Re_ShiftDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Re_ShiftDropDownList;
+
+        /// <summary>
+        /// Re_ShiftSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Re_ShiftSQL;
+
+        /// <summary>
+        /// GroupGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GroupGridView;
+
+        /// <summary>
+        /// SubjectGroupSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SubjectGroupSQL;
+
+        /// <summary>
+        /// UpdateStudentClassSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource UpdateStudentClassSQL;
+
+        /// <summary>
+        /// KeepPayOrderCheckbox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox KeepPayOrderCheckbox;
+
+        /// <summary>
+        /// PDRadioButtonList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList PDRadioButtonList;
+
+        /// <summary>
+        /// btnSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
+
+        /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+
+        /// <summary>
+        /// ErrorLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ErrorLabel;
+
+        /// <summary>
+        /// StudentClassSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource StudentClassSQL;
+
+        /// <summary>
+        /// StudentRecordSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource StudentRecordSQL;
+
+        /// <summary>
+        /// UpdatePaymantSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource UpdatePaymantSQL;
+
+        /// <summary>
+        /// UpdateIncomePayorder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource UpdateIncomePayorder;
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

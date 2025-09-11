@@ -22,6 +22,8 @@
     <UseGlobalApplicationHostFile />
     <Use64BitIISExpress />
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,12 @@
       <HintPath>libs\AjaxMin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Azure.Core, Version=1.38.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.38.0\lib\net472\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Identity, Version=1.11.4.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Identity.1.11.4\lib\netstandard2.0\Azure.Identity.dll</HintPath>
+    </Reference>
     <Reference Include="ClientAPI">
       <HintPath>libs\ClientAPI.dll</HintPath>
     </Reference>
@@ -65,7 +73,37 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>libs\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.SqlClient, Version=5.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.SqlClient.5.2.2\lib\net462\Microsoft.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client, Version=4.61.3.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.4.61.3\lib\net462\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=4.61.3.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.Extensions.Msal.4.61.3\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.35.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.35.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.35.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.6.35.0\lib\net472\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.6.35.0\lib\net472\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.35.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.MSXML, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -120,9 +158,76 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ClientModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ClientModel.1.0.0\lib\netstandard2.0\System.ClientModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration.ConfigurationManager, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.6.0.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.1\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.35.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.7.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.6.0.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -138,6 +243,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Accounts\AccountsAnalysis\CSS\Category_Report.css" />
@@ -207,8 +313,13 @@
     <Content Include="Accounts\Reports\PaidReport.aspx" />
     <Content Include="Accounts\Reports\PayOrderReport.aspx" />
     <Content Include="Accounts\Reports\UserAccount.aspx" />
+    <Content Include="Accounts\Reports\UserWise_Account_Report.aspx" />
     <Content Include="Administration_Basic_Settings\Active_deactivate_Sub_Admin.aspx" />
     <Content Include="Administration_Basic_Settings\Active_Deactivate_Teacher.aspx" />
+    <Content Include="Administration_Basic_Settings\AllCertificate\CharecterCertificate_Bangla.aspx" />
+    <Content Include="Administration_Basic_Settings\AllCertificate\CharecterCertificate_English.aspx" />
+    <Content Include="Administration_Basic_Settings\AllCertificate\Testimonial_Bangla.aspx" />
+    <Content Include="Administration_Basic_Settings\AllCertificate\Testimonial_English.aspx" />
     <Content Include="Administration_Basic_Settings\Assigning_subject_in_classes.aspx" />
     <Content Include="Administration_Basic_Settings\Character_Certificate.aspx" />
     <Content Include="Administration_Basic_Settings\ClassBasedNotice.aspx" />
@@ -223,6 +334,7 @@
     <Content Include="Administration_Basic_Settings\Institution_Info.aspx" />
     <Content Include="Administration_Basic_Settings\Manage_Sub_Admin_Access.aspx" />
     <Content Include="Administration_Basic_Settings\Specify_group_section_Shift_for_classes.aspx" />
+    <Content Include="Administration_Basic_Settings\StudentFoult.aspx" />
     <Content Include="Admission\Change_Student_RollNo_Group_Section_Shift.aspx" />
     <Content Include="Admission\Change_Student_Subjects.aspx" />
     <Content Include="Admission\CSS\print-tc.css" />
@@ -237,6 +349,7 @@
     <Content Include="Admission\Edit_Student_Info\Edit_Student_information.aspx" />
     <Content Include="Admission\New_Student_Admission\Class_And_Subject.aspx" />
     <Content Include="Admission\New_Student_Admission\CSS\New_Students_Payments.css" />
+    <Content Include="Admission\New_Student_Admission\Form_Bangla.aspx" />
     <Content Include="Admission\New_Student_Admission\Online_Admission_Form.aspx" />
     <Content Include="Admission\New_Student_Admission\Payments.aspx" />
     <Content Include="Admission\Print_TC.aspx" />
@@ -339,7 +452,7 @@
     <Content Include="Committee\MemberAdd.aspx" />
     <Content Include="Committee\MemberList.aspx" />
     <Content Include="Committee\PaymentRecord.aspx" />
-    <Content Include="Committee\SearchMember.aspx" />
+    <Content Include="Committee\Print_MemberList.aspx" />
     <Content Include="Committee\SendSMS.aspx" />
     <Content Include="Committee\UnpaidReceipt.aspx" />
     <Content Include="CSS\bootstrap-multiselect.css" />
@@ -347,6 +460,8 @@
     <Content Include="CSS\Default.css" />
     <Content Include="CSS\Gridview.css" />
     <Content Include="CSS\External_Master.css" />
+    <Content Include="CSS\Image\admintpic.png" />
+    <Content Include="CSS\Image\admintpic1.png" />
     <Content Include="CSS\Image\Bkash.png" />
     <Content Include="CSS\Image\bkash_favicon.ico" />
     <Content Include="CSS\Image\CheckBox.png" />
@@ -357,6 +472,7 @@
     <Content Include="CSS\Image\googlePlay.png" />
     <Content Include="CSS\Image\PaidSign.png" />
     <Content Include="CSS\Image\RadioButton.png" />
+    <Content Include="CSS\Image\rocket.jpg" />
     <Content Include="CSS\Image\SikkhaloyLogo.png" />
     <Content Include="CSS\Image\Sikkhaloy_Icon.png" />
     <Content Include="CSS\Internal_Master.css" />
@@ -390,8 +506,10 @@
     <Content Include="Employee\Payorder\Payorder_Monthly.aspx" />
     <Content Include="Employee\Salary_PaidDue_Report.aspx" />
     <Content Include="Employee\Salary_Sheet.aspx" />
+    <Content Include="Employee\SetEmployee_With_PayorderName.aspx" />
     <Content Include="Employee\Staff_Info.aspx" />
     <Content Include="Employee\Teacher_Allocated_Subjects.aspx" />
+    <Content Include="Exam\Admit_Card\AdmitCard_WithoutPhoto.aspx" />
     <Content Include="Exam\Admit_Card\css\Custom.css" />
     <Content Include="Exam\Admit_Card\css\Old_Admit.css" />
     <Content Include="Exam\Admit_Card\css\skin1.css" />
@@ -399,6 +517,9 @@
     <Content Include="Exam\Admit_Card\css\skin3.css" />
     <Content Include="Exam\Admit_Card\Multiple_Admit_Card.aspx" />
     <Content Include="Exam\Admit_Card\Old_AdmitCard.aspx" />
+    <Content Include="Exam\Admit_Card\Old_AdmitCardWithoutPhoto.aspx" />
+    <Content Include="Exam\ExmamPositionBangla.aspx" />
+    <Content Include="Exam\Input_Exam_Marks_WithSubExam.aspx" />
     <Content Include="Exam\Result\BanglaResult.aspx" />
     <Content Include="Exam\Result\Board_Result.aspx" />
     <Content Include="Exam\CSS\Input_Marks.css" />
@@ -420,7 +541,7 @@
     <Content Include="Exam\ExamSetting\Marks_Distribution.aspx" />
     <Content Include="Exam\ExamSetting\PassMark_Change.aspx" />
     <Content Include="Exam\ExamSetting\Subject_Wise_Marks_Check.aspx" />
-    <Content Include="Exam\Input_Exam_Marks.aspx" />
+    <Content Include="Exam\Input_Exam_Marks_Old.aspx" />
     <Content Include="Exam\Publish_Result.aspx" />
     <Content Include="Exam\Result\Analytical_Smart_Result.aspx" />
     <Content Include="Exam\Result\CSS\Cumulative_Position.css" />
@@ -428,6 +549,8 @@
     <Content Include="Exam\Result\Delete_Exam_And_Result.aspx" />
     <Content Include="Exam\Result\Individual_Result_For_Class.aspx" />
     <Content Include="Exam\SeatPlan\SeatPlan.aspx" />
+    <Content Include="Exam\Input_Exam_Marks.aspx" />
+    <Content Include="Exam\SeatPlan\SeatPlanWithoutPhoto.aspx" />
     <Content Include="Exam\WeeklyExam\CSS\Check-Weekly-Results.css" />
     <Content Include="Exam\WeeklyExam\CSS\Print.css" />
     <Content Include="Exam\WeeklyExam\Edit_Weekly_Merit_Status_Marks.aspx" />
@@ -435,10 +558,18 @@
     <Content Include="Exam\WeeklyExam\Weekly_Merit_Status_Results.aspx" />
     <Content Include="Handeler\Default\Default_Sign.jpg" />
     <Content Include="Handeler\FindDonar.asmx" />
+    <Content Include="ID_Cards\Card.aspx" />
+    <Content Include="ID_Cards\CSS\image\card.jpg" />
+    <Content Include="ID_Cards\CSS\image\card.PNG" />
+    <Content Include="ID_Cards\CSS\image\Student_Card.jpg" />
+    <Content Include="ID_Cards\CSS\image\Student_Card.png" />
+    <Content Include="ID_Cards\Student_Card.aspx" />
+    <Content Include="ID_Cards\Student_ID_Cards.aspx" />
     <Content Include="JS\amount-in-word.js" />
     <Content Include="JS\attendance\api-methods.js" />
     <Content Include="JS\mui.min.js" />
     <Content Include="JS\notify.min.js" />
+    <Content Include="JS\ShowHideImage.js" />
     <Content Include="JS\Zip_File\FileServer.js" />
     <Content Include="googleeb74826106350c63.html" />
     <Content Include="Handeler\Default\Male.png" />
@@ -508,8 +639,10 @@
     </Content>
     <Content Include="Student\Notice.aspx" />
     <Content Include="Student\OnlinePayment\Success.aspx" />
+    <Content Include="Teacher\AddStudentReport.aspx" />
     <Content Include="Teacher\StudentAttendance.aspx" />
     <Content Include="Teacher\StudentNotice.aspx" />
+    <Content Include="Teacher\Input_Marks.aspx" />
     <Content Include="W_Test.aspx" />
     <None Include="API\Attendance_DataSet.xsd">
       <SubType>Designer</SubType>
@@ -555,7 +688,7 @@
     </Content>
     <None Include="Exam\CumulativeResult\Cu_Exam.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Cu_Exam1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Cu_Exam.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <Content Include="Exam\CumulativeResult\Cu_Exam.xss">
@@ -564,7 +697,7 @@
     <None Include="Exam_Result.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Exam_Result.Designer.cs</LastGenOutput>
+      <LastGenOutput>Exam_Result1.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Exam_Result.xss">
       <DependentUpon>Exam_Result.xsd</DependentUpon>
@@ -579,6 +712,8 @@
     <Content Include="Handeler\Authority_Photo.ashx" />
     <Content Include="Handeler\Sign_Principal.ashx" />
     <Content Include="Handeler\Sign_Teacher.ashx" />
+    <Content Include="Handeler\Commeti_Photo.ashx" />
+    <Content Include="Handeler\Comitee_Image.ashx" />
     <None Include="Properties\PublishProfiles\Demo Edu.pubxml" />
     <Content Include="Routines\CSS\Routine.css" />
     <Content Include="Routines\Modify_Routine.aspx" />
@@ -603,7 +738,7 @@
     <Content Include="Teacher\Class_Routine.aspx" />
     <Content Include="Teacher\CV_Create.aspx" />
     <Content Include="Teacher\CV_Print.aspx" />
-    <Content Include="Teacher\Input_Marks.aspx" />
+    <Content Include="Teacher\Input_MarksOld.aspx" />
     <Content Include="Teacher\SMS_Inbox.aspx" />
     <Content Include="Teacher\Teacher_profile.aspx" />
     <Content Include="Teacher\Update_Info.aspx" />
@@ -885,6 +1020,13 @@
     <Compile Include="Accounts\Reports\UserAccount.aspx.designer.cs">
       <DependentUpon>UserAccount.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Accounts\Reports\UserWise_Account_Report.aspx.cs">
+      <DependentUpon>UserWise_Account_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Accounts\Reports\UserWise_Account_Report.aspx.designer.cs">
+      <DependentUpon>UserWise_Account_Report.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Administration_Basic_Settings\Active_deactivate_Sub_Admin.aspx.cs">
       <DependentUpon>Active_deactivate_Sub_Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -898,6 +1040,34 @@
     </Compile>
     <Compile Include="Administration_Basic_Settings\Active_Deactivate_Teacher.aspx.designer.cs">
       <DependentUpon>Active_Deactivate_Teacher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\CharecterCertificate_Bangla.aspx.cs">
+      <DependentUpon>CharecterCertificate_Bangla.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\CharecterCertificate_Bangla.aspx.designer.cs">
+      <DependentUpon>CharecterCertificate_Bangla.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\CharecterCertificate_English.aspx.cs">
+      <DependentUpon>CharecterCertificate_English.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\CharecterCertificate_English.aspx.designer.cs">
+      <DependentUpon>CharecterCertificate_English.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\Testimonial_Bangla.aspx.cs">
+      <DependentUpon>Testimonial_Bangla.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\Testimonial_Bangla.aspx.designer.cs">
+      <DependentUpon>Testimonial_Bangla.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\Testimonial_English.aspx.cs">
+      <DependentUpon>Testimonial_English.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\AllCertificate\Testimonial_English.aspx.designer.cs">
+      <DependentUpon>Testimonial_English.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administration_Basic_Settings\Assigning_subject_in_classes.aspx.cs">
       <DependentUpon>Assigning_subject_in_classes.aspx</DependentUpon>
@@ -983,6 +1153,13 @@
     <Compile Include="Administration_Basic_Settings\Specify_group_section_Shift_for_classes.aspx.designer.cs">
       <DependentUpon>Specify_group_section_Shift_for_classes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Administration_Basic_Settings\StudentFoult.aspx.cs">
+      <DependentUpon>StudentFoult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administration_Basic_Settings\StudentFoult.aspx.designer.cs">
+      <DependentUpon>StudentFoult.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admission\Change_Student_RollNo_Group_Section_Shift.aspx.cs">
       <DependentUpon>Change_Student_RollNo_Group_Section_Shift.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1038,6 +1215,13 @@
     </Compile>
     <Compile Include="Admission\New_Student_Admission\Class_And_Subject.aspx.designer.cs">
       <DependentUpon>Class_And_Subject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admission\New_Student_Admission\Form_Bangla.aspx.cs">
+      <DependentUpon>Form_Bangla.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admission\New_Student_Admission\Form_Bangla.aspx.designer.cs">
+      <DependentUpon>Form_Bangla.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admission\New_Student_Admission\Online_Admission_Form.aspx.cs">
       <DependentUpon>Online_Admission_Form.aspx</DependentUpon>
@@ -1559,12 +1743,12 @@
     <Compile Include="Committee\PaymentRecord.aspx.designer.cs">
       <DependentUpon>PaymentRecord.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Committee\SearchMember.aspx.cs">
-      <DependentUpon>SearchMember.aspx</DependentUpon>
+    <Compile Include="Committee\Print_MemberList.aspx.cs">
+      <DependentUpon>Print_MemberList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Committee\SearchMember.aspx.designer.cs">
-      <DependentUpon>SearchMember.aspx</DependentUpon>
+    <Compile Include="Committee\Print_MemberList.aspx.designer.cs">
+      <DependentUpon>Print_MemberList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Committee\SendSMS.aspx.cs">
       <DependentUpon>SendSMS.aspx</DependentUpon>
@@ -1732,6 +1916,13 @@
     <Compile Include="Employee\Salary_Sheet.aspx.designer.cs">
       <DependentUpon>Salary_Sheet.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Employee\SetEmployee_With_PayorderName.aspx.cs">
+      <DependentUpon>SetEmployee_With_PayorderName.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\SetEmployee_With_PayorderName.aspx.designer.cs">
+      <DependentUpon>SetEmployee_With_PayorderName.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Employee\Staff_Info.aspx.cs">
       <DependentUpon>Staff_Info.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1746,6 +1937,13 @@
     <Compile Include="Employee\Teacher_Allocated_Subjects.aspx.designer.cs">
       <DependentUpon>Teacher_Allocated_Subjects.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Exam\Admit_Card\AdmitCard_WithoutPhoto.aspx.cs">
+      <DependentUpon>AdmitCard_WithoutPhoto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exam\Admit_Card\AdmitCard_WithoutPhoto.aspx.designer.cs">
+      <DependentUpon>AdmitCard_WithoutPhoto.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Exam\Admit_Card\Multiple_Admit_Card.aspx.cs">
       <DependentUpon>Multiple_Admit_Card.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1759,6 +1957,36 @@
     </Compile>
     <Compile Include="Exam\Admit_Card\Old_AdmitCard.aspx.designer.cs">
       <DependentUpon>Old_AdmitCard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\Admit_Card\Old_AdmitCardWithoutPhoto.aspx.cs">
+      <DependentUpon>Old_AdmitCardWithoutPhoto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exam\Admit_Card\Old_AdmitCardWithoutPhoto.aspx.designer.cs">
+      <DependentUpon>Old_AdmitCardWithoutPhoto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\CumulativeResult\Cu_Exam.cs">
+      <DependentUpon>Cu_Exam.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\CumulativeResult\Cu_Exam.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cu_Exam.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\ExmamPositionBangla.aspx.cs">
+      <DependentUpon>ExmamPositionBangla.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exam\ExmamPositionBangla.aspx.designer.cs">
+      <DependentUpon>ExmamPositionBangla.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\exportPanel.cs" />
+    <Compile Include="Exam\Input_Exam_Marks_WithSubExam.aspx.cs">
+      <DependentUpon>Input_Exam_Marks_WithSubExam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exam\Input_Exam_Marks_WithSubExam.aspx.designer.cs">
+      <DependentUpon>Input_Exam_Marks_WithSubExam.aspx</DependentUpon>
     </Compile>
     <Compile Include="Exam\Result\BanglaResult.aspx.cs">
       <DependentUpon>BanglaResult.aspx</DependentUpon>
@@ -1794,11 +2022,6 @@
     </Compile>
     <Compile Include="Exam\CumulativeResult\Cumulative_Setting.aspx.designer.cs">
       <DependentUpon>Cumulative_Setting.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Exam\CumulativeResult\Cu_Exam1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Cu_Exam.xsd</DependentUpon>
     </Compile>
     <Compile Include="Exam\ExamPosition.aspx.cs">
       <DependentUpon>ExamPosition.aspx</DependentUpon>
@@ -1884,12 +2107,12 @@
     <Compile Include="Exam\ExamSetting\Subject_Wise_Marks_Check.aspx.designer.cs">
       <DependentUpon>Subject_Wise_Marks_Check.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Exam\Input_Exam_Marks.aspx.cs">
-      <DependentUpon>Input_Exam_Marks.aspx</DependentUpon>
+    <Compile Include="Exam\Input_Exam_Marks_Old.aspx.cs">
+      <DependentUpon>Input_Exam_Marks_Old.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Exam\Input_Exam_Marks.aspx.designer.cs">
-      <DependentUpon>Input_Exam_Marks.aspx</DependentUpon>
+    <Compile Include="Exam\Input_Exam_Marks_Old.aspx.designer.cs">
+      <DependentUpon>Input_Exam_Marks_Old.aspx</DependentUpon>
     </Compile>
     <Compile Include="Exam\Publish_Result.aspx.cs">
       <DependentUpon>Publish_Result.aspx</DependentUpon>
@@ -1926,6 +2149,20 @@
     <Compile Include="Exam\SeatPlan\SeatPlan.aspx.designer.cs">
       <DependentUpon>SeatPlan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Exam\Input_Exam_Marks.aspx.cs">
+      <DependentUpon>Input_Exam_Marks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exam\Input_Exam_Marks.aspx.designer.cs">
+      <DependentUpon>Input_Exam_Marks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Exam\SeatPlan\SeatPlanWithoutPhoto.aspx.cs">
+      <DependentUpon>SeatPlanWithoutPhoto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exam\SeatPlan\SeatPlanWithoutPhoto.aspx.designer.cs">
+      <DependentUpon>SeatPlanWithoutPhoto.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Exam\WeeklyExam\Edit_Weekly_Merit_Status_Marks.aspx.cs">
       <DependentUpon>Edit_Weekly_Merit_Status_Marks.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1947,7 +2184,10 @@
     <Compile Include="Exam\WeeklyExam\Weekly_Merit_Status_Results.aspx.designer.cs">
       <DependentUpon>Weekly_Merit_Status_Results.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Exam_Result.Designer.cs">
+    <Compile Include="Exam_Result.cs">
+      <DependentUpon>Exam_Result.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Exam_Result1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Exam_Result.xsd</DependentUpon>
@@ -1957,6 +2197,9 @@
     </Compile>
     <Compile Include="Handeler\Authority_Photo.ashx.cs">
       <DependentUpon>Authority_Photo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handeler\Comitee_Image.ashx.cs">
+      <DependentUpon>Comitee_Image.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handeler\Employee_IDs.asmx.cs">
       <DependentUpon>Employee_IDs.asmx</DependentUpon>
@@ -1988,6 +2231,9 @@
     <Compile Include="Handeler\Student_Id_Based_Photo.ashx.cs">
       <DependentUpon>Student_Id_Based_Photo.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handeler\Commeti_Photo.ashx.cs">
+      <DependentUpon>Commeti_Photo.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handeler\Student_Photo.ashx.cs">
       <DependentUpon>Student_Photo.ashx</DependentUpon>
     </Compile>
@@ -2000,6 +2246,13 @@
     </Compile>
     <Compile Include="ID_Cards\All_ID_Cards.aspx.designer.cs">
       <DependentUpon>All_ID_Cards.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ID_Cards\Card.aspx.cs">
+      <DependentUpon>Card.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ID_Cards\Card.aspx.designer.cs">
+      <DependentUpon>Card.aspx</DependentUpon>
     </Compile>
     <Compile Include="ID_Cards\Find_Students.aspx.cs">
       <DependentUpon>Find_Students.aspx</DependentUpon>
@@ -2035,6 +2288,20 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ID_Cards\Student_Card.aspx.cs">
+      <DependentUpon>Student_Card.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ID_Cards\Student_Card.aspx.designer.cs">
+      <DependentUpon>Student_Card.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ID_Cards\Student_ID_Cards.aspx.cs">
+      <DependentUpon>Student_ID_Cards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ID_Cards\Student_ID_Cards.aspx.designer.cs">
+      <DependentUpon>Student_ID_Cards.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -2270,6 +2537,13 @@
     <Compile Include="Student\Student_Report.aspx.designer.cs">
       <DependentUpon>Student_Report.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Teacher\AddStudentReport.aspx.cs">
+      <DependentUpon>AddStudentReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Teacher\AddStudentReport.aspx.designer.cs">
+      <DependentUpon>AddStudentReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Teacher\Attendance.aspx.cs">
       <DependentUpon>Attendance.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2305,12 +2579,12 @@
     <Compile Include="Teacher\CV_Print.aspx.designer.cs">
       <DependentUpon>CV_Print.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Teacher\Input_Marks.aspx.cs">
-      <DependentUpon>Input_Marks.aspx</DependentUpon>
+    <Compile Include="Teacher\Input_MarksOld.aspx.cs">
+      <DependentUpon>Input_MarksOld.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Teacher\Input_Marks.aspx.designer.cs">
-      <DependentUpon>Input_Marks.aspx</DependentUpon>
+    <Compile Include="Teacher\Input_MarksOld.aspx.designer.cs">
+      <DependentUpon>Input_MarksOld.aspx</DependentUpon>
     </Compile>
     <Compile Include="Teacher\SMS_Inbox.aspx.cs">
       <DependentUpon>SMS_Inbox.aspx</DependentUpon>
@@ -2332,6 +2606,13 @@
     </Compile>
     <Compile Include="Teacher\StudentNotice.aspx.designer.cs">
       <DependentUpon>StudentNotice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Teacher\Input_Marks.aspx.cs">
+      <DependentUpon>Input_Marks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Teacher\Input_Marks.aspx.designer.cs">
+      <DependentUpon>Input_Marks.aspx</DependentUpon>
     </Compile>
     <Compile Include="Teacher\Teacher_profile.aspx.cs">
       <DependentUpon>Teacher_profile.aspx</DependentUpon>
@@ -2377,6 +2658,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AllNotice\" />
     <Folder Include="App\" />
   </ItemGroup>
   <ItemGroup>
@@ -2437,6 +2719,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

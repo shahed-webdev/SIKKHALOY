@@ -2,6 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/Old_Admit.css?v=10" rel="stylesheet" />
+    <style>
+        .idcardborder {
+    border: 2px solid #0075d2;
+}
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h3>Admit Card</h3>
@@ -67,6 +72,33 @@
             </label>
         </div>
         <div class="form-group">
+             <div class="dropdown">
+     <button class="btn btn-primary " type="button" data-toggle="dropdown">
+         Choose Color
+ <span class="caret"></span>
+     </button>
+     <ul class="dropdown-menu">
+         <li style="text-align: center"><a><b>Background Color</b></a></li>
+         <li class="divider"></li>
+         <asp:Table runat="server" CssClass="table">
+             <asp:TableRow>
+                 <asp:TableCell>Head</asp:TableCell>
+                 <asp:TableCell><li><input type="color" class="getColor" /></li></asp:TableCell>
+             </asp:TableRow>
+         </asp:Table>
+         <li class="divider"></li>
+         <li style="text-align: center"><a><b>Font Color</b></a></li>
+         <li class="divider"></li>
+         <asp:Table runat="server" CssClass="table">
+             <asp:TableRow>
+                 <asp:TableCell>Head</asp:TableCell>
+                 <asp:TableCell><li><input type="color" class="getfontColor" /></li></asp:TableCell>
+             </asp:TableRow>
+         </asp:Table>
+     </ul>
+ </div>
+        </div>
+        <div class="form-group">
             <button type="button" class="btn btn-primary hidden-print" onclick="window.print();">Print</button>
         </div>
     </div>
@@ -74,8 +106,9 @@
     <div id="wrapper">
         <asp:Repeater ID="IDCardrpt" runat="server" DataSourceID="ICardInfoSQL">
             <ItemTemplate>
-                <div>
-                    <div class="card-header">
+                <div class="idcardborder">
+
+                    <div class="card-header color-output">
                         <div class="sLogo">
                             <img src='/Handeler/SchoolLogo.ashx?SLogo=<%#Eval("SchoolID") %>' />
                         </div>
@@ -171,7 +204,19 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
+
+   
+
+   
+
     <script>
+
+        
+
+        
+
+
+
         $(function () {
             if ($('.Group td').eq(2).text() != "") {
                 $('.Group').show();
@@ -251,5 +296,26 @@
                 $(".Head").text($("[id*=HeadTeacherSignTextBox]").val());
             });
         });
+        // Background Color
+
+        $(".getColor").on("change", function () {
+            //Get Color
+            var color = $(".getColor").val();
+            //apply cuurent color to div
+            $(".color-output").css("background", color);
+            $(".idcardborder").css("border-color", color);
+            $(".headcolor").css("background", color);
+        })
+
+
+        //  forcolor
+
+        $(".getfontColor").on("change", function () {
+            //Get Color
+            var color = $(".getfontColor").val();
+            //apply cuurent color to font
+            $(".color-output").css("color", color);
+
+        })
     </script>
 </asp:Content>

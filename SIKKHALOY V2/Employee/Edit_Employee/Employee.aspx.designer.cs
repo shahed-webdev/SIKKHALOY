@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Employee.Edit_Employee {
-    
-    
-    public partial class Employee {
-        
+namespace EDUCATION.COM.Employee.Edit_Employee
+{
+
+
+    public partial class Employee
+    {
+
         /// <summary>
         /// BasicInfoFormView control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Employee.Edit_Employee {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView BasicInfoFormView;
-        
+
         /// <summary>
         /// BasicInfoSQL control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Employee.Edit_Employee {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource BasicInfoSQL;
-        
+
         /// <summary>
         /// JobInfoFormView control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Employee.Edit_Employee {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView JobInfoFormView;
-        
+
         /// <summary>
         /// JobInfoSQL control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace EDUCATION.COM.Employee.Edit_Employee {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource JobInfoSQL;
-        
+
         /// <summary>
         /// DeactivateButton control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace EDUCATION.COM.Employee.Edit_Employee {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DeactivateButton;
-        
+
         /// <summary>
         /// DeactivateEmpSQL control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace EDUCATION.COM.Employee.Edit_Employee {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource DeactivateEmpSQL;
-        
+
         /// <summary>
         /// Device_DataUpdateSQL control.
         /// </summary>

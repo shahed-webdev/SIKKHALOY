@@ -29,6 +29,16 @@
                 </SelectParameters>
             </asp:SqlDataSource>
         </div>
+                        <div class="form-group">
+            <asp:DropDownList ID="GroupDropDownList" runat="server" AutoPostBack="True" CssClass="form-control" DataSourceID="GroupSQL" DataTextField="SubjectGroup" DataValueField="SubjectGroupID" OnDataBound="GroupDropDownList_DataBound">
+            </asp:DropDownList>
+            <asp:SqlDataSource ID="GroupSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>" SelectCommand="SELECT DISTINCT [Join].SubjectGroupID, CreateSubjectGroup.SubjectGroup FROM [Join] INNER JOIN CreateSubjectGroup ON [Join].SubjectGroupID = CreateSubjectGroup.SubjectGroupID WHERE ([Join].ClassID = @ClassID) AND ([Join].SectionID LIKE N'%' + @SectionID + N'%')">
+                <SelectParameters>
+                    <asp:ControlParameter ControlID="ClassDropDownList" Name="ClassID" PropertyName="SelectedValue" />
+                    <asp:ControlParameter ControlID="SectionDropDownList" Name="SectionID" PropertyName="SelectedValue" />
+                   </SelectParameters>
+            </asp:SqlDataSource>
+        </div>
         <div class="form-group S_Show" style="display: none">
             <asp:DropDownList ID="SectionDropDownList" runat="server" AutoPostBack="True" CssClass="form-control" DataSourceID="SectionSQL" DataTextField="Section" DataValueField="SectionID" OnDataBound="SectionDropDownList_DataBound">
             </asp:DropDownList>
@@ -38,6 +48,8 @@
                 </SelectParameters>
             </asp:SqlDataSource>
         </div>
+
+
         
         <div class="form-group">
             <asp:TextBox ID="FormDateTextBox" runat="server" autocomplete="off" CssClass="form-control Datetime" onDrop="blur();return false;" onkeypress="return isNumberKey(event)" onpaste="return false"></asp:TextBox>
@@ -73,6 +85,7 @@ WHERE
  ((StudentsClass.ClassID = @ClassID)OR(@ClassID = 0)) AND 
  (Income_MoneyReceipt.EducationYearID LIKE @EducationYearID) AND 
  (StudentsClass.SectionID LIKE @SectionID) AND 
+ (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND 
  (CAST(Income_MoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))">
         <SelectParameters>
             <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
@@ -80,6 +93,7 @@ WHERE
             <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
             <asp:ControlParameter ControlID="ClassDropDownList" Name="ClassID" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="SectionDropDownList" Name="SectionID" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="GroupDropDownList" Name="SubjectGroupID" PropertyName="SelectedValue" />
             <asp:ControlParameter ControlID="SessionDownList" Name="EducationYearID" PropertyName="SelectedValue" />
         </SelectParameters>
     </asp:SqlDataSource>
@@ -128,6 +142,7 @@ CAST(Income_MoneyReceipt.PaidDate AS DATE) AS PaidDate,
  ((StudentsClass.ClassID = @ClassID)OR(@ClassID = 0)) AND 
  (Income_MoneyReceipt.EducationYearID LIKE @EducationYearID) AND 
  (StudentsClass.SectionID LIKE @SectionID) AND 
+ (StudentsClass.SubjectGroupID LIKE @SubjectGroupID) AND 
  (CAST(Income_MoneyReceipt.PaidDate AS DATE) BETWEEN ISNULL(@From_Date, '1-1-1000') AND ISNULL(@To_Date, '1-1-3000'))
 ORDER BY StudentsClass.ClassID,CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THEN CAST(StudentsClass.RollNo AS int) ELSE 0 END"
             CancelSelectOnNullParameter="False">
@@ -136,6 +151,7 @@ ORDER BY StudentsClass.ClassID,CASE WHEN ISNUMERIC(StudentsClass.RollNo) = 1 THE
                 <asp:ControlParameter ControlID="FormDateTextBox" Name="From_Date" PropertyName="Text" />
                 <asp:ControlParameter ControlID="ToDateTextBox" Name="To_Date" PropertyName="Text" />
                 <asp:ControlParameter ControlID="ClassDropDownList" Name="ClassID" PropertyName="SelectedValue" />
+                <asp:ControlParameter ControlID="GroupDropDownList" Name="SubjectGroupID" PropertyName="SelectedValue" />
                 <asp:ControlParameter ControlID="SectionDropDownList" Name="SectionID" PropertyName="SelectedValue" />
                 <asp:ControlParameter ControlID="SessionDownList" Name="EducationYearID" PropertyName="SelectedValue" />
             </SelectParameters>

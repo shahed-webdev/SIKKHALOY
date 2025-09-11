@@ -33,7 +33,7 @@
                         <asp:CommandField ShowEditButton="True" HeaderText="Edit">
                             <ItemStyle HorizontalAlign="Center" Width="50px" />
                         </asp:CommandField>
-                        <asp:TemplateField HeaderText="Subject Name" SortExpression="SubjectName">
+                        <asp:TemplateField HeaderText="Academic Subject List" SortExpression="SubjectName">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("SubjectName") %>' CssClass="form-control"></asp:TextBox>
                             </EditItemTemplate>

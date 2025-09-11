@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Education;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -13,14 +14,21 @@ namespace EDUCATION.COM.Employee.Payment
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (Page.IsPostBack) return;
 
             if (Session["SchoolID"] != null)
-                SelectedAccount();
+                SelectedAccount();           
+
+
         }
 
         protected void PayButton_Click(object sender, EventArgs e)
         {
+            
+            
+
+
             var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
             var accountCmd = new SqlCommand("SELECT AccountBalance FROM [Account] WHERE SchoolID = @SchoolID AND AccountID = @AccountID", con);
             accountCmd.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
@@ -32,11 +40,16 @@ namespace EDUCATION.COM.Employee.Payment
 
             var grandTotal = Convert.ToDouble(GrandTotalHF.Value);
 
+            CheckBox smscheckBox = (CheckBox)this.FindControl("SMSCheckBox");
+
             if (accountBalance >= grandTotal)
             {
                 foreach (GridViewRow row in EmployeeGridView.Rows)
                 {
                     var dueCheckBox = (CheckBox)row.FindControl("AddCheckBox");
+                   //var smscheckBox = FindControl("SMSCheckBox") as CheckBox;// (CheckBox)row.FindControl("SMSCheckBox");
+                    
+
                     var dueAmountTextBox = (TextBox)row.FindControl("PayTextBox");
 
                     var dueCmd = new SqlCommand("SELECT Due FROM Employee_Payorder WHERE (SchoolID = @SchoolID) AND (EmployeeID = @EmployeeID) AND (Employee_PayorderID = @Employee_PayorderID)", con);
@@ -52,6 +65,8 @@ namespace EDUCATION.COM.Employee.Payment
                     {
                         if (dueCheckBox.Checked && double.TryParse(dueAmountTextBox.Text.Trim(), out var paidAmount))
                         {
+
+                            string teacherid = EmployeeGridView.DataKeys[row.RowIndex]["EmployeeID"].ToString();
                             var paid = paidAmount.ToString();
                             if (paidAmount <= dueByPayOrder)
                             {
@@ -67,6 +82,63 @@ namespace EDUCATION.COM.Employee.Payment
                                 EmplyoeePayOrderSQL.UpdateParameters["Employee_PayorderID"].DefaultValue = EmployeeGridView.DataKeys[row.RowIndex]["Employee_PayorderID"].ToString();
                                 EmplyoeePayOrderSQL.Update();
 
+
+                                // SMS Send
+
+                                if (SMSRadioButtonList.SelectedValue== "Yes")
+                                {
+                                    ErrorLabel.Text = "";
+                                    var msg = "Congrats! ";
+                                    var isSentSMS = false;
+
+                                    var phoneNo = EmployeeGridView.DataKeys[row.RowIndex]["Phone"].ToString();
+                                    var employeeId = EmployeeGridView.DataKeys[row.RowIndex]["ID"].ToString();
+                                    var employeePaid = paidAmount;
+                                    var employeeName = EmployeeGridView.DataKeys[row.RowIndex]["Name"].ToString();
+                                    string monthname = MonthNameDropDownList.SelectedItem.Text;
+                                    msg += $" {employeeName} (ID: {employeeId}). You've Received: {paid} Tk. from {monthname} Salary";
+                                    msg += ". Regards, " + Session["School_Name"];
+                                    var sms = new SMS_Class(Session["SchoolID"].ToString());
+                                    var smsBalance = sms.SMSBalance;
+                                    var totalSMS = sms.SMS_Conut(msg);
+                                    if (smsBalance >= totalSMS)
+                                    {
+                                        if (sms.SMS_GetBalance() >= totalSMS)
+                                        {
+                                            var isValid = sms.SMS_Validation(phoneNo, msg);
+
+                                            if (isValid.Validation)
+                                            {
+                                                var smsSendId = sms.SMS_Send(phoneNo, msg, "Employee Salary Payment");
+                                                if (smsSendId != Guid.Empty)
+                                                {
+                                                    SMS_OtherInfoSQL.InsertParameters["SMS_Send_ID"].DefaultValue = smsSendId.ToString();
+                                                    SMS_OtherInfoSQL.InsertParameters["SchoolID"].DefaultValue = Session["SchoolID"].ToString();
+                                                    SMS_OtherInfoSQL.InsertParameters["EducationYearID"].DefaultValue = Session["Edu_Year"].ToString();
+                                                    SMS_OtherInfoSQL.InsertParameters["StudentID"].DefaultValue = "";
+                                                    SMS_OtherInfoSQL.InsertParameters["TeacherID"].DefaultValue = EmployeeGridView.DataKeys[row.RowIndex]["EmployeeID"].ToString();
+                                                    SMS_OtherInfoSQL.Insert();
+
+                                                }
+                                                isSentSMS = true;
+                                            }
+                                            else
+                                            {
+                                                ErrorLabel.Text = isValid.Message;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ErrorLabel.Text = "SMS Service Updating. Try again later or contact to authority";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ErrorLabel.Text = "You don't have sufficient SMS balance, Your Current Balance is " + smsBalance;
+                                    }
+                                }
+                                //------End SMS---------
+                                
                                 dueCheckBox.Checked = false;
                             }
                         }

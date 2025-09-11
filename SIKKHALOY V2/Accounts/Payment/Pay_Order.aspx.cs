@@ -19,7 +19,7 @@ namespace EDUCATION.COM.ACCOUNTS.Payment
         {
             try
             {
-                PayorderMsgLabel.Text = Request.Cookies["massage"].Value;
+                //PayorderMsgLabel.Text = Request.Cookies["massage"].Value;
                 Response.Cookies["massage"].Expires = DateTime.Now;
             }
             catch

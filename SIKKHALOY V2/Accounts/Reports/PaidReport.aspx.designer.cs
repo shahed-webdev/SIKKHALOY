@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDUCATION.COM.Accounts.Reports {
-    
-    
-    public partial class PaidReport {
-        
+namespace EDUCATION.COM.Accounts.Reports
+{
+
+
+    public partial class PaidReport
+    {
+
         /// <summary>
         /// SessionDownList control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SessionDownList;
-        
+
         /// <summary>
         /// SessionSQL control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SessionSQL;
-        
+
         /// <summary>
         /// ClassDropDownList control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ClassDropDownList;
-        
+
         /// <summary>
         /// ClassNameSQL control.
         /// </summary>
@@ -47,7 +49,25 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource ClassNameSQL;
-        
+
+        /// <summary>
+        /// GroupDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList GroupDropDownList;
+
+        /// <summary>
+        /// GroupSQL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource GroupSQL;
+
         /// <summary>
         /// SectionDropDownList control.
         /// </summary>
@@ -56,7 +76,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SectionDropDownList;
-        
+
         /// <summary>
         /// SectionSQL control.
         /// </summary>
@@ -65,7 +85,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SectionSQL;
-        
+
         /// <summary>
         /// FormDateTextBox control.
         /// </summary>
@@ -74,7 +94,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox FormDateTextBox;
-        
+
         /// <summary>
         /// ToDateTextBox control.
         /// </summary>
@@ -83,7 +103,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox ToDateTextBox;
-        
+
         /// <summary>
         /// SubmitButton control.
         /// </summary>
@@ -92,7 +112,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SubmitButton;
-        
+
         /// <summary>
         /// IncomeFormView control.
         /// </summary>
@@ -101,7 +121,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FormView IncomeFormView;
-        
+
         /// <summary>
         /// TotalIncomeSQL control.
         /// </summary>
@@ -110,7 +130,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource TotalIncomeSQL;
-        
+
         /// <summary>
         /// IncomeGridView control.
         /// </summary>
@@ -119,7 +139,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView IncomeGridView;
-        
+
         /// <summary>
         /// IncomeSQL control.
         /// </summary>
@@ -128,7 +148,7 @@ namespace EDUCATION.COM.Accounts.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource IncomeSQL;
-        
+
         /// <summary>
         /// UpdateProgress control.
         /// </summary>

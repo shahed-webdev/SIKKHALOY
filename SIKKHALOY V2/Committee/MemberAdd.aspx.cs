@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Services;
+using System.Web.UI.WebControls;
 
 namespace EDUCATION.COM.Committee
 {
@@ -7,6 +12,7 @@ namespace EDUCATION.COM.Committee
         protected void Page_Load(object sender, EventArgs e)
         {
 
+
         }
 
         protected void AddMemberButton_Click(object sender, EventArgs e)
@@ -14,5 +20,6 @@ namespace EDUCATION.COM.Committee
             MemberSQL.Insert();
             MemberGridView.DataBind();
         }
+        
     }
 }

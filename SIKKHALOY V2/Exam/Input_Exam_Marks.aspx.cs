@@ -1,15 +1,19 @@
 ﻿using System;
-using System.Configuration;
-using System.Data;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using EDUCATION.COM.Employee.Edit_Employee;
+using EnvDTE;
 
 namespace EDUCATION.COM.Exam
 {
-    public partial class Input_Exam_Marks : System.Web.UI.Page
+    public partial class TestSubExam : System.Web.UI.Page
     {
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
+        SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["EducationConnectionString"].ToString());
         protected void view()
         {
             DataView GroupDV = new DataView();
@@ -59,7 +63,6 @@ namespace EDUCATION.COM.Exam
                 ShiftDropDownList.Visible = false;
             }
         }
-
         protected void ExamDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
             Session["Group"] = "%";
@@ -71,7 +74,11 @@ namespace EDUCATION.COM.Exam
             SectionDropDownList.Visible = false;
             ShiftDropDownList.Visible = false;
             SubExamDownList.Visible = false;
-            SubExamRequired.Enabled = false;
+            StudentsGridView.Visible = false;
+            int totalsubExam = Convert.ToInt32(SubExamDownList.Items.Count.ToString());
+
+            Session["subexamcount"] = totalsubExam;
+
         }
 
         protected void ClassDropDownList_SelectedIndexChanged(object sender, EventArgs e)//Class DDL
@@ -86,6 +93,7 @@ namespace EDUCATION.COM.Exam
             SectionDropDownList.DataBind();
             StudentsGridView.DataBind();
             view();
+            StudentsGridView.Visible = false;
         }
         protected void ClassDropDownList_DataBound(object sender, EventArgs e)
         {
@@ -129,31 +137,119 @@ namespace EDUCATION.COM.Exam
         protected void SubExamDownList_DataBound(object sender, EventArgs e)
         {
             SubExamDownList.Items.Insert(0, new ListItem("[ SELECT SUB-EXAM ]", ""));
+
+
+            StudentsGridView.DataBind();
         }
         protected void SubExamDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
             PassMarkFullMarkSQL.SelectParameters["SubExamID"].DefaultValue = SubExamDownList.SelectedValue;
-            StudentsGridView.DataBind();
+            //SubExamDownList.Cou
+            int totalrecord = Convert.ToInt32(SubExamDownList.Items.Count.ToString());
+
+
+            SqlCommand cmd = new SqlCommand("SELECT Exam_SubExam_Name.SubExamID, Exam_SubExam_Name.SubExamName FROM Exam_SubExam_Name INNER JOIN Exam_Full_Marks ON Exam_SubExam_Name.SubExamID = Exam_Full_Marks.SubExamID WHERE (Exam_Full_Marks.SubjectID = @SubjectID) AND (Exam_Full_Marks.ClassID = @ClassID) AND (Exam_SubExam_Name.SchoolID = @SchoolID) AND (Exam_Full_Marks.ExamID = @ExamID) AND (Exam_Full_Marks.EducationYearID = @EducationYearID)", con);
+            cmd.Parameters.AddWithValue("@SubjectID", SubjectDropDownList.SelectedValue);
+            cmd.Parameters.AddWithValue("@ClassID", ClassDropDownList.SelectedValue);
+            cmd.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
+            cmd.Parameters.AddWithValue("@ExamID", ExamDropDownList.SelectedValue);
+            cmd.Parameters.AddWithValue("@EducationYearID", Session["Edu_Year"].ToString());
+
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            con.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                this.StudentsGridView.Columns[3].Visible = true;
+
+                this.StudentsGridView.Columns[4].Visible = false;
+                this.StudentsGridView.Columns[5].Visible = false;
+            }
+            else
+            {
+                this.StudentsGridView.Columns[3].Visible = false;
+
+                this.StudentsGridView.Columns[4].Visible = true;
+                this.StudentsGridView.Columns[5].Visible = true;
+            }
+
+            if (SubExamDownList.SelectedValue != null)
+            {
+                if (SubExamDownList.SelectedValue != "")
+                {
+                    this.StudentsGridView.Columns[3].Visible = false;
+
+                    this.StudentsGridView.Columns[4].Visible = true;
+                    this.StudentsGridView.Columns[5].Visible = true;
+                }
+
+            }       
+     
         }
 
         protected void SubjectDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
             DataView SubExamDV = new DataView();
+            SubExamDownList.Items.Clear();
             SubExamDV = (DataView)SubExamSQL.Select(DataSourceSelectArguments.Empty);
             if (SubExamDV.Count < 1)
             {
                 PassMarkFullMarkSQL.SelectParameters["SubExamID"].DefaultValue = "0";
                 SubExamDownList.Visible = false;
-                SubExamRequired.Enabled = false;
+                //SubExamRequired.Enabled = false;
             }
             else
             {
                 PassMarkFullMarkSQL.SelectParameters["SubExamID"].DefaultValue = "";
                 SubExamDownList.Visible = true;
-                SubExamRequired.Enabled = true;
+                // SubExamRequired.Enabled = true;
             }
 
-            StudentsGridView.DataBind();
+            
+
+
+            string schoolid = Session["SchoolID"].ToString();
+            string eduId = Session["Edu_Year"].ToString();
+
+
+            SqlCommand cmd = new SqlCommand("SELECT Exam_SubExam_Name.SubExamID, Exam_SubExam_Name.SubExamName FROM Exam_SubExam_Name INNER JOIN Exam_Full_Marks ON Exam_SubExam_Name.SubExamID = Exam_Full_Marks.SubExamID WHERE (Exam_Full_Marks.SubjectID = @SubjectID) AND (Exam_Full_Marks.ClassID = @ClassID) AND (Exam_SubExam_Name.SchoolID = @SchoolID) AND (Exam_Full_Marks.ExamID = @ExamID) AND (Exam_Full_Marks.EducationYearID = @EducationYearID)", con);
+            cmd.Parameters.AddWithValue("@SubjectID", SubjectDropDownList.SelectedValue);
+            cmd.Parameters.AddWithValue("@ClassID", ClassDropDownList.SelectedValue);
+            cmd.Parameters.AddWithValue("@SchoolID", Session["SchoolID"].ToString());
+            cmd.Parameters.AddWithValue("@ExamID", ExamDropDownList.SelectedValue);
+            cmd.Parameters.AddWithValue("@EducationYearID", Session["Edu_Year"].ToString());
+
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            con.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                this.StudentsGridView.Columns[3].Visible = true;
+
+                this.StudentsGridView.Columns[4].Visible = false;
+                this.StudentsGridView.Columns[5].Visible = false;
+            }
+            else
+            {
+                this.StudentsGridView.Columns[3].Visible = false;
+
+                this.StudentsGridView.Columns[4].Visible = true;
+                this.StudentsGridView.Columns[5].Visible = true;
+            }
+
+
+            //StudentsGridView.DataBind();
+
+            
+
+
+
         }
         protected void SubjectDropDownList_DataBound(object sender, EventArgs e)
         {
@@ -164,6 +260,9 @@ namespace EDUCATION.COM.Exam
                 if (Session["Subject"] != null)
                     SubjectDropDownList.Items.FindByValue(Session["Subject"].ToString()).Selected = true;
             }
+
+
+
         }
         //End DDL
 
@@ -171,30 +270,92 @@ namespace EDUCATION.COM.Exam
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                SqlCommand cmd = new SqlCommand("Select MarksObtained,AbsenceStatus from Exam_Obtain_Marks Where StudentClassID = @StudentClassID and SubjectID = @SubjectID and ExamID = @ExamID and (SubExamID = @SubExamID or SubExamID is null)", con);
-                cmd.Parameters.AddWithValue("@StudentClassID", StudentsGridView.DataKeys[e.Row.RowIndex]["StudentClassID"].ToString());
-                cmd.Parameters.AddWithValue("@SubjectID", SubjectDropDownList.SelectedValue);
-                cmd.Parameters.AddWithValue("@ExamID", ExamDropDownList.SelectedValue);
-                cmd.Parameters.AddWithValue("@SubExamID", SubExamDownList.SelectedValue);
-
-                con.Open();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                con.Close();
-
-                if (dt.Rows.Count > 0)
+                if(SubExamDownList.Items.Count ==0 )
                 {
-                    (e.Row.FindControl("MarksTextBox") as TextBox).Text = dt.Rows[0]["MarksObtained"].ToString();
+                    // Single SubExam
+                    SqlCommand cmd = new SqlCommand("Select MarksObtained,AbsenceStatus from Exam_Obtain_Marks Where StudentClassID = @StudentClassID and SubjectID = @SubjectID and ExamID = @ExamID and (SubExamID = @SubExamID or SubExamID is null)", con);
+                    cmd.Parameters.AddWithValue("@StudentClassID", StudentsGridView.DataKeys[e.Row.RowIndex]["StudentClassID"].ToString());
+                    cmd.Parameters.AddWithValue("@SubjectID", SubjectDropDownList.SelectedValue);
+                    cmd.Parameters.AddWithValue("@ExamID", ExamDropDownList.SelectedValue);
+                    cmd.Parameters.AddWithValue("@SubExamID", SubExamDownList.SelectedValue);
+                    con.Open();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    con.Close();
 
-                    if (dt.Rows[0]["AbsenceStatus"].ToString() == "Absent")
+                    if (dt.Rows.Count > 0)
                     {
-                        (e.Row.FindControl("AbsenceCheckBox") as CheckBox).Checked = true;
-                        (e.Row.FindControl("MarksTextBox") as TextBox).Enabled = false;
+                        (e.Row.FindControl("MarksTextBox") as TextBox).Text = dt.Rows[0]["MarksObtained"].ToString();
+                        if (dt.Rows[0]["AbsenceStatus"].ToString() == "Absent")
+                        {
+                            (e.Row.FindControl("AbsenceCheckBox") as CheckBox).Checked = true;
+                            (e.Row.FindControl("MarksTextBox") as TextBox).Enabled = false;
+                        }
+                    }
+                    //-------------End
+                }
+                if (SubExamDownList.SelectedValue!="")
+                {
+                    // Single SubExam
+                    SqlCommand cmd = new SqlCommand("Select MarksObtained,AbsenceStatus from Exam_Obtain_Marks Where StudentClassID = @StudentClassID and SubjectID = @SubjectID and ExamID = @ExamID and (SubExamID = @SubExamID or SubExamID is null)", con);
+                    cmd.Parameters.AddWithValue("@StudentClassID", StudentsGridView.DataKeys[e.Row.RowIndex]["StudentClassID"].ToString());
+                    cmd.Parameters.AddWithValue("@SubjectID", SubjectDropDownList.SelectedValue);
+                    cmd.Parameters.AddWithValue("@ExamID", ExamDropDownList.SelectedValue);
+                    cmd.Parameters.AddWithValue("@SubExamID", SubExamDownList.SelectedValue);
+                    con.Open();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    con.Close();
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        (e.Row.FindControl("MarksTextBox") as TextBox).Text = dt.Rows[0]["MarksObtained"].ToString();
+                        if (dt.Rows[0]["AbsenceStatus"].ToString() == "Absent")
+                        {
+                            (e.Row.FindControl("AbsenceCheckBox") as CheckBox).Checked = true;
+                            (e.Row.FindControl("MarksTextBox") as TextBox).Enabled = false;
+                        }
+                    }
+                    //-------------End
+                }
+                else
+                {
+                    DataList subExamDataList = (DataList)e.Row.FindControl("SubExamlDataList");
+                    foreach (DataListItem itm in subExamDataList.Items)
+                    {                      
+                        HiddenField subexamID = (HiddenField)itm.FindControl("subexamID");
+
+
+                        SqlCommand cmd1 = new SqlCommand("Select MarksObtained,AbsenceStatus from Exam_Obtain_Marks Where StudentClassID = @StudentClassID and SubjectID = @SubjectID and ExamID = @ExamID And SubExamID=@SubExamID", con);
+                        cmd1.Parameters.AddWithValue("@StudentClassID", StudentsGridView.DataKeys[e.Row.RowIndex]["StudentClassID"].ToString());
+                        cmd1.Parameters.AddWithValue("@SubjectID", SubjectDropDownList.SelectedValue);
+                        cmd1.Parameters.AddWithValue("@ExamID", ExamDropDownList.SelectedValue);
+                        cmd1.Parameters.AddWithValue("@SubExamID", subexamID.Value);
+                        con.Open();
+                        SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                        DataTable dt1 = new DataTable();
+                        da1.Fill(dt1);
+                        con.Close();
+
+                        if(dt1.Rows.Count > 0)
+                        {
+                            (itm.FindControl("MarksTextBox") as TextBox).Text = dt1.Rows[0]["MarksObtained"].ToString();
+                            if (dt1.Rows[0]["AbsenceStatus"].ToString() == "Absent")
+                            {
+                                (itm.FindControl("AbsenceCheckBox") as CheckBox).Checked = true;
+                                (itm.FindControl("MarksTextBox") as TextBox).Enabled = false;
+                            }
+                        }
                     }
                 }
+   
             }
+            string count = StudentsGridView.Rows.Count.ToString();
+            totalStudent.Text = count;
         }
+
 
         protected void ShowStudentButton_Click(object sender, EventArgs e)
         {
@@ -203,8 +364,36 @@ namespace EDUCATION.COM.Exam
             FmPmFormView.Visible = true;
             StudentsGridView.DataBind();
         }
+        private void AddGridviewColumn(string name)
+        {
+            TemplateField col = new TemplateField();
+            col.HeaderText = name;
+            StudentsGridView.Columns.Add(col);
+        }
 
         protected void SubmitButton_Click(object sender, EventArgs e)
+        {
+
+            if (SubExamDownList.Visible == true)
+            {
+                if (SubExamDownList.Items.Count > 0)
+                {
+                    if (SubExamDownList.SelectedValue == "")
+                    {
+                        InsertWithDynamicSubExam();
+                    }
+                }
+            }
+            else
+            {
+                SubExamDownList.Items.Clear();
+            }
+            if (SubExamDownList.Items.Count == 0 || SubExamDownList.SelectedValue != "")
+            {
+                InsertWithout_DynamicSubExam();
+            }
+        }
+        private void InsertWithout_DynamicSubExam()
         {
             bool IS_FullMark = true;
             double FullMark = Convert.ToDouble(FmPmFormView.DataKey["FullMark"].ToString());
@@ -242,14 +431,130 @@ namespace EDUCATION.COM.Exam
                     {
                         row.CssClass = "";
                     }
-                }
-
-                if (IsEmpty)
-                {
-                    foreach (GridViewRow row in StudentsGridView.Rows)
+                    if (ObtainedMarks.Text.Trim() != "" || AbsenceCheckBox.Checked)
                     {
-                        TextBox ObtainedMarks = (TextBox)row.FindControl("MarksTextBox");
-                        CheckBox AbsenceCheckBox = (CheckBox)row.FindControl("AbsenceCheckBox");
+                        if (AbsenceCheckBox.Checked)
+                        {
+                            Exam_Result_of_StudentSQL.InsertParameters["StudentID"].DefaultValue = StudentsGridView.DataKeys[row.RowIndex]["StudentID"].ToString();
+                            Exam_Result_of_StudentSQL.InsertParameters["MarksObtained"].DefaultValue = "";
+
+                            if (SubExamDownList.Visible)
+                            {
+                                Exam_Result_of_StudentSQL.InsertParameters["SubExamID"].DefaultValue = SubExamDownList.SelectedValue;
+                            }
+
+                            Exam_Result_of_StudentSQL.InsertParameters["AbsenceStatus"].DefaultValue = "Absent";
+                            Exam_Result_of_StudentSQL.InsertParameters["FullMark"].DefaultValue = FullMark.ToString();
+                            Exam_Result_of_StudentSQL.InsertParameters["PassMark"].DefaultValue = PassMark.ToString();
+                            Exam_Result_of_StudentSQL.InsertParameters["PassPercentage"].DefaultValue = PassPercentage.ToString();
+                            Exam_Result_of_StudentSQL.Insert();
+                        }
+                        else
+                        {
+                            if (ObtainedMarks.Text.Trim() != "")
+                            {
+                                Exam_Result_of_StudentSQL.InsertParameters["StudentID"].DefaultValue = StudentsGridView.DataKeys[row.RowIndex]["StudentID"].ToString();
+                                Exam_Result_of_StudentSQL.InsertParameters["MarksObtained"].DefaultValue = ObtainedMarks.Text.Trim();
+
+                                if (SubExamDownList.Visible)
+                                {
+                                    Exam_Result_of_StudentSQL.InsertParameters["SubExamID"].DefaultValue = SubExamDownList.SelectedValue;
+                                }
+
+                                Exam_Result_of_StudentSQL.InsertParameters["AbsenceStatus"].DefaultValue = "Present";
+                                Exam_Result_of_StudentSQL.InsertParameters["FullMark"].DefaultValue = FullMark.ToString();
+                                Exam_Result_of_StudentSQL.InsertParameters["PassMark"].DefaultValue = PassMark.ToString();
+                                Exam_Result_of_StudentSQL.InsertParameters["PassPercentage"].DefaultValue = PassPercentage.ToString();
+                                Exam_Result_of_StudentSQL.Insert();
+                            }
+                        }
+                    }
+
+                }               
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "Msg", "Success();", true);
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Obtained Mark greater than Full Mark')", true);
+            }
+        }
+
+        private void InsertWithDynamicSubExam()
+        {
+            bool IS_FullMark = true;
+            double FullMark = 0;
+            double PassMark = 0;
+            double PassPercentage = 0;
+
+
+            if (SubExamDownList.SelectedValue != "" && SubExamDownList.SelectedValue != null)
+            {
+                FullMark = Convert.ToDouble(FmPmFormView.DataKey["FullMark"].ToString());
+                PassMark = Convert.ToDouble(FmPmFormView.DataKey["PassMark"].ToString());
+                PassPercentage = Convert.ToDouble(FmPmFormView.DataKey["PassPercentage"].ToString());
+            }            
+            foreach (GridViewRow row in StudentsGridView.Rows)
+            {
+                DataList subExamDataList = (DataList)row.FindControl("SubExamlDataList");
+
+                foreach (DataListItem itm in subExamDataList.Items)
+                {
+                    CheckBox AbsenceCheckBox = (CheckBox)itm.FindControl("AbsenceCheckBox");
+                    TextBox ObtainedMarks = (TextBox)itm.FindControl("MarksTextBox");
+
+                    Label fullmarksLabel = (Label)itm.FindControl("lblFullMarks");
+                    Label passmarksLabel = (Label)itm.FindControl("labelPassMark");
+                    Label markParcentageLabel = (Label)itm.FindControl("labelParcentage");
+
+                    FullMark = Convert.ToDouble(fullmarksLabel.Text.ToString());
+                    PassMark = Convert.ToDouble(passmarksLabel.Text.ToString());
+                    PassPercentage = Convert.ToDouble(markParcentageLabel.Text.ToString());
+
+                    if (ObtainedMarks.Text.Trim() != "")
+                    {
+                        if (FullMark < Convert.ToDouble(ObtainedMarks.Text.Trim()))
+                        {
+                            ObtainedMarks.ForeColor = System.Drawing.Color.Red;
+                            IS_FullMark = false;
+                        }
+                    }
+
+                }
+            }
+
+
+            if (IS_FullMark)
+            {
+                bool IsEmpty = true;
+                foreach (GridViewRow row in StudentsGridView.Rows)
+                {                   
+                    DataList subExamDataList = (DataList)row.FindControl("SubExamlDataList");
+                    foreach (DataListItem itm in subExamDataList.Items)
+                    {
+                        TextBox ObtainedMarks = (TextBox)itm.FindControl("MarksTextBox");
+                        CheckBox AbsenceCheckBox = (CheckBox)itm.FindControl("AbsenceCheckBox");
+
+                        HiddenField subexamId = (HiddenField)itm.FindControl("subexamID");
+                                              
+                        Label fullmarksLabel = (Label)itm.FindControl("lblFullMarks");
+                        Label passmarksLabel = (Label)itm.FindControl("labelPassMark");
+                        Label markParcentageLabel = (Label)itm.FindControl("labelParcentage");
+
+                        FullMark = Convert.ToDouble(fullmarksLabel.Text.ToString());
+                        PassMark = Convert.ToDouble(passmarksLabel.Text.ToString());
+                        PassPercentage = Convert.ToDouble(markParcentageLabel.Text.ToString());
+
+                        if (ObtainedMarks.Text.Trim() == "" && !AbsenceCheckBox.Checked)
+                        {
+                            IsEmpty = false;
+                            itm.CssClass = "EmptyRows";
+                        }
+                        else
+                        {
+                            itm.CssClass = "";
+                        }
+
 
                         if (ObtainedMarks.Text.Trim() != "" || AbsenceCheckBox.Checked)
                         {
@@ -260,7 +565,7 @@ namespace EDUCATION.COM.Exam
 
                                 if (SubExamDownList.Visible)
                                 {
-                                    Exam_Result_of_StudentSQL.InsertParameters["SubExamID"].DefaultValue = SubExamDownList.SelectedValue;
+                                    Exam_Result_of_StudentSQL.InsertParameters["SubExamID"].DefaultValue = subexamId.Value.ToString();
                                 }
 
                                 Exam_Result_of_StudentSQL.InsertParameters["AbsenceStatus"].DefaultValue = "Absent";
@@ -278,23 +583,28 @@ namespace EDUCATION.COM.Exam
 
                                     if (SubExamDownList.Visible)
                                     {
-                                        Exam_Result_of_StudentSQL.InsertParameters["SubExamID"].DefaultValue = SubExamDownList.SelectedValue;
+                                        Exam_Result_of_StudentSQL.InsertParameters["SubExamID"].DefaultValue = subexamId.Value.ToString(); //SubExamDownList.SelectedValue;
                                     }
 
-                                    Exam_Result_of_StudentSQL.InsertParameters["AbsenceStatus"].DefaultValue = "Present";
-                                    Exam_Result_of_StudentSQL.InsertParameters["FullMark"].DefaultValue = FullMark.ToString();
-                                    Exam_Result_of_StudentSQL.InsertParameters["PassMark"].DefaultValue = PassMark.ToString();
-                                    Exam_Result_of_StudentSQL.InsertParameters["PassPercentage"].DefaultValue = PassPercentage.ToString();
-                                    Exam_Result_of_StudentSQL.Insert();
+                                    try
+                                    {
+                                        Exam_Result_of_StudentSQL.InsertParameters["AbsenceStatus"].DefaultValue = "Present";
+                                        Exam_Result_of_StudentSQL.InsertParameters["FullMark"].DefaultValue = FullMark.ToString();
+                                        Exam_Result_of_StudentSQL.InsertParameters["PassMark"].DefaultValue = PassMark.ToString();
+                                        Exam_Result_of_StudentSQL.InsertParameters["PassPercentage"].DefaultValue = PassPercentage.ToString();
+                                        Exam_Result_of_StudentSQL.Insert();
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        string msg = ex.Message;
+                                    }
+
+                                    
                                 }
                             }
                         }
-                    }
-                }
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "Msg", "ErrorM();", true);
-                }
+                    }                    
+                }              
 
                 ScriptManager.RegisterStartupScript(this, GetType(), "Msg", "Success();", true);
             }
@@ -303,5 +613,7 @@ namespace EDUCATION.COM.Exam
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Obtained Mark greater than Full Mark')", true);
             }
         }
+
+        
     }
 }

@@ -23,7 +23,7 @@
                 <asp:ListItem Value="0">[ SELECT CLASS ]</asp:ListItem>
             </asp:DropDownList>
             <asp:SqlDataSource ID="ClassSQL" runat="server" ConnectionString="<%$ ConnectionStrings:EducationConnectionString %>"
-                SelectCommand="SELECT * FROM [CreateClass] WHERE ([SchoolID] = @SchoolID) ORDER BY SN">
+                SelectCommand="SELECT * FROM [CreateClass] WHERE ([SchoolID] = @SchoolID) ORDER BY ISNULL(SN, 9999)">
                 <SelectParameters>
                     <asp:SessionParameter Name="SchoolID" SessionField="SchoolID" />
                 </SelectParameters>

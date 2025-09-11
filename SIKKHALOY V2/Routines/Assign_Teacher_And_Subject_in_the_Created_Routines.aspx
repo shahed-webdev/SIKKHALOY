@@ -101,7 +101,7 @@
                                         <ItemTemplate>
                                             <div class="col my-2">
                                                 <asp:DropDownList ID="SubjectDropDownList" runat="server" AutoPostBack="True" CssClass="form-control mb-2" DataSourceID="SubjectSQL" DataTextField="SubjectName" DataValueField="SubjectID" AppendDataBoundItems="True">
-                                                    <asp:ListItem Value="0">[ No Class ]</asp:ListItem>
+                                                    <asp:ListItem Value="0">[ Select Subject ]</asp:ListItem>
                                                 </asp:DropDownList>
 
                                                 <asp:DropDownList ID="TeacherDropDownList" OnDataBound="TeacherDropDownList_DataBound" runat="server" CssClass="form-control" DataSourceID="TeacherSQL" DataTextField="Name" DataValueField="TeacherID">

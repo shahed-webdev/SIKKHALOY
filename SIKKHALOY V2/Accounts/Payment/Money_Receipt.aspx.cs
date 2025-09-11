@@ -1,4 +1,5 @@
 ﻿using Education;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -61,6 +62,21 @@ namespace EDUCATION.COM.Accounts.Payment
             var msg = "Congrats! ";
             var isSentSMS = false;
 
+            decimal currentDue = 0.0m;
+            if (DueDetailsGridView.Rows.Count > 0)
+            {
+                foreach (GridViewRow row in DueDetailsGridView.Rows)
+                {
+                    var numberLabel = row.FindControl("DueLabel") as Label;
+                    if (numberLabel != null)
+                    {
+                        {
+                            currentDue += Convert.ToDecimal(numberLabel.Text);
+                        }
+
+                    }
+                }
+            }
             if (StudentInfoFormView.CurrentMode == FormViewMode.ReadOnly)
             {
                 var phoneNo = StudentInfoFormView.DataKey["SMSPhoneNo"].ToString();
@@ -69,7 +85,19 @@ namespace EDUCATION.COM.Accounts.Payment
                 var studentName = (StudentInfoFormView.Row.FindControl("StudentsNameLabel") as Label)?.Text;
                 var receiptNo = (ReceiptFormView.Row.FindControl("MoneyReceiptIDLabel") as Label)?.Text;
 
-                msg += $"(ID: {studentId}) {studentName}. You've Paid: {paid} Tk. Receipt No: {receiptNo}";
+
+
+                if (CurrentDueCheckBox.Checked)
+                {
+                    msg += $"(ID: {studentId}) {studentName}. You've Paid: {paid} Tk. And Current Due: {currentDue} Tk.  Receipt No: {receiptNo}";
+                }
+                else
+                {
+                    msg += $"(ID: {studentId}) {studentName}. You've Paid: {paid} Tk. Receipt No: {receiptNo}";
+                }
+
+
+
                 if (RoleCheckBox.Checked)
                 {
                     foreach (GridViewRow row in PaidDetailsGridView.Rows)
@@ -80,7 +108,6 @@ namespace EDUCATION.COM.Accounts.Payment
                         msg += $", {role}: {payFor}";
                     }
                 }
-
                 msg += ". Regards, " + Session["School_Name"];
 
                 var sms = new SMS_Class(Session["SchoolID"].ToString());
